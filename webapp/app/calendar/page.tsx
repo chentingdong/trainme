@@ -9,9 +9,7 @@ import TileContent from './CalendarTile';
 
 const Page = () => {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-grow flex flex-col p-4 bg-gradient-to-b from-gray-100 to-gray-300">
+    <div className="flex-grow flex flex-col p-4 bg-gradient-to-b from-gray-100 to-gray-300">
         <h1>Training Calendar</h1>
         <div className="flex-grow">
           <Calendar
@@ -19,8 +17,7 @@ const Page = () => {
             tileClassName={() => 'calendar-tile'}
             tileContent={({ date }) => <TileContent date={date} />}
           />
-        </div>
-      </main>
+      </div>
     </div>
   );
 };

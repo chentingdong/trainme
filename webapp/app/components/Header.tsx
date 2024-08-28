@@ -13,9 +13,9 @@ const Header = () => {
           <div className='m-1'>TrainMe</div>
         </div>
         <ul className="flex space-x-4">
-          <li><a href="#home" className="hover:underline">Home</a></li>
-          <li><a href="#about" className="hover:underline">About</a></li>
-          <li><a href="#contact" className="hover:underline">Contact</a></li>
+          <li><a href="/calendar" className="hover:underline">Calendar</a></li>
+          <li><a href="/activities" className="hover:underline">Activities</a></li>
+          <li><a href="/settings" className="hover:underline">Settings</a></li>
         </ul>
       </nav>
     </header>
