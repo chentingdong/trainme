@@ -4,10 +4,10 @@ import type { Metadata } from 'next'
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
-  title: "TrainMate",
+  title: "TrainMe",
   description: "Self coaching for athletes",
   icons: {
-    icon: "/favicon.ico",
+    icon: '/favicon.ico?v=2',
   },
 };
 

@@ -8,9 +8,9 @@ const Header = () => {
       <nav className="flex justify-between items-center">
         <div className="text-2xl font-bold flex">
           <div className="bg-blue-400 rounded-full">
-            <Image src="/trainmate.webp" alt="Logo" width={41} height={41} />
+            <Image src="/TrainMe.webp" alt="Logo" width={41} height={41} />
           </div>
-          <div className='m-1'>TrainMate</div>
+          <div className='m-1'>TrainMe</div>
         </div>
         <ul className="flex space-x-4">
           <li><a href="#home" className="hover:underline">Home</a></li>
