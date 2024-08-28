@@ -1,0 +1,25 @@
+/* calendar.scss */
+.custom-calendar {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  .card-body {
+    @apply text-left;
+  }
+}
+
+.calendar-tile {
+  @apply rounded-sm cursor-pointer;
+  abbr {
+    display: none;
+  }
+  .card-header {
+    @apply py-1 px-2 text-left;
+  }
+  .card-body {
+    @apply p-2;
+  }
+}
