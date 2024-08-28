@@ -1,7 +1,6 @@
 // components/Header.tsx
 import React from 'react';
 import Image from 'next/image';
-import logo from '/public/trainmate.webp';
 
 const Header = () => {
   return (
@@ -9,7 +8,7 @@ const Header = () => {
       <nav className="flex justify-between items-center">
         <div className="text-2xl font-bold flex">
           <div className="bg-blue-400 rounded-full">
-            <Image src={logo} alt="TrainMate Logo" width={41} height={41} />
+            <Image src="/trainmate.webp" alt="Logo" width={41} height={41} />
           </div>
           <div className='m-1'>TrainMate</div>
         </div>
