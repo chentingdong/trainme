@@ -36,3 +36,7 @@ next-env.d.ts
 
 .history/
 *.log
+
+# linked files
+.GarminDb
+webapp/GarminData
