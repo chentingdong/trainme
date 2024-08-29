@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from 'react';
-import Header from '@/app/components/Header';
+import React from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import './calendar.scss'; // Import the CSS overrides
+import './calendar.scss';
 import TileContent from './CalendarTile';
 
 const Page = () => {

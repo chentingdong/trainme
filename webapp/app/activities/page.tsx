@@ -1,5 +1,6 @@
 import React from 'react';
-import { Activity, getActivities } from '../actions/activities';
+import { Activity, getActivities } from '@/app/actions/activities';
+import Debug from '@/app/components/Debug';
 
 type Props = {};
 
@@ -9,9 +10,7 @@ async function Page({ }: Props) {
   return (
     <div>
       <h1>Activities</h1>
-      <pre>
-        {JSON.stringify(activities, null, 2)}
-      </pre>
+      <Debug data={activities} />
     </div>
   );
 }
