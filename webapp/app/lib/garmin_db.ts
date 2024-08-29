@@ -4,9 +4,9 @@ import { open, Database } from 'sqlite';
 
 export type SQLiteDatabase = Database<sqlite3.Database, sqlite3.Statement>;
 
-export async function openDb(): Promise<SQLiteDatabase> {
+export async function openDb(filename: string): Promise<SQLiteDatabase> {
   return open({
-    filename: './GarminData/DBs/garmin.db',
+    filename: filename,
     driver: sqlite3.Database,
   });
 }

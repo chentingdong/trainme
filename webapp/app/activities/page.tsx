@@ -1,16 +1,31 @@
 import React from 'react';
-import { Activity, getActivities } from '@/app/actions/activities';
-import Debug from '@/app/components/Debug';
+import { Activity, getActivitiesFromStrava } from '@/app/actions/activities';
+import { formatTime } from '@/utils/timeUtils';
+import { formatDistance } from '@/utils/lengthUtils';
+import ActivityIcon from './ActivityIcon';
 
 type Props = {};
 
 async function Page({ }: Props) {
-  const activities: Activity[] = await getActivities();
+  const activities: Activity[] = await getActivitiesFromStrava();
 
   return (
     <div>
       <h1>Activities</h1>
-      <Debug data={activities} />
+      <ul>
+        {activities.map((activity) => (
+          <li key={activity.id} className='card m-2'>
+            <div className='card-header flex items-center'>
+              <ActivityIcon type={activity.type} />
+              <div className='mx-4'>{activity.name}</div>
+              <div className='text-sm'>{new Date(activity.start_date).toLocaleDateString()}</div>
+            </div>
+            <div className='card-body'>
+              {formatDistance(activity.distance)} in {formatTime(activity.moving_time)}
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

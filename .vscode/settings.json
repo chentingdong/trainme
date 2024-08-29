@@ -1,0 +1,19 @@
+{
+  "sqltools.useNodeRuntime": true,
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "/Users/tingdong/GarminData/DBs/garmin_activities.db",
+      "name": "garmin_activities",
+      "group": "garmin"
+    },
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "name": "strava",
+      "database": "${workspaceFolder:trainme}/sqlite/strava_activities.db",
+      "group": "strava"
+    }
+  ]
+}
