@@ -1,6 +1,6 @@
 import React from 'react';
 import { Activity, getActivitiesFromStrava } from '@/app/actions/activities';
-import { formatTime } from '@/utils/timeUtils';
+import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
 import ActivityIcon from './ActivityIcon';
 
@@ -21,7 +21,7 @@ async function Page({ }: Props) {
               <div className='text-sm'>{new Date(activity.start_date).toLocaleDateString()}</div>
             </div>
             <div className='card-body'>
-              {formatDistance(activity.distance)} in {formatTime(activity.moving_time)}
+              {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}
             </div>
           </li>
         ))}

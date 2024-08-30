@@ -3,6 +3,9 @@
 import React from 'react';
 import { Activity, getActivityFromStravaByDate } from '../actions/activities';
 import Debug from '@/app/components/Debug';
+import ActivityIcon from '../activities/ActivityIcon';
+import { formatTime, formatTimeSeconds } from '@/utils/timeUtils';
+import { formatDistance } from '@/utils/lengthUtils';
 
 type CalendarDayProps = {
   date: Date;
@@ -23,20 +26,20 @@ function CalendarDay({ date }: CalendarDayProps) {
 
   return (
     <div className="card rounded-sm calendar-tile" >
-      <div className="card-header">{date.getDate()}</div>
-      <div className='card-body h-48'>
-        Activity on {date.toLocaleString()}
-        {/* <Debug data={activities} /> */}
-        <ul>
+      <div className="card-header bg-white">{date.getDate()}</div>
+      <div className='h-auto'>
+        <ul className="m-1 shadow-sm">
           {activities.map((activity) => (
-            <li key={activity.id} className='card m-2'>
-              <div className='card-header flex items-center'>
-                <div className='mx-4'>{activity.name}</div>
-                <div className='text-sm'>{activity.type}</div>
+            <li key={activity.id} className='card my-1'>
+              <div className='card-header text-sm flex items-center'>
+                <ActivityIcon type={activity.type} />
+                <div className='ml-2'>{formatTime(activity.start_date)}</div>
               </div>
               <div className='card-body'>
-                {activity.distance} in {activity.moving_time}
+                <div > {formatTimeSeconds(activity.moving_time)}</div>
+                <div>{activity.distance > 0 && formatDistance(activity.distance)}</div>
               </div>
+              <div className='card-footer'>{activity.type}</div>
             </li>
           ))}
         </ul>

@@ -33,15 +33,38 @@ body {
 }
 
 h1 {
-  @apply text-lg font-normal m-2;
+  @apply text-2xl font-semibold my-4;
+}
+h2 {
+  @apply text-xl font-normal my-2;
+}
+
+button {
+  &.btn {
+    @apply py-2 px-4 rounded-sm;
+  }
+  &.primary {
+    @apply bg-blue-500 text-white font-semibold;
+    @apply hover:bg-blue-600 hover:text-white;
+  }
+  &.secondary {
+    @apply bg-gray-500 text-white font-semibold;
+    @apply hover:bg-gray-600 hover:text-gray-100;
+  }
+  &.disabled {
+    @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+  }
 }
 
 .card {
-  @apply bg-white shadow-md rounded-lg overflow-hidden flex flex-col;
+  @apply border rounded-sm overflow-hidden flex flex-col h-full;
   .card-header {
-    @apply bg-gray-200 text-gray-700 text-lg font-semibold p-4 flex-grow-0;
+    @apply bg-gray-200 text-gray-700 font-semibold p-4 flex-grow-0;
   }
   .card-body {
     @apply p-4 flex-grow text-gray-500;
+  }
+  .card-footer {
+    @apply text-sm;
   }
 }
