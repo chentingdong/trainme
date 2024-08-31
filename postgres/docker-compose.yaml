@@ -1,0 +1,23 @@
+version: "3.6"
+services:
+  postgres:
+    container_name: trainmedb
+    image: postgres:latest
+    ports:
+      - "7452:5432"
+    volumes:
+      - trainme-data:/var/lib/postgresql/data
+      - /tmp:/tmp
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_DB=trainme
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: 10m
+volumes:
+  trainme-data:
+    external: true
+    name: trainme-data
+

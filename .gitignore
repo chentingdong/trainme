@@ -41,5 +41,6 @@ next-env.d.ts
 # ignore db files
 .GarminDb
 webapp/GarminData
-*.sql
 *.db
+
+**/__pycache__/
