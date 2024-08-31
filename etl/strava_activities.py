@@ -1,15 +1,18 @@
-# download strava activities
+# Download all strava activities. Only need to successfully run it once.
+# Idenpodent operation.
+
 import os
 import logging
 import requests
-from data_pipelines.db import save_activities_to_postgres
+from etl.db import save_activities_to_postgres
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # get the client_id and client_secret from the environment variables
 client_id = os.getenv('STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
-# Since we only manualy run this, copy from the browser sessionstorage.
+# Temporary access token taken from browser session storage. 
+# We only run this from local so this is safe.
 ACCESS_TOKEN = 'REMOVED_SECRET'
 
 url = 'https://www.strava.com/api/v3/athlete/activities'
