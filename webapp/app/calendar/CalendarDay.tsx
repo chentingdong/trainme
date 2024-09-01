@@ -2,11 +2,9 @@
 
 import React from 'react';
 import { Activity, getActivityFromStravaByDate } from '../actions/activities';
-import Debug from '@/app/components/Debug';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTime, formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
-import 'flowbite/dist/flowbite.min.css';
 
 type CalendarDayProps = {
   date: Date;
@@ -25,11 +23,8 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [date]);
 
-  const selectActivity = (id: number) => {
-    setSelectedActivityId(id);
-  }
   return (
     <div className="card rounded-sm calendar-tile" >
       <div className="card-header bg-white flex justify-between">
@@ -46,7 +41,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
         <ul className="m-1 shadow-sm">
           {activities?.map((activity) => (
             <li key={activity.id} className='card my-1'
-              onClick={() => selectActivity(activity.id)}>
+              onClick={() => setSelectedActivityId(activity.id)}>
               <div className='card-header text-sm flex items-center'>
                 <div > {formatTimeSeconds(activity.moving_time)}</div>
               </div>

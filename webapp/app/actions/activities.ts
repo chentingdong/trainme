@@ -11,6 +11,13 @@ export type Activity = {
   total_elevation_gain: number;
   type: string;
   start_date_local: Date;
+  map?: {
+    center: {
+      lat: number;
+      lon: number;
+    };
+    summary_polyline: string;
+  };
 };
 
 // activities from garmin. placeholder for now
@@ -20,15 +27,16 @@ export async function getActivitiesFromGarmin(): Promise<Activity[]> {
   return activities;
 }
 
-export async function getActivitiesFromStrava(): Promise<Activity[]> {
+// get activities from strava with pagination.
+export async function getActivitiesFromStrava(page = 1, perPage = 10): Promise<Activity[]> {
   const client = await pool.connect();
-  const query = 'SELECT * FROM activities';
-  const res = await client.query(query);
+  const query = 'SELECT * FROM activities limit $1 offset $2';
+  const res = await client.query(query, [perPage, (page - 1) * perPage]);
   client.release();
   return res.rows as Activity[];
 }
 
-// one activity from strava.
+// get all activities from strava on one day.
 export async function getActivityFromStravaByDate(date: Date): Promise<Activity[]> {
   try {
     const client = await pool.connect();
@@ -43,16 +51,21 @@ export async function getActivityFromStravaByDate(date: Date): Promise<Activity[
     return [];
   }
 }
-// export async function getActivityFromStravaByDate(date: Date): Promise<Activity[]> {
-//   const db: SQLiteDatabase = await openDb('StravaData/strava_activities.db');
 
-//   const formattedDate = date.toISOString().split('T')[0]; // Format the date as 'YYYY-MM-DD'
-
-//   const sql = ` SELECT * FROM activities WHERE DATE(start_date) = ? `;
-
-//   const activities: Activity[] = await db.all(sql, formattedDate);
-
-//   if (!activities) {
-//     throw new Error('Activity not found');
-//   }
-//   return activities;
+// get activity from strava by id.
+export async function getActivityFromStravaById(id: number): Promise<Activity | null> {
+  try {
+    const client = await pool.connect();
+    const fields = [
+      'id', 'name', 'distance', 'moving_time', 'total_elevation_gain', 'type', 'start_date_local',
+      'map', 'average_speed', 'max_speed', 'average_heartrate', 'max_heartrate', 'average_cadence',
+    ];
+    const query = `SELECT ${fields.join(', ')} FROM activities WHERE id = $1 limit 1`;
+    const res = await client.query(query, [id]);
+    client.release();
+    return res.rows[0] as Activity;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}

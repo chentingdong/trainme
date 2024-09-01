@@ -18,7 +18,7 @@ async function Page({ }: Props) {
             <div className='card-header flex items-center'>
               <ActivityIcon type={activity.type} />
               <div className='mx-4'>{activity.name}</div>
-              <div className='text-sm'>{new Date(activity.start_date).toLocaleDateString()}</div>
+              <div className='text-sm'>{new Date(activity.start_date_local).toLocaleDateString()}</div>
             </div>
             <div className='card-body'>
               {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}

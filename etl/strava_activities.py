@@ -12,8 +12,7 @@ client_id = os.getenv('STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage. 
-# We only run this from local so this is safe.
-ACCESS_TOKEN = 'REMOVED_SECRET'
+ACCESS_TOKEN = 'f9e3911b3f91d49552c45bb68053c6a70845eaca'
 
 url = 'https://www.strava.com/api/v3/athlete/activities'
 
@@ -52,10 +51,11 @@ def sync_all_strava_activities():
             save_activities_to_postgres(fetched_activities)
             count += len(fetched_activities)
             page += 1
+            break; #temp
     except KeyboardInterrupt:
         logging.info("Process interrupted by user. Exiting gracefully...")
     finally:
-        logging.info("Fetched %s activities from Strava. That's all you did.", count)
+        logging.info("Fetched %s activities from Strava.", count)
 
 if __name__ == '__main__':
     sync_all_strava_activities()
