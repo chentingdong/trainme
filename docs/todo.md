@@ -1,2 +1,2 @@
 
-* strava authentication to access api.
+* strava authentication to access api. (done)
