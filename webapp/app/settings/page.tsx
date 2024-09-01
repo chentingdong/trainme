@@ -30,10 +30,10 @@ const Page = () => {
         <p>Connect your Strava account to let the app sync your activities.</p>
         <div className='py-4'>
           {accessToken && (
-            <button className="btn secondary" onClick={() => disConnectStrava()}>Disconnect Strava</button>
+            <button className="btn btn-secondary" onClick={() => disConnectStrava()}>Disconnect Strava</button>
           )}
           {!accessToken && (
-            <button className="btn primary" onClick={() => connectToStrava()}>Connect to Strava</button>
+            <button className="btn btn-primary" onClick={() => connectToStrava()}>Connect to Strava</button>
           )}
         </div>
       </div>

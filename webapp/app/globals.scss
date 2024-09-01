@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --border-color: rgb(65, 101, 109);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -13,7 +14,14 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --border-color: rgb(65, 101, 109);
   }
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -43,28 +51,42 @@ button {
   &.btn {
     @apply py-2 px-4 rounded-sm;
   }
-  &.primary {
+  &.btn-primary {
     @apply bg-blue-500 text-white font-semibold;
     @apply hover:bg-blue-600 hover:text-white;
   }
-  &.secondary {
+  &.btn-secondary {
     @apply bg-gray-500 text-white font-semibold;
     @apply hover:bg-gray-600 hover:text-gray-100;
   }
-  &.disabled {
+  &.btn-disabled {
     @apply bg-gray-300 text-gray-500 cursor-not-allowed;
   }
 }
 
 .card {
   @apply border rounded-sm overflow-hidden flex flex-col h-full;
+  border-color: var(--border-color);
   .card-header {
-    @apply bg-gray-200 text-gray-700 font-semibold p-4 flex-grow-0;
+    @apply font-semibold p-4 flex-grow-0;
+    @apply bg-gray-100 text-gray-700;
+    background-color: var(--background-color);
+    color: var(--text-color);
   }
   .card-body {
     @apply p-4 flex-grow text-gray-500;
   }
   .card-footer {
-    @apply text-sm;
+    @apply text-sm bg-gray-100;
+  }
+  .card {
+    // move to :root for dark mode
+    border-color: rgba(119, 184, 198, 0.1);
   }
 }
+
+.circle {
+  @apply rounded-full flex items-center justify-center;
+  @apply w-6 h-6 text-xs p-1;
+}
+

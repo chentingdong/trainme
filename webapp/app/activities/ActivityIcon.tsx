@@ -13,25 +13,24 @@ type Props = {
 };
 
 export default function ActivityIcon({ type }: Props) {
-  if (type === 'Run') {
-    return <GiRunningShoe />;
-  } else if (type === 'Ride') {
-    return <FaPersonBiking />;
-  } else if (type === 'Swim') {
-    return <TbSwimming />;
-  } else if (type === 'WeightTraining') {
-    return <FaDumbbell />;
-  } else if (type === 'Yoga') {
-    return <div><GrYoga /></div>;
-  } else if (type === 'Walk') {
-    return <div><FaWalking /></div>;
-  } else if (type === 'VirtualRide') {
-    return <div><LiaBikingSolid /></div>;
-  } else if (type === 'Hike') {
-    return <div><GiHiking /></div>;
-  }
-
-  else {
-    return <div></div>;
+  switch (type) {
+    case 'Run':
+      return <GiRunningShoe className="circle bg-red-700 text-green-200" />;
+    case 'Ride':
+      return <FaPersonBiking className='circle bg-green-700 text-cyan-200' />;
+    case 'Swim':
+      return <TbSwimming className='circle bg-blue-700 text-red-200' />;
+    case 'WeightTraining':
+      return <FaDumbbell className='circle bg-yellow-700 text-purple-200' />;
+    case 'Yoga':
+      return <GrYoga className='circle bg-purple-700 text-yellow-200' />;
+    case 'Walk':
+      return <FaWalking className='circle' />;
+    case 'VirtualRide':
+      return <LiaBikingSolid className='circle bg-green-700 text-cyan-200' />;
+    case 'Hike':
+      return <GiHiking className='circle ' />;
+    default:
+      return <div></div>;
   }
 }

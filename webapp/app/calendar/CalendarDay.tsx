@@ -6,14 +6,17 @@ import Debug from '@/app/components/Debug';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTime, formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
+import 'flowbite/dist/flowbite.min.css';
 
 type CalendarDayProps = {
   date: Date;
   view?: string;
+  setSelectedActivityId: (id: number) => void;
 };
 
-function CalendarDay({ date }: CalendarDayProps) {
+function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
   const [activities, setActivities] = React.useState<Activity[]>([]);
+
   React.useEffect(() => {
     getActivityFromStravaByDate(date)
       .then((activities) => {
@@ -22,21 +25,33 @@ function CalendarDay({ date }: CalendarDayProps) {
       .catch((err) => {
         console.error(err);
       });
-  }, [date]);
+  }, []);
 
+  const selectActivity = (id: number) => {
+    setSelectedActivityId(id);
+  }
   return (
     <div className="card rounded-sm calendar-tile" >
-      <div className="card-header bg-white">{date.getDate()}</div>
-      <div className='h-auto'>
+      <div className="card-header bg-white flex justify-between">
+        <div>{date.getDate()}</div>
+        <div className='flex gap-2'>
+          {activities?.map((activity) => (
+            <div key={activity.id}>
+              <ActivityIcon type={activity.type} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className='h-60 overflow-auto'>
         <ul className="m-1 shadow-sm">
-          {activities.map((activity) => (
-            <li key={activity.id} className='card my-1'>
+          {activities?.map((activity) => (
+            <li key={activity.id} className='card my-1'
+              onClick={() => selectActivity(activity.id)}>
               <div className='card-header text-sm flex items-center'>
-                <ActivityIcon type={activity.type} />
-                <div className='ml-2'>{formatTime(activity.start_date)}</div>
-              </div>
-              <div className='card-body'>
                 <div > {formatTimeSeconds(activity.moving_time)}</div>
+              </div>
+              <div className='card-body flex justify-between'>
+                <div className='ml-2'>{formatTime(activity.start_date_local)}</div>
                 <div>{activity.distance > 0 && formatDistance(activity.distance)}</div>
               </div>
               <div className='card-footer'>{activity.type}</div>
