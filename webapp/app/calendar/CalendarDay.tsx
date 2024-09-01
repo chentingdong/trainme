@@ -17,16 +17,22 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
 
   React.useEffect(() => {
     getActivityFromStravaByDate(date)
-      .then((activities) => {
-        setActivities(activities);
+      .then((resp) => {
+        setActivities(resp);
       })
       .catch((err) => {
         console.error(err);
       });
+
   }, [date]);
 
+  const selectActivity = (e: React.MouseEvent, id: number) => {
+    e.stopPropagation();
+    setSelectedActivityId(id);
+  };
+
   return (
-    <div className="card rounded-sm calendar-tile" >
+    <div className="card rounded-sm calendar-tile">
       <div className="card-header bg-white flex justify-between">
         <div>{date.getDate()}</div>
         <div className='flex gap-2'>
@@ -41,9 +47,9 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
         <ul className="m-1 shadow-sm">
           {activities?.map((activity) => (
             <li key={activity.id} className='card my-1'
-              onClick={() => setSelectedActivityId(activity.id)}>
+              onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center'>
-                <div > {formatTimeSeconds(activity.moving_time)}</div>
+                <div>{formatTimeSeconds(activity.moving_time)}</div>
               </div>
               <div className='card-body flex justify-between'>
                 <div className='ml-2'>{formatTime(activity.start_date_local)}</div>
@@ -56,7 +62,6 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       </div>
     </div>
   );
-};
+}
 
 export default CalendarDay;
-

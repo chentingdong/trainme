@@ -6,6 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import Debug from '../components/Debug';
 import polyline from 'polyline';
 import { LatLngExpression } from 'leaflet';
+import Loading from '../components/Loading';
 
 type Props = {
   activityId: number | null;
@@ -13,8 +14,10 @@ type Props = {
 
 export default function ActivityDetail({ activityId }: Props) {
   const [activity, setActivity] = React.useState<Activity | null>(null);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   useEffect(() => {
+    setLoading(true);
     if (activityId) {
       getActivityFromStravaById(activityId)
         .then((activity) => {
@@ -22,6 +25,9 @@ export default function ActivityDetail({ activityId }: Props) {
         })
         .catch((err) => {
           console.error(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   }, [activityId]);
@@ -52,6 +58,7 @@ export default function ActivityDetail({ activityId }: Props) {
   return (
     <div className='m-12'>
       <div>
+        {loading && <Loading />}
         {activity && (
           <div >
             <h3 >{activity.name}</h3>

@@ -28,10 +28,10 @@ export async function getActivitiesFromGarmin(): Promise<Activity[]> {
 }
 
 // get activities from strava with pagination.
-export async function getActivitiesFromStrava(page = 1, perPage = 10): Promise<Activity[]> {
+export async function getActivitiesFromStrava(start_date: Date, end_date: Date): Promise<Activity[]> {
   const client = await pool.connect();
-  const query = 'SELECT * FROM activities limit $1 offset $2';
-  const res = await client.query(query, [perPage, (page - 1) * perPage]);
+  const query = 'SELECT * FROM activities where start_date_local >= $1 and start_date_local <= $2 limit 150';
+  const res = await client.query(query, [start_date, end_date]);
   client.release();
   return res.rows as Activity[];
 }

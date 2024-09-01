@@ -90,3 +90,20 @@ button {
   @apply w-6 h-6 text-xs p-1;
 }
 
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .loading-icon {
+    margin-right: 10px; /* Space between icon and text */
+    font-size: 24px; /* Adjust size as needed */
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+}

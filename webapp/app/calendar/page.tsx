@@ -12,17 +12,19 @@ import 'flowbite/dist/flowbite.min.css';
 const Page = () => {
   const [selectedActivityId, setSelectedActivityId] = React.useState<number | null>(null);
 
+  // Memoize the tile content to prevent re-rendering of the calendar. 
+  // TODO: not preventing, but seems fast for now.
+  const memoizedTileContent = React.useCallback(({ date, view }: { date: Date; view: string; }) => (
+    <CalendarDay date={date} view={view} setSelectedActivityId={setSelectedActivityId} />
+  ), [setSelectedActivityId]);
+
   return (
     <div className="flex-grow flex flex-col p-4">
       <div className="flex-grow">
         <Calendar
           className='custom-calendar'
           tileClassName='calendar-day'
-          tileContent={({ date, view }) => (
-            <CalendarDay date={date} view={view}
-              setSelectedActivityId={setSelectedActivityId}
-            />
-          )}
+          tileContent={memoizedTileContent}
         />
       </div>
       <Modal dismissible

@@ -7,7 +7,12 @@ import ActivityIcon from './ActivityIcon';
 type Props = {};
 
 async function Page({ }: Props) {
-  const activities: Activity[] = await getActivitiesFromStrava();
+  const endDate = new Date();
+  endDate.setMonth(endDate.getMonth() + 1);
+  const startDate = new Date();
+  startDate.setDate(1);
+
+  const activities: Activity[] = await getActivitiesFromStrava(startDate, endDate);
 
   return (
     <div>
