@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.scss";
+import 'flowbite/dist/flowbite.css';
 import type { Metadata } from 'next'
 import Header from './components/Header';
 

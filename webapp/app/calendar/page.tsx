@@ -7,7 +7,6 @@ import './calendar.scss';
 import CalendarDay from './CalendarDay';
 import ActivityDetail from '../activities/ActivityDetail';
 import { Modal } from "flowbite-react";
-import 'flowbite/dist/flowbite.min.css';
 
 const Page = () => {
   const [selectedActivityId, setSelectedActivityId] = React.useState<number | null>(null);

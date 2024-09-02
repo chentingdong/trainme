@@ -4,13 +4,19 @@ import React from 'react';
 import Image from 'next/image';
 import { FcSynchronize } from 'react-icons/fc';
 import { fetchLatestActivities } from '../actions/activities';
+import t from '@/utils/i18n';
+import { Popover } from 'flowbite-react';
 
 const Header = () => {
   const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
 
   const syncStrava = async () => {
-    const newActivities = await fetchLatestActivities(true);
-    setNewActivityCount(newActivities.length);
+    try {
+      const newActivities = await fetchLatestActivities(true);
+      setNewActivityCount(newActivities.length);
+    } catch (error) {
+      console.error('Failed to sync activities:', error);
+    }
   };
 
   return (
@@ -24,7 +30,11 @@ const Header = () => {
         </a>
         <ul className='flex space-x-4 items-center'>
           <li>
-            <FcSynchronize onClick={syncStrava} className='cursor-pointer' />
+            <Popover content={t('syncStrava')} className='popover' trigger='hover' placement='bottom'>
+              <a href="#" onClick={syncStrava}>
+                <FcSynchronize />
+              </a>
+            </Popover>
           </li>
           <li>
             <a href='/calendar' className='hover:underline'>
