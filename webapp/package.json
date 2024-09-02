@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port $NEXT_PUBLIC_PORT",
+    "dev": "node --inspect=9222 node_modules/.bin/next dev --port $NEXT_PUBLIC_PORT",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -12,7 +12,9 @@
     "@types/leaflet": "^1.9.12",
     "@types/polyline": "^0.1.32",
     "axios": "^1.7.6",
+    "css-loader": "^7.1.2",
     "flowbite-react": "^0.10.1",
+    "js-cookie": "^3.0.5",
     "leaflet": "^1.9.4",
     "next": "14.2.7",
     "pg": "^8.12.0",
@@ -23,11 +25,16 @@
     "react-icons": "^5.3.0",
     "react-leaflet": "^4.2.1",
     "sass": "^1.77.8",
+    "sass-loader": "^16.0.1",
     "scss": "^0.2.4",
     "sqlite": "^5.1.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "strava-v3": "^2.2.1",
+    "style-loader": "^4.0.0"
   },
   "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^22.5.1",
     "@types/pg": "^8.11.8",
     "@types/react": "^18",

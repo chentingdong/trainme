@@ -21,22 +21,17 @@ const AuthorizationHandler = () => {
             console.error('No access token received:', response.data);
             return;
           } else {
-            // Store the access token in session storage
-            sessionStorage.setItem('strava_access_token', accessToken);
             console.log('Granted access to Strava.');
-
-            // Redirect to settings page
             window.location.href = '/settings';
           }
         })
         .catch((error) => {
           console.error('Error exchanging authorization code:', error);
-          setMessage('Error exchanging authorization code. It expires fast, go back to settings and try again.');
+          setMessage('Error exchanging authorization code.');
           setHasError(true);
         });
     } else {
       setMessage('Disconnected to Strava.');
-      sessionStorage.removeItem('strava_access_token');
       setHasError(true);
     }
   }, []);

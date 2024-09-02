@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect } from 'react';
 import { Activity, getActivityFromStravaById } from '../actions/activities';
 import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
@@ -56,11 +58,11 @@ export default function ActivityDetail({ activityId }: Props) {
   }, [decodePolyline]);
 
   return (
-    <div className='m-12'>
+    <div className='m-4'>
       <div>
         {loading && <Loading />}
         {activity && (
-          <div >
+          <div className='text-gray-700'>
             <h3 >{activity.name}</h3>
             <div className="flex gap-4">
               <div>{new Date(activity.start_date_local).toLocaleDateString()}</div>
@@ -74,7 +76,7 @@ export default function ActivityDetail({ activityId }: Props) {
       </div>
 
       {activity && activity.map && (
-        <MapContainer zoom={13} center={calculateCenter} style={{ width: 800, height: 500 }}>
+        <MapContainer zoom={13} center={calculateCenter} style={{ width: '100%', height: 500 }}>
           <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
           <Polyline positions={getPolylinePositions} />
         </MapContainer>

@@ -78,6 +78,8 @@ button {
   }
   .card-footer {
     @apply text-sm bg-gray-100;
+    color: var(--text-color);
+    background-color: var(--background-color);
   }
   .card {
     // move to :root for dark mode
@@ -88,6 +90,9 @@ button {
 .circle {
   @apply rounded-full flex items-center justify-center;
   @apply w-6 h-6 text-xs p-1;
+  &.small {
+    @apply w-4 h-4;
+  }
 }
 
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, getActivitiesFromStrava } from '@/app/actions/activities';
+import { Activity, getStravaActivities } from '@/app/actions/activities';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
 import ActivityIcon from './ActivityIcon';
@@ -8,11 +8,10 @@ type Props = {};
 
 async function Page({ }: Props) {
   const endDate = new Date();
-  endDate.setMonth(endDate.getMonth() + 1);
   const startDate = new Date();
-  startDate.setDate(1);
+  startDate.setMonth(startDate.getMonth() - 1);
 
-  const activities: Activity[] = await getActivitiesFromStrava(startDate, endDate);
+  const activities: Activity[] = await getStravaActivities(startDate, endDate);
 
   return (
     <div>
