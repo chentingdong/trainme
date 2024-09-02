@@ -18,7 +18,7 @@ async function Page({ }: Props) {
       <h1>Activities</h1>
       <ul>
         {activities.map((activity) => (
-          <li key={activity.id} className='card m-2'>
+          <li key={activity.id} className='card my-2'>
             <div className='card-header flex items-center'>
               <ActivityIcon type={activity.type} />
               <div className='mx-4'>{activity.name}</div>

@@ -121,10 +121,8 @@ export async function fetchLatestActivities(persist: boolean): Promise<unknown[]
   try {
   // Fetch activities from Strava.
     const fromDate = new Date(await findLastActivityDate());
-    const toDate = new Date();
     const url = new URL('https://www.strava.com/api/v3/athlete/activities');
     url.search = new URLSearchParams({
-      before: Math.floor(toDate.getTime() / 1000).toString(),
       after: Math.floor(fromDate.getTime() / 1000).toString(),
       per_page: '200'
     }).toString();

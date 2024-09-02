@@ -30,8 +30,13 @@ const Header = () => {
         </a>
         <ul className='flex space-x-4 items-center'>
           <li>
-            <Popover content={t('syncStrava')} className='popover' trigger='hover' placement='bottom'>
-              <a href="#" onClick={syncStrava}>
+            <Popover
+              content={t('syncStrava')}
+              className='popover'
+              trigger='hover'
+              placement='bottom'
+            >
+              <a href='#' onClick={syncStrava}>
                 <FcSynchronize />
               </a>
             </Popover>
@@ -45,9 +50,11 @@ const Header = () => {
             <a href='/activities' className='hover:underline'>
               Activities
             </a>
-            <span className='circle small bg-green-700'>
-              {newActivityCount}
-            </span>
+            {newActivityCount > 0 && (
+              <span className='circle small bg-green-700'>
+                {newActivityCount}
+              </span>
+            )}
           </li>
           <li>
             <a href='/settings' className='hover:underline'>

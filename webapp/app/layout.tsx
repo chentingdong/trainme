@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + 'flex flex-col'}>
         <Header />
-        <main className='flex flex-col'>
+        <main className='flex flex-col p-4'>
           {children}
         </main>
       </body>

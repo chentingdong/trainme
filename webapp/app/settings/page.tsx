@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { getStravaAuthUrl } from '@/utils/strava';
 
 const Page = () => {
-  const [refreshToken, setRefreshToken] = React.useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = React.useState<string | null>('');
 
   React.useEffect(() => {
     const token = Cookies.get('strava_refresh_token') || null;
@@ -15,6 +15,7 @@ const Page = () => {
   const disConnectStrava = () => {
     Cookies.remove('strava_refresh_token');
     Cookies.remove('strava_access_token');
+    window.location.reload();
   };
 
   const connectStrava = () => {
@@ -30,10 +31,14 @@ const Page = () => {
         <p>Connect your Strava account to let the app sync your activities.</p>
         <div className='py-4'>
           {refreshToken && (
-            <button className="btn btn-secondary" onClick={() => disConnectStrava()}>Disconnect Strava</button>
+            <button className="btn btn-secondary" onClick={() => disConnectStrava()}>
+              Disconnect Strava
+            </button>
           )}
-          {!refreshToken && (
-            <button className="btn btn-primary" onClick={() => connectStrava()}>Connect to Strava</button>
+          {refreshToken === null && (
+            <button className="btn btn-primary" onClick={() => connectStrava()}>
+              Connect to Strava
+            </button>
           )}
         </div>
       </div>

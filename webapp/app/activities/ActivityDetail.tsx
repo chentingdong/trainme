@@ -74,8 +74,7 @@ export default function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-
-      {activity && activity.map && (
+      {activity?.map?.summary_polyline && (
         <MapContainer zoom={13} center={calculateCenter} style={{ width: '100%', height: 500 }}>
           <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
           <Polyline positions={getPolylinePositions} />
