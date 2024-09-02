@@ -1,5 +1,3 @@
-// app/api/exchange-token/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
@@ -32,7 +30,7 @@ export async function POST(req: NextRequest) {
 
     // save tokens to cookies
     const res = NextResponse.json({
-      accessToken: accessToken,
+      refreshToken: refreshToken,
     });
     res.cookies.set('strava_refresh_token', refreshToken, {
       httpOnly: false, // Allow client-side access

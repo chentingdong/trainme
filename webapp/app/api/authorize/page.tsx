@@ -16,8 +16,8 @@ const AuthorizationHandler = () => {
       axios
         .post('/api/exchange-token', { code: authorizationCode })
         .then((response) => {
-          const accessToken = response.data.accessToken;
-          if (!accessToken) {
+          const refreshToken = response.data.refreshToken;
+          if (!refreshToken) {
             console.error('No access token received:', response.data);
             return;
           } else {
@@ -31,7 +31,7 @@ const AuthorizationHandler = () => {
           setHasError(true);
         });
     } else {
-      setMessage('Disconnected to Strava.');
+      setMessage('Strava autorization failed.');
       setHasError(true);
     }
   }, []);

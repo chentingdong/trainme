@@ -1,5 +1,3 @@
-import strava, { Strava } from 'strava-v3';
-
 // This function redirects the user to Strava's OAuth URL
 export const getStravaAuthUrl = () => {
   const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;

@@ -14,6 +14,7 @@ const Page = () => {
 
   const disConnectStrava = () => {
     Cookies.remove('strava_refresh_token');
+    Cookies.remove('strava_access_token');
   };
 
   const connectStrava = () => {
