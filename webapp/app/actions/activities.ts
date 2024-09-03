@@ -3,7 +3,7 @@
 import { openDb, SQLiteDatabase } from '@/app/lib/garmin_db';
 import { pool } from '@/app/actions/postgres';
 import { cookies } from 'next/headers';
-import { getStravaAuthUrl } from '@/utils/strava';
+import { getStravaAccessToken, getStravaAuthUrl } from '@/utils/strava';
 import axios from 'axios';
 
 export type Activity = {
@@ -74,46 +74,11 @@ export async function getActivityFromStravaById(id: number): Promise<Activity | 
   }
 }
 
-// get access token from refresh token
-export async function getStravaAccessToken(refreshToken: string): Promise<string> {
-  const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
-  const clientSecret = process.env.STRAVA_CLIENT_SECRET;
-
-  if (!clientId || !clientSecret) {
-    throw new Error('Client ID or secret not configured');
-  }
-
-  const tokenUrl = 'https://www.strava.com/api/v3/oauth/token';
-
-  try {
-    const response = await axios.post(tokenUrl, {
-      client_id: clientId,
-      client_secret: clientSecret,
-      refresh_token: refreshToken,
-      grant_type: 'refresh_token',
-    });
-
-    return response.data.access_token;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error('Error refreshing access token:', error.response?.data);
-    } else {
-      console.error('Unexpected error:', error);
-    }
-    throw new Error('Error refreshing access token');
-  }
-}
-
 // sync activities from strava to postgres
 export async function fetchLatestActivities(persist: boolean): Promise<unknown[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get('strava_refresh_token')?.value;
-
-  if (!refreshToken) {
-    window.location.href = getStravaAuthUrl();
-    return [];
-  }
 
   // Get temporary access token from Strava
   const accessToken = await getStravaAccessToken(refreshToken);

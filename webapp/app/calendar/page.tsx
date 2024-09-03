@@ -5,7 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.scss';
 import CalendarDay from './CalendarDay';
-import ActivityDetail from '../activities/ActivityDetail';
+import ActivityDetail from './ActivityDetail';
 import { Modal } from "flowbite-react";
 
 const Page = () => {

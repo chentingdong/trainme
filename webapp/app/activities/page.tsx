@@ -1,17 +1,26 @@
+"use client";
+
 import React from 'react';
 import { Activity, getStravaActivities } from '@/app/actions/activities';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
 import ActivityIcon from './ActivityIcon';
+import ActivityMap from './ActivityMap';
+import ActivityLaps from './ActivityLaps';
 
 type Props = {};
 
-async function Page({ }: Props) {
+function Page({ }: Props) {
   const endDate = new Date();
   const startDate = new Date();
   startDate.setMonth(startDate.getMonth() - 1);
+  const [activities, setActivities] = React.useState<Activity[]>([]);
 
-  const activities: Activity[] = await getStravaActivities(startDate, endDate);
+  React.useEffect(() => {
+    getStravaActivities(startDate, endDate).then((activities) => {
+      setActivities(activities.slice(1, 2));
+    });
+  }, []);
 
   return (
     <div>
@@ -24,7 +33,24 @@ async function Page({ }: Props) {
               <div className='mx-4'>{activity.name}</div>
               <div className='text-sm'>{new Date(activity.start_date_local).toLocaleDateString()}</div>
             </div>
-            <div className='card-body'>
+            <div className="card-body">
+              <div className='my-4'>
+                <div className="flex gap-4">
+                  <div>{new Date(activity.start_date_local).toLocaleDateString()}</div>
+                  <div>{activity.type}</div>
+                  <div>{activity.distance} meters</div>
+                  <div>{activity.moving_time} seconds</div>
+                  <div>{activity.total_elevation_gain} meters</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {activity.map?.summary_polyline && (
+                  <ActivityMap summary_polyline={activity.map?.summary_polyline} />
+                )}
+                <ActivityLaps activityId={activity.id} />
+              </div>
+            </div>
+            <div className='card-footer'>
               {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}
             </div>
           </li>
