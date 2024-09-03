@@ -13,12 +13,13 @@ type Props = {};
 function Page({ }: Props) {
   const endDate = new Date();
   const startDate = new Date();
-  startDate.setMonth(startDate.getMonth() - 1);
+  startDate.setDate(startDate.getDate() - 7);
   const [activities, setActivities] = React.useState<Activity[]>([]);
 
   React.useEffect(() => {
     getStravaActivities(startDate, endDate).then((activities) => {
-      setActivities(activities.slice(1, 2));
+      // failes with 429, too many requests
+      setActivities(activities.slice(0, 2));
     });
   }, []);
 
@@ -43,12 +44,12 @@ function Page({ }: Props) {
                   <div>{activity.total_elevation_gain} meters</div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                {activity.map?.summary_polyline && (
+              {activity.map?.summary_polyline && (
+                <div className="grid grid-cols-2 gap-4 h-128">
                   <ActivityMap summary_polyline={activity.map?.summary_polyline} />
-                )}
                 <ActivityLaps activityId={activity.id} />
               </div>
+              )}
             </div>
             <div className='card-footer'>
               {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}

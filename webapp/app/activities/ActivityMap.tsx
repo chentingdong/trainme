@@ -8,9 +8,9 @@ import 'leaflet/dist/leaflet.css';
 
 interface Props {
   summary_polyline: string | undefined;
+  className?: string;
 }
-
-const ActivityMap: React.FC<Props> = ({ summary_polyline }) => {
+const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
   const [center, setCenter] = useState<LatLngExpression | null>(null);
   const [positions, setPositions] = useState<LatLngExpression[]>([]);
 
@@ -29,13 +29,16 @@ const ActivityMap: React.FC<Props> = ({ summary_polyline }) => {
     }
   }, [summary_polyline]);
 
-  if (!center || positions.length === 0) {
+  if (!summary_polyline) {
+    return null;
+  }
+  if (!summary_polyline || !center || positions.length === 0) {
     // Avoid rendering the map until the positions are ready
     return null;
   }
 
   return (
-    <MapContainer center={center} zoom={14} className="w-full h-full min-h-48">
+    <MapContainer center={center} zoom={14} className={"w-full h-full min-h-48"}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={positions} color='#0d9488' smoothFactor={4} weight={5} />
     </MapContainer>
