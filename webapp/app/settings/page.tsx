@@ -26,7 +26,8 @@ const Page = () => {
     <div className="container">
       <div>
         <h1>Connections</h1>
-        <hr />
+        <div>
+
         <h2>Strava</h2>
         <p>Connect your Strava account to let the app sync your activities.</p>
         <div className='py-4'>
@@ -40,6 +41,16 @@ const Page = () => {
               Connect to Strava
             </button>
           )}
+          </div>
+        </div>
+        <div>
+          <h2>Garmin</h2>
+          <p>Connect your Garmin account to let the app sync your activities.</p>
+          <div className='py-4'>
+            <button className="btn btn-primary" disabled>
+              Connect to Garmin
+            </button>
+          </div>
         </div>
       </div>
     </div>

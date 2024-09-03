@@ -1,6 +1,10 @@
--- DROP TABLE IF EXISTS public.activities;
+-- raw tables from strava api
+-- https://developers.strava.com/docs/reference/
+
 
 -- strava activity table
+
+-- DROP TABLE IF EXISTS public.activities;
 CREATE TABLE public.activities (
   "resource_state" double precision,
   "athlete" json,
@@ -59,4 +63,32 @@ CREATE TABLE public.activities (
   "weighted_average_watts" double precision,
   "kilojoules" double precision,
   "device_watts" boolean
+);
+
+-- Laps table
+DROP TABLE IF EXISTS public.laps;
+CREATE TABLE public.laps (
+  "id" double precision primary key,
+  "resource_state" double precision,
+  "name" text,
+  "activity" json,
+  "athlete" json,
+  "elapsed_time" double precision,
+  "moving_time" double precision,
+  "start_date" text,
+  "start_date_local" text,
+  "distance" double precision,
+  "start_index" double precision,
+  "end_index" double precision,
+  "total_elevation_gain" double precision,
+  "average_speed" double precision,
+  "max_speed" double precision,
+  "average_cadence" double precision,
+  "device_watts" boolean,
+  "average_watts" double precision,
+  "average_heartrate" double precision,
+  "max_heartrate" double precision,
+  "lap_index" double precision,
+  "split" double precision,
+  "pace_zone" double precision
 );
