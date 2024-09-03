@@ -5,6 +5,7 @@ import argparse
 import datetime
 import os
 import tempfile
+from typing import Optional
 import zipfile
 import glob
 
@@ -31,20 +32,14 @@ root_logger = logging.getLogger()
 
 class ExtendedGarminConnectConfigManager(GarminConnectConfigManager):
     '''Extend GarminConnectConfigManager to provide the config file path'''
-    def __init__(self):
-        super().__init__()
     
     @classmethod
-    def get_config_dir(cls):
-        script_dir = os.path.dirname(__file__)
-        return script_dir
+    def get_config_dir(cls, directory: Optional[str] = None) -> str:
+        if (directory is None):
+            directory = os.path.dirname(os.path.realpath(__file__))
+        return os.path.join(directory)
         
     def update_config(self, updates):
-        """
-        Update the configuration with the provided dictionary of updates.
-        
-        :param updates: A dictionary containing the fields to update and their new values.
-        """
         self.config.update(updates)
 
 gc_config = ExtendedGarminConnectConfigManager()
