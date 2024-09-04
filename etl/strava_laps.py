@@ -17,23 +17,30 @@ ACCESS_TOKEN = '241ffec49e8b18bda5190fad7eb36ab28071f6b2'
 
 url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 
+
 def fetch_strava_laps(activity_id) -> list:
-    """_summary_
-    fetch strava laps from the API for a given activity id
-    """
+    """Fetch strava laps from the API for a given activity id."""
+    max_retries = 3
+    retry_delay = 60  # Initial delay in seconds
 
-    logging.info("Fetching laps for activity %s", activity_id);
-    response = requests.get(url.format(id=activity_id),
-        headers={'Authorization': f'Bearer {ACCESS_TOKEN}'},
-        timeout=60
-    )
+    for _ in range(max_retries):
+        response = requests.get(url.format(id=activity_id),
+            headers={'Authorization': f'Bearer {ACCESS_TOKEN}'},
+            timeout=60
+        )
 
-    if response.status_code != 200:
-        print(f"Error: {response.status_code} - {response.text}")
-        return []
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 429:
+            logging.warning("Rate limit exceeded, retrying in %s seconds...", retry_delay)
+            time.sleep(retry_delay)
+            retry_delay *= 2  # Exponential backoff
+        else:
+            logging.error("Error: %s - %s", response.status_code, response.text)
+            return []
 
-    return response.json()
-
+    logging.error("Failed to fetch laps for activity %s after %s attempts.", activity_id, max_retries)
+    return []
 
 def sync_all_strava_laps():
     """_summary_
@@ -44,30 +51,31 @@ def sync_all_strava_laps():
         # get all activities from the database
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id 
+            SELECT id, start_date_local
             FROM activities a
             WHERE NOT EXISTS (
                 SELECT 1 
                 FROM laps l 
                 WHERE (l.activity->>'id')::text = a.id::text
             )
+            ORDER BY start_date_local DESC
         ''')
         result = cursor.fetchall()
-        activity_ids = [int(row[0]) for row in result]
+        activities = [(int(row[0]), row[1]) for row in result]
         cursor.close()
 
-        logging.info("Found %s activities without laps", len(activity_ids))
+        logging.info("Found %s activities without laps", len(activities))
         
-        for activity_id in activity_ids:
+        for activity_id, start_date_local in activities:
             fetched_laps = fetch_strava_laps(activity_id)
             if not fetched_laps or len(fetched_laps) == 0:
                 continue
+            logging.info("Fetching laps for activity %s with start time %s, found %s laps", activity_id, start_date_local, len(fetched_laps))
             save_laps_to_postgres(fetched_laps)
-            time.sleep(1)
     except KeyboardInterrupt:
         logging.info("Process interrupted by user. Exiting gracefully...")
     finally:
-        logging.info("Fetched laps for %s activities from Strava, date.", len(activity_ids))
+        logging.info("Fetched laps for %s activities from Strava, date.", len(activities))
         
 if __name__ == '__main__':
     sync_all_strava_laps()

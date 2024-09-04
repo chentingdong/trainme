@@ -17,7 +17,10 @@ export const garminSyncActivities = async (token: string) => {
       await new Promise((resolve) => setTimeout(resolve, 1000));
     }
 
-    const pythonScript = 'python ../etl/garmindb_cli.py --activities --download --import --analyze --latest >> /tmp/garmin_sync.log';
+    const script = '../etl/garmindb_cli.py';
+    const logFile = '../logs/garmindb_cli_latest.log';
+    const pythonScript = `python ${script} --activities --download --import --analyze --latest >> ${logFile}`;
+    console.log(`Running: ${pythonScript}`);
     const { stdout, stderr } = await execPromise(pythonScript);
     if (stderr) {
       console.error(`Error: ${stderr}`);

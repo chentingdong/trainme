@@ -24,7 +24,11 @@ from garmindb import OpenWithBaseCamp, OpenWithGoogleEarth
 
 from etl.GarminDB.garmin_connect_config_manager import TrainmeGarminConnectConfigManager
 
-logging.basicConfig(filename='garmindb.log', filemode='w', level=logging.INFO)
+# log file in ${workspace}/logs
+workspace_folder = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+logfile = os.path.join(workspace_folder, 'logs', 'garmindb_cli_bulk.log')
+
+logging.basicConfig(filename=logfile, filemode='w', level=logging.INFO)
 logger = logging.getLogger(__file__)
 logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 root_logger = logging.getLogger()
