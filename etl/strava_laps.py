@@ -13,7 +13,7 @@ client_id = os.getenv('STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage.
-ACCESS_TOKEN = 'dd6cea1ca89da73b1a2761e9d486cfcfae8df733'
+ACCESS_TOKEN = '241ffec49e8b18bda5190fad7eb36ab28071f6b2'
 
 url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 
@@ -67,7 +67,7 @@ def sync_all_strava_laps():
     except KeyboardInterrupt:
         logging.info("Process interrupted by user. Exiting gracefully...")
     finally:
-        logging.info("Fetched laps for %s activities from Strava.", len(activity_ids))
+        logging.info("Fetched laps for %s activities from Strava, date.", len(activity_ids))
         
 if __name__ == '__main__':
     sync_all_strava_laps()

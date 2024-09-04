@@ -1,11 +1,9 @@
-import json
 import logging
 import sys
 import argparse
 import datetime
 import os
 import tempfile
-from typing import Optional
 import zipfile
 import glob
 
@@ -20,32 +18,22 @@ from garmindb import GarminUserSettings, GarminSocialProfile, GarminPersonalInfo
 from garmindb import GarminJsonSummaryData, GarminJsonDetailsData, GarminTcxData, GarminActivitiesFitData
 from garmindb import ActivityExporter
 
-from garmindb import GarminConnectConfigManager, PluginManager
+from garmindb import PluginManager
 from garmindb import Statistics
 from garmindb import OpenWithBaseCamp, OpenWithGoogleEarth
 
+from etl.GarminDB.garmin_connect_config_manager import TrainmeGarminConnectConfigManager
 
 logging.basicConfig(filename='garmindb.log', filemode='w', level=logging.INFO)
 logger = logging.getLogger(__file__)
 logger.addHandler(logging.StreamHandler(stream=sys.stdout))
 root_logger = logging.getLogger()
 
-class ExtendedGarminConnectConfigManager(GarminConnectConfigManager):
-    '''Extend GarminConnectConfigManager to provide the config file path'''
-    
-    @classmethod
-    def get_config_dir(cls, directory: Optional[str] = None) -> str:
-        if (directory is None):
-            directory = os.path.dirname(os.path.realpath(__file__))
-        return os.path.join(directory)
-        
-    def update_config(self, updates):
-        self.config.update(updates)
-
-gc_config = ExtendedGarminConnectConfigManager()
+gc_config = TrainmeGarminConnectConfigManager()
 gc_config.update_config({
     "credentials": {
         "user": os.getenv("GARMIN_USER"),
+        "secure_password": "false",
         "password": os.getenv("GARMIN_PASSWORD")
     },
 })

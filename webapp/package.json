@@ -33,7 +33,8 @@
     "scss": "^0.2.4",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "style-loader": "^4.0.0"
+    "style-loader": "^4.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
@@ -42,6 +43,7 @@
     "@types/pg": "^8.11.8",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
     "postcss": "^8",

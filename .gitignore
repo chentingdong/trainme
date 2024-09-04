@@ -39,8 +39,7 @@ next-env.d.ts
 *.log
 
 # ignore db files
-.GarminDb
-webapp/GarminData
+*/GarminData
 *.db
 
 **/__pycache__/
