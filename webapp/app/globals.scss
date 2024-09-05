@@ -136,3 +136,61 @@ body {
     @apply p-4 rounded-md shadow-md bg-slate-50 text-slate-900;
   }
 }
+/* Custom styles for dark mode */
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background-color: #2d2d2d; /* Dark background color */
+    color: #ffffff; /* Light text color */
+  }
+
+  .modal-header, .modal-footer {
+    border-color: #444444; /* Darker border color */
+  }
+
+  .modal-header {
+    background-color: #333333; /* Darker header background */
+  }
+
+  .modal-footer {
+    background-color: #333333; /* Darker footer background */
+  }
+
+  .form-control {
+    background-color: #444444; /* Dark input background */
+    color: #ffffff; /* Light input text color */
+    border-color: #555555; /* Darker border color */
+  }
+
+  .form-control::placeholder {
+    color: #bbbbbb; /* Light placeholder color */
+  }
+
+  .btn-info {
+    background-color: #17a2b8; /* Info button background color */
+    border-color: #17a2b8; /* Info button border color */
+  }
+
+  .btn-info:hover {
+    background-color: #138496; /* Darker info button background on hover */
+    border-color: #117a8b; /* Darker info button border on hover */
+  }
+}
+
+/* Custom styles for form-group alignment */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Add space between form groups */
+}
+
+.form-group label {
+  margin-bottom: 0.5rem; /* Space between label and input */
+}
+
+.form-group input,
+.form-group select {
+  width: 100%; /* Ensure inputs and selects take full width */
+  padding: 0.5rem; /* Add padding for better appearance */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Rounded corners */
+}
