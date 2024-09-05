@@ -9,6 +9,8 @@
   "editor.tabCompletion": "on",
   "python.analysis.autoImportCompletions": true,
   "python.analysis.completeFunctionParens": true,
+  "python.pythonPath": "/Users/tingdong/miniconda3/envs/trainme/bin/python",
+  "python.languageServer": "Pylance",
   "sqltools.useNodeRuntime": true,
   "sqltools.connections": [
     {

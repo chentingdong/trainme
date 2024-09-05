@@ -1,5 +1,3 @@
-// app/api/exchange-token/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import axios from 'axios';
 
@@ -27,8 +25,28 @@ export async function POST(req: NextRequest) {
       grant_type: 'authorization_code',
     });
 
+    const refreshToken = response.data.refresh_token;
     const accessToken = response.data.access_token;
-    return NextResponse.json({ accessToken: accessToken });
+
+    // save tokens to cookies
+    const res = NextResponse.json({
+      refreshToken: refreshToken,
+    });
+    res.cookies.set('strava_refresh_token', refreshToken, {
+      httpOnly: false, // Allow client-side access
+      sameSite: 'lax', // Use 'lax' for moderate security with usability
+      path: '/', // Cookie path
+      maxAge: 60 * 60 * 24 * 7, // Cookie expires in 7 days
+    });
+    res.cookies.set('strava_access_token', accessToken, {
+      httpOnly: false, // Allow client-side access
+      sameSite: 'lax', // Use 'lax' for moderate security with usability
+      path: '/', // Cookie path
+      maxAge: 60 * 60 * 24 * 7, // Cookie expires in 7 days
+    });
+
+    // return response with cookies
+    return res;
   } catch (error) {
     console.error('Error exchanging authorization code:', error);
     return NextResponse.json({ error: 'Error exchanging authorization code' }, { status: 500 });

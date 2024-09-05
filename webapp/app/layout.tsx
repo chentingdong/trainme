@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.scss";
+import 'flowbite/dist/flowbite.css';
 import type { Metadata } from 'next'
 import Header from './components/Header';
 
@@ -19,9 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className + 'flex flex-col'}>
         <Header />
-        <main className='flex flex-col min-h-screen'>
+        <main className='flex flex-col p-4'>
           {children}
         </main>
       </body>

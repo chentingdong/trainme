@@ -35,12 +35,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# vscode
 .history/
-*.log
 
 # ignore db files
-.GarminDb
-webapp/GarminData
+*/GarminData
 *.db
+*.log
 
 **/__pycache__/

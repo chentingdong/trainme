@@ -5,6 +5,14 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "garmindb cli",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/etl/garmindb_cli.py",
+      "console": "integratedTerminal",
+      "args": ["--activities", "--download", "--import", "--analyze"]
+    },
+    {
       "name": "Python Debugger: Current File",
       "type": "debugpy",
       "request": "launch",

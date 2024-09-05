@@ -3,6 +3,7 @@ services:
   postgres:
     container_name: trainmedb
     image: postgres:latest
+    platform: linux/arm64  
     ports:
       - "7452:5432"
     volumes:

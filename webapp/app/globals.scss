@@ -4,16 +4,36 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --border-color: rgb(65, 101, 109);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
+    --background-rgb: 0, 0, 0;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
+    --border-color: rgb(65, 101, 109);
   }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -26,45 +46,151 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  h1 {
+    @apply text-4xl font-bold my-4;
+  }
+  h2 {
+    @apply text-2xl font-semibold my-2;
+  }
+
+  ul,
+  li {
+    @apply list-none p-0 m-0;
+  }
+
+  button {
+    &.btn {
+      @apply py-2 px-4 rounded-lg;
+    }
+    &.btn-primary {
+      @apply bg-teal-700 text-white font-semibold;
+      @apply hover:bg-teal-500 hover:text-white;
+    }
+    &.btn-secondary {
+      @apply bg-gray-500 text-white font-semibold;
+      @apply hover:bg-gray-600 hover:text-gray-100;
+    }
+    &.btn-warning {
+      @apply bg-orange-500 text-white font-semibold;
+      @apply hover:bg-orange-600 hover:text-white;
+    }
+    &.btn-danger {
+      @apply bg-red-500 text-white font-semibold;
+      @apply hover:bg-red-600 hover:text-white;
+    }
+    &.btn-info {
+      @apply bg-transparent border;
+    }
+    &.btn-disabled {
+      @apply bg-gray-300 text-gray-500 cursor-not-allowed;
+    }
   }
 }
 
-h1 {
-  @apply text-2xl font-semibold my-4;
+@layer components {
+  .card {
+    @apply border rounded-sm overflow-hidden flex flex-col h-full;
+    border-color: var(--border-color);
+    .card-header {
+      @apply font-semibold px-4 py-2 flex-grow-0;
+      @apply bg-gray-100 text-gray-700;
+      @apply bg-gray-200 text-gray-800;
+      @apply dark:bg-gray-800 dark:text-gray-200;
+    }
+    .card-body {
+      @apply p-4 flex-grow;
+            @apply bg-gray-100 text-gray-900;
+      @apply dark:bg-gray-900 dark:text-gray-100;
+
+    }
+    .card-footer {
+      @apply text-sm bg-gray-100 px-4 py-2;
+      @apply bg-gray-200 text-gray-700;
+      @apply dark:bg-gray-700 dark:text-gray-200;
+    }
+    .card {
+      // move to :root for dark mode
+      border-color: rgba(119, 184, 198, 0.1);
+    }
+  }
+  .circle {
+    @apply rounded-full flex items-center justify-center;
+    @apply w-6 h-6 text-xs p-1;
+    &.small {
+      @apply w-4 h-4;
+    }
+  }
+  .icon {
+    @apply w-4 h-4;
+  }
+  .loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loading-icon {
+    animation: spin 1s linear infinite;
+  }
+  .popover {
+    @apply p-4 rounded-md shadow-md bg-slate-50 text-slate-900;
+  }
 }
-h2 {
-  @apply text-xl font-normal my-2;
+/* Custom styles for dark mode */
+@media (prefers-color-scheme: dark) {
+  .modal {
+    background-color: #2d2d2d; /* Dark background color */
+    color: #ffffff; /* Light text color */
+  }
+
+  .modal-header, .modal-footer {
+    border-color: #444444; /* Darker border color */
+  }
+
+  .modal-header {
+    background-color: #333333; /* Darker header background */
+  }
+
+  .modal-footer {
+    background-color: #333333; /* Darker footer background */
+  }
+
+  .form-control {
+    background-color: #444444; /* Dark input background */
+    color: #ffffff; /* Light input text color */
+    border-color: #555555; /* Darker border color */
+  }
+
+  .form-control::placeholder {
+    color: #bbbbbb; /* Light placeholder color */
+  }
+
+  .btn-info {
+    background-color: #17a2b8; /* Info button background color */
+    border-color: #17a2b8; /* Info button border color */
+  }
+
+  .btn-info:hover {
+    background-color: #138496; /* Darker info button background on hover */
+    border-color: #117a8b; /* Darker info button border on hover */
+  }
 }
 
-button {
-  &.btn {
-    @apply py-2 px-4 rounded-sm;
-  }
-  &.primary {
-    @apply bg-blue-500 text-white font-semibold;
-    @apply hover:bg-blue-600 hover:text-white;
-  }
-  &.secondary {
-    @apply bg-gray-500 text-white font-semibold;
-    @apply hover:bg-gray-600 hover:text-gray-100;
-  }
-  &.disabled {
-    @apply bg-gray-300 text-gray-500 cursor-not-allowed;
-  }
+/* Custom styles for form-group alignment */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem; /* Add space between form groups */
 }
 
-.card {
-  @apply border rounded-sm overflow-hidden flex flex-col h-full;
-  .card-header {
-    @apply bg-gray-200 text-gray-700 font-semibold p-4 flex-grow-0;
-  }
-  .card-body {
-    @apply p-4 flex-grow text-gray-500;
-  }
-  .card-footer {
-    @apply text-sm;
-  }
+.form-group label {
+  margin-bottom: 0.5rem; /* Space between label and input */
+}
+
+.form-group input,
+.form-group select {
+  width: 100%; /* Ensure inputs and selects take full width */
+  padding: 0.5rem; /* Add padding for better appearance */
+  border: 1px solid #ccc; /* Add border */
+  border-radius: 4px; /* Rounded corners */
 }
