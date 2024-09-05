@@ -1,3 +1,4 @@
+// should use date-fns and avoid these functions
 export const formatTimeSeconds = (seconds: number): string => {
   const h = Math.floor(seconds / 3600);
   const m = Math.floor((seconds % 3600) / 60);
@@ -11,4 +12,13 @@ export const formatDate = (date: Date): string => {
 
 export const formatTime = (date: Date): string => {
   return new Date(date).toLocaleTimeString();
+};
+
+export const formatDateWeek = (date: Date): string => {
+  return new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  });
 };

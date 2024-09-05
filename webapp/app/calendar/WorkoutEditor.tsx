@@ -1,3 +1,4 @@
+import { formatDateWeek } from '@/utils/timeUtils';
 import { Modal } from 'flowbite-react';
 import React from 'react';
 
@@ -17,7 +18,8 @@ export default function WorkoutEditor({ date, show, hide }: Props) {
       className='text-gray-500 bg-black bg-opacity-50'
     >
       <Modal.Header>
-        Add workout on {date.toLocaleDateString()}
+        <span>Add workout on: </span>
+        <span> {formatDateWeek(date)}</span>
       </Modal.Header>
       <Modal.Body>
         <div className='p-4'>
