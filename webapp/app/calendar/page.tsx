@@ -1,21 +1,37 @@
 "use client";
 
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.scss';
 import CalendarDay from './CalendarDay';
 import ActivityDetail from './ActivityDetail';
 import { Modal } from "flowbite-react";
+import { divIcon } from 'leaflet';
 
-const Page = () => {
-  const [selectedActivityId, setSelectedActivityId] = React.useState<number | null>(null);
+const Page: React.FC = () => {
+  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
+  const calendarRef = React.useRef<any>(null);
 
-  // Memoize the tile content to prevent re-rendering of the calendar. 
-  // TODO: not preventing, but seems fast for now.
-  const memoizedTileContent = React.useCallback(({ date, view }: { date: Date; view: string; }) => (
-    <CalendarDay date={date} view={view} setSelectedActivityId={setSelectedActivityId} />
-  ), [setSelectedActivityId]);
+  const tileContent = useCallback(({ date, view }: { date: Date, view: string; }) => {
+    return <CalendarDay date={date} view={view} setSelectedActivityId={setSelectedActivityId} />;
+  }, []);
+
+  const calendarHeader = ({ date }: { date: Date; }) => {
+    return (
+      <div className="flex items-center">
+        <button className='flex-none btn btn-info' onClick={goToToday}>Today</button>
+        <div className="flex-auto">{date.toLocaleDateString(undefined, { month: 'long' })} {date.getFullYear()}</div>
+      </div>
+    );
+  };
+
+  const goToToday = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    if (calendarRef.current) {
+      calendarRef.current.setActiveStartDate(new Date());
+    }
+  }, []);
 
   return (
     <div className="flex-grow flex flex-col p-4">
@@ -23,7 +39,10 @@ const Page = () => {
         <Calendar
           className='custom-calendar'
           tileClassName='calendar-day'
-          tileContent={memoizedTileContent}
+          view='month'
+          ref={calendarRef}
+          navigationLabel={calendarHeader}
+          tileContent={tileContent}
         />
       </div>
       <Modal dismissible

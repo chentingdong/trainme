@@ -61,7 +61,7 @@ body {
 
   button {
     &.btn {
-      @apply py-2 px-4 rounded-sm;
+      @apply py-2 px-4 rounded-lg;
     }
     &.btn-primary {
       @apply bg-teal-700 text-white font-semibold;
@@ -74,6 +74,13 @@ body {
     &.btn-warning {
       @apply bg-orange-500 text-white font-semibold;
       @apply hover:bg-orange-600 hover:text-white;
+    }
+    &.btn-danger {
+      @apply bg-red-500 text-white font-semibold;
+      @apply hover:bg-red-600 hover:text-white;
+    }
+    &.btn-info {
+      @apply bg-transparent border;
     }
     &.btn-disabled {
       @apply bg-gray-300 text-gray-500 cursor-not-allowed;

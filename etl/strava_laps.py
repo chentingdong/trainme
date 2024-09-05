@@ -20,7 +20,7 @@ url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 
 def fetch_strava_laps(activity_id) -> list:
     """Fetch strava laps from the API for a given activity id."""
-    max_retries = 3
+    max_retries = 5
     retry_delay = 60  # Initial delay in seconds
 
     for _ in range(max_retries):
