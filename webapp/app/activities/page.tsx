@@ -17,9 +17,8 @@ function Page({ }: Props) {
   const [activities, setActivities] = React.useState<Activity[]>([]);
 
   React.useEffect(() => {
-    getStravaActivities(startDate, endDate).then((activities) => {
-      // failes with 429, too many requests
-      setActivities(activities.slice(0, 2));
+    getStravaActivities(startDate, endDate).then((resp) => {
+      setActivities(resp);
     });
   }, []);
 
@@ -47,8 +46,8 @@ function Page({ }: Props) {
               {activity.map?.summary_polyline && (
                 <div className="grid grid-cols-2 gap-4 h-128">
                   <ActivityMap summary_polyline={activity.map?.summary_polyline} />
-                <ActivityLaps activityId={activity.id} />
-              </div>
+                  <ActivityLaps activityId={activity.id} />
+                </div>
               )}
             </div>
             <div className='card-footer'>

@@ -14,7 +14,7 @@ client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage.
 # TODO: automate this in the backend too. use fresh token to get access token.
-ACCESS_TOKEN = 'REPLACE_THIS'
+ACCESS_TOKEN = '88e8af2acc0671255ceb245e03fd0601f5927c01'
 
 url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 
@@ -36,6 +36,9 @@ def fetch_strava_laps(activity_id) -> list:
             logging.warning("Rate limit exceeded, retrying in %s seconds...", retry_delay)
             time.sleep(retry_delay)
             retry_delay *= 2  # Exponential backoff
+        elif response.status_code == 401:
+            logging.error("Failed Authorization. Exit.")
+            exit()
         else:
             logging.error("Error: %s - %s", response.status_code, response.text)
             return []

@@ -7,8 +7,6 @@ import './calendar.scss';
 import CalendarDay from './CalendarDay';
 import ActivityDetail from './ActivityDetail';
 import { Modal } from "flowbite-react";
-import { divIcon } from 'leaflet';
-import { endOfWeek, startOfWeek } from 'date-fns';
 
 const Page: React.FC = () => {
   const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
