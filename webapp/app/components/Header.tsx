@@ -9,10 +9,12 @@ import { BsCalendar3 } from "react-icons/bs";
 import { fetchLatestActivities } from '../actions/activities';
 import t from '@/utils/i18n';
 import { Popover } from 'flowbite-react';
+import { useToast } from './Toaster';
 
 const Header = () => {
   const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { showToaster } = useToast();
 
   const syncStrava = async () => {
     setLoading(true);
@@ -20,7 +22,7 @@ const Header = () => {
       const newActivities = await fetchLatestActivities(true);
       setNewActivityCount(newActivities.length);
     } catch (error) {
-      console.error('Failed to sync activities:', error);
+      showToaster('Failed to sync activities', 'error');
     } finally {
       setLoading(false);
     } 

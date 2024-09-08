@@ -30,7 +30,7 @@ function Page({ }: Props) {
     fetchActivities();
   }, [fetchActivities]);
 
-  const lastActivityRef = useCallback((node) => {
+  const lastActivityRef = useCallback((node: HTMLLIElement | null) => {
     if (loading) return;
     if (observer.current) observer.current.disconnect();
     observer.current = new IntersectionObserver((entries) => {

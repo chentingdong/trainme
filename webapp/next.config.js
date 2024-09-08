@@ -1,18 +1,16 @@
-const isServer = typeof window === 'undefined';
-
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
     serverComponentsExternalPackages: ['knex'],
   },
-  // webpack: (config) => {
-  //   if (!isServer) {
-  //     config.resolve.alias['@'] = __dirname;
-  //   }
-  //   return config;
-  // },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  webpack: (config, { dev, isServer }) => {
+    if (dev && !isServer) {
+      config.resolve.alias['@'] = __dirname;
+    }
+    return config;
   },
 };
 

@@ -106,8 +106,7 @@ export async function fetchLatestActivities(persist: boolean): Promise<unknown[]
 
     return activities;
   } catch (err) {
-    console.error('Error fetching activities from Strava:', err);
-    return [];
+    throw new Error('Error fetching activities from Strava');
   }
 }
 

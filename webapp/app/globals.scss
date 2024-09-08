@@ -8,6 +8,11 @@
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
   --border-color: rgb(65, 101, 109);
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --info-color: #17a2b8;
+  --warning-color: #ffc107;
+  --primary-color: #007bff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -193,4 +198,35 @@ body {
   padding: 0.5rem; /* Add padding for better appearance */
   border: 1px solid #ccc; /* Add border */
   border-radius: 4px; /* Rounded corners */
+}
+
+
+.toaster-container {
+  position: fixed;
+  top: 60px; /* Adjust this value based on your header height */
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  
+  .toast {
+    @apply rounded-lg shadow-lg p-4;
+  }
+  
+  .toast-success {
+    color: var(--success-color);
+  }
+  
+  .toast-error {
+    color: var(--error-color);
+  }
+  
+  .toast-info {
+    color: var(--info-color);
+  }
+
+  .toast-warning {
+    color: var(--warning-color);
+  }
 }
