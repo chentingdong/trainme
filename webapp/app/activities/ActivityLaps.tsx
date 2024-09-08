@@ -7,7 +7,6 @@ type Props = {
   activityId: number;
 };
 
-
 export default function ActivityLaps({ activityId }: Props) {
   const [laps, setLaps] = useState<Lap[]>([]);
   const [loading, setLoading] = useState(true);
@@ -37,14 +36,23 @@ export default function ActivityLaps({ activityId }: Props) {
   // Convert average speed (m/s) to pace (min/mile)
   const lapsWithPace = laps.map(lap => ({
     ...lap,
-    pace: (26.8224 / lap.average_speed).toFixed(2)
-    // 26.8224 is the conversion factor from m/s to min/mile
+    pace: (26.8224 / lap.average_speed).toFixed(2) // 26.8224 is the conversion factor from m/s to min/mile
+  }));
+
+  // Calculate the maximum pace value
+  const maxPace = Math.max(...lapsWithPace.map(lap => parseFloat(lap.pace)));
+  const minPace = Math.min(...lapsWithPace.map(lap => parseFloat(lap.pace)));
+
+  // Calculate the inverse pace values
+  const lapsWithInversePace = lapsWithPace.map(lap => ({
+    ...lap,
+    inversePace: (maxPace - parseFloat(lap.pace) + minPace).toFixed(2)
   }));
 
   const CustomLabel = (props: any) => {
     const { x, y, value, height } = props;
     return (
-      <text x={chartWidth - 5} y={y + height / 2} textAnchor="end" dominantBaseline="middle">
+      <text x={x + chartWidth - 5} y={y + height / 2} textAnchor="end" dominantBaseline="middle">
         {`${value} min/mile`}
       </text>
     );
@@ -56,7 +64,7 @@ export default function ActivityLaps({ activityId }: Props) {
       {loading && <div>Loading...</div>}
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
-          data={lapsWithPace}
+          data={lapsWithInversePace}
           layout="vertical"
           barSize={10} // Fixed horizontal width for bars
           barCategoryGap={8} // Set a fixed pixel value for the gap between bars
@@ -64,12 +72,12 @@ export default function ActivityLaps({ activityId }: Props) {
         >
           <XAxis
             type="number"
-            dataKey="pace"
+            dataKey="inversePace"
             hide
-            domain={[0, (dataMax: number) => dataMax * 3]} // Set max to 3/4 of the full width
+            domain={[0, maxPace * 2]} // Set max to the maximum pace value
           />
           <YAxis type="category" dataKey="name" hide />
-          <Bar dataKey="pace" fill="#0f766e">
+          <Bar dataKey="inversePace" fill="#0f766e">
             <LabelList dataKey="pace" content={<CustomLabel />} />
           </Bar>
         </BarChart>

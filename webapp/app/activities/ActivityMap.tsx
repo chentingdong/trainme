@@ -38,7 +38,7 @@ const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
   }
 
   return (
-    <MapContainer center={center} zoom={14} className={"w-full h-full min-h-48"}>
+    <MapContainer center={center} zoom={14} className={"w-full h-full min-h-36"}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={positions} color='#0d9488' smoothFactor={4} weight={5} />
     </MapContainer>
