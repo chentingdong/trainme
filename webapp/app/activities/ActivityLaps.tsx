@@ -44,25 +44,30 @@ export default function ActivityLaps({ activityId }: Props) {
   const CustomLabel = (props: any) => {
     const { x, y, value, height } = props;
     return (
-      <text x={chartWidth - 5} y={y + height / 2} fill="#ffffff" textAnchor="end" dominantBaseline="middle">
+      <text x={chartWidth - 5} y={y + height / 2} textAnchor="end" dominantBaseline="middle">
         {`${value} min/mile`}
       </text>
     );
   };
 
   return (
-    <div ref={chartRef} style={{ width: '100%', maxHeight: 50 * laps.length }}>
+    <div ref={chartRef} style={{ width: '100%', maxHeight: 30 * laps.length }}>
       <h2>Lap pace</h2>
       {loading && <div>Loading...</div>}
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={lapsWithPace}
           layout="vertical"
-          barSize={20} // Fixed horizontal width for bars
-          barCategoryGap="5px" // Set a fixed pixel value for the gap between bars
+          barSize={10} // Fixed horizontal width for bars
+          barCategoryGap={8} // Set a fixed pixel value for the gap between bars
           barGap={0} // No gap between bars within the same category
         >
-          <XAxis type="number" dataKey="pace" hide />
+          <XAxis
+            type="number"
+            dataKey="pace"
+            hide
+            domain={[0, (dataMax: number) => dataMax * 3]} // Set max to 3/4 of the full width
+          />
           <YAxis type="category" dataKey="name" hide />
           <Bar dataKey="pace" fill="#0f766e">
             <LabelList dataKey="pace" content={<CustomLabel />} />
