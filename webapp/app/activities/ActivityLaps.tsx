@@ -58,16 +58,18 @@ export default function ActivityLaps({ activityId }: Props) {
     );
   };
 
+  const barSize = 15;
+
   return (
-    <div ref={chartRef} style={{ width: '100%', maxHeight: 30 * laps.length }}>
+    <div ref={chartRef} style={{ width: '100%', maxHeight: barSize * laps.length }}>
       <h2>Lap pace</h2>
       {loading && <div>Loading...</div>}
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={lapsWithInversePace}
           layout="vertical"
-          barSize={10} // Fixed horizontal width for bars
-          barCategoryGap={8} // Set a fixed pixel value for the gap between bars
+          barSize={barSize * 0.8} // Fixed horizontal width for bars
+          barCategoryGap={2} // Set a fixed pixel value for the gap between bars
           barGap={0} // No gap between bars within the same category
         >
           <XAxis
