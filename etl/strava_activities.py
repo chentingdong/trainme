@@ -12,7 +12,7 @@ client_id = os.getenv('STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage. 
-ACCESS_TOKEN = 'db6b353b5ff9cb4e0cd11b1078b66d3d64a4051b'
+ACCESS_TOKEN = 'REPLACE_THIS'
 
 url = 'https://www.strava.com/api/v3/athlete/activities'
 
