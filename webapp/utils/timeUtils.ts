@@ -1,24 +1,20 @@
-// should use date-fns and avoid these functions
+import { intervalToDuration, formatDuration } from 'date-fns';
+
 export const formatTimeSeconds = (seconds: number): string => {
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  const s = seconds % 60;
-  return `${h}h:${m}m:${s}s`;
-};
+  const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+  const { hours = 0, minutes = 0, seconds: secs = 0 } = duration;
 
-export const formatDate = (date: Date): string => {
-  return new Date(date).toLocaleDateString();
-};
+  let formattedTime = '';
 
-export const formatTime = (date: Date): string => {
-  return new Date(date).toLocaleTimeString();
-};
+  if (hours > 0) {
+    formattedTime += `${hours}h:`;
+  }
 
-export const formatDateWeek = (date: Date): string => {
-  return new Date(date).toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric'
-  });
+  if (minutes > 0 || hours > 0) {
+    formattedTime += `${minutes}m:`;
+  }
+
+  formattedTime += `${secs}s`;
+
+  return formattedTime;
 };

@@ -47,7 +47,7 @@ export function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-      <ActivityMap summary_polyline={activity?.map?.summary_polyline} />
+      <ActivityMap summary_polyline={activity?.map?.summary_polyline} className='h-96' />
     </div>
   );
 }

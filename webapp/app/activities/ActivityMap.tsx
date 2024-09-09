@@ -10,9 +10,10 @@ interface Props {
   summary_polyline: string | undefined;
   className?: string;
 }
-const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
+const ActivityMap: React.FC<Props> = ({ summary_polyline, className = '' }) => {
   const [center, setCenter] = useState<LatLngExpression | null>(null);
   const [positions, setPositions] = useState<LatLngExpression[]>([]);
+  const combinedClassName = `w-full h-96 ${className}`;
 
   useEffect(() => {
     if (summary_polyline) {
@@ -38,7 +39,7 @@ const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
   }
 
   return (
-    <MapContainer center={center} zoom={14} className={"w-full h-full min-h-36"}>
+    <MapContainer center={center} zoom={13} className={combinedClassName}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={positions} color='#0d9488' smoothFactor={4} weight={5} />
     </MapContainer>

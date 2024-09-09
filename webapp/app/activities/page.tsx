@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Activity, getStravaActivities } from '@/app/actions/activities';
 import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/lengthUtils';
+import { formatDistance } from '@/utils/distanceUtils';
 import ActivityIcon from './ActivityIcon';
 import ActivityMap from './ActivityMap';
 import ActivityLaps from './ActivityLaps';
@@ -67,14 +67,14 @@ function Page({ }: Props) {
                 </div>
               </div>
               {activity.map?.summary_polyline && (
-                <div className="grid grid-cols-2 gap-4 h-128">
+                <div className="grid grid-cols-2 gap-8 h-128">
                   <ActivityMap summary_polyline={activity.map?.summary_polyline} />
                   <ActivityLaps activityId={activity.id} />
                 </div>
               )}
             </div>
             <div className='card-footer'>
-              {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}
+              {formatDistance(activity.distance)} miles in {formatTimeSeconds(activity.moving_time)}
             </div>
           </li>
         ))}
