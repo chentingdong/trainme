@@ -6,6 +6,8 @@ import ActivityIcon from '../activities/ActivityIcon';
 import { formatTime, formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/lengthUtils';
 import WorkoutEditor from './WorkoutEditor';
+import { FaPlus } from 'react-icons/fa';
+
 
 type CalendarDayProps = {
   date: Date;
@@ -43,7 +45,11 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       <div className="card-header bg-white flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
-          <button className='btn btn-info w-full' onClick={() => setShowWorkoutEditor(true)}>+</button>
+          <span
+            className='btn btn-info btn-icon w-full'
+            onClick={() => setShowWorkoutEditor(true)}>
+            <FaPlus />
+          </span>
           <WorkoutEditor date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
         </div>
         <div className='flex gap-2'>

@@ -15,21 +15,21 @@ type Props = {
 export default function ActivityIcon({ type }: Props) {
   switch (type) {
     case 'Run':
-      return <GiRunningShoe className="circle bg-red-700 text-green-200" />;
+      return <GiRunningShoe className="btn btn-icon bg-red-700 text-green-200" />;
     case 'Ride':
-      return <FaPersonBiking className='circle bg-green-700 text-cyan-200' />;
+      return <FaPersonBiking className='btn-icon bg-green-700 text-cyan-200' />;
     case 'Swim':
-      return <TbSwimming className='circle bg-blue-700 text-red-200' />;
+      return <TbSwimming className='btn-icon bg-blue-700 text-red-200' />;
     case 'WeightTraining':
-      return <FaDumbbell className='circle bg-yellow-700 text-purple-200' />;
+      return <FaDumbbell className='btn-icon bg-yellow-700 text-purple-200' />;
     case 'Yoga':
-      return <GrYoga className='circle bg-purple-700 text-yellow-200' />;
+      return <GrYoga className='btn-icon bg-purple-700 text-yellow-200' />;
     case 'Walk':
-      return <FaWalking className='circle' />;
+      return <FaWalking className='btn-icon' />;
     case 'VirtualRide':
-      return <LiaBikingSolid className='circle bg-green-700 text-cyan-200' />;
+      return <LiaBikingSolid className='btn-icon bg-green-700 text-cyan-200' />;
     case 'Hike':
-      return <GiHiking className='circle ' />;
+      return <GiHiking className='btn-icon ' />;
     default:
       return <div></div>;
   }
