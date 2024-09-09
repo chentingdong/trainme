@@ -6,10 +6,11 @@ import { FcSynchronize } from 'react-icons/fc';
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
-import { fetchLatestActivities } from '../actions/activities';
+import { Activity, fetchLatestActivities } from '../actions/activities';
 import t from '@/utils/i18n';
 import { Popover } from 'flowbite-react';
 import { useToast } from './Toaster';
+import { fetchActivityLaps } from '../actions/laps';
 
 const Header = () => {
   const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
@@ -19,7 +20,11 @@ const Header = () => {
   const syncStrava = async () => {
     setLoading(true);
     try {
-      const newActivities = await fetchLatestActivities(true);
+      const newActivities: Activity[] = await fetchLatestActivities(true);
+      for (const activity of newActivities) {
+        const laps = await fetchActivityLaps(activity.id);
+        console.log(laps);
+      }
       setNewActivityCount(newActivities.length);
     } catch (error) {
       showToaster('Failed to sync activities', 'error');
