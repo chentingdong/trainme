@@ -75,7 +75,7 @@ export async function getActivityFromStravaById(id: number): Promise<Activity | 
 }
 
 // sync activities from strava to postgres
-export async function fetchLatestActivities(persist: boolean): Promise<Activity[]> {
+export async function fetchLatestActivities(persist: boolean = false): Promise<Activity[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get('strava_refresh_token')?.value;

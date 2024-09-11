@@ -32,7 +32,7 @@ export type Lap = {
   lap_index: number;
 };
 
-export async function fetchActivityLaps(activityId: number) {
+export async function fetchActivityLaps(activityId: number, persist: boolean = false): Promise<Lap[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get('strava_refresh_token')?.value;
@@ -46,9 +46,33 @@ export async function fetchActivityLaps(activityId: number) {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  const data = response.data;
-  return data;
+  const laps = response.data;
+  if (persist && laps.length > 0) {
+    await saveLaps(laps);
+  }
+  return laps;
 }
+
+export async function saveLaps(laps: Lap[]): Promise<void> {
+  try {
+    const client = await pool.connect();
+    const fields = Object.keys(laps[0]);
+
+    for (const lap of laps) {
+      const values = Object.values(lap);
+      const query = `
+        INSERT INTO laps (${fields.join(', ')}) 
+        VALUES (${values.map((_, i) => `$${i + 1}`).join(', ')}) 
+        ON CONFLICT DO NOTHING;
+      `;
+      await client.query(query, values);
+    }
+    client.release();
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
 export async function getStravaActivityLaps(id: number): Promise<Lap[]> {
   try {

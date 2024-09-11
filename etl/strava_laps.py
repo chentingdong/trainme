@@ -14,7 +14,7 @@ client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage.
 # TODO: automate this in the backend too. use fresh token to get access token.
-ACCESS_TOKEN = 'fe3306fd500dec7750a62c1a188f4c4d2330225f'
+ACCESS_TOKEN = '7796c119f0ef46fd91f283aeaf06d30d95499c9c'
 
 url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 

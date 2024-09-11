@@ -75,7 +75,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
               </div>
               <div className='card-body flex justify-between'>
                 <div>{formatTimeSeconds(activity.moving_time)}</div>
-                <div>{activity.distance > 0 && formatDistance(activity.distance)}</div>
+                <div>{activity.distance > 0 && formatDistance(activity.distance)} miles</div>
               </div>
             </li>
           ))}

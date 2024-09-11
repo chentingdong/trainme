@@ -7,9 +7,10 @@ import { formatDistance } from '@/utils/distanceUtils';
 
 type Props = {
   activityId: number;
+  className?: string;
 };
 
-export default function ActivityLaps({ activityId }: Props) {
+export default function ActivityLaps({ activityId, className }: Props) {
   const [laps, setLaps] = useState<Lap[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartWidth, setChartWidth] = useState(0);
@@ -37,47 +38,45 @@ export default function ActivityLaps({ activityId }: Props) {
 
   // Convert average speed (m/s) to pace (min/mile)
   const lapWithPace = laps.map((lap) => {
-    const pace = 26.8224 / lap.average_speed; // Convert m/s to min/mile
+    const paceInMinutesPerMile = 26.8224 / lap.average_speed; // Convert m/s to min/mile
+    const minutes = Math.floor(paceInMinutesPerMile);
+    const seconds = Math.round((paceInMinutesPerMile - minutes) * 60);
+    const pace = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Format as mm:ss/mile    return {
     return {
       ...lap,
-      pace: pace,
+      pace: paceInMinutesPerMile,
+      formattedPace: pace,
     };
   });
 
   const barSize = 20;
 
   return (
-    <div ref={chartRef} style={{ width: '100%', maxHeight: barSize * laps.length }}>
+    <div ref={chartRef} className={className} style={{ width: '100%', maxHeight: barSize * laps.length }}>
       {loading && <div>Loading...</div>}
-      <div className="grid grid-cols-6 gap-4">
-        <div className='col-span-1'>Lap</div>
-        <div className='col-span-1'>Time</div>
-        <div className='col-span-1'>Distance (miles)</div>
-        <div className='col-span-3'>Pace</div>
+      <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-1 grid grid-cols-4">
+          <div>Lap</div>
+          <div>Time</div>
+          <div>Dist (miles)</div>
+          <div>Pace (min/mile)</div>
+        </div>
+        <div className='col-span-1'>Pace</div>
       </div>
-      <div className="grid grid-cols-6 gap-4 h-full">
-        <div className="col-span-1  h-full">
-          {
-            laps.map((lap, index) => (
-              <div key={lap.id}>{index + 1}</div>
-            ))
-          }
-        </div>
+      <div className="grid grid-cols-2 gap-2 h-full">
         <div className="col-span-1 h-full">
           {
-            laps.map((lap) => (
-              <div key={lap.id}>{formatTimeSeconds(lap.elapsed_time)}</div>
+            lapWithPace.map((lap, index) => (
+              <div className="gap-2 grid grid-cols-4" key={lap.id}>
+                <div key={lap.id}>{index + 1}</div>
+                <div key={lap.id}>{formatTimeSeconds(lap.elapsed_time)}</div>
+                <div key={lap.id}>{formatDistance(lap.distance)}</div>
+                <div key={lap.id}>{lap.formattedPace}</div>
+              </div>
             ))
           }
         </div>
-        <div className="col-span-1 h-full">
-          {
-            laps.map((lap) => (
-              <div key={lap.id}>{formatDistance(lap.distance)}</div>
-            ))
-          }
-        </div>
-        <div className="col-span-3 flex flex-col h-full">
+        <div className="col-span-1 flex flex-col h-full">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={lapWithPace}

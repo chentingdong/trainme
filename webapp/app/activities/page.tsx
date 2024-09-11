@@ -67,9 +67,9 @@ function Page({ }: Props) {
                 </div>
               </div>
               {activity.map?.summary_polyline && (
-                <div className="grid grid-cols-2 gap-8 h-128">
-                  <ActivityMap summary_polyline={activity.map?.summary_polyline} />
-                  <ActivityLaps activityId={activity.id} />
+                <div className="grid grid-cols-5 gap-8 h-128">
+                  <ActivityMap className='col-span-2' summary_polyline={activity.map?.summary_polyline} />
+                  <ActivityLaps className='col-span-3' activityId={activity.id} />
                 </div>
               )}
             </div>

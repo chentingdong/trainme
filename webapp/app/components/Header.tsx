@@ -22,7 +22,7 @@ const Header = () => {
     try {
       const newActivities: Activity[] = await fetchLatestActivities(true);
       for (const activity of newActivities) {
-        const laps = await fetchActivityLaps(activity.id);
+        const laps = await fetchActivityLaps(activity.id, true);
         console.log(laps);
       }
       setNewActivityCount(newActivities.length);
