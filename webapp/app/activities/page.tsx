@@ -1,9 +1,9 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { Activity, getStravaActivities } from '@/app/actions/activities';
 import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/lengthUtils';
+import { formatDistance } from '@/utils/distanceUtils';
 import ActivityIcon from './ActivityIcon';
 import ActivityMap from './ActivityMap';
 import ActivityLaps from './ActivityLaps';
@@ -14,21 +14,43 @@ function Page({ }: Props) {
   const endDate = new Date();
   const startDate = new Date();
   startDate.setDate(startDate.getDate() - 7);
-  const [activities, setActivities] = React.useState<Activity[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const observer = useRef<IntersectionObserver | null>(null);
 
-  React.useEffect(() => {
-    getStravaActivities(startDate, endDate).then((activities) => {
-      // failes with 429, too many requests
-      setActivities(activities.slice(0, 2));
+  const fetchActivities = useCallback(async () => {
+    setLoading(true);
+    const newActivities = await getStravaActivities(startDate, endDate, page);
+    setActivities((prevActivities) => [...prevActivities, ...newActivities]);
+    setLoading(false);
+  }, [page]);
+
+  useEffect(() => {
+    fetchActivities();
+  }, [fetchActivities]);
+
+  const lastActivityRef = useCallback((node: HTMLLIElement | null) => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setPage((prevPage) => prevPage + 1);
+      }
     });
-  }, []);
+    if (node) observer.current.observe(node);
+  }, [loading]);
 
   return (
     <div>
       <h1>Activities</h1>
       <ul>
-        {activities.map((activity) => (
-          <li key={activity.id} className='card my-2'>
+        {activities.map((activity, index) => (
+          <li
+            key={activity.id}
+            className='card my-2'
+            ref={index === activities.length - 1 ? lastActivityRef : null}
+          >
             <div className='card-header flex items-center'>
               <ActivityIcon type={activity.type} />
               <div className='mx-4'>{activity.name}</div>
@@ -45,18 +67,19 @@ function Page({ }: Props) {
                 </div>
               </div>
               {activity.map?.summary_polyline && (
-                <div className="grid grid-cols-2 gap-4 h-128">
-                  <ActivityMap summary_polyline={activity.map?.summary_polyline} />
-                <ActivityLaps activityId={activity.id} />
-              </div>
+                <div className="grid grid-cols-5 gap-8 h-128">
+                  <ActivityMap className='col-span-2' summary_polyline={activity.map?.summary_polyline} />
+                  <ActivityLaps className='col-span-3' activityId={activity.id} />
+                </div>
               )}
             </div>
             <div className='card-footer'>
-              {formatDistance(activity.distance)} in {formatTimeSeconds(activity.moving_time)}
+              {formatDistance(activity.distance)} miles in {formatTimeSeconds(activity.moving_time)}
             </div>
           </li>
         ))}
       </ul>
+      {loading && <div>Loading more activities...</div>}
     </div>
   );
 }

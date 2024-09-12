@@ -5,10 +5,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './calendar.scss';
 import CalendarDay from './CalendarDay';
-import ActivityDetail from './ActivityDetail';
-import { Modal } from "flowbite-react";
-import { divIcon } from 'leaflet';
-import { endOfWeek, startOfWeek } from 'date-fns';
+import { ActivityDetailModal } from './ActivityDetail';
 
 const Page: React.FC = () => {
   const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
@@ -46,22 +43,11 @@ const Page: React.FC = () => {
           tileContent={tileContent}
         />
       </div>
-      <Modal dismissible
+      <ActivityDetailModal
+        activityId={selectedActivityId}
         show={selectedActivityId !== null}
-        onClose={() => setSelectedActivityId(null)}
-        size="xlg"
-        position="top-center"
-      >
-        <Modal.Header>
-          Activity Details
-        </Modal.Header>
-        <Modal.Body>
-          <ActivityDetail activityId={selectedActivityId} />
-        </Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-primary" onClick={() => setSelectedActivityId(null)}>Close</button>
-        </Modal.Footer>
-      </Modal>
+        close={() => setSelectedActivityId(null)}
+      />
     </div>
   );
 };

@@ -4,12 +4,13 @@ import React, { useEffect } from 'react';
 import { Activity, getActivityFromStravaById } from '../actions/activities';
 import Loading from '../components/Loading';
 import ActivityMap from '../activities/ActivityMap';
+import { Modal } from 'flowbite-react';
 
 type Props = {
   activityId: number | null;
 };
 
-export default function ActivityDetail({ activityId }: Props) {
+export function ActivityDetail({ activityId }: Props) {
   const [activity, setActivity] = React.useState<Activity | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -46,7 +47,33 @@ export default function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-      <ActivityMap summary_polyline={activity?.map?.summary_polyline} />
+      <ActivityMap summary_polyline={activity?.map?.summary_polyline} className='h-96' />
     </div>
+  );
+}
+
+type ActivityModalProps = {
+  activityId: number | null;
+  show: boolean;
+  close: () => void;
+};
+export function ActivityDetailModal({ activityId, show, close }: ActivityModalProps) {
+  return (
+    <Modal dismissible
+      show={show}
+      onClose={() => close()}
+      size="xlg"
+      position="top-center"
+    >
+      <Modal.Header>
+        Activity Details
+      </Modal.Header>
+      <Modal.Body>
+        <ActivityDetail activityId={activityId} />
+      </Modal.Body>
+      <Modal.Footer>
+        <button className="btn btn-primary" onClick={() => close()}>Close</button>
+      </Modal.Footer>
+    </Modal>
   );
 }

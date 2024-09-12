@@ -1,32 +1,16 @@
+"use client";
 import React, { useRef, useEffect, useState } from 'react';
-import { getActivityLaps } from '@/app/actions/laps';
-import Debug from '../components/Debug';
-import { Tooltip } from 'flowbite-react';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Legend, Bar, LabelList } from 'recharts';
+import { Lap, getStravaActivityLaps } from '@/app/actions/laps';
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, LabelList } from 'recharts';
+import { formatTimeSeconds } from '@/utils/timeUtils';
+import { formatDistance } from '@/utils/distanceUtils';
 
 type Props = {
   activityId: number;
+  className?: string;
 };
 
-type Lap = {
-  id: number;
-  activity_id: number;
-  name: string;
-  elapsed_time: number;
-  moving_time: number;
-  start_date: string;
-  start_date_local: string;
-  distance: number;
-  average_speed: number;
-  max_speed: number;
-  average_cadence: number;
-  max_cadence: number;
-  average_heartrate: number;
-  max_heartrate: number;
-  lap_index: number;
-};
-
-export default function ActivityLaps({ activityId }: Props) {
+export default function ActivityLaps({ activityId, className }: Props) {
   const [laps, setLaps] = useState<Lap[]>([]);
   const [loading, setLoading] = useState(true);
   const [chartWidth, setChartWidth] = useState(0);
@@ -34,9 +18,9 @@ export default function ActivityLaps({ activityId }: Props) {
 
   useEffect(() => {
     setLoading(true);
-    getActivityLaps(activityId)
-      .then((laps) => {
-        setLaps(laps);
+    getStravaActivityLaps(activityId)
+      .then((resp) => {
+        setLaps(resp);
       })
       .catch((err) => {
         console.error(err);
@@ -50,42 +34,70 @@ export default function ActivityLaps({ activityId }: Props) {
     if (chartRef.current) {
       setChartWidth(chartRef.current.offsetWidth);
     }
-  }, [chartRef.current]);
+  }, []);
 
   // Convert average speed (m/s) to pace (min/mile)
-  const lapsWithPace = laps.map(lap => ({
-    ...lap,
-    pace: (26.8224 / lap.average_speed).toFixed(2)
-    // 26.8224 is the conversion factor from m/s to min/mile
-  }));
+  const lapWithPace = laps.map((lap) => {
+    const paceInMinutesPerMile = 26.8224 / lap.average_speed; // Convert m/s to min/mile
+    const minutes = Math.floor(paceInMinutesPerMile);
+    const seconds = Math.round((paceInMinutesPerMile - minutes) * 60);
+    const pace = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Format as mm:ss/mile    return {
+    return {
+      ...lap,
+      pace: paceInMinutesPerMile,
+      formattedPace: pace,
+    };
+  });
 
-  const CustomLabel = (props: any) => {
-    const { x, y, value, height } = props;
-    return (
-      <text x={chartWidth - 5} y={y + height / 2} fill="#ffffff" textAnchor="end" dominantBaseline="middle">
-        {`${value} min/mile`}
-      </text>
-    );
-  };
+  const barSize = 20;
 
   return (
-    <div ref={chartRef} style={{ width: '100%', maxHeight: 50 * laps.length }}>
-      <h2>Lap pace</h2>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          data={lapsWithPace}
-          layout="vertical"
-          barSize={20} // Fixed horizontal width for bars
-          barCategoryGap="5px" // Set a fixed pixel value for the gap between bars
-          barGap={0} // No gap between bars within the same category
-        >
-          <XAxis type="number" dataKey="pace" hide />
-          <YAxis type="category" dataKey="name" hide />
-          <Bar dataKey="pace" fill="#0f766e">
-            <LabelList dataKey="pace" content={<CustomLabel />} />
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+    <div ref={chartRef} className={className} style={{ width: '100%', maxHeight: barSize * laps.length }}>
+      {loading && <div>Loading...</div>}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="col-span-1 grid grid-cols-4">
+          <div>Lap</div>
+          <div>Time</div>
+          <div>Dist (miles)</div>
+          <div>Pace (min/mile)</div>
+        </div>
+        <div className='col-span-1'>Pace</div>
+      </div>
+      <div className="grid grid-cols-2 gap-2 h-full">
+        <div className="col-span-1 h-full">
+          {
+            lapWithPace.map((lap, index) => (
+              <div className="gap-2 grid grid-cols-4" key={lap.id}>
+                <div key={lap.id}>{index + 1}</div>
+                <div key={lap.id}>{formatTimeSeconds(lap.elapsed_time)}</div>
+                <div key={lap.id}>{formatDistance(lap.distance)}</div>
+                <div key={lap.id}>{lap.formattedPace}</div>
+              </div>
+            ))
+          }
+        </div>
+        <div className="col-span-1 flex flex-col h-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={lapWithPace}
+              layout="vertical"
+              barSize={barSize * 0.8} // Fixed horizontal width for bars
+              barCategoryGap={2} // Set a fixed pixel value for the gap between bars
+              barGap={0} // No gap between bars within the same category
+            >
+              <XAxis
+                type="number"
+                dataKey="pace"
+                hide
+              />
+              <YAxis type="category" dataKey="id" hide />
+              <Bar dataKey="pace" fill="#0f766e">
+                {/* <LabelList dataKey="pace" content={(props) => <CustomLabel {...props} />} /> */}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 }

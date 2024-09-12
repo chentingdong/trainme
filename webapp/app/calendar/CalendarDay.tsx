@@ -3,9 +3,12 @@
 import React from 'react';
 import { Activity, getActivityFromStravaByDate } from '../actions/activities';
 import ActivityIcon from '../activities/ActivityIcon';
-import { formatTime, formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/lengthUtils';
+import { formatTimeSeconds } from '@/utils/timeUtils';
+import { formatDistance } from '@/utils/distanceUtils';
 import WorkoutEditor from './WorkoutEditor';
+import { FaPlus } from 'react-icons/fa';
+import { format } from 'date-fns';
+
 
 type CalendarDayProps = {
   date: Date;
@@ -43,7 +46,11 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       <div className="card-header bg-white flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
-          <button className='btn btn-info w-full' onClick={() => setShowWorkoutEditor(true)}>+</button>
+          <span
+            className='btn btn-info btn-icon w-full'
+            onClick={() => setShowWorkoutEditor(true)}>
+            <FaPlus />
+          </span>
           <WorkoutEditor date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
         </div>
         <div className='flex gap-2'>
@@ -60,12 +67,15 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
             <li key={activity.id} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center justify-between'>
-                <div>{formatTime(activity.start_date_local)}</div>
-                <div>{formatTimeSeconds(activity.moving_time)}</div>
+                <div className='flex items-center'>
+                  <ActivityIcon type={activity.type} withColor={false} />
+                  {activity.type}
+                </div>
+                <div>{format(activity.start_date_local, 'p')}</div>
               </div>
               <div className='card-body flex justify-between'>
-                <div>{activity.type}</div> 
-                <div>{activity.distance > 0 && formatDistance(activity.distance)}</div>
+                <div>{formatTimeSeconds(activity.moving_time)}</div>
+                <div>{activity.distance > 0 && formatDistance(activity.distance)} miles</div>
               </div>
             </li>
           ))}
