@@ -11,32 +11,20 @@ interface Props {
   className?: string;
 }
 const ActivityMap: React.FC<Props> = ({ summary_polyline, className = '' }) => {
-  const [center, setCenter] = useState<LatLngExpression | null>(null);
-  const [positions, setPositions] = useState<LatLngExpression[]>([]);
-  const combinedClassName = `w-full h-96 ${className}`;
-
-  useEffect(() => {
-    if (summary_polyline) {
-      const decodedPolyline = polyline.decode(summary_polyline);
-      if (decodedPolyline.length) {
-        const latitudes = decodedPolyline.map(coord => coord[0]);
-        const longitudes = decodedPolyline.map(coord => coord[1]);
-        const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-        const avgLongitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-
-        setCenter([avgLatitude, avgLongitude]);
-        setPositions(decodedPolyline.map(coord => [coord[0], coord[1]]) as LatLngExpression[]);
-      }
-    }
-  }, [summary_polyline]);
+  const combinedClassName = `activity-map ${className}`;
 
   if (!summary_polyline) {
-    return null;
+    return <></>;
   }
-  if (!summary_polyline || !center || positions.length === 0) {
-    // Avoid rendering the map until the positions are ready
-    return null;
-  }
+
+  const decodedPolyline = polyline.decode(summary_polyline);
+  const latitudes = decodedPolyline.map(coord => coord[0]);
+  const longitudes = decodedPolyline.map(coord => coord[1]);
+  const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+  const avgLongitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
+  const center: [number, number] = [avgLatitude, avgLongitude];
+  const positions = decodedPolyline.map(coord => [coord[0], coord[1]]) as LatLngExpression[];
+
 
   return (
     <MapContainer center={center} zoom={13} className={combinedClassName}>

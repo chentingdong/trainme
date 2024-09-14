@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { Activity, getStravaActivities } from '@/app/actions/activities';
+import { Activity, getActivities } from '@/app/actions/activities';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
 import ActivityIcon from './ActivityIcon';
@@ -19,16 +19,15 @@ function Page({ }: Props) {
   const [loading, setLoading] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const fetchActivities = useCallback(async () => {
+  const fetchActivities = async () => {
     setLoading(true);
-    const newActivities = await getStravaActivities(startDate, endDate, page);
+    const newActivities = await getActivities(startDate, endDate, page);
     setActivities((prevActivities) => [...prevActivities, ...newActivities]);
     setLoading(false);
-  }, [page]);
-
+  }
   useEffect(() => {
     fetchActivities();
-  }, [fetchActivities]);
+  }, [page]);
 
   const lastActivityRef = useCallback((node: HTMLLIElement | null) => {
     if (loading) return;
@@ -47,7 +46,7 @@ function Page({ }: Props) {
       <ul>
         {activities.map((activity, index) => (
           <li
-            key={activity.id}
+            key={index}
             className='card my-2'
             ref={index === activities.length - 1 ? lastActivityRef : null}
           >

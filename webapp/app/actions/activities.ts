@@ -1,6 +1,5 @@
 'use server';
 
-import { openDb, SQLiteDatabase } from '@/app/lib/garmin_db';
 import { pool } from '@/app/actions/postgres';
 import { cookies } from 'next/headers';
 import { getStravaAccessToken, getStravaAuthUrl } from '@/utils/strava';
@@ -24,15 +23,8 @@ export type Activity = {
   [key: string]: any; // Add index signature
 };
 
-// activities from garmin. placeholder for now
-export async function getActivitiesFromGarmin(): Promise<Activity[]> {
-  const db: SQLiteDatabase = await openDb('GarminData/garmin.db');
-  const activities: Activity[] = await db.all('SELECT * FROM files_view');
-  return activities;
-}
-
 // get activities from strava with pagination.
-export async function getStravaActivities(fromDate: Date, toDate: Date): Promise<Activity[]> {
+export async function getActivities(fromDate: Date, toDate: Date, page: number): Promise<Activity[]> {
   const client = await pool.connect();
   const query = 'SELECT * FROM activities WHERE start_date_local >= $1 and start_date_local <= $2 ORDER BY start_date_local desc limit 150';
   const res = await client.query(query, [fromDate, toDate]);
@@ -41,7 +33,7 @@ export async function getStravaActivities(fromDate: Date, toDate: Date): Promise
 }
 
 // get all activities from strava on one day.
-export async function getActivityFromStravaByDate(date: Date): Promise<Activity[]> {
+export async function getActivityByDate(date: Date): Promise<Activity[]> {
   try {
     const client = await pool.connect();
     const fields = ['id', 'name', 'distance', 'moving_time', 'total_elevation_gain', 'type', 'start_date_local'];
@@ -57,7 +49,7 @@ export async function getActivityFromStravaByDate(date: Date): Promise<Activity[
 }
 
 // get activity from strava by id.
-export async function getActivityFromStravaById(id: number): Promise<Activity | null> {
+export async function getActivityById(id: number): Promise<Activity | null> {
   try {
     const client = await pool.connect();
     const fields = [
@@ -75,7 +67,7 @@ export async function getActivityFromStravaById(id: number): Promise<Activity | 
 }
 
 // sync activities from strava to postgres
-export async function fetchLatestActivities(persist: boolean = false): Promise<Activity[]> {
+export async function fetchLatestActivitiesFromStrava(persist: boolean = false): Promise<Activity[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get('strava_refresh_token')?.value;

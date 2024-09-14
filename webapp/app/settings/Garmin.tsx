@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Loading from '@/app/components/Loading';
 import Debug from '@/app/components/Debug';
 import { garminSyncActivities } from '@/app/actions/syncGarmin'; // Assuming this is the correct import

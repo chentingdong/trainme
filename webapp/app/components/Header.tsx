@@ -6,7 +6,7 @@ import { FcSynchronize } from 'react-icons/fc';
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
-import { Activity, fetchLatestActivities } from '../actions/activities';
+import { Activity, fetchLatestActivitiesFromStrava } from '../actions/activities';
 import t from '@/utils/i18n';
 import { Popover } from 'flowbite-react';
 import { useToast } from './Toaster';
@@ -20,7 +20,7 @@ const Header = () => {
   const syncStrava = async () => {
     setLoading(true);
     try {
-      const newActivities: Activity[] = await fetchLatestActivities(true);
+      const newActivities: Activity[] = await fetchLatestActivitiesFromStrava(true);
       for (const activity of newActivities) {
         const laps = await fetchActivityLaps(activity.id, true);
         console.log(laps);

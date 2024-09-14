@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { Activity, getActivityFromStravaById } from '../actions/activities';
+import { Activity, getActivityById } from '../actions/activities';
 import Loading from '../components/Loading';
 import ActivityMap from '../activities/ActivityMap';
 import { Modal } from 'flowbite-react';
@@ -17,7 +17,7 @@ export function ActivityDetail({ activityId }: Props) {
   useEffect(() => {
     setLoading(true);
     if (activityId) {
-      getActivityFromStravaById(activityId)
+      getActivityById(activityId)
         .then((activity) => {
           setActivity(activity);
         })

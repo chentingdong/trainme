@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Activity, getActivityFromStravaByDate } from '../actions/activities';
+import { Activity, getActivityByDate } from '../actions/activities';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
@@ -17,19 +17,16 @@ type CalendarDayProps = {
 };
 
 function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
-  const [activities, setActivities] = React.useState<Activity[]>([]);
   const [showWorkoutEditor, setShowWorkoutEditor] = React.useState(false);
+  const [activities, setActivities] = React.useState<Activity[]>([]);
 
   React.useEffect(() => {
-    getActivityFromStravaByDate(date)
-      .then((resp) => {
-        setActivities(resp);
-      })
-      .catch((err) => {
-        console.error(err);
+    if (typeof window !== 'undefined') {
+      getActivityByDate(date).then((data) => {
+        setActivities(data);
       });
-
-  }, [date]);
+    }
+  }, []);
 
   const selectActivity = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
@@ -39,6 +36,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
   const addWorkout = (e: React.MouseEvent) => {
     e.stopPropagation();
     console.log('add workout');
+    setShowWorkoutEditor(true);
   };
 
   return (
@@ -48,7 +46,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
           {date.getDate()}
           <span
             className='btn btn-info btn-icon w-full'
-            onClick={() => setShowWorkoutEditor(true)}>
+            onClick={addWorkout}>
             <FaPlus />
           </span>
           <WorkoutEditor date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
@@ -63,8 +61,8 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       </div>
       <div className='h-60 overflow-auto'>
         <ul className="m-1 shadow-sm">
-          {activities?.map((activity) => (
-            <li key={activity.id} className='card my-1'
+          {activities?.map((activity, index) => (
+            <li key={index} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center justify-between'>
                 <div className='flex items-center'>
