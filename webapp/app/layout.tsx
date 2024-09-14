@@ -7,6 +7,7 @@ import Header from './components/Header';
 import { Toaster, ToastProvider } from './components/Toaster';
 import { Suspense } from 'react';
 import Loading from './components/Loading';
+import { ClerkProvider } from '@clerk/nextjs';
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -26,13 +27,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className + 'flex flex-col'}>
         <ToastProvider>
+          <ClerkProvider>
           <Header />
           <Toaster />
-          <main className='flex flex-col p-4'>
+            <main className='flex flex-col p-4 mt-10'>
             <Suspense fallback={<Loading />}>
               {children}
             </Suspense>
           </main>
+          </ClerkProvider >
         </ToastProvider>
       </body>
     </html>

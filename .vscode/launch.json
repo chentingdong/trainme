@@ -26,7 +26,7 @@
       "request": "launch",
       "command": "yarn dev",
       "cwd": "${workspaceFolder}/webapp",
-      "envFile": "${workspaceFolder}/.env",
+      "envFile": "${workspaceFolder}/.env.local",
       "localRoot": "${workspaceFolder}",
       "remoteRoot": "/app"
     },

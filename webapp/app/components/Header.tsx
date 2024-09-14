@@ -7,8 +7,6 @@ import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
 import { Activity, fetchLatestActivitiesFromStrava } from '../actions/activities';
-import t from '@/utils/i18n';
-import { Popover } from 'flowbite-react';
 import { useToast } from './Toaster';
 import { fetchActivityLaps } from '../actions/laps';
 
@@ -27,6 +25,7 @@ const Header = () => {
       }
       setNewActivityCount(newActivities.length);
     } catch (error) {
+      console.error(error);
       showToaster('Failed to sync activities', 'error');
     } finally {
       setLoading(false);
@@ -34,7 +33,7 @@ const Header = () => {
   };
 
   return (
-    <header className='bg-gray-800 text-white p-2'>
+    <header className='bg-slate-800 text-white p-2 fixed top-0 left-0 right-0 z-50'>
       <nav className='flex justify-between items-center'>
         <a href='/' className='text-xl font-normal flex gap-4'>
           <div className='bg-blue-500 rounded-full'>
@@ -44,17 +43,11 @@ const Header = () => {
         </a>
         <ul className='flex gap-4 items-center'>
           <li>
-            <Popover
-              content={t('syncStrava')}
-              className='popover'
-              trigger='hover'
-              placement='bottom'
-            >
+
               <a href='#' onClick={syncStrava} className='flex items-center gap-2'>
                 <FcSynchronize className={loading ? 'icon loading-icon' : 'icon'} />
                 Sync Strava
-              </a>
-            </Popover>
+            </a>
           </li>
           <li>
             <a href='/calendar' className='hover:underline flex gap-2 items-center'>

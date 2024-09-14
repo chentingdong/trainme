@@ -52,15 +52,15 @@ body {
 }
 
 @layer base {
-  h1 {
+  .h1 {
     @apply text-4xl font-bold my-4;
   }
-  h2 {
+  .h2 {
     @apply text-2xl font-semibold my-2;
   }
 
-  ul,
-  li {
+  .ul,
+  .li {
     @apply list-none p-0 m-0;
   }
 

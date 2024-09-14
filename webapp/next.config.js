@@ -7,11 +7,17 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   webpack: (config, { dev, isServer }) => {
+    config.experiments = { ...config.experiments, topLevelAwait: true };
+    config.module.rules.push({
+      test: /\.node$/,
+      use: 'node-loader',
+    });
+
     if (dev && !isServer) {
       config.resolve.alias['@'] = __dirname;
-      config.devtool = 'eval-source-map'; // Use eval-source-map for faster builds in development
+      config.devtool = 'eval-source-map';
     } else if (!dev && !isServer) {
-      config.devtool = 'source-map'; // Use source-map for accurate debugging in production
+      config.devtool = 'source-map';
     }
     return config;
   },

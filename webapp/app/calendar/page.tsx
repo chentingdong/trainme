@@ -6,7 +6,6 @@ import 'react-calendar/dist/Calendar.css';
 import './calendar.scss';
 import CalendarDay from './CalendarDay';
 import { ActivityDetailModal } from './ActivityDetail';
-import Debug from '../components/Debug';
 
 const Page: React.FC = () => {
   const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
