@@ -7,6 +7,7 @@ import { formatDistance } from '@/utils/distanceUtils';
 import ActivityIcon from './ActivityIcon';
 import ActivityMap from './ActivityMap';
 import ActivityLaps from './ActivityLaps';
+import Loading from '../loading';
 
 type Props = {};
 
@@ -26,6 +27,7 @@ function Page({ }: Props) {
     setLoading(false);
   }
   useEffect(() => {
+    if (typeof window === 'undefined') return;
     fetchActivities();
   }, [page]);
 

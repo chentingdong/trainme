@@ -145,7 +145,6 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
         ON CONFLICT (id) DO NOTHING
       `;
       const result = await client.query(query, values);
-      console.log(activity, result);
     }
 
     await client.query('COMMIT');
