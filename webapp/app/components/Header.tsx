@@ -24,7 +24,6 @@ const Header = () => {
       }
       setNewActivityCount(newActivities.length);
       showToaster('Successfully synced activities', 'success');
-
     } catch (error) {
       console.error(error);
       showToaster('Failed to sync activities', 'error');

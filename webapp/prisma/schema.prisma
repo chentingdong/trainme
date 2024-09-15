@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model activities {
+  resource_state                Float?
+  athlete                       Json?    @db.Json
+  name                          String?
+  distance                      Float?
+  moving_time                   Float?
+  elapsed_time                  Float?
+  total_elevation_gain          Float?
+  type                          String?
+  sport_type                    String?
+  workout_type                  Float?
+  id                            Float    @id
+  start_date                    String?
+  start_date_local              String?
+  timezone                      String?
+  utc_offset                    Float?
+  location_city                 String?
+  location_state                String?
+  location_country              String?
+  achievement_count             Float?
+  kudos_count                   Float?
+  comment_count                 Float?
+  athlete_count                 Float?
+  photo_count                   Float?
+  map                           Json?    @db.Json
+  trainer                       Boolean?
+  commute                       Boolean?
+  manual                        Boolean?
+  private                       Boolean?
+  visibility                    String?
+  flagged                       Boolean?
+  gear_id                       String?
+  start_latlng                  Json?    @db.Json
+  end_latlng                    Json?    @db.Json
+  average_speed                 Float?
+  max_speed                     Float?
+  average_cadence               Float?
+  average_temp                  Float?
+  has_heartrate                 Boolean?
+  average_heartrate             Float?
+  max_heartrate                 Float?
+  heartrate_opt_out             Boolean?
+  display_hide_heartrate_option Boolean?
+  elev_high                     Float?
+  elev_low                      Float?
+  upload_id                     Float?
+  upload_id_str                 String?
+  external_id                   String?
+  from_accepted_tag             Boolean?
+  pr_count                      Float?
+  total_photo_count             Float?
+  has_kudoed                    Boolean?
+  suffer_score                  Float?
+  average_watts                 Float?
+  max_watts                     Float?
+  weighted_average_watts        Float?
+  kilojoules                    Float?
+  device_watts                  Boolean?
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model laps {
+  id                   Float    @id
+  resource_state       Float?
+  name                 String?
+  activity             Json?    @db.Json
+  athlete              Json?    @db.Json
+  elapsed_time         Float?
+  moving_time          Float?
+  start_date           String?
+  start_date_local     String?
+  distance             Float?
+  start_index          Float?
+  end_index            Float?
+  total_elevation_gain Float?
+  average_speed        Float?
+  max_speed            Float?
+  average_cadence      Float?
+  device_watts         Boolean?
+  average_watts        Float?
+  average_heartrate    Float?
+  max_heartrate        Float?
+  lap_index            Float?
+  split                Float?
+  pace_zone            Float?
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
+/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
+model workouts {
+  id          Float   @id
+  type        String?
+  sport_type  String?
+  name        String?
+  description String?
+  workout     String?
+}

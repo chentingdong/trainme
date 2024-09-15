@@ -65,6 +65,8 @@ CREATE TABLE public.activities (
   "device_watts" boolean
 );
 
+COMMENT ON TABLE public.activities IS 'raw activities from strava api';
+
 -- Laps table
 DROP TABLE IF EXISTS public.laps;
 CREATE TABLE public.laps (
@@ -92,3 +94,40 @@ CREATE TABLE public.laps (
   "split" double precision,
   "pace_zone" double precision
 );
+
+COMMENT ON TABLE public.laps IS 'raw laps from strava api';
+
+-- Workout table
+DROP TABLE IF EXISTS public.workouts;
+CREATE TABLE public.workouts (
+  "id" double precision primary key,
+  "type" text,
+  "sport_type" text,
+  "name" text,
+  "description" text,
+  "workout" text
+);
+
+COMMENT ON TABLE public.workouts IS 'raw workouts in trainme db';
+COMMENT ON COLUMN public.workouts.type IS 'Type of the workout (e.g., run, bike)';
+COMMENT ON COLUMN public.workouts.sport_type IS 'Specific sport type (e.g., road cycling, trail running)';
+COMMENT ON COLUMN public.workouts.name IS 'Name of the workout';
+COMMENT ON COLUMN public.workouts.description IS 'Description of the workout';
+COMMENT ON COLUMN public.workouts.workout IS 'Detailed workout plan or data';
+
+INSERT INTO public.workouts (id, type, sport_type, name, description, workout) 
+VALUES (1, 'run', 'run', '5k', '5k run', '15m warm-up in Z2 HR (127-133bpm) (127-133 bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+0.8km Z4 power=1s Z4 HR (144-162bpm)
+2m Z2 HR (127-133bpm)
+10m Z1 HR (100-126bpm)
+');

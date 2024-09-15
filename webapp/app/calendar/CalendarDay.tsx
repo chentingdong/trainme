@@ -65,9 +65,8 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
             <li key={index} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center justify-between'>
-                <div className='flex items-center'>
+                <div className='flex items-center' title={activity.type} >
                   <ActivityIcon type={activity.type} withColor={false} />
-                  {activity.type}
                 </div>
                 <div>{format(activity.start_date_local, 'p')}</div>
               </div>

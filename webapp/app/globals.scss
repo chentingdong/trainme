@@ -196,13 +196,11 @@ body {
   border-radius: 4px; /* Rounded corners */
 }
 
-.toaster-container {
-  @apply fixed top-8 right-0 z-50 gap-4 p-4 w-1/2;
-
+.toast-container {
+  @apply fixed top-10 right-0 z-50 gap-4 px-4 py-2;
   .toast {
-    @apply shadow-lg p-4 w-full;
+    @apply w-screen max-w-lg;
   }
-
   .toast-success {
     color: var(--success-color);
   }

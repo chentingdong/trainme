@@ -2,17 +2,15 @@ version: "3.6"
 services:
   postgres:
     container_name: trainmedb
-    image: postgres:latest
-    platform: linux/arm64  
+    image: postgis/postgis
+    platform: linux/amd64  # Emulate amd64
     ports:
       - "7452:5432"
     volumes:
       - trainme-data:/var/lib/postgresql/data
       - /tmp:/tmp
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_DB=trainme
+    env_file:
+      - .env.local
     restart: unless-stopped
     logging:
       options:

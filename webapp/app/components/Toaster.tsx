@@ -34,7 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode; }) => {
     setToasts([...toasts, { message, type }]);
     setTimeout(() => {
       setToasts((currentToasts) => currentToasts.slice(1));
-    }, 100000);
+    }, 10 * 10000);
   };
 
   return (
@@ -48,7 +48,7 @@ export const Toaster = () => {
   const { toasts } = useToast();
 
   return (
-    <div className="toaster-container">
+    <div className='toast-container'>
       {toasts.map((toast, index) => (
         <Toast key={index} className={`toast toast-${toast.type}`}>
           <div className="toast-icon">
