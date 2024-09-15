@@ -34,7 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode; }) => {
     setToasts([...toasts, { message, type }]);
     setTimeout(() => {
       setToasts((currentToasts) => currentToasts.slice(1));
-    }, 10 * 10000);
+    }, 10 * 1000);
   };
 
   return (

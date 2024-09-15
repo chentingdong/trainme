@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../webapp/node_modules/@prisma/client"
 }
 
 datasource db {
@@ -7,10 +8,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model activities {
+model activity {
   resource_state                Float?
-  athlete                       Json?    @db.Json
+  athlete                       Json     @db.Json
   name                          String?
   distance                      Float?
   moving_time                   Float?
@@ -19,7 +29,7 @@ model activities {
   type                          String?
   sport_type                    String?
   workout_type                  Float?
-  id                            Float    @id
+  id                            Float    @id(map: "activities_pkey")
   start_date                    String?
   start_date_local              String?
   timezone                      String?
@@ -69,8 +79,8 @@ model activities {
 }
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model laps {
-  id                   Float    @id
+model lap {
+  id                   Float    @id(map: "laps_pkey")
   resource_state       Float?
   name                 String?
   activity             Json?    @db.Json
@@ -95,18 +105,9 @@ model laps {
   pace_zone            Float?
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
-}
-
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
-model workouts {
-  id          Float   @id
+model workout {
+  id          Float   @id(map: "workouts_pkey")
   type        String?
   sport_type  String?
   name        String?

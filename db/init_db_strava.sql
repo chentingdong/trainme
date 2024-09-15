@@ -131,3 +131,9 @@ VALUES (1, 'run', 'run', '5k', '5k run', '15m warm-up in Z2 HR (127-133bpm) (127
 2m Z2 HR (127-133bpm)
 10m Z1 HR (100-126bpm)
 ');
+
+
+ALTER TABLE public.activities RENAME TO activity;
+ALTER TABLE public.laps RENAME TO lap;
+ALTER TABLE public.workouts RENAME TO workout;
+

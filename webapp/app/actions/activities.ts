@@ -1,14 +1,14 @@
 'use server';
 
-import { pool } from '@/app/actions/postgres';
 import { cookies } from 'next/headers';
 import { getStravaAccessToken } from '@/utils/strava';
 import axios from 'axios';
-import { prisma } from '@/prisma/prisma';
+import { prisma } from '@/prisma';
+import type { activity as Activity } from '@prisma/client';
 
 // get activities from strava with pagination.
-export async function getActivities(fromDate: Date, toDate: Date, page: number): Promise<any[]> {
-  const activities = await prisma.activities.findMany({
+export async function getActivities(fromDate: Date, toDate: Date, page: number): Promise<Activity[]> {
+  const activities = await prisma.activity.findMany({
     where: {
       start_date_local: {
         gte: fromDate.toISOString(),
@@ -20,9 +20,9 @@ export async function getActivities(fromDate: Date, toDate: Date, page: number):
 }
 
 // get all activities from strava on one day.
-export async function getActivityByDate(date: Date): Promise<any[]> {
+export async function getActivityByDate(date: Date): Promise<Activity[]> {
   try {
-    const activities = await prisma.activities.findMany({
+    const activities = await prisma.activity.findMany({
       where: {
         start_date_local: {
           gte: date.toISOString(),
@@ -39,9 +39,9 @@ export async function getActivityByDate(date: Date): Promise<any[]> {
 }
 
 // get activity from strava by id.
-export async function getActivityById(id: number): Promise<any | null> {
+export async function getActivityById(id: number): Promise<Activity | null> {
   try {
-    const activity = await prisma.activities.findUnique({
+    const activity = await prisma.activity.findUnique({
       where: {
         id: id,
       }
@@ -54,7 +54,7 @@ export async function getActivityById(id: number): Promise<any | null> {
 }
 
 // sync activities from strava to postgres
-export async function fetchLatestActivitiesFromStrava(persist: boolean = false): Promise<any[]> {
+export async function fetchLatestActivitiesFromStrava(persist: boolean = false): Promise<Activity[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
   const refreshToken = cookieStore.get('strava_refresh_token')?.value;
@@ -76,7 +76,7 @@ export async function fetchLatestActivitiesFromStrava(persist: boolean = false):
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    const activities = response.data;
+    const activities: Activity[] = response.data;
 
     // Save activities to postgres if persist is true
     if (persist && activities.length > 0) {
@@ -94,7 +94,7 @@ export async function findLastActivityDate(): Promise<Date> {
   yesterday.setDate(yesterday.getDate() - 1);
 
   try {
-    const lastActivity = await prisma.activities.findFirst({
+    const lastActivity = await prisma.activity.findFirst({
       orderBy: {
         start_date_local: 'desc',
       }
@@ -113,7 +113,7 @@ export async function saveActivities(activities: any[]): Promise<void> {
   try {
     await prisma.$transaction(async (prisma) => {
       for (const activity of activities) {
-        await prisma.activities.upsert({
+        await prisma.activity.upsert({
           where: { id: activity.id },
           update: activity,
           create: activity,
