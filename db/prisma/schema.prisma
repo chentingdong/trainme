@@ -107,10 +107,10 @@ model lap {
 
 /// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model workout {
-  id          Float   @id(map: "workouts_pkey")
+  id          Float   @id(map: "workouts_pkey") 
   type        String?
   sport_type  String?
   name        String?
   description String?
-  workout     String?
+  workout     Json?
 }

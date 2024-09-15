@@ -1,14 +1,14 @@
 "use client";
 
 import React from 'react';
-import { Activity, getActivityByDate } from '../actions/activities';
+import { getActivityByDate } from '../actions/activities';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
-import WorkoutEditor from './WorkoutEditor';
+import WorkoutModel from '../workouts/WorkoutModel';
 import { FaPlus } from 'react-icons/fa';
 import { format } from 'date-fns';
-
+import { activity as Activity } from '@prisma/client'
 
 type CalendarDayProps = {
   date: Date;
@@ -35,7 +35,6 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
 
   const addWorkout = (e: React.MouseEvent) => {
     e.stopPropagation();
-    console.log('add workout');
     setShowWorkoutEditor(true);
   };
 
@@ -49,7 +48,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
             onClick={addWorkout}>
             <FaPlus />
           </span>
-          <WorkoutEditor date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
+          <WorkoutModel date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
         </div>
         <div className='flex gap-2'>
           {activities?.map((activity) => (
@@ -65,14 +64,14 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
             <li key={index} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center justify-between'>
-                <div className='flex items-center' title={activity.type} >
+                <div className='flex items-center' >
                   <ActivityIcon type={activity.type} withColor={false} />
                 </div>
-                <div>{format(activity.start_date_local, 'p')}</div>
+                <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
               </div>
               <div className='card-body flex justify-between'>
-                <div>{formatTimeSeconds(activity.moving_time)}</div>
-                <div>{activity.distance > 0 && formatDistance(activity.distance)} miles</div>
+                <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
+                <div>{(activity.distance ?? 0) > 0 && formatDistance(activity.distance ?? 0)} miles</div>
               </div>
             </li>
           ))}

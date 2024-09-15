@@ -5,7 +5,7 @@ import { GrYoga } from 'react-icons/gr';
 import { LiaBikingSolid } from 'react-icons/lia';
 
 interface Props {
-  type: string;
+  type: string | null;
   withColor?: boolean;
 }
 

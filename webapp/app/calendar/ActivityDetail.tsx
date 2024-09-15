@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { Activity, getActivityById } from '../actions/activities';
+import { getActivityById } from '../actions/activities';
 import Loading from '../components/Loading';
 import ActivityMap from '../activities/ActivityMap';
 import { Modal } from 'flowbite-react';
+import type { activity as Activity } from '@prisma/client';
 
 type Props = {
   activityId: number | null;

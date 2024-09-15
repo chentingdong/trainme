@@ -7,6 +7,6 @@ type Props = {
 export default function Debug({ data }: Props) {
   const code = JSON.stringify(data, null, 2);
   return (
-    <pre>{code || 'no data'}</pre>
+    <pre className='whitespace-pre-wrap'>{code || 'no data'}</pre>
   );
 }
