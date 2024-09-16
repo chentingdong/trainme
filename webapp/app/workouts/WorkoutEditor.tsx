@@ -31,13 +31,21 @@ export default function WorkoutEditor({ workout }: Props) {
     console.log('save data', data);
   };
 
+  const totalDistance = (workout: Workout): number => {
+    return 10;
+  };
+
+  const totalDuration = (workout: Workout): number => {
+    return 10;
+  }
+
   if (!workout?.workout) {
     return <div>No workout selected</div>;
   }
 
   return (
     <div className='px-4'>
-      <div className='flex justify-between gap-4'>
+      <div className='flex justify-start gap-4 px-8'>
         <div className='form-group'>
           <label htmlFor='type'>Type</label>
           <select id='type' className='form-control'>
@@ -47,12 +55,12 @@ export default function WorkoutEditor({ workout }: Props) {
           </select>
         </div>
         <div className='form-group'>
-          <label htmlFor='workout-distance'>Distance</label>
-          <input id='workout-distance' type='number' className='form-control' />
+          <label htmlFor='workout-distance'>Distance (km)</label>
+          <input id='workout-distance' value={totalDistance(workout)} type='number' className='form-control' /> 
         </div>
         <div className='form-group'>
-          <label htmlFor='workout-duration'>Duration</label>
-          <input id='workout-duration' type='time' className='form-control' />
+          <label htmlFor='workout-duration'>Duration (minutes)</label>
+          <input id='workout-duration' value={totalDuration(workout)} type='number' className='form-control' />
         </div>
       </div>
       <div className='w-full'>
