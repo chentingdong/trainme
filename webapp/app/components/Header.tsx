@@ -6,7 +6,8 @@ import { FcSynchronize } from 'react-icons/fc';
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
-import { Activity, fetchLatestActivitiesFromStrava } from '../actions/activities';
+import { fetchLatestActivitiesFromStrava } from '../actions/activities';
+import type { activity as Activity } from '@prisma/client';
 import { useToast } from './Toaster';
 import { fetchActivityLaps } from '../actions/laps';
 
@@ -65,6 +66,11 @@ const Header = () => {
                 {newActivityCount}
               </span>
             )}
+          </li>
+          <li>
+            <a href='/workouts' className='hover:underline'>
+              Workouts
+            </a>
           </li>
           <li>
             <a href='/settings' className='hover:underline'>

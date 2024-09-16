@@ -28,7 +28,7 @@ export default function WorkoutModel({ date, show, hide }: Props) {
       </Modal.Header>
       <Modal.Body>
         <WorkoutEditor workout={selectedWorkout} />
-        <WorkoutList setSelectedWorkout={setSelectedWorkout} />
+        <WorkoutList setSelectedWorkout={setSelectedWorkout} selectedWorkout={selectedWorkout} />
       </Modal.Body>
       <Modal.Footer>
         <button className='btn btn-info'>Save</button>

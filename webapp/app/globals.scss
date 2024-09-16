@@ -160,7 +160,7 @@ body {
   }
 
   .form-control {
-    background-color: #444444; /* Dark input background */
+    background-color: #444444 !important; /* Dark input background */
     color: #ffffff; /* Light input text color */
     border-color: #555555; /* Darker border color */
   }

@@ -55,33 +55,44 @@ export default function WorkoutEditor({ workout }: Props) {
           <input id='workout-duration' type='time' className='form-control' />
         </div>
       </div>
-      <div className='h-full w-full flex flex-col justify-between'>
+      <div className='w-full'>
         <div className='px-8 py-4'>
-          <h3 className='h3'>Steps</h3>
-          {!isEditing &&
-            <ul className='m-0 p-0'>
+          <h3 className='h3'>{workout.name}</h3>
+          <p>{workout.description}</p>
+          <div className="h-128">
+            {!isEditing && (
+              <ul className='m-0 p-0 h-full border-t'>
               {data.map((step: string, index: number) => (
                 <li className='list-inside list-decimal my-2' key={index}>
-                  <span onClick={handleClick} className='cursor-pointer'>{step}</span>
+                  <span onClick={handleClick} className='cursor-pointer'>
+                    {step}
+                  </span>
                 </li>
               ))}
             </ul>
-          }
-          {isEditing &&
+            )}
+            {isEditing && (
             <Textarea
-              rows={15}
+                className='bg-auto border border-gray-300 p-8 w-full h-full'
               style={{ lineHeight: '2' }}
-              className='bg-auto border border-gray-300 p-2 w-full'
+                rows={12}
               value={data.join('\n')}
               onChange={handleChange}
-              onBlur={handleBlur} />
-          }
+                onBlur={handleBlur}
+              />
+            )}
+          </div>
         </div>
         <div>
           <WorkoutChart workout={workout} />
         </div>
+        <div className='flex justify-start gap-4'>
+          <button className='btn btn-primary'>Save Current</button>
+          <button className='btn btn-warning'>Save Workout</button>
+          <button className='btn btn-danger'>Delete Workout</button>
+          <button className='btn btn-secondary'>Cancel</button>
+        </div>
       </div>
     </div>
-
   );
 }

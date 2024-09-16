@@ -3,15 +3,16 @@
 import React from 'react';
 import { getWorkouts } from '../actions/workout';
 import { Button } from 'flowbite-react';
-import type { WorkoutWithSteps } from '@/utils/types';
 import ActivityIcon from '../activities/ActivityIcon';
+import type { workout as Workout } from '@prisma/client';
 
 type Props = {
-  setSelectedWorkout: (workout: WorkoutWithSteps) => void;
+  selectedWorkout?: Workout;
+  setSelectedWorkout: (workout: Workout) => void;
 };
 
-export default function WorkoutList({ setSelectedWorkout }: Props) {
-  const [workouts, setWorkouts] = React.useState<WorkoutWithSteps[]>([]);
+export default function WorkoutList({ selectedWorkout, setSelectedWorkout }: Props) {
+  const [workouts, setWorkouts] = React.useState<Workout[]>([]);
 
   React.useEffect(() => {
     getWorkouts().then((workouts) => {
@@ -19,13 +20,19 @@ export default function WorkoutList({ setSelectedWorkout }: Props) {
     });
   }, []);
 
+  const className = (id: number): string => {
+    let cn: string = selectedWorkout?.id === id ? 'border-2' : '';
+    cn += ' btn btn-info flex items-center';
+    return cn;
+  }
   return (
     <div>
-      <h2>Workouts</h2>
-      <div className='flex justify-between'>
+      <h2 className='h2'>Workouts</h2>
+      <div className='flex flex-col justify-start gap-4'>
+        <button className='btn btn-info'>+</button>
         {workouts.map(workout => (
           <Button key={workout.id}
-            className='flex items-center bg-yellow-400 dark:bg-gray-800 dark:text-white'
+            className={className(workout.id)}
             onClick={() => setSelectedWorkout(workout)}>
             <ActivityIcon type={workout.type} />
             <div className='ml-2 font-semibold text-lg'>{workout.name}</div>
