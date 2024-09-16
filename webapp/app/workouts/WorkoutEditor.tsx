@@ -36,7 +36,7 @@ export default function WorkoutEditor({ workout }: Props) {
   }
 
   return (
-    <div>
+    <div className='px-4'>
       <div className='flex justify-between gap-4'>
         <div className='form-group'>
           <label htmlFor='type'>Type</label>
@@ -55,27 +55,30 @@ export default function WorkoutEditor({ workout }: Props) {
           <input id='workout-duration' type='time' className='form-control' />
         </div>
       </div>
-      <div className='grid grid-cols-3 gap-16 p-4'>
-        <div className='col-span-2'>
-          <WorkoutChart workout={workout} />
-        </div>
-        <div className='col-span-1'>
+      <div className='h-full w-full flex flex-col justify-between'>
+        <div className='px-8 py-4'>
           <h3 className='h3'>Steps</h3>
           {!isEditing &&
-            <ul>
+            <ul className='m-0 p-0'>
               {data.map((step: string, index: number) => (
-                <li className='list-decimal my-2' key={index}>
+                <li className='list-inside list-decimal my-2' key={index}>
                   <span onClick={handleClick} className='cursor-pointer'>{step}</span>
                 </li>
               ))}
             </ul>
           }
           {isEditing &&
-            <Textarea className='h-full'
+            <Textarea
+              rows={15}
+              style={{ lineHeight: '2' }}
+              className='bg-auto border border-gray-300 p-2 w-full'
               value={data.join('\n')}
               onChange={handleChange}
               onBlur={handleBlur} />
           }
+        </div>
+        <div>
+          <WorkoutChart workout={workout} />
         </div>
       </div>
     </div>

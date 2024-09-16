@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import WorkoutEditor from './WorkoutEditor';
@@ -10,9 +10,13 @@ type Props = {};
 export default function page({ }: Props) {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout>();
   return (
-    <div className="flex flex-col justify-between h-full">
-      <WorkoutEditor workout={selectedWorkout} />
-      <WorkoutList setSelectedWorkout={setSelectedWorkout} />
+    <div className='grid grid-cols-5'>
+      <div className='col-span-4'>
+        <WorkoutEditor workout={selectedWorkout} />
+      </div>
+      <div className='col-span-1'>
+        <WorkoutList setSelectedWorkout={setSelectedWorkout} />
+      </div>
     </div>
   );
 }

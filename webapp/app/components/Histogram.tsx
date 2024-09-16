@@ -1,45 +1,56 @@
-"use client";
+'use client';
+import { getZoneColor } from '@/utils/helper';
 import { RefObject } from 'react';
-import { ResponsiveContainer, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Bar } from 'recharts';
+import {
+  ResponsiveContainer,
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Bar,
+  LabelList,
+} from 'recharts';
 
 type Props = {
   chartData: any[];
   chartRef: RefObject<HTMLDivElement>;
+  height: number;
 };
 
-const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
+const ConnectedHistogram = ({ chartData, chartRef, height = 400 }: Props) => {
   // xScale function to convert time values to pixel positions
   const margin = { top: 20, right: 20, bottom: 20, left: 20 };
   const xScale = (time: number) => {
-    const d = chartData.map(d => Number(d.time));
+    const d = chartData.map((d) => Number(d.time));
     const domain = [Math.min(...d), Math.max(...d)];
-    const range = [0, (chartRef?.current?.getBoundingClientRect().width || 1000)];
-    return (time - domain[0]) / (domain[1] - domain[0]) * (range[1] - range[0]) + 2 * (margin.left + margin.right);
+    const width = chartRef?.current?.getBoundingClientRect().width || 1;
+    const range = [margin.left, width - margin.right];
+    return (time - domain[0]) / (domain[1] - domain[0]) * (range[1] - range[0]);
   };
 
   return (
-    <div className='w-full'>
-      <ResponsiveContainer width="100%" height={500} ref={chartRef}>
-        <BarChart data={chartData} margin={margin}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            type="number"
-            dataKey="time"
-            domain={['dataMin', 'dataMax']}
-            scale="linear"
-            axisLine={false}
-          />
-          <YAxis
-            type="number"
-            dataKey="zone"
-            domain={[0, 'dataMax']}
-            label={{ value: 'Zone', angle: -90, position: 'insideLeft' }}
-          />
-          <Tooltip />
-          <Bar dataKey="zone" shape={<CustomizedBar data={chartData} xScale={xScale} />} />
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
+    <ResponsiveContainer width='100%' height={height} ref={chartRef}>
+      <BarChart data={chartData} margin={margin} barGap={0} barCategoryGap={0}>
+        <CartesianGrid strokeDasharray='3 3' syncWithTicks />
+        <XAxis type='number' dataKey='time' domain={['minData', 'maxData']} ticks={[]} />
+        <YAxis
+          type='number'
+          dataKey='zone' domain={[0, 5]}
+          ticks={[1, 2, 3, 4, 5]}
+          label={{ value: 'Zone', angle: -90, position: 'insideLeft' }}
+        />
+        <Tooltip />
+        <Bar
+          dataKey='zone'
+          isAnimationActive={false}
+          width={0}
+          shape={<CustomizedBar data={chartData} xScale={xScale} />}
+        >
+          <LabelList dataKey='time' position='bottom' />
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   );
 };
 
@@ -47,32 +58,13 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
 const CustomizedBar = (props: any) => {
   const { x, y, height, index, data, xScale } = props;
   const currentTime = Number(data[index].time);
-  const nextTime = data[index + 1] ? Number(data[index + 1].time) : Number(currentTime);
-  const barWidth = xScale(nextTime) - xScale(currentTime);
-
-  let fill = '#8884d8';
-  switch (data[index].zone) {
-    case 1:
-      fill = '#8884d8';
-      break;
-    case 2:
-      fill = '#82ca9d';
-      break;
-    case 3:
-      fill = '#ffc658';
-      break;
-    case 4:
-      fill = '#ff7300';
-      break;
-  };
+  const nextTime = data[index + 1]
+    ? Number(data[index + 1].time)
+    : Number(currentTime);
+  const barWidth = xScale(nextTime) - xScale(currentTime) - 2;
+  const fill = getZoneColor(data[index].zone);
   return (
-    <rect
-      x={xScale(currentTime)}
-      y={y}
-      width={barWidth}
-      height={height}
-      fill={fill}
-    />
+    <rect x={x} y={y} width={barWidth} height={height} fill={fill} />
   );
 };
 

@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { getWorkouts } from '../actions/workout';
-import { Card } from 'flowbite-react';
+import { Button } from 'flowbite-react';
 import type { WorkoutWithSteps } from '@/utils/types';
+import ActivityIcon from '../activities/ActivityIcon';
 
 type Props = {
   setSelectedWorkout: (workout: WorkoutWithSteps) => void;
@@ -23,10 +24,12 @@ export default function WorkoutList({ setSelectedWorkout }: Props) {
       <h2>Workouts</h2>
       <div className='flex justify-between'>
         {workouts.map(workout => (
-          <Card key={workout.id} className='p-4 mb-4 cursor-pointer' onClick={() => setSelectedWorkout(workout)}>
-            <h3>{workout.name}</h3>
-            <p>{workout.type}</p>
-          </Card>
+          <Button key={workout.id}
+            className='flex items-center bg-yellow-400 dark:bg-gray-800 dark:text-white'
+            onClick={() => setSelectedWorkout(workout)}>
+            <ActivityIcon type={workout.type} />
+            <div className='ml-2 font-semibold text-lg'>{workout.name}</div>
+          </Button>
         ))}
       </div>
     </div>
