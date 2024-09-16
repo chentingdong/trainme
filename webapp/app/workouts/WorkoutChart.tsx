@@ -41,6 +41,5 @@ export default function WorkoutChart({ workout }: Props) {
   };
 
   const chartData = parseWorkoutData(workout.workout);
-  console.log(chartData);
   return <ConnectedHistogram chartData={chartData} chartRef={chartRef} />;
 }

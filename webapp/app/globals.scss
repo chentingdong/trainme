@@ -58,6 +58,9 @@ body {
   .h2 {
     @apply text-2xl font-semibold my-2;
   }
+  .h3 {
+    @apply text-xl font-semibold my-2;
+  }
 
   .ul,
   .li {

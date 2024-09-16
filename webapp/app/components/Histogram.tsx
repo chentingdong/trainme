@@ -18,7 +18,7 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
   };
 
   return (
-    <div>
+    <div className='w-full'>
       <ResponsiveContainer width="100%" height={500} ref={chartRef}>
         <BarChart data={chartData} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" />
