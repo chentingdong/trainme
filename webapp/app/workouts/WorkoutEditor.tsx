@@ -44,8 +44,9 @@ export default function WorkoutEditor({ workout }: Props) {
   }
 
   return (
-    <div className='px-4'>
-      <div className='flex justify-start gap-4 px-8'>
+    <div className='h-full px-4 flex flex-col justify-between'>
+      <div className='px-4 grid grid-cols-4'>
+        <div className='col-span-1 flex flex-col justify-start gap-4 px-8'>
         <div className='form-group'>
           <label htmlFor='type'>Type</label>
           <select id='type' className='form-control'>
@@ -55,19 +56,19 @@ export default function WorkoutEditor({ workout }: Props) {
           </select>
         </div>
         <div className='form-group'>
-          <label htmlFor='workout-distance'>Distance (km)</label>
-          <input id='workout-distance' value={totalDistance(workout)} type='number' className='form-control' /> 
+            <label htmlFor='workout-distance'>Distance (km)</label>
+            <div>{totalDistance(workout)}</div>
         </div>
         <div className='form-group'>
-          <label htmlFor='workout-duration'>Duration (minutes)</label>
-          <input id='workout-duration' value={totalDuration(workout)} type='number' className='form-control' />
+            <label htmlFor='workout-duration'>Duration (minutes)</label>
+            <div>{totalDuration(workout)}</div>
         </div>
       </div>
-      <div className='w-full'>
+        <div className='col-span-3'>
         <div className='px-8 py-4'>
           <h3 className='h3'>{workout.name}</h3>
           <p>{workout.description}</p>
-          <div className="h-128">
+            <div>
             {!isEditing && (
               <ul className='m-0 p-0 h-full border-t'>
               {data.map((step: string, index: number) => (
@@ -90,16 +91,11 @@ export default function WorkoutEditor({ workout }: Props) {
               />
             )}
           </div>
+          </div>
         </div>
-        <div>
-          <WorkoutChart workout={workout} />
-        </div>
-        <div className='flex justify-start gap-4'>
-          <button className='btn btn-primary'>Save Current</button>
-          <button className='btn btn-warning'>Save Workout</button>
-          <button className='btn btn-danger'>Delete Workout</button>
-          <button className='btn btn-secondary'>Cancel</button>
-        </div>
+      </div>
+      <div className='flex-grow-0'>
+        <WorkoutChart workout={workout} />
       </div>
     </div>
   );

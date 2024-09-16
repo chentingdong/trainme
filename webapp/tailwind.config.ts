@@ -22,6 +22,7 @@ const config: Config = {
         128: "32rem",
         144: "36rem",
         160: "40rem",
+        176: "44rem", //laptop full height.
       },
     },
     container: {

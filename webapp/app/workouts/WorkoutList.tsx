@@ -21,8 +21,8 @@ export default function WorkoutList({ selectedWorkout, setSelectedWorkout }: Pro
   }, []);
 
   const className = (id: number): string => {
-    let cn: string = selectedWorkout?.id === id ? 'border-2' : '';
-    cn += ' btn btn-info flex items-center';
+    let cn: string = 'btn btn-info flex items-center';
+    cn += selectedWorkout?.id === id ? ' border-2' : '';
     return cn;
   }
   return (

@@ -15,23 +15,23 @@ export default function WorkoutModel({ date, show, hide }: Props) {
   const [selectedWorkout, setSelectedWorkout] = React.useState<Workout>();
 
   return (
-    <Modal dismissible
-      show={show}
-      onClose={hide}
-      size="xlg"
-      position="center"
-      className='text-gray-500 bg-black bg-opacity-50'
-    >
+    <Modal dismissible show={show} onClose={hide} size='xlg' position='center'>
       <Modal.Header>
         <span>Add workout on: </span>
         <span> {format(date, 'EEEE, yyyy-MM-dd')}</span>
       </Modal.Header>
       <Modal.Body>
-        <WorkoutEditor workout={selectedWorkout} />
-        <WorkoutList setSelectedWorkout={setSelectedWorkout} selectedWorkout={selectedWorkout} />
+        <div className='grid grid-cols-5 h-176'>
+          <div className='col-span-4 h-full overflow-auto'>
+            <WorkoutEditor workout={selectedWorkout} />
+          </div>
+          <div className='col-span-1 border-l h-full overflow-auto border-gray-200 px-4'>
+            <WorkoutList setSelectedWorkout={setSelectedWorkout} />
+          </div>
+        </div>
       </Modal.Body>
       <Modal.Footer>
-        <button className='btn btn-info'>Save</button>
+        <button className='btn btn-primary'>Schedule it</button>
       </Modal.Footer>
     </Modal>
   );

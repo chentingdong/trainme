@@ -86,7 +86,7 @@ body {
       @apply hover:bg-red-600 hover:text-white;
     }
     &.btn-info {
-      @apply bg-transparent border;
+      @apply bg-transparent text-gray-500 border border-gray-500;
     }
     &.btn-disabled {
       @apply bg-gray-300 text-gray-500 cursor-not-allowed;
@@ -172,6 +172,7 @@ body {
   .btn-info {
     background-color: #17a2b8; /* Info button background color */
     border-color: #17a2b8; /* Info button border color */
+    color: #dedede;
   }
 
   .btn-info:hover {

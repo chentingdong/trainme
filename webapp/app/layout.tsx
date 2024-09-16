@@ -26,11 +26,11 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <ClerkProvider>
-      <body className={inter.className + 'flex flex-col'}>
+        <body className={inter.className + 'h-screen overflow-auto flex flex-col'}>
           <ToastProvider>
             <Header />
             <Toaster />
-            <main className='flex flex-col p-4 mt-10'>
+            <main className='flex-grow mt-10'>
               <Suspense fallback={<Loading />}>{children}</Suspense>
             </main>
         </ToastProvider>
