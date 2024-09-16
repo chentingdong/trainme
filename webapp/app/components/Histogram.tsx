@@ -24,9 +24,9 @@ const ConnectedHistogram = ({ chartData, chartRef, height = 400 }: Props) => {
   const xScale = (time: number) => {
     const d = chartData.map((d) => Number(d.time));
     const domain = [Math.min(...d), Math.max(...d)];
-    const width = (chartRef?.current?.getBoundingClientRect().width || 1) - 6;
+    const width = (chartRef?.current?.getBoundingClientRect().width || 1) - (margin.left + margin.right) * 1.5;
     const range = [margin.left, width - margin.right];
-    return (time - domain[0]) / (domain[1] - domain[0]) * (range[1] - range[0]) * 0.93;
+    return (time - domain[0]) / (domain[1] - domain[0]) * (range[1] - range[0]);
   };
 
   return (
