@@ -5,7 +5,6 @@ import { getActivityByDate } from '../actions/activities';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
-import WorkoutModel from '../workouts/WorkoutModel';
 import { FaPlus } from 'react-icons/fa';
 import { format } from 'date-fns';
 import { activity as Activity } from '@prisma/client'
@@ -13,11 +12,11 @@ import { activity as Activity } from '@prisma/client'
 type CalendarDayProps = {
   date: Date;
   view?: string;
-  setSelectedActivityId: (id: number) => void;
+  setSelectedActivityId?: (id: number) => void;
+  setWorkoutDate?: (date: Date) => void;
 };
 
-function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
-  const [showWorkoutEditor, setShowWorkoutEditor] = React.useState(false);
+function CalendarDay({ date, view, setSelectedActivityId, setWorkoutDate }: CalendarDayProps) {
   const [activities, setActivities] = React.useState<Activity[]>([]);
 
   React.useEffect(() => {
@@ -26,16 +25,18 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
         setActivities(data);
       });
     }
-  }, []);
+  }, [date]);
 
   const selectActivity = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    setSelectedActivityId(id);
+    if (setSelectedActivityId)
+      setSelectedActivityId(id);
   };
 
   const addWorkout = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setShowWorkoutEditor(true);
+    if (setWorkoutDate)
+      setWorkoutDate(date);
   };
 
   return (
@@ -48,7 +49,6 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
             onClick={addWorkout}>
             <FaPlus />
           </span>
-          <WorkoutModel date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
         </div>
         <div className='flex gap-2'>
           {activities?.map((activity) => (
@@ -58,7 +58,7 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
           ))}
         </div>
       </div>
-      <div className='h-60 overflow-auto'>
+      <div className='overflow-auto'>
         <ul className="m-1 shadow-sm">
           {activities?.map((activity, index) => (
             <li key={index} className='card my-1'

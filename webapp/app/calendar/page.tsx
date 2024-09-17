@@ -1,55 +1,41 @@
-"use client";
+'use client';
 
-import React, { useCallback, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './calendar.scss';
-import CalendarDay from './CalendarDay';
-import { ActivityDetailModal } from './ActivityDetail';
+import React from 'react';
+import CalendarWeek from './CalendarWeek';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Carousel } from 'flowbite-react';
+import CalendarMonth from './CalendarMonth';
 
-const Page: React.FC = () => {
-  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
-  const calendarRef = React.useRef<any>(null);
+type Props = {};
 
-  const tileContent = ({ date, view }: { date: Date, view: string; }) => {
-    return <CalendarDay date={date} view={view} setSelectedActivityId={setSelectedActivityId} />;
+export default function page({ }: Props) {
+  const [aday, setAday] = React.useState<Date>(new Date());
+
+  const handlePrevWeek = () => {
+    let prevWeek = new Date(aday!);
+    prevWeek.setDate(aday!.getDate() - 7);
+    setAday(prevWeek);
   };
 
-  const calendarHeader = ({ date }: { date: Date; }) => {
-    return (
-      <div className="flex items-center">
-        <span className='flex-none btn btn-info' onClick={goToToday}>Today</span>
-        <div className="flex-auto">{date.toLocaleDateString(undefined, { month: 'long' })} {date.getFullYear()}</div>
-      </div>
-    );
+  const handleNextWeek = () => {
+    let nextWeek = new Date(aday!);
+    nextWeek.setDate(aday!.getDate() + 7);
+    setAday(nextWeek);
   };
-
-  const goToToday = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    if (calendarRef.current) {
-      calendarRef.current.setActiveStartDate(new Date());
-    }
-  }, []);
 
   return (
-    <div className="flex-grow flex flex-col p-4">
-      <div className="flex-grow">
-        <Calendar
-          className='custom-calendar'
-          tileClassName='calendar-day'
-          view='month'
-          ref={calendarRef}
-          navigationLabel={calendarHeader}
-          tileContent={tileContent}
-        />
-      </div>
-      <ActivityDetailModal
-        activityId={selectedActivityId}
-        show={selectedActivityId !== null}
-        close={() => setSelectedActivityId(null)}
-      />
+    <div className='relative h-128 w-full p-4'>
+      {/* <CalendarMonth /> */}
+      <Carousel
+        className='h-full'
+        slide={false}
+        leftControl={<FaChevronLeft className='btn btn-icon w-8 h-8 absolute top-4 left-4' onClick={handlePrevWeek} />}
+        rightControl={<FaChevronRight className='btn btn-icon w-8 h-8 absolute top-4 right-4' onClick={handleNextWeek} />}
+      >
+        <div className='h-full flex items-center justify-center'>
+          <CalendarWeek aday={aday} />
+        </div>
+      </Carousel>
     </div>
   );
-};
-
-export default Page;
+}

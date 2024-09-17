@@ -94,7 +94,12 @@ body {
   }
   .btn-icon {
     @apply rounded-full flex items-center justify-center;
+    background-color: rgb(var(--background-end-rgb));
     @apply w-6 h-6 text-xs p-1;
+    &:hover {
+      background-color: rgb(var(--background-start-rgb));
+    }
+    cursor: pointer;
     &.small {
       @apply w-4 h-4;
     }
@@ -103,7 +108,7 @@ body {
 
 @layer components {
   .card {
-    @apply border rounded-sm overflow-hidden flex flex-col h-full;
+    @apply border rounded-sm shadow rounded-sm overflow-hidden flex flex-col h-full;
     border-color: var(--border-color);
     .card-header {
       @apply font-semibold px-4 py-2 flex-grow-0;

@@ -16,7 +16,7 @@
 }
 
 .custom-calendar {
-  @apply w-full h-full flex flex-col flex-grow;
+  @apply w-full h-full flex flex-col flex-grow p-2;
   background-color: var(--background-color);
   color: var(--text-color);
   .react-calendar__tile:hover {
@@ -33,6 +33,12 @@
       @apply py-2 px-4 rounded-lg bg-slate-500;
     }
   }
+}
+
+.calendar-week {
+  @apply w-full h-full flex flex-col flex-grow;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 .calendar-day {
