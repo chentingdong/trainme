@@ -146,32 +146,12 @@ body {
 }
 /* Custom styles for dark mode */
 @media (prefers-color-scheme: dark) {
-  .modal {
-    background-color: #2d2d2d; /* Dark background color */
-    color: #ffffff; /* Light text color */
-  }
-
-  .modal-header,
-  .modal-footer {
-    border-color: #444444; /* Darker border color */
-  }
-
-  .modal-header {
-    background-color: #333333; /* Darker header background */
-  }
-
-  .modal-footer {
-    background-color: #333333; /* Darker footer background */
-  }
-
   .form-control {
-    background-color: #444444 !important; /* Dark input background */
-    color: #ffffff; /* Light input text color */
-    border-color: #555555; /* Darker border color */
+    @apply bg-gray-800 text-gray-100;
   }
 
   .form-control::placeholder {
-    color: #bbbbbb; /* Light placeholder color */
+    @apply text-gray-300; /* Light placeholder color */
   }
 
   .btn-info {
