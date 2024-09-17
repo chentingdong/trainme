@@ -6,6 +6,7 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+
   webpack: (config, { dev, isServer }) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     config.module.rules.push({

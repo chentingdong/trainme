@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import CalendarDay from './CalendarDay';
 import './calendar.scss';
 import WorkoutModel from '../workouts/WorkoutModel';
+import Loading from '../loading';
 
 type Props = {
   aday?: Date; //any day of the week.
@@ -15,7 +16,6 @@ export default function CalendarWeek({ aday }: Props) {
   if (!aday) aday = new Date();
 
   const [week, setWeek] = useState<Date[]>([]);
-  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
   const [workoutDate, setWorkoutDate] = useState<Date | null>(null);
 
   React.useEffect(() => {
@@ -39,21 +39,18 @@ export default function CalendarWeek({ aday }: Props) {
     setWeek(getWeek(aday));
   }, [aday]);
 
-  if (week.length === 0) return <div></div>;
+  if (week.length === 0) return <Loading />;
 
   return (
     <div className='calendar-week'>
-      <h2 className="h2 bg-gray-300 text-center mx-2 p-2 rounded-md">
-        Week from {formatDate(week[0], 'MMM dd')} to {formatDate(week[6], 'MMM dd')}
+      <h2 className="h2 text-center mx-2 p-2 rounded-md">
+        {formatDate(week[0], 'MMMM')} {formatDate(week[0], 'dd')} - {formatDate(week[6], 'dd')}
       </h2>
       <div className='flex gap-2 justify-between h-full p-2'>
         {week.map((date, index) => {
           return (
             <div key={index} className='w-full'>
-              <CalendarDay
-                date={date}
-                setSelectedActivityId={setSelectedActivityId}
-                setWorkoutDate={setWorkoutDate}
+              <CalendarDay date={date} setWorkoutDate={setWorkoutDate}
               />
             </div>
           );

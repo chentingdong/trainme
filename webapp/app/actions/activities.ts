@@ -3,8 +3,8 @@
 import { cookies } from 'next/headers';
 import { getStravaAccessToken } from '@/utils/strava';
 import axios from 'axios';
-import { prisma } from '@/prisma';
 import type { activity as Activity } from '@prisma/client';
+import { prisma } from '@/prisma';
 
 // get activities from strava with pagination.
 export async function getActivities(fromDate: Date, toDate: Date, page: number): Promise<Activity[]> {

@@ -108,7 +108,7 @@ body {
 
 @layer components {
   .card {
-    @apply border rounded-sm shadow rounded-sm overflow-hidden flex flex-col h-full;
+    @apply rounded-sm shadow overflow-hidden flex flex-col h-full;
     border-color: var(--border-color);
     .card-header {
       @apply font-semibold px-4 py-2 flex-grow-0;

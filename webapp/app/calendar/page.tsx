@@ -4,13 +4,20 @@ import React from 'react';
 import CalendarWeek from './CalendarWeek';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Carousel } from 'flowbite-react';
-import CalendarMonth from './CalendarMonth';
+import WorkoutEditor from '../workouts/WorkoutEditor';
+import type { workout as Workout } from '@prisma/client';
 
 type Props = {};
 
 export default function page({ }: Props) {
   const [aday, setAday] = React.useState<Date>(new Date());
-
+  const workout: Workout = {
+    id: '',
+    name: '',
+    description: '',
+    date: new Date(),
+    // Add other fields as required by the Workout type
+  };
   const handlePrevWeek = () => {
     let prevWeek = new Date(aday!);
     prevWeek.setDate(aday!.getDate() - 7);
@@ -25,10 +32,10 @@ export default function page({ }: Props) {
 
   return (
     <div className='relative h-128 w-full p-4'>
-      {/* <CalendarMonth /> */}
       <Carousel
         className='h-full'
         slide={false}
+        indicators={false}
         leftControl={<FaChevronLeft className='btn btn-icon w-8 h-8 absolute top-4 left-4' onClick={handlePrevWeek} />}
         rightControl={<FaChevronRight className='btn btn-icon w-8 h-8 absolute top-4 right-4' onClick={handleNextWeek} />}
       >
@@ -36,6 +43,7 @@ export default function page({ }: Props) {
           <CalendarWeek aday={aday} />
         </div>
       </Carousel>
+      <WorkoutEditor workout={workout} />
     </div>
   );
 }
