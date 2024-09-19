@@ -1,7 +1,6 @@
 import React from 'react';
 import { Inter } from 'next/font/google';
 import './globals.scss';
-import 'flowbite/dist/flowbite.css';
 import type { Metadata } from 'next';
 import Header from './components/Header';
 import { Toaster, ToastProvider } from './components/Toaster';
@@ -23,10 +22,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const bodyClass = (): string => {
+    let className = 'bg-gray-100 text-gray-900 h-screen overflow-auto flex flex-col';
+    return className;
+  };
   return (
     <html lang='en'>
       <ClerkProvider>
-        <body className={inter.className + 'h-screen overflow-auto flex flex-col'}>
+        <body className={inter.className + bodyClass}>
           <ToastProvider>
             <Header />
             <Toaster />

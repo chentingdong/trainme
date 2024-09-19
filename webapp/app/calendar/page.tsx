@@ -5,11 +5,10 @@ import CalendarWeek from './CalendarWeek';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Carousel } from 'flowbite-react';
 import WorkoutEditor from '../workouts/WorkoutEditor';
-import { defaultWorkout } from '@/prisma';
 
 type Props = {};
 
-export default function page({ }: Props) {
+export default function Page({ }: Props) {
   const [aday, setAday] = React.useState<Date>(new Date());
 
   const handlePrevWeek = () => {
@@ -25,19 +24,19 @@ export default function page({ }: Props) {
   };
 
   return (
-    <div className='relative h-128 w-full p-4'>
+    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between'>
       <Carousel
-        className='h-full'
+        className='relative h-128'
         slide={false}
         indicators={false}
-        leftControl={<FaChevronLeft className='btn btn-icon w-8 h-8 absolute top-4 left-4' onClick={handlePrevWeek} />}
-        rightControl={<FaChevronRight className='btn btn-icon w-8 h-8 absolute top-4 right-4' onClick={handleNextWeek} />}
+        leftControl={<FaChevronLeft className='btn btn-icon absolute top-2 left-2' onClick={handlePrevWeek} />}
+        rightControl={<FaChevronRight className='btn btn-icon absolute top-2 right-2' onClick={handleNextWeek} />}
       >
         <div className='h-full flex items-center justify-center'>
           <CalendarWeek aday={aday} />
         </div>
       </Carousel>
-      <WorkoutEditor workout={defaultWorkout} />
+      <WorkoutEditor />
     </div>
   );
 }

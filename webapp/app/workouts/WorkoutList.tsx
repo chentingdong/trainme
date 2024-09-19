@@ -35,7 +35,7 @@ export default function WorkoutList({ selectedWorkout, setSelectedWorkout }: Pro
             className={className(workout.id)}
             onClick={() => setSelectedWorkout(workout)}>
             <ActivityIcon type={workout.type} />
-            <div className='ml-2 font-semibold text-lg'>{workout.name}</div>
+            <div className='ml-2 font-semibold text-lg'>{workout.name || 'No name'}</div>
           </Button>
         ))}
       </div>

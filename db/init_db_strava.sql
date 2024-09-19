@@ -115,7 +115,7 @@ COMMENT ON COLUMN public.workouts.name IS 'Name of the workout';
 COMMENT ON COLUMN public.workouts.description IS 'Description of the workout';
 COMMENT ON COLUMN public.workouts.workout IS 'Detailed workout plan or data';
 
-INSERT INTO public.workouts (id, type, sport_type, name, description, workout) 
+INSERT INTO public.workout (id, type, sport_type, name, description, workout) 
 VALUES (1, 'run', 'run', '5k', '5k run', '15m warm-up in Z2 HR (127-133bpm) (127-133 bpm)
 0.8km Z4 power=1s Z4 HR (144-162bpm)
 2m Z2 HR (127-133bpm)

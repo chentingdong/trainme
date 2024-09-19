@@ -4,7 +4,6 @@ import { formatDate } from 'date-fns';
 import React, { useState } from 'react';
 import CalendarDay from './CalendarDay';
 import './calendar.scss';
-import WorkoutModel from '../workouts/WorkoutModel';
 import Loading from '../loading';
 
 type Props = {
@@ -39,28 +38,28 @@ export default function CalendarWeek({ aday }: Props) {
     setWeek(getWeek(aday));
   }, [aday]);
 
+
+
   if (week.length === 0) return <Loading />;
 
   return (
     <div className='calendar-week'>
-      <h2 className="h2 text-center mx-2 p-2 rounded-md">
+      <h2 className="text-center mx-2 p-2 rounded-md">
         {formatDate(week[0], 'MMMM')} {formatDate(week[0], 'dd')} - {formatDate(week[6], 'dd')}
       </h2>
       <div className='flex gap-2 justify-between h-full p-2'>
         {week.map((date, index) => {
           return (
             <div key={index} className='w-full'>
-              <CalendarDay date={date} setWorkoutDate={setWorkoutDate}
+              <CalendarDay
+                date={date}
+                workoutDate={workoutDate || date}
+                setWorkoutDate={setWorkoutDate}
               />
             </div>
           );
         })}
       </div>
-      <WorkoutModel
-        show={workoutDate !== null}
-        hide={() => setWorkoutDate(null)}
-        date={workoutDate || new Date()}
-      />
     </div>
   );
 }

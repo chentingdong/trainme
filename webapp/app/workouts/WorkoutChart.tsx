@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef } from 'react';
-import type { workout as Workout } from '@prisma/client';
 import ConnectedHistogram from '../components/Histogram';
+import type { workout as Workout } from '@prisma/client';
 
 type Props = {
   workout: Workout;

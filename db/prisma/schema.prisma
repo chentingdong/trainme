@@ -8,7 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {
   srid      Int     @id
   auth_name String? @db.VarChar(256)
@@ -17,8 +16,8 @@ model spatial_ref_sys {
   proj4text String? @db.VarChar(2048)
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model activity {
+  id                            Float   @id(map: "activities_pkey")
   resource_state                Float?
   athlete                       Json     @db.Json
   name                          String?
@@ -29,7 +28,6 @@ model activity {
   type                          String?
   sport_type                    String?
   workout_type                  Float?
-  id                            Float    @id(map: "activities_pkey")
   start_date                    String?
   start_date_local              String?
   timezone                      String?
@@ -78,7 +76,6 @@ model activity {
   device_watts                  Boolean?
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model lap {
   id                   Float    @id(map: "laps_pkey")
   resource_state       Float?
@@ -105,12 +102,21 @@ model lap {
   pace_zone            Float?
 }
 
-/// This model or at least one of its fields has comments in the database, and requires an additional setup for migrations: Read more: https://pris.ly/d/database-comments
 model workout {
-  id          Int     @id @default(autoincrement()) @map("workouts_pkey")
+  id          String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   type        String?
   sport_type  String?
   name        String?
   description String?
   workout     Json?
+  workout_date workout_date[]
+}
+
+model workout_date {
+  id          String  @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  workout_id  String  @db.Uuid
+  date        String?  @default(dbgenerated("now()"))
+  completed   Boolean? @default(false)
+  deleted     Boolean? @default(false)
+  workout     workout  @relation(fields: [workout_id], references: [id])
 }

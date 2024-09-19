@@ -26,7 +26,7 @@ def save_activities_to_postgres(activities):
             placeholders = ', '.join(['%s' for _ in activity])
             
             sql = f'''
-                INSERT INTO activities ({columns}) 
+                INSERT INTO activity ({columns}) 
                 VALUES ({placeholders}) 
                 ON CONFLICT (id) 
                 DO NOTHING
@@ -56,7 +56,7 @@ def save_laps_to_postgres(laps):
             update_clause = ', '.join([f'{col} = EXCLUDED.{col}' for col in lap.keys()])
             
             sql = f'''
-                INSERT INTO laps ({columns}) 
+                INSERT INTO lap ({columns}) 
                 VALUES ({placeholders}) 
                 ON CONFLICT (id)
                 DO UPDATE SET {update_clause}
