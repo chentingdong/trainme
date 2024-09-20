@@ -1,30 +1,23 @@
 "use client";
 
-import React from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { getWorkouts } from '../actions/workout';
 import { Button } from 'flowbite-react';
 import ActivityIcon from '../activities/ActivityIcon';
 import type { workout as Workout } from '@prisma/client';
+import { defaultWorkout } from '@/prisma';
 
 type Props = {
-  selectedWorkout?: Workout;
-  setSelectedWorkout: (workout: Workout) => void;
 };
 
-export default function WorkoutList({ selectedWorkout, setSelectedWorkout }: Props) {
+export default function WorkoutList({ }: Props) {
   const [workouts, setWorkouts] = React.useState<Workout[]>([]);
-
-  React.useEffect(() => {
-    getWorkouts().then((workouts) => {
-      setWorkouts(workouts);
-    });
+  useEffect(() => {
+    getWorkouts().then(setWorkouts);
   }, []);
 
-  const className = (id: number): string => {
-    let cn: string = 'btn btn-info flex items-center';
-    cn += selectedWorkout?.id === id ? ' border-2' : '';
-    return cn;
-  }
+  const [workout, setWorkout] = React.useState<Workout>(defaultWorkout);
+
   return (
     <div>
       <h2 className='h2'>Workouts</h2>
@@ -32,8 +25,8 @@ export default function WorkoutList({ selectedWorkout, setSelectedWorkout }: Pro
         <button className='btn btn-info'>+</button>
         {workouts.map(workout => (
           <Button key={workout.id}
-            className={className(workout.id)}
-            onClick={() => setSelectedWorkout(workout)}>
+            className='btn btn-info flex items-center'
+            onClick={() => setWorkout(workout)}>
             <ActivityIcon type={workout.type} />
             <div className='ml-2 font-semibold text-lg'>{workout.name || 'No name'}</div>
           </Button>

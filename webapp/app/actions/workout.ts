@@ -26,13 +26,13 @@ export async function getWorkoutById(id: string): Promise<Workout> {
 }
 
 
-export async function createWorkout(workout: Workout): Promise<Workout | null> {
+export async function createWorkout(workout: Workout | null): Promise<Workout | null> {
   try {
     const newWorkout = await prisma.workout.create({
       data: {
         ...workout,
         id: uuidv4(),
-        workout: workout.workout ?? undefined,
+        workout: workout?.workout ?? undefined as any, // Ensure correct type
       },
     });
 

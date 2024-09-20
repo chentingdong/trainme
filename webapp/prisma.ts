@@ -18,5 +18,5 @@ export const defaultWorkout: Workout = {
   sport_type: 'Running',
   name: 'Base run',
   description: 'default workout',
-  workout: '["10m Z1"]',
+  workout: ["10m Z1", "10m Z2", "10m Z1"],
 };

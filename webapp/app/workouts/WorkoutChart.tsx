@@ -13,15 +13,14 @@ export default function WorkoutChart({ workout }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
 
   // Helper function to extract time and zone
-  const parseWorkoutData = (workout: string | null) => {
-    if (!workout) return [];
-    const data = JSON.parse(workout);
+  const parseWorkoutData = (steps: string | undefined) => {
+    if (!steps) return [];
     let duration = 0.0, time = 0.0;
     let zone = 0;
     let result: { time: number, zone: number; }[] = [];
     result.push({ time, zone });
-    for (let i = 0; i < data.length; i++) {
-      const item = data[i];
+    for (let i = 0; i < steps.length; i++) {
+      const item = steps[i];
       const timeMatch = item.match(/(\d+(\.\d+)?)m/); // Matches time in minutes
       const distanceMatch = item.match(/(\d+(\.\d+)?)km/); // Matches distance in km
       const zoneMatch = item.match(/Z(\d+)/); // Matches zone (Z1, Z2, etc.)
@@ -40,6 +39,7 @@ export default function WorkoutChart({ workout }: Props) {
     return result;
   };
 
-  const chartData = parseWorkoutData(workout.workout);
+  const chartData = parseWorkoutData(workout?.workout as string);
+
   return <ConnectedHistogram chartData={chartData} chartRef={chartRef} height={200} />;
 }

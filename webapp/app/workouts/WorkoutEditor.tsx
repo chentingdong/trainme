@@ -1,43 +1,43 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import WorkoutChart from './WorkoutChart';
 import { Label, Select, TextInput, Textarea } from 'flowbite-react';
 import { defaultWorkout } from '@/prisma';
-import { createWorkout, updateWorkout } from '../actions/workout';
+import { createWorkout } from '../actions/workout';
 import { useToast } from '../components/Toaster';
 import type { workout as Workout } from '@prisma/client';
+
 import { workoutTotalDistance, workoutTotalDuration } from '@/utils/distanceUtils';
-import { useForm } from 'react-hook-form';
+import {
+  Controller,
+  SubmitHandler,
+  useFieldArray,
+  useForm
+} from 'react-hook-form'
 
-type Props = {
-  workout?: Workout;
-  setWorkout?: (workout: Workout) => void;
-};
+type Props = {};
 
-export default function WorkoutEditor({ workout, setWorkout }: Props) {
-  if (!workout) workout = defaultWorkout;
-  const { register, handleSubmit, setValue, watch } = useForm({
-    defaultValues: {
-      name: workout.name || 'Unnamed workout',
-      steps: workout.workout ? JSON.parse(workout.workout).join('\n') : '',
-      description: workout.description || '',
-    },
+export default function WorkoutEditor({ }: Props) {
+  const [workout, setWorkout] = React.useState<Workout | null>(defaultWorkout);
+
+  const {
+    control,
+    handleSubmit,
+    watch,
+    register,
+    formState: { dirtyFields, defaultValues },
+  } = useForm<Workout>({
+    defaultValues: defaultWorkout,
   });
 
   const toaster = useToast();
 
-  useEffect(() => {
-    if (workout?.workout) {
-      setValue('steps', JSON.parse(workout.workout).join('\n'));
-    }
-  }, [workout, setValue]);
-
-  const onSubmit = async (data: any) => {
+  const onSubmit: SubmitHandler<Workout> = data => {
     try {
-      await updateWorkout({ ...workout, name: data.name, workout: JSON.stringify(data.steps.split('\n')) });
+      const updatedWorkout = { ...workout, ...data };
       toaster.showToaster('Workout updated', 'success');
-      if (setWorkout) setWorkout({ ...workout, name: data.name, workout: JSON.stringify(data.steps.split('\n')) });
+      setWorkout(updatedWorkout);
     } catch (error) {
       toaster.showToaster('Failed to update workout: ' + error, 'error');
     }
@@ -59,17 +59,7 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
     }
   };
 
-  const handleStepsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const steps = event.target.value;
-    // Update the form value
-    setValue('steps', steps);
-    // Update the workout state
-    if (setWorkout) {
-      setWorkout({ ...workout, workout: JSON.stringify(steps.split('\n')) });
-    }
-  };
-
-  if (!workout?.workout) {
+  if (!workout) {
     return <div>No workout selected</div>;
   }
 
@@ -79,29 +69,77 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
         <div className='col-span-2 flex flex-col justify-start gap-4'>
           <div className='form-group'>
             <Label htmlFor='type'>Type</Label>
-            <Select id='type' className='form-control'>
-              <option value='run'>Run</option>
-              <option value='ride'>Ride</option>
-              <option value='swim'>Swim</option>
-            </Select>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field }) => (
+                <Select id='type' {...field} value={field.value ?? '-'} className='form-control'>
+                  <option value='run'>Run</option>
+                  <option value='ride'>Ride</option>
+                  <option value='swim'>Swim</option>
+                </Select>
+              )}
+            />
           </div>
           <div className='form-group'>
             <Label htmlFor='workout-distance'>Distance (km)</Label>
-            <div>{workoutTotalDistance(watch('steps'))}</div>
+            <Controller
+              name="workout.distance"
+              control={control}
+              render={({ field }) => (
+                <TextInput id='workout-distance' placeholder="Enter distance" {...field} value={field.value?.toString() ?? ''} />
+              )}
+            />
           </div>
           <div className='form-group'>
             <Label htmlFor='workout-duration'>Duration (minutes)</Label>
-            <div>{workoutTotalDuration(watch('steps'))}</div>
+            <Controller
+              name="workout.duration"
+              control={control}
+              render={({ field }) => (
+                <TextInput id='workout-duration' placeholder="Enter duration" {...field} value={field.value?.toString() ?? ''} />
+              )}
+            />
           </div>
         </div>
         <div className='col-span-8'>
           <div className='grid grid-col gap-2'>
             <Label htmlFor='name'>Workout</Label>
-            <TextInput {...register('name')} placeholder="Workout Name" />
+            <Controller
+              name="workout.name"
+              control={control}
+              render={({ field }) => (
+                <TextInput id='name' placeholder="Workout Name" {...field} value={field.value?.toString() ?? ''} />
+              )}
+            />
             <Label htmlFor='description'>Description</Label>
-            <TextInput {...register('description')} placeholder="Workout Description" />
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <TextInput id='description' placeholder="Workout Description" {...field} value={field.value ?? ''} />
+              )}
+            />
             <Label htmlFor='steps'>Steps</Label>
-            <Textarea {...register('steps')} rows={12} onChange={handleStepsChange} />
+            <Controller
+              name="workout"
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                return (
+                  <Textarea
+                    autoFocus
+                    rows={10}
+                    className="w-full rounded-lg border p-2"
+                    value={Array.isArray(value) ? value.join('\n') : ''}
+                    onChange={(e) => {
+                      const steps = e.target.value.split('\n');
+                      onChange(steps);
+                      setWorkout(prevWorkout => prevWorkout ? { ...prevWorkout, workout: steps } : null);
+                    }}
+                  />
+                );
+              }}
+            />
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-4 mt-6">
@@ -110,9 +148,9 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
         </div>
       </div>
       <div className='flex-grow-0'>
-        {JSON.stringify(workout)}
         <WorkoutChart workout={workout} />
       </div>
     </form>
   );
 }
+
