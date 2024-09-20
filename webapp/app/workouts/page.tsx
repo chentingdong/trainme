@@ -8,7 +8,7 @@ import { defaultWorkout } from '@/prisma';
 
 type Props = {};
 
-export default function page({ }: Props) {
+export default function Page({ }: Props) {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout>(defaultWorkout);
 
   return (

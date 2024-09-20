@@ -59,12 +59,22 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
     }
   };
 
+  const handleStepsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const steps = event.target.value;
+    // Update the form value
+    setValue('steps', steps);
+    // Update the workout state
+    if (setWorkout) {
+      setWorkout({ ...workout, workout: JSON.stringify(steps.split('\n')) });
+    }
+  };
+
   if (!workout?.workout) {
     return <div>No workout selected</div>;
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='h-full justify-between'>
+    <form onSubmit={handleSubmit(onSubmit)} className='h-full'>
       <div className='px-4 grid grid-cols-12 gap-8'>
         <div className='col-span-2 flex flex-col justify-start gap-4'>
           <div className='form-group'>
@@ -85,13 +95,13 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
           </div>
         </div>
         <div className='col-span-8'>
-          <div>
+          <div className='grid grid-col gap-2'>
             <Label htmlFor='name'>Workout</Label>
             <TextInput {...register('name')} placeholder="Workout Name" />
             <Label htmlFor='description'>Description</Label>
             <TextInput {...register('description')} placeholder="Workout Description" />
             <Label htmlFor='steps'>Steps</Label>
-            <Textarea {...register('steps')} rows={12} />
+            <Textarea {...register('steps')} rows={12} onChange={handleStepsChange} />
           </div>
         </div>
         <div className="col-span-2 flex flex-col gap-4 mt-6">
@@ -100,6 +110,7 @@ export default function WorkoutEditor({ workout, setWorkout }: Props) {
         </div>
       </div>
       <div className='flex-grow-0'>
+        {JSON.stringify(workout)}
         <WorkoutChart workout={workout} />
       </div>
     </form>

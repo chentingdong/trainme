@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { getStravaAccessToken } from '@/utils/strava';
 import axios from 'axios';
-import type { activity as Activity } from '@prisma/client';
+import { type activity as Activity } from '@prisma/client';
 import { prisma } from '@/prisma';
 
 // get activities from strava with pagination.
@@ -111,17 +111,26 @@ export async function findLastActivityDate(): Promise<Date> {
 // For now we assume we sync often, activities count < 200, the strava api limit.
 export async function saveActivities(activities: any[]): Promise<void> {
   try {
-    await prisma.$transaction(async (prisma) => {
-      for (const activity of activities) {
-        await prisma.activity.upsert({
+    for (const activity of activities) {
+      // Not sure why upsert doesn't work. Manually check on confict.
+      const existingActivity = await prisma.activity.findUnique({
+        where: { id: activity.id },
+      });
+
+      if (existingActivity) {
+        await prisma.activity.update({
           where: { id: activity.id },
-          update: activity,
-          create: activity,
+          data: activity,
+        });
+      } else {
+        await prisma.activity.create({
+          data: activity,
         });
       }
-    });
+    }
   } catch (err) {
-    console.error(err);
+    console.error("Error during upsert:", err);
+    throw new Error('Error saving activities to database' + err);
   } finally {
     await prisma.$disconnect();
   }

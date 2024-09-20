@@ -2,6 +2,7 @@
 
 import { prisma } from '@/prisma';
 import type { workout as Workout } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function getWorkouts(type?: string): Promise<Workout[]> {
   const workouts = await prisma.workout.findMany({
@@ -11,7 +12,7 @@ export async function getWorkouts(type?: string): Promise<Workout[]> {
   return workouts;
 }
 
-export async function getWorkoutById(id: number): Promise<Workout> {
+export async function getWorkoutById(id: string): Promise<Workout> {
   const workout = await prisma.workout.findUnique({
     where: {
       id,
@@ -27,17 +28,11 @@ export async function getWorkoutById(id: number): Promise<Workout> {
 
 export async function createWorkout(workout: Workout): Promise<Workout | null> {
   try {
-    //CHECK: why is auto increment not working?
-    const lastId = await prisma.workout.aggregate({
-      _max: {
-        id: true,
-      },
-    }).then(result => result._max.id) || 0;
-
     const newWorkout = await prisma.workout.create({
       data: {
         ...workout,
-        id: lastId + 1,
+        id: uuidv4(),
+        workout: workout.workout ?? undefined,
       },
     });
 
@@ -54,7 +49,10 @@ export async function updateWorkout(workout: Workout): Promise<Workout | null> {
       where: {
         id: workout.id,
       },
-      data: workout,
+      data: {
+        ...workout,
+        workout: workout.workout ?? undefined,
+      },
     });
 
     return updatedWorkout;
