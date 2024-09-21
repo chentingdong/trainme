@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "activity" (
     "resource_state" DOUBLE PRECISION,
-    "athlete" JSON,
+    "athlete" JSON NOT NULL,
     "name" TEXT,
     "distance" DOUBLE PRECISION,
     "moving_time" DOUBLE PRECISION,
@@ -57,8 +57,9 @@ CREATE TABLE "activity" (
     "weighted_average_watts" DOUBLE PRECISION,
     "kilojoules" DOUBLE PRECISION,
     "device_watts" BOOLEAN,
+    "uuid" UUID NOT NULL DEFAULT gen_random_uuid(),
 
-    CONSTRAINT "activities_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "activity_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
@@ -86,18 +87,41 @@ CREATE TABLE "lap" (
     "lap_index" DOUBLE PRECISION,
     "split" DOUBLE PRECISION,
     "pace_zone" DOUBLE PRECISION,
+    "uuid" UUID NOT NULL DEFAULT gen_random_uuid(),
 
-    CONSTRAINT "laps_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "lap_pkey" PRIMARY KEY ("uuid")
 );
 
 -- CreateTable
 CREATE TABLE "workout" (
-    "id" DOUBLE PRECISION NOT NULL,
+    "id" UUID NOT NULL,
     "type" TEXT,
     "sport_type" TEXT,
     "name" TEXT,
     "description" TEXT,
-    "workout" TEXT,
+    "workout" JSONB,
 
-    CONSTRAINT "workouts_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "workout_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateTable
+CREATE TABLE "workout_date" (
+    "id" UUID NOT NULL,
+    "name" VARCHAR(128),
+    "workout_id" UUID NOT NULL,
+    "activity_uuid" UUID NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "completed" BOOLEAN DEFAULT false,
+    "deleted" BOOLEAN DEFAULT false,
+
+    CONSTRAINT "workout_date_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "workout_date_name_key" ON "workout_date"("name");
+
+-- AddForeignKey
+ALTER TABLE "workout_date" ADD CONSTRAINT "workout_date_workout_id_fkey" FOREIGN KEY ("workout_id") REFERENCES "workout"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "workout_date" ADD CONSTRAINT "workout_date_activity_uuid_fkey" FOREIGN KEY ("activity_uuid") REFERENCES "activity"("uuid") ON DELETE RESTRICT ON UPDATE CASCADE;

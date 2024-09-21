@@ -109,7 +109,13 @@ export default function WorkoutEditor({ }: Props) {
               name="workout.name"
               control={control}
               render={({ field }) => (
-                <TextInput id='name' placeholder="Workout Name" {...field} value={field.value?.toString() ?? ''} />
+                <TextInput
+                  id='name'
+                  placeholder="Workout Name"
+                  value={field.value?.toString() ?? ''}
+                  onChange={(e) => setWorkout(prevWorkout =>
+                    prevWorkout ? { ...prevWorkout, name: e.target.value } : null)}
+                />
               )}
             />
             <Label htmlFor='description'>Description</Label>
@@ -117,7 +123,13 @@ export default function WorkoutEditor({ }: Props) {
               name="description"
               control={control}
               render={({ field }) => (
-                <TextInput id='description' placeholder="Workout Description" {...field} value={field.value ?? ''} />
+                <TextInput
+                  id='description'
+                  placeholder="Workout Description"
+                  value={workout.description ?? ''}
+                  onChange={(e) => setWorkout(prevWorkout =>
+                    prevWorkout ? { ...prevWorkout, description: e.target.value } : null)}
+                />
               )}
             />
             <Label htmlFor='steps'>Steps</Label>
@@ -129,7 +141,6 @@ export default function WorkoutEditor({ }: Props) {
                   <Textarea
                     autoFocus
                     rows={10}
-                    className="w-full rounded-lg border p-2"
                     value={Array.isArray(value) ? value.join('\n') : ''}
                     onChange={(e) => {
                       const steps = e.target.value.split('\n');
