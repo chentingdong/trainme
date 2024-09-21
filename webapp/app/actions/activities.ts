@@ -112,15 +112,14 @@ export async function findLastActivityDate(): Promise<Date> {
 export async function saveActivities(activities: any[]): Promise<void> {
   try {
     for (const activity of activities) {
-      // Not sure why upsert doesn't work. Manually check on confict.
-      const existingActivity = await prisma.activity.findUnique({
+      const existingActivity = await prisma.activity.findFirst({
         where: { id: activity.id },
       });
 
       if (existingActivity) {
         await prisma.activity.update({
-          where: { id: activity.id },
-          data: activity,
+          where: { uuid: existingActivity.uuid },
+          data: { ...activity },
         });
       } else {
         await prisma.activity.create({
