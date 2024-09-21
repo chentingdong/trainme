@@ -52,15 +52,18 @@ body {
 }
 
 @layer base {
-  h1 {
+  .h1 {
     @apply text-4xl font-bold my-4;
   }
-  h2 {
+  .h2 {
     @apply text-2xl font-semibold my-2;
   }
+  .h3 {
+    @apply text-xl font-semibold my-2;
+  }
 
-  ul,
-  li {
+  .ul,
+  .li {
     @apply list-none p-0 m-0;
   }
 
@@ -83,15 +86,24 @@ body {
       @apply hover:bg-red-600 hover:text-white;
     }
     &.btn-info {
-      @apply bg-transparent border;
+      @apply bg-transparent text-gray-500 border border-gray-500;
+      @apply hover:bg-gray-500 hover:text-white;
     }
     &.btn-disabled {
       @apply bg-gray-300 text-gray-500 cursor-not-allowed;
     }
+    &.selected {
+      @apply bg-slate-500 text-slate-100;
+    }
   }
   .btn-icon {
     @apply rounded-full flex items-center justify-center;
+    background-color: rgb(var(--background-end-rgb));
     @apply w-6 h-6 text-xs p-1;
+    &:hover {
+      background-color: rgb(var(--background-start-rgb));
+    }
+    cursor: pointer;
     &.small {
       @apply w-4 h-4;
     }
@@ -100,7 +112,7 @@ body {
 
 @layer components {
   .card {
-    @apply border rounded-sm overflow-hidden flex flex-col h-full;
+    @apply rounded-sm shadow overflow-hidden flex flex-col h-full;
     border-color: var(--border-color);
     .card-header {
       @apply font-semibold px-4 py-2 flex-grow-0;
@@ -138,37 +150,10 @@ body {
 }
 /* Custom styles for dark mode */
 @media (prefers-color-scheme: dark) {
-  .modal {
-    background-color: #2d2d2d; /* Dark background color */
-    color: #ffffff; /* Light text color */
-  }
-
-  .modal-header,
-  .modal-footer {
-    border-color: #444444; /* Darker border color */
-  }
-
-  .modal-header {
-    background-color: #333333; /* Darker header background */
-  }
-
-  .modal-footer {
-    background-color: #333333; /* Darker footer background */
-  }
-
-  .form-control {
-    background-color: #444444; /* Dark input background */
-    color: #ffffff; /* Light input text color */
-    border-color: #555555; /* Darker border color */
-  }
-
-  .form-control::placeholder {
-    color: #bbbbbb; /* Light placeholder color */
-  }
-
   .btn-info {
     background-color: #17a2b8; /* Info button background color */
     border-color: #17a2b8; /* Info button border color */
+    color: #dedede;
   }
 
   .btn-info:hover {
@@ -196,19 +181,11 @@ body {
   border-radius: 4px; /* Rounded corners */
 }
 
-.toaster-container {
-  position: fixed;
-  top: 60px; /* Adjust this value based on your header height */
-  right: 20px;
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-
+.toast-container {
+  @apply fixed top-10 right-0 z-50 gap-4 px-4 py-2;
   .toast {
-    @apply rounded-lg shadow-lg p-4;
+    @apply w-screen max-w-lg;
   }
-
   .toast-success {
     color: var(--success-color);
   }

@@ -34,7 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode; }) => {
     setToasts([...toasts, { message, type }]);
     setTimeout(() => {
       setToasts((currentToasts) => currentToasts.slice(1));
-    }, 100000);
+    }, 60 * 1000);
   };
 
   return (
@@ -48,10 +48,10 @@ export const Toaster = () => {
   const { toasts } = useToast();
 
   return (
-    <div className="toaster-container">
+    <div className='toast-container'>
       {toasts.map((toast, index) => (
         <Toast key={index} className={`toast toast-${toast.type}`}>
-          <div className="toast-icon">
+          <div className="toast-icon my-1">
             {toast.type === 'info' && <FaInfoCircle />}
             {toast.type === 'success' && <FaCheckCircle />}
             {toast.type === 'error' && <FaTimesCircle />}

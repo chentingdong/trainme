@@ -1,45 +1,35 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Polyline } from 'react-leaflet';
+import React from 'react';
 import { LatLngExpression } from 'leaflet';
 import polyline from 'polyline';
 import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
+
+const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Polyline = dynamic(() => import('react-leaflet').then(mod => mod.Polyline), { ssr: false });
 
 interface Props {
   summary_polyline: string | undefined;
   className?: string;
 }
-const ActivityMap: React.FC<Props> = ({ summary_polyline, className = '' }) => {
-  const [center, setCenter] = useState<LatLngExpression | null>(null);
-  const [positions, setPositions] = useState<LatLngExpression[]>([]);
-  const combinedClassName = `w-full h-96 ${className}`;
-
-  useEffect(() => {
-    if (summary_polyline) {
-      const decodedPolyline = polyline.decode(summary_polyline);
-      if (decodedPolyline.length) {
-        const latitudes = decodedPolyline.map(coord => coord[0]);
-        const longitudes = decodedPolyline.map(coord => coord[1]);
-        const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
-        const avgLongitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
-
-        setCenter([avgLatitude, avgLongitude]);
-        setPositions(decodedPolyline.map(coord => [coord[0], coord[1]]) as LatLngExpression[]);
-      }
-    }
-  }, [summary_polyline]);
+const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
 
   if (!summary_polyline) {
-    return null;
-  }
-  if (!summary_polyline || !center || positions.length === 0) {
-    // Avoid rendering the map until the positions are ready
-    return null;
+    return <div></div>;
   }
 
+  const decodedPolyline = polyline.decode(summary_polyline);
+  const latitudes = decodedPolyline.map(coord => coord[0]);
+  const longitudes = decodedPolyline.map(coord => coord[1]);
+  const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+  const avgLongitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
+  const center: [number, number] = [avgLatitude, avgLongitude];
+  const positions = decodedPolyline.map(coord => [coord[0], coord[1]]) as LatLngExpression[];
+
   return (
-    <MapContainer center={center} zoom={13} className={combinedClassName}>
+    <MapContainer center={center} zoom={13} className={className}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <Polyline positions={positions} color='#0d9488' smoothFactor={4} weight={5} />
     </MapContainer>

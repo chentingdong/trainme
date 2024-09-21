@@ -1,44 +1,40 @@
 "use client";
 
 import React from 'react';
-import { Activity, getActivityFromStravaByDate } from '../actions/activities';
+import { getActivityByDate } from '../actions/activities';
 import ActivityIcon from '../activities/ActivityIcon';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
-import WorkoutEditor from './WorkoutEditor';
 import { FaPlus } from 'react-icons/fa';
 import { format } from 'date-fns';
-
+import { activity as Activity } from '@prisma/client'
 
 type CalendarDayProps = {
   date: Date;
   view?: string;
-  setSelectedActivityId: (id: number) => void;
+  setSelectedActivityId?: (id: number) => void;
+  workoutDate?: Date;
+  setWorkoutDate?: (date: Date) => void;
 };
 
-function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
+function CalendarDay({ date, view, setSelectedActivityId, workoutDate, setWorkoutDate }: CalendarDayProps) {
   const [activities, setActivities] = React.useState<Activity[]>([]);
-  const [showWorkoutEditor, setShowWorkoutEditor] = React.useState(false);
-
   React.useEffect(() => {
-    getActivityFromStravaByDate(date)
-      .then((resp) => {
-        setActivities(resp);
-      })
-      .catch((err) => {
-        console.error(err);
+    if (typeof window !== 'undefined') {
+      getActivityByDate(date).then((data) => {
+        setActivities(data);
       });
-
+    }
   }, [date]);
 
   const selectActivity = (e: React.MouseEvent, id: number) => {
     e.stopPropagation();
-    setSelectedActivityId(id);
+    if (setSelectedActivityId)
+      setSelectedActivityId(id);
   };
 
-  const addWorkout = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    console.log('add workout');
+  const getWorkoutButtonClass = () => {
+    return (date && workoutDate && date.toDateString() === workoutDate.toDateString()) ? 'selected' : '';
   };
 
   return (
@@ -46,12 +42,6 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
       <div className="card-header bg-white flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
-          <span
-            className='btn btn-info btn-icon w-full'
-            onClick={() => setShowWorkoutEditor(true)}>
-            <FaPlus />
-          </span>
-          <WorkoutEditor date={date} show={showWorkoutEditor} hide={() => setShowWorkoutEditor(false)} />
         </div>
         <div className='flex gap-2'>
           {activities?.map((activity) => (
@@ -61,26 +51,30 @@ function CalendarDay({ date, view, setSelectedActivityId }: CalendarDayProps) {
           ))}
         </div>
       </div>
-      <div className='h-60 overflow-auto'>
+      <div className='card-body overflow-auto'>
         <ul className="m-1 shadow-sm">
-          {activities?.map((activity) => (
-            <li key={activity.id} className='card my-1'
+          {activities?.map((activity, index) => (
+            <li key={index} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
               <div className='card-header text-sm flex items-center justify-between'>
-                <div className='flex items-center'>
+                <div className='flex items-center' >
                   <ActivityIcon type={activity.type} withColor={false} />
-                  {activity.type}
                 </div>
-                <div>{format(activity.start_date_local, 'p')}</div>
+                <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
               </div>
               <div className='card-body flex justify-between'>
-                <div>{formatTimeSeconds(activity.moving_time)}</div>
-                <div>{activity.distance > 0 && formatDistance(activity.distance)} miles</div>
+                <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
+                <div>{(activity.distance ?? 0) > 0 && formatDistance(activity.distance ?? 0)} miles</div>
               </div>
             </li>
           ))}
         </ul>
       </div>
+      <button className={`btn btn-info btn-icon border-none w-full flex gap-4 ${getWorkoutButtonClass()}`}
+        onClick={() => setWorkoutDate && setWorkoutDate(date)}>
+        {format(date, 'EEE')}
+        <FaPlus />
+      </button>
     </div>
   );
 }

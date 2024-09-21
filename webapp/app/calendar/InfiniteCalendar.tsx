@@ -10,8 +10,6 @@ export type DateRange = {
 };
 
 const InfiniteScrollCalendar = () => {
-  const [weeks, setWeeks] = useState<DateRange[]>([]); // Using DateRange type for the weeks state
-
   const generateMoreWeeks = (startDate: Date, numWeeks: number): DateRange[] => {
     const newWeeks: DateRange[] = [];
     let currentWeekStart = startOfWeek(startDate);
@@ -28,6 +26,9 @@ const InfiniteScrollCalendar = () => {
     return newWeeks;
   };
 
+  const initialWeeks = generateMoreWeeks(new Date(), 5);
+  const [weeks, setWeeks] = useState<DateRange[]>(initialWeeks); // Using DateRange type for the weeks state
+
   const loadMoreWeeks = useCallback(() => {
     const lastWeekStartDate = weeks.length
       ? weeks[weeks.length - 1].startDate
@@ -36,10 +37,6 @@ const InfiniteScrollCalendar = () => {
     setWeeks((prevWeeks) => [...prevWeeks, ...newWeeks]);
   }, [weeks]);
 
-  useEffect(() => {
-    const initialWeeks = generateMoreWeeks(new Date(), 5);
-    setWeeks(initialWeeks);
-  }, []);
 
   return (
     <List

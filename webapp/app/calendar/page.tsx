@@ -1,55 +1,42 @@
-"use client";
+'use client';
 
-import React, { useCallback, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './calendar.scss';
-import CalendarDay from './CalendarDay';
-import { ActivityDetailModal } from './ActivityDetail';
+import React from 'react';
+import CalendarWeek from './CalendarWeek';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { Carousel } from 'flowbite-react';
+import WorkoutEditor from '../workouts/WorkoutEditor';
 
-const Page: React.FC = () => {
-  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
-  const calendarRef = React.useRef<any>(null);
+type Props = {};
 
-  const tileContent = useCallback(({ date, view }: { date: Date, view: string; }) => {
-    return <CalendarDay date={date} view={view} setSelectedActivityId={setSelectedActivityId} />;
-  }, []);
+export default function Page({ }: Props) {
+  const [aday, setAday] = React.useState<Date>(new Date());
 
-  const calendarHeader = ({ date }: { date: Date; }) => {
-    return (
-      <div className="flex items-center">
-        <span className='flex-none btn btn-info' onClick={goToToday}>Today</span>
-        <div className="flex-auto">{date.toLocaleDateString(undefined, { month: 'long' })} {date.getFullYear()}</div>
-      </div>
-    );
+  const handlePrevWeek = () => {
+    let prevWeek = new Date(aday!);
+    prevWeek.setDate(aday!.getDate() - 7);
+    setAday(prevWeek);
   };
 
-  const goToToday = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    if (calendarRef.current) {
-      calendarRef.current.setActiveStartDate(new Date());
-    }
-  }, []);
+  const handleNextWeek = () => {
+    let nextWeek = new Date(aday!);
+    nextWeek.setDate(aday!.getDate() + 7);
+    setAday(nextWeek);
+  };
 
   return (
-    <div className="flex-grow flex flex-col p-4">
-      <div className="flex-grow">
-        <Calendar
-          className='custom-calendar'
-          tileClassName='calendar-day'
-          view='month'
-          ref={calendarRef}
-          navigationLabel={calendarHeader}
-          tileContent={tileContent}
-        />
-      </div>
-      <ActivityDetailModal
-        activityId={selectedActivityId}
-        show={selectedActivityId !== null}
-        close={() => setSelectedActivityId(null)}
-      />
+    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between'>
+      <Carousel
+        className='relative h-128'
+        slide={false}
+        indicators={false}
+        leftControl={<FaChevronLeft className='btn btn-icon absolute top-2 left-2' onClick={handlePrevWeek} />}
+        rightControl={<FaChevronRight className='btn btn-icon absolute top-2 right-2' onClick={handleNextWeek} />}
+      >
+        <div className='h-full flex items-center justify-center'>
+          <CalendarWeek aday={aday} />
+        </div>
+      </Carousel>
+      <WorkoutEditor />
     </div>
   );
-};
-
-export default Page;
+}

@@ -67,11 +67,11 @@ export default function ActivityLaps({ activityId, className }: Props) {
         <div className="col-span-1 h-full">
           {
             lapWithPace.map((lap, index) => (
-              <div className="gap-2 grid grid-cols-4" key={lap.id}>
-                <div key={lap.id}>{index + 1}</div>
-                <div key={lap.id}>{formatTimeSeconds(lap.elapsed_time)}</div>
-                <div key={lap.id}>{formatDistance(lap.distance)}</div>
-                <div key={lap.id}>{lap.formattedPace}</div>
+              <div className="gap-2 grid grid-cols-4" key={index}>
+                <div >{index + 1}</div>
+                <div >{formatTimeSeconds(lap.elapsed_time)}</div>
+                <div >{formatDistance(lap.distance)}</div>
+                <div >{lap.formattedPace}</div>
               </div>
             ))
           }
@@ -91,9 +91,7 @@ export default function ActivityLaps({ activityId, className }: Props) {
                 hide
               />
               <YAxis type="category" dataKey="id" hide />
-              <Bar dataKey="pace" fill="#0f766e">
-                {/* <LabelList dataKey="pace" content={(props) => <CustomLabel {...props} />} /> */}
-              </Bar>
+              <Bar dataKey="pace" fill="#0f766e" />
             </BarChart>
           </ResponsiveContainer>
         </div>

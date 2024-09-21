@@ -56,10 +56,10 @@ def sync_all_strava_laps():
         cursor = conn.cursor()
         cursor.execute('''
             SELECT id, start_date_local
-            FROM activities a
+            FROM activity a
             WHERE NOT EXISTS (
                 SELECT 1 
-                FROM laps l 
+                FROM lap l 
                 WHERE (l.activity->>'id')::text = a.id::text
             )
             ORDER BY start_date_local DESC

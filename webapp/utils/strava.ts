@@ -14,7 +14,7 @@ export const getStravaAuthUrl = () => {
 
 // get access token from refresh token
 export async function getStravaAccessToken(refreshToken: string | undefined): Promise<string> {
-  if (!refreshToken) {
+  if (!refreshToken && typeof window !== 'undefined') {
     window.location.href = getStravaAuthUrl();
     return '';
   }
