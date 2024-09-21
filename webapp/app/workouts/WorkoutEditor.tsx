@@ -52,8 +52,12 @@ export default function WorkoutEditor({ }: Props) {
 
   const handleCreateWorkout = async () => {
     try {
-      await createWorkout(workout);
-      toaster.showToaster('Workout added to calendar', 'success');
+      if (workout && workout.steps) {
+        await createWorkout(workout);
+        toaster.showToaster('Workout added to calendar', 'success');
+      } else {
+        toaster.showToaster('Workout not saved', 'error');
+      }
     } catch (error) {
       toaster.showToaster('Failed to add workout to calendar: ' + error, 'error');
     }

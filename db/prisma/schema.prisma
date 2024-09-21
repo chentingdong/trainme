@@ -106,7 +106,7 @@ model workout {
   sport_type  String?
   name        String?
   description String?
-  workout     Json?
+  steps       Json     @default(dbgenerated("'[]'::jsonb"))
   
   workout_date workout_date[]
 }
