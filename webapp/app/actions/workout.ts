@@ -68,15 +68,13 @@ export async function updateWorkout(oldWorkout: Workout, workout: Workout): Prom
   return updatedWorkout;
 }
 
-export async function addToCalendar(workout: Workout, date: Date | null): Promise<WorkoutDate | null> {
+export async function addToCalendar(workoutId: string, date: Date | null): Promise<WorkoutDate | null> {
   if (!date) return null;
   try {
     const schedule = await prisma.workout_schedule.create({
       data: { 
-        workout_id: workout.id,
+        workout_id: workoutId,
         schedule_date: date,
-        name: workout.name,
-        sport_type_id: workout.sport_type_id,
       },
     });
 

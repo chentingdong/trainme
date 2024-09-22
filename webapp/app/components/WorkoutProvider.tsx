@@ -1,11 +1,10 @@
 "use client";
 // workout provider
 
-import { createContext, useContext, useState, ReactNode, useMemo, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useMemo } from 'react';
 import { workout as Workout } from '@prisma/client';
 import React from 'react';
 import { defaultWorkout } from '@/prisma';
-import { getWorkouts } from '../actions/workout';
 
 interface WorkoutContextType {
   workouts: Workout[];
@@ -32,9 +31,6 @@ export const WorkoutProvider = ({ children }: { children: ReactNode; }) => {
   const [workout, setWorkout] = useState<Workout>(defaultWorkout);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const workoutNames = useMemo(() => workouts.map((workout) => workout.name), [workouts]);
-  useEffect(() => {
-    getWorkouts().then(setWorkouts);
-  }, []);
 
   const addWorkout = (workout: Workout) => {
     setWorkouts((currentWorkouts) => [...currentWorkouts, workout]);

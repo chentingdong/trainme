@@ -17,11 +17,7 @@ export const getScheduledWorkoutsByDate = async (date: Date): Promise<ScheduledW
       },
     },
     include: {
-      workout: {
-        include: {
-          sport_type: true,
-        },
-      },
+      workout: true,
     },
   });
   return scheduledWorkouts;

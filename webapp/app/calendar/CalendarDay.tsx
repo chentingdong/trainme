@@ -2,42 +2,39 @@
 
 import React, { useEffect, useState } from 'react';
 import ActivityIcon from '../activities/ActivityIcon';
-import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/distanceUtils';
+
 import { FaPlus } from 'react-icons/fa';
 import { format } from 'date-fns';
 import { useSchedule } from '../components/ScheduleProvider';
 import type { activity as Activity } from '@prisma/client';
 import { getActivitiesByDate } from '../actions/activities';
 import { useActivity } from '../components/ActivityProvider';
-import { useWorkout } from '../components/WorkoutProvider';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
-import { deleteScheduledWorkoutById, getScheduledWorkoutsByDate } from '../actions/schedule';
-import { getWorkoutById } from '../actions/workout';
-import type { workout_schedule as WorkoutSchedule } from '@prisma/client';
+import { getScheduledWorkoutsByDate } from '../actions/schedule';
+import { CalendarDayWorkout } from './CalendarDayWorkout';
+import { CalendarDayActivity } from './CalendarDayActivity';
+
 type CalendarDayProps = {
   date: Date;
 };
 
 function CalendarDay({ date }: CalendarDayProps) {
-  // Get activities and workouts of the current schedule date
   const [activities, setActivities] = useState<Activity[]>([]);
-  // Selected activity and workout from the current schedule date
-  const { activity, setActivity } = useActivity();
-  // Selected global workout to show in workout editor
-  const { workout, setWorkout } = useWorkout();
-  // Scheduled workouts of the current schedule date
+  const { setActivity } = useActivity();
   const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
   const { scheduleDate, setScheduleDate } = useSchedule();
 
   useEffect(() => {
     getActivitiesByDate(date).then((data) => {
-        setActivities(data);
+      setActivities(data);
     });
+  }, [date, setActivities]);
+
+  useEffect(() => {
     getScheduledWorkoutsByDate(date).then((data) => {
       setScheduledWorkouts(data);
     });
-  }, [date, setActivities, setScheduledWorkouts]);
+  }, [date, setScheduledWorkouts]);
 
   const getWorkoutButtonClass = () => {
     if (!scheduleDate || !date) return '';
@@ -46,11 +43,6 @@ function CalendarDay({ date }: CalendarDayProps) {
       date.getMonth() === scheduleDate.getMonth() &&
       date.getFullYear() === scheduleDate.getFullYear()
     ) ? 'selected' : '';
-  };
-
-  const editWrokout = async (workoutId: string) => {
-    const workout = await getWorkoutById(workoutId);
-    setWorkout(workout);
   };
 
   return (
@@ -72,31 +64,15 @@ function CalendarDay({ date }: CalendarDayProps) {
           {activities?.map((activity, index) => (
             <li key={index} className='card my-1'
               onClick={() => setActivity(activity)}>
-              <div className='card-header text-sm flex items-center justify-between'>
-                <div className='flex items-center' >
-                  <ActivityIcon type={activity.type} withColor={false} />
-                </div>
-                <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
-              </div>
-              <div className='card-body flex justify-between'>
-                <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
-                <div>{(activity.distance ?? 0) > 0 && formatDistance(activity.distance ?? 0)} miles</div>
-              </div>
+              <CalendarDayActivity activity={activity} />
             </li>
           ))}
         </ul>
         <ul>
-          {scheduledWorkouts.map((scheduledWorkout) => (
+          {/* this is triggering full page reload */}
+          {scheduledWorkouts?.map(async (scheduledWorkout) => (
             <li key={scheduledWorkout.id} className='card'>
-              <div className='card-header text-sm flex items-center justify-between'>
-                <div>{scheduledWorkout.name}</div>
-              </div>
-              <div className="card-body">
-                <button className='btn btn-info' onClick={() => { editWrokout(scheduledWorkout.workout_id); }}>
-                  Edit
-                </button>
-                <button className='btn btn-info' onClick={() => deleteScheduledWorkoutById(scheduledWorkout.id)}>Delete</button>
-              </div>
+              <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
             </li>
           ))}
         </ul>
@@ -109,5 +85,7 @@ function CalendarDay({ date }: CalendarDayProps) {
     </div>
   );
 }
+
+
 
 export default CalendarDay;

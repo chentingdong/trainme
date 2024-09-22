@@ -1,16 +1,20 @@
 "use client";
 
-import React, { } from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import ActivityIcon from '../activities/ActivityIcon';
 import { useWorkout } from '../components/WorkoutProvider';
+import { getWorkouts } from '../actions/workout';
 
 type Props = {
 };
 
 export default function WorkoutList({ }: Props) {
-  const { workouts, workout, setWorkout } = useWorkout();
+  const { workouts, setWorkouts, workout, setWorkout } = useWorkout();
   const selected = (id: string) => workout?.id === id ? ' selected' : '';
+  useEffect(() => {
+    getWorkouts().then(setWorkouts);
+  }, []);
 
   return (
     <div>

@@ -117,9 +117,7 @@ model workout_schedule {
   id            String        @id @default(uuid()) @db.Uuid
   workout_id    String        @db.Uuid
   schedule_date DateTime      @default(now())
-  name          String?       @db.VarChar(128)
   activity_uuid String?       @db.Uuid
-  deleted       Boolean?      @default(false)
   feeling       Int?          @default(0)
   rpe           Int?          @default(0)
   notes         String?       @db.VarChar(255)

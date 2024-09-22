@@ -3,6 +3,8 @@
 import React, { useRef } from 'react';
 import ConnectedHistogram from '../components/Histogram';
 import type { workout as Workout } from '@prisma/client';
+import { getWorkoutById } from '../actions/workout';
+import Loading from '../loading';
 
 type Props = {
   workout: Workout;
@@ -40,6 +42,9 @@ export default function WorkoutChart({ workout }: Props) {
   };
 
   const chartData = parseWorkoutData(workout?.steps as string);
-
-  return <ConnectedHistogram chartData={chartData} chartRef={chartRef} height={200} />;
+  if (!chartData) return <Loading />;
+  return (
+    <ConnectedHistogram chartData={chartData} chartRef={chartRef} />
+  );
 }
+

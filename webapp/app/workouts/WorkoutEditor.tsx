@@ -12,13 +12,13 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useWorkout } from '../components/WorkoutProvider';
 import { defaultWorkout, emptyWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
+import { useSchedule } from '../components/ScheduleProvider';
 
 type Props = {};
 
 export default function WorkoutEditor({ }: Props) {
   const { workout, setWorkout, workoutNames } = useWorkout();
-  const [scheduleDate, setScheduleDate] = useState<Date | null>(null);
-
+  const { scheduleDate } = useSchedule();
   const { control, handleSubmit } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: 'onChange'
@@ -39,7 +39,7 @@ export default function WorkoutEditor({ }: Props) {
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        await addToCalendar(workout, scheduleDate);
+        await addToCalendar(workout.id, scheduleDate);
         toaster.showToaster('Workout added to calendar', 'success');
         setWorkout(emptyWorkout);
       } catch (error) {
