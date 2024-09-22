@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import WorkoutChart from './WorkoutChart';
 import { Label, TextInput, Textarea } from 'flowbite-react';
 import { addToCalendar, saveWorkout } from '../actions/workout';
@@ -10,7 +10,7 @@ import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useWorkout } from '../components/WorkoutProvider';
-import { defaultWorkout, emptyWorkout } from '@/prisma';
+import { defaultWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
 import { useSchedule } from '../components/ScheduleProvider';
 
@@ -18,7 +18,8 @@ type Props = {};
 
 export default function WorkoutEditor({ }: Props) {
   const { workout, setWorkout, workoutNames } = useWorkout();
-  const { scheduleDate } = useSchedule();
+  const { scheduleDate, setScheduleDate } = useSchedule();
+
   const { control, handleSubmit } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: 'onChange'
@@ -39,9 +40,10 @@ export default function WorkoutEditor({ }: Props) {
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
+        await saveWorkout(workout);
         await addToCalendar(workout.id, scheduleDate);
+        setScheduleDate(null);
         toaster.showToaster('Workout added to calendar', 'success');
-        setWorkout(emptyWorkout);
       } catch (error) {
         toaster.showToaster(
           'Failed to add workout to calendar: ' + error,

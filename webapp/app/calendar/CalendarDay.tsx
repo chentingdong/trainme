@@ -34,7 +34,7 @@ function CalendarDay({ date }: CalendarDayProps) {
     getScheduledWorkoutsByDate(date).then((data) => {
       setScheduledWorkouts(data);
     });
-  }, [date, setScheduledWorkouts]);
+  }, [date, scheduleDate, setScheduledWorkouts]);
 
   const getWorkoutButtonClass = () => {
     if (!scheduleDate || !date) return '';

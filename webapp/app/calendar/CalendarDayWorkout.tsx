@@ -13,15 +13,20 @@ import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: ScheduledWorkout; }) => {
   const [workout, setWorkout] = useState<Workout>();
   const { setWorkout: setEditorWorkout } = useWorkout();
+
   useEffect(() => {
     getWorkoutById(scheduledWorkout.workout_id).then((data) => {
       setWorkout(data);
     });
   }, [scheduledWorkout]);
 
-  const editWorkout = async (workoutId: string) => {
+  const handleEditWorkout = async (workoutId: string) => {
     const result = await getWorkoutById(workoutId);
     setEditorWorkout(result);
+  };
+
+  const handleUnschedule = async () => {
+    await deleteScheduledWorkoutById(scheduledWorkout.id);
   };
 
   if (!workout) return <Loading />;
@@ -30,10 +35,10 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
     <div className="card">
       <div className="card-header flex justify-between items-center gap-2">
         <div className="flex-grow">{workout.name}</div>
-        <button className='btn btn-primary p-1' onClick={() => { editWorkout(workout.id); }}>
+        <button className='btn btn-primary p-1' onClick={() => { handleEditWorkout(workout.id); }}>
           <MdEditCalendar />
         </button>
-        <button className='btn btn-danger p-1' onClick={() => deleteScheduledWorkoutById(scheduledWorkout.id)}>
+        <button className='btn btn-danger p-1' onClick={handleUnschedule}>
           <MdFreeCancellation />
         </button>
       </div>

@@ -7,8 +7,8 @@ import {
 } from 'react';
 
 interface ScheduleContextType {
-  scheduleDate: Date;
-  setScheduleDate: (date: Date) => void;
+  scheduleDate: Date | null;
+  setScheduleDate: (date: Date | null) => void;
 }
 
 const ScheduleContext = createContext<ScheduleContextType | undefined>(
