@@ -24,7 +24,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const bodyClass = (): string => {
-    let className = 'bg-gray-100 text-gray-900 h-screen overflow-auto flex flex-col';
+    let className =
+      'bg-gray-100 text-gray-900 h-screen overflow-auto flex flex-col';
     return className;
   };
   return (
@@ -32,12 +33,12 @@ export default function RootLayout({
       <ClerkProvider>
         <body className={inter.className + bodyClass}>
           <WorkoutProvider>
-          <ToastProvider>
-            <Header />
-            <Toaster />
-            <main className='flex-grow mt-10'>
-              <Suspense fallback={<Loading />}>{children}</Suspense>
-            </main>
+            <ToastProvider>
+              <Header />
+              <Toaster />
+              <main className='flex-grow mt-10'>
+                <Suspense fallback={<Loading />}>{children}</Suspense>
+              </main>
             </ToastProvider>
           </WorkoutProvider>
         </body>

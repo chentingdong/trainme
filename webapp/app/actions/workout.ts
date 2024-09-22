@@ -67,19 +67,19 @@ export async function updateWorkout(oldWorkout: Workout, workout: Workout): Prom
   return updatedWorkout;
 }
 
-export async function addToCalendar(workout: Workout): Promise<WorkoutDate | null> {
+export async function addToCalendar(workout: Workout, date: Date | null): Promise<WorkoutDate | null> {
+  if (!date) return null;
   try {
-    const newWorkout = await prisma.workout_schedule.create({
-      data: {
-        id: uuidv4(),
+    const schedule = await prisma.workout_schedule.create({
+      data: { 
         workout_id: workout.id,
-        date: new Date(),
-        activity_uuid: workout.id,
-        notes: ''
+        schedule_date: date,
+        name: workout.name,
+        sport_type_id: workout.sport_type_id,
       },
     });
 
-    return newWorkout;
+    return schedule;
   } catch (error) {
     console.error(error);
     throw new Error('Failed to create workout' + error);

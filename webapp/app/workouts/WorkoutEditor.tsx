@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import WorkoutChart from './WorkoutChart';
 import { Label, TextInput, Textarea } from 'flowbite-react';
 import { addToCalendar, saveWorkout } from '../actions/workout';
@@ -10,13 +10,14 @@ import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useWorkout } from '../components/WorkoutProvider';
-import { defaultWorkout } from '@/prisma';
+import { defaultWorkout, emptyWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
 
 type Props = {};
 
 export default function WorkoutEditor({ }: Props) {
   const { workout, setWorkout, workoutNames } = useWorkout();
+  const [scheduleDate, setScheduleDate] = useState<Date | null>(null);
 
   const { control, handleSubmit } = useForm<Workout>({
     values: workout ?? defaultWorkout,
@@ -38,9 +39,9 @@ export default function WorkoutEditor({ }: Props) {
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        await addToCalendar(workout);
+        await addToCalendar(workout, scheduleDate);
         toaster.showToaster('Workout added to calendar', 'success');
-        setWorkout(defaultWorkout);
+        setWorkout(emptyWorkout);
       } catch (error) {
         toaster.showToaster(
           'Failed to add workout to calendar: ' + error,
@@ -231,8 +232,9 @@ export default function WorkoutEditor({ }: Props) {
             <div className='col-span-2 flex flex-col gap-4 mt-6'>
               <button
                 type='button'
-                className='btn btn-primary'
+                className={`btn ` + (!workout.id ? 'btn-disabled' : 'btn-primary')}
                 onClick={handleAddToCalendar}
+                disabled={!workout.id}
               >
                 Add to calendar
               </button>

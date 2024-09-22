@@ -26,7 +26,7 @@ export default function Page({ }: Props) {
   return (
     <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between dark:text-white'>
       <Carousel
-        className='relative h-144'
+        className='relative h-128'
         slide={false}
         indicators={false}
         leftControl={<FaChevronLeft className='btn btn-icon absolute top-2 left-2' onClick={handlePrevWeek} />}
