@@ -1,9 +1,12 @@
 {
   "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^22.5.5",
     "prisma": "^5.19.1"
   },
   "dependencies": {
-    "@prisma/client": "^5.19.1"
+    "@prisma/client": "^5.19.1",
+    "dotenv": "^16.4.5"
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

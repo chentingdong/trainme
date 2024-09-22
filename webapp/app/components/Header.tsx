@@ -21,7 +21,7 @@ const Header = () => {
     try {
       const newActivities: Activity[] = await fetchLatestActivitiesFromStrava(true);
       for (const activity of newActivities) {
-        const laps = await fetchActivityLaps(activity.id, true);
+        await fetchActivityLaps(activity.id, true);
       }
       setNewActivityCount(newActivities.length);
       showToaster('Successfully synced activities', 'success');

@@ -4,7 +4,6 @@ import { FaDumbbell, FaWalking } from 'react-icons/fa';
 import { GiCycling } from "react-icons/gi";
 import { BiCycling } from "react-icons/bi";
 import { TbSwimming } from 'react-icons/tb';
-import { LiaBikingSolid } from 'react-icons/lia';
 import { TbStretching } from "react-icons/tb";
 
 interface Props {

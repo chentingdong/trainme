@@ -39,7 +39,7 @@ export default function WorkoutChart({ workout }: Props) {
     return result;
   };
 
-  const chartData = parseWorkoutData(workout?.workout as string);
+  const chartData = parseWorkoutData(workout?.steps as string);
 
   return <ConnectedHistogram chartData={chartData} chartRef={chartRef} height={200} />;
 }

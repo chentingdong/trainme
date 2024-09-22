@@ -104,9 +104,6 @@ body {
       background-color: rgb(var(--background-start-rgb));
     }
     cursor: pointer;
-    &.small {
-      @apply w-4 h-4;
-    }
   }
 }
 

@@ -43,11 +43,11 @@ export default function CalendarWeek({ aday }: Props) {
   if (week.length === 0) return <Loading />;
 
   return (
-    <div className='calendar-week'>
+    <div className='calendar-week flex flex-col flex-grow'>
       <h2 className="text-center mx-2 p-2 rounded-md">
         {formatDate(week[0], 'MMMM')} {formatDate(week[0], 'dd')} - {formatDate(week[6], 'dd')}
       </h2>
-      <div className='flex gap-2 justify-between h-full p-2'>
+      <div className='flex gap-3 justify-between h-full p-2'>
         {week.map((date, index) => {
           return (
             <div key={index} className='w-full'>

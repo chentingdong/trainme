@@ -1,12 +1,14 @@
 "use server";
 
 import { prisma } from '@/prisma';
-import type { workout as Workout } from '@prisma/client';
+import type { workout_schedule as WorkoutDate, workout as Workout } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 
-export async function getWorkouts(type?: string): Promise<Workout[]> {
+export async function getWorkouts(): Promise<Workout[]> {
   const workouts = await prisma.workout.findMany({
-    where: type ? { type } : {},
+    where: {
+      deletedAt: null,
+    },
   });
 
   return workouts;
@@ -25,38 +27,61 @@ export async function getWorkoutById(id: string): Promise<Workout> {
   return workout;
 }
 
-export async function createWorkout(workout: Workout): Promise<Workout | null> {
+export async function saveWorkout(workout: Workout): Promise<Workout | null> {
   try {
-    const newWorkout = await prisma.workout.create({
+    const oldWorkout = await prisma.workout.findFirst({
+      where: {
+        name: workout.name,
+      }
+    });
+
+    const newWorkout = oldWorkout ? updateWorkout(oldWorkout, workout) : createWorkout(workout);
+    return newWorkout;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Failed to save workout' + error);
+  }
+}
+
+export async function createWorkout(workout: Workout): Promise<Workout | null> {
+  const newWorkout = await prisma.workout.create({
+    data: {
+      ...workout,
+      steps: workout.steps ?? [],
+    },
+  });
+  return newWorkout;
+}
+
+export async function updateWorkout(oldWorkout: Workout, workout: Workout): Promise<Workout | null> {
+  const updatedWorkout = await prisma.workout.update({
+    where: {
+      id: oldWorkout.id,
+    },
+    data: {
+      ...workout,
+      id: oldWorkout.id,
+      steps: workout.steps ?? undefined,
+    },
+  });
+  return updatedWorkout;
+}
+
+export async function addToCalendar(workout: Workout): Promise<WorkoutDate | null> {
+  try {
+    const newWorkout = await prisma.workout_schedule.create({
       data: {
-        ...workout,
         id: uuidv4(),
-        steps: workout.steps ?? undefined,
+        workout_id: workout.id,
+        date: new Date(),
+        activity_uuid: workout.id,
+        notes: ''
       },
     });
 
     return newWorkout;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to create workout' + error); // Return error message to UI
-  }
-}
-
-export async function updateWorkout(workout: Workout): Promise<Workout | null> {
-  try {
-    const updatedWorkout = await prisma.workout.update({
-      where: {
-        id: workout.id,
-      },
-      data: {
-        ...workout,
-        workout: workout.steps ?? undefined,
-      },
-    });
-
-    return updatedWorkout;
-  } catch (error) {
-    console.error(error);
-    throw new Error('Failed to update workout' + error); // Return error message to UI
+    throw new Error('Failed to create workout' + error);
   }
 }

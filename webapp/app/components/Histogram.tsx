@@ -17,7 +17,7 @@ type Props = {
   height: number;
 };
 
-const ConnectedHistogram = ({ chartData, chartRef, height = 400 }: Props) => {
+const ConnectedHistogram = ({ chartData, chartRef, height = 200 }: Props) => {
   // xScale function to convert time values to pixel positions
   const margin = { top: 20, right: 20, bottom: 20, left: 20 };
   const xScale = (time: number) => {

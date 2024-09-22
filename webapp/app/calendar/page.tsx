@@ -24,17 +24,15 @@ export default function Page({ }: Props) {
   };
 
   return (
-    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between'>
+    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between dark:text-white'>
       <Carousel
-        className='relative h-128'
+        className='relative h-144'
         slide={false}
         indicators={false}
         leftControl={<FaChevronLeft className='btn btn-icon absolute top-2 left-2' onClick={handlePrevWeek} />}
         rightControl={<FaChevronRight className='btn btn-icon absolute top-2 right-2' onClick={handleNextWeek} />}
       >
-        <div className='h-full flex items-center justify-center'>
-          <CalendarWeek aday={aday} />
-        </div>
+        <CalendarWeek aday={aday} />
       </Carousel>
       <WorkoutEditor />
     </div>

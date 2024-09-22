@@ -1,23 +1,17 @@
 "use client";
 
-import React, { use, useEffect, useState } from 'react';
-import { getWorkouts } from '../actions/workout';
+import React, { } from 'react';
 import { Button } from 'flowbite-react';
 import ActivityIcon from '../activities/ActivityIcon';
-import type { workout as Workout } from '@prisma/client';
-import { defaultWorkout } from '@/prisma';
+import { useWorkout } from '../components/WorkoutProvider';
 
 type Props = {
 };
 
 export default function WorkoutList({ }: Props) {
-  const [workouts, setWorkouts] = React.useState<Workout[]>([]);
-  useEffect(() => {
-    getWorkouts().then(setWorkouts);
-  }, []);
+  const { workouts, workout, setWorkout } = useWorkout();
 
-  const [workout, setWorkout] = React.useState<Workout>(defaultWorkout);
-
+  const active = (id: string) => workout?.id === id ? ' active' : '';
   return (
     <div>
       <h2 className='h2'>Workouts</h2>
@@ -25,7 +19,7 @@ export default function WorkoutList({ }: Props) {
         <button className='btn btn-info'>+</button>
         {workouts.map(workout => (
           <Button key={workout.id}
-            className='btn btn-info flex items-center'
+            className={`btn btn-info form-controlflex items-center justify-start` + active(workout.id)}
             onClick={() => setWorkout(workout)}>
             <ActivityIcon type={workout.type} />
             <div className='ml-2 font-semibold text-lg'>{workout.name || 'No name'}</div>

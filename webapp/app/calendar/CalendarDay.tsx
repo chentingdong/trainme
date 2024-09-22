@@ -51,8 +51,8 @@ function CalendarDay({ date, view, setSelectedActivityId, workoutDate, setWorkou
           ))}
         </div>
       </div>
-      <div className='card-body overflow-auto'>
-        <ul className="m-1 shadow-sm">
+      <div className='py-1 px-0overflow-auto'>
+        <ul className="my-1 shadow-sm">
           {activities?.map((activity, index) => (
             <li key={index} className='card my-1'
               onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
