@@ -26,3 +26,16 @@ export const getScheduledWorkoutsByDate = async (date: Date): Promise<ScheduledW
   });
   return scheduledWorkouts;
 };
+
+export const deleteScheduledWorkoutById = async (id: string) => {
+  try {
+    await prisma.workout_schedule.delete({
+      where: {
+        id
+      },
+    });
+  } catch (error) {
+    console.error('Error deleting scheduled workout:', error);
+    throw new Error('Failed to delete scheduled workout');
+  }
+};

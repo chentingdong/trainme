@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import ActivityIcon from '../activities/ActivityIcon';
-import type { workout as Workout } from '@prisma/client';
 import { formatTimeSeconds } from '@/utils/timeUtils';
 import { formatDistance } from '@/utils/distanceUtils';
 import { FaPlus } from 'react-icons/fa';
@@ -13,9 +12,9 @@ import { getActivitiesByDate } from '../actions/activities';
 import { useActivity } from '../components/ActivityProvider';
 import { useWorkout } from '../components/WorkoutProvider';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
-import { getScheduledWorkoutsByDate } from '../actions/schedule';
+import { deleteScheduledWorkoutById, getScheduledWorkoutsByDate } from '../actions/schedule';
 import { getWorkoutById } from '../actions/workout';
-
+import type { workout_schedule as WorkoutSchedule } from '@prisma/client';
 type CalendarDayProps = {
   date: Date;
 };
@@ -92,9 +91,12 @@ function CalendarDay({ date }: CalendarDayProps) {
               <div className='card-header text-sm flex items-center justify-between'>
                 <div>{scheduledWorkout.name}</div>
               </div>
-              <button className='btn btn-info' onClick={() => { editWrokout(scheduledWorkout.workout_id); }}>
-                {scheduledWorkout?.name || 'No workout selected'}
-              </button>
+              <div className="card-body">
+                <button className='btn btn-info' onClick={() => { editWrokout(scheduledWorkout.workout_id); }}>
+                  Edit
+                </button>
+                <button className='btn btn-info' onClick={() => deleteScheduledWorkoutById(scheduledWorkout.id)}>Delete</button>
+              </div>
             </li>
           ))}
         </ul>
