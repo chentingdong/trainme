@@ -10,8 +10,8 @@ type Props = {
 
 export default function WorkoutList({ }: Props) {
   const { workouts, workout, setWorkout } = useWorkout();
+  const selected = (id: string) => workout?.id === id ? ' selected' : '';
 
-  const active = (id: string) => workout?.id === id ? ' active' : '';
   return (
     <div>
       <h2 className='h2'>Workouts</h2>
@@ -19,7 +19,7 @@ export default function WorkoutList({ }: Props) {
         <button className='btn btn-info'>+</button>
         {workouts.map(workout => (
           <Button key={workout.id}
-            className={`btn btn-info form-controlflex items-center justify-start` + active(workout.id)}
+            className={`btn btn-info form-controlflex items-center justify-start` + selected(workout.id)}
             onClick={() => setWorkout(workout)}>
             <ActivityIcon type={workout.type} />
             <div className='ml-2 font-semibold text-lg'>{workout.name || 'No name'}</div>
