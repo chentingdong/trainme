@@ -14,11 +14,11 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export const defaultWorkout: Workout = {
   id: uuidv4(),
-  type: 'Run',
+  type: '',
   sport_type_id: 1,
-  name: 'Base run',
-  description: 'default workout',
-  steps: ["10m Z1", "10m Z2", "10m Z1"],
+  name: '',
+  description: '',
+  steps: [],
   distance: null,
   duration: null,
   createdAt: new Date(),

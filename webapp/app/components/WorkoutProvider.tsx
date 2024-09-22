@@ -29,7 +29,7 @@ export const useWorkout = () => {
 };
 
 export const WorkoutProvider = ({ children }: { children: ReactNode; }) => {
-  const [workout, setWorkout] = useState<Workout | null>(defaultWorkout);
+  const [workout, setWorkout] = useState<Workout>(defaultWorkout);
   const [workouts, setWorkouts] = useState<Workout[]>([]);
   const workoutNames = useMemo(() => workouts.map((workout) => workout.name), [workouts]);
   useEffect(() => {

@@ -19,7 +19,7 @@ export default function WorkoutEditor({ }: Props) {
   const { workout, setWorkout, workoutNames } = useWorkout();
 
   const { control, handleSubmit } = useForm<Workout>({
-    defaultValues: defaultWorkout,
+    values: workout ?? defaultWorkout,
     mode: 'onChange'
   });
 
@@ -92,7 +92,7 @@ export default function WorkoutEditor({ }: Props) {
                     autoFocus
                     className='h-72'
                     value={
-                      Array.isArray(field.value) ? field.value.join('\n') : ''
+                      Array.isArray(field.value) ? field.value.join('\n') : field.value?.toString() || ''
                     }
                     onChange={(e) => {
                       const steps = e.target.value.split('\n');
