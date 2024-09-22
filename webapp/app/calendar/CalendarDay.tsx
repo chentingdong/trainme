@@ -69,8 +69,7 @@ function CalendarDay({ date }: CalendarDayProps) {
           ))}
         </ul>
         <ul>
-          {/* this is triggering full page reload */}
-          {scheduledWorkouts?.map(async (scheduledWorkout) => (
+          {scheduledWorkouts?.map((scheduledWorkout) => (
             <li key={scheduledWorkout.id} className='card'>
               <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
             </li>
@@ -85,7 +84,5 @@ function CalendarDay({ date }: CalendarDayProps) {
     </div>
   );
 }
-
-
 
 export default CalendarDay;
