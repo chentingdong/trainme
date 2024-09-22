@@ -22,7 +22,7 @@ export default function CalendarWeek({ aday }: Props) {
       let week = [];
       // Get the start of the week (Sunday)
       let startOfWeek = new Date(date);
-      startOfWeek.setDate(date.getDate() - date.getDay());
+      startOfWeek.setDate(date.getDate() - (date.getDay() + 6) % 7);
       startOfWeek.setHours(0, 0, 0, 0); // Set to the start of the day
 
       for (let i = 0; i <= 6; i++) {

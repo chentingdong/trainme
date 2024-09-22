@@ -117,7 +117,6 @@ model workout_schedule {
   id            String        @id @default(uuid()) @db.Uuid
   workout_id    String        @db.Uuid
   schedule_date DateTime      @default(now())
-  sport_type_id Int           @default(1)
   name          String?       @db.VarChar(128)
   activity_uuid String?       @db.Uuid
   deleted       Boolean?      @default(false)
@@ -128,7 +127,6 @@ model workout_schedule {
 
   activity      activity?     @relation(fields: [activity_uuid], references: [uuid])
   workout       workout       @relation(fields: [workout_id], references: [id])
-  sport_type    sport_type    @relation(fields: [sport_type_id], references: [id])
 }
 
 model sport_type {
@@ -137,8 +135,6 @@ model sport_type {
   sport_type String    @unique
   active     Boolean   @default(false)
   workout    workout[]
-
-  workout_schedule workout_schedule[]
 }
 
 enum WorkoutStatus {

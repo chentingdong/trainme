@@ -47,6 +47,7 @@ export async function createWorkout(workout: Workout): Promise<Workout | null> {
   const newWorkout = await prisma.workout.create({
     data: {
       ...workout,
+      id: uuidv4(),
       steps: workout.steps ?? [],
     },
   });

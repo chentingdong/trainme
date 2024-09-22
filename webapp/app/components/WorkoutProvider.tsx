@@ -64,7 +64,7 @@ export const WorkoutProvider = ({ children }: { children: ReactNode; }) => {
     setWorkout,
     addWorkout,
     updateWorkout,
-    deleteWorkout,
+    deleteWorkout
   };
 
   return (

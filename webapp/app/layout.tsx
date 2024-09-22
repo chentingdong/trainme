@@ -8,6 +8,8 @@ import { Suspense } from 'react';
 import Loading from './components/Loading';
 import { ClerkProvider } from '@clerk/nextjs';
 import { WorkoutProvider } from './components/WorkoutProvider';
+import { ScheduleProvider } from './components/ScheduleProvider';
+import { ActivityProvider } from './components/ActivityProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
@@ -33,13 +35,17 @@ export default function RootLayout({
       <ClerkProvider>
         <body className={inter.className + bodyClass}>
           <WorkoutProvider>
-            <ToastProvider>
-              <Header />
-              <Toaster />
-              <main className='flex-grow mt-10'>
-                <Suspense fallback={<Loading />}>{children}</Suspense>
-              </main>
-            </ToastProvider>
+            <ActivityProvider>
+              <ScheduleProvider>
+                <ToastProvider>
+                  <Header />
+                  <Toaster />
+                  <main className='flex-grow mt-10'>
+                    <Suspense fallback={<Loading />}>{children}</Suspense>
+                  </main>
+                </ToastProvider>
+              </ScheduleProvider>
+            </ActivityProvider>
           </WorkoutProvider>
         </body>
       </ClerkProvider>

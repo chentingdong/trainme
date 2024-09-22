@@ -20,7 +20,7 @@ export async function getActivities(fromDate: Date, toDate: Date): Promise<Activ
 }
 
 // get all activities from strava on one day.
-export async function getActivityByDate(date: Date): Promise<Activity[]> {
+export async function getActivitiesByDate(date: Date): Promise<Activity[]> {
   try {
     const activities = await prisma.activity.findMany({
       where: {
