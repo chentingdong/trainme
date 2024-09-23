@@ -95,6 +95,9 @@ body {
     &.selected {
       @apply bg-slate-500 text-slate-100;
     }
+    &.active {
+      @apply bg-yellow-400 text-slate-100;
+    }
   }
   .btn-icon {
     @apply rounded-full flex items-center justify-center;
@@ -109,27 +112,17 @@ body {
 
 @layer components {
   .card {
-    @apply rounded-sm shadow overflow-hidden flex flex-col h-full;
-    border-color: var(--border-color);
+    @apply bg-slate-100 bg-opacity-50 text-slate-900;
+    @apply dark:bg-slate-900 dark:bg-opacity-50 dark:text-slate-100;
     .card-header {
       @apply font-semibold px-4 py-2 flex-grow-0;
-      @apply bg-gray-100 text-gray-700;
-      @apply bg-gray-200 text-gray-800;
-      @apply dark:bg-gray-800 dark:text-gray-200;
+      @apply bg-opacity-90;
     }
     .card-body {
-      @apply p-4 flex-grow;
-      @apply bg-gray-100 text-gray-900;
-      @apply dark:bg-gray-900 dark:text-gray-100;
+      @apply p-4 flex-grow  bg-opacity-30;
     }
     .card-footer {
-      @apply text-sm bg-gray-100 px-4 py-2;
-      @apply bg-gray-200 text-gray-700;
-      @apply dark:bg-gray-700 dark:text-gray-200;
-    }
-    .card {
-      // move to :root for dark mode
-      border-color: rgba(119, 184, 198, 0.1);
+      @apply text-sm bg-opacity-0;
     }
   }
 

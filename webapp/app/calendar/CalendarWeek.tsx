@@ -36,6 +36,16 @@ export default function CalendarWeek({ aday }: Props) {
     setWeek(getWeek(aday));
   }, [aday]);
 
+  const backgroundImages = [
+    'url(/art/20240725-Arles-1.jpg)',
+    'url(/art/20240725-Arles-2.jpg)',
+    'url(/art/20240725-Arles-3.jpg)',
+    'url(/art/20240725-Arles-4.jpg)',
+    'url(/art/20240725-Arles-5.jpg)',
+    'url(/art/20240725-Arles-7.jpg)',
+    'url(/art/20240725-Arles-9.jpg)'
+  ]
+
   if (week.length === 0) return <Loading />;
 
   return (
@@ -46,7 +56,7 @@ export default function CalendarWeek({ aday }: Props) {
       <div className='flex gap-3 justify-between p-2'>
         {week.map((date, index) => {
           return (
-            <div key={index} className='w-full'>
+            <div key={index} className='w-full bg-cover bg-center bg-color-transparent' style={{ backgroundImage: backgroundImages[index] }}>
               <CalendarDay date={date} />
             </div>
           );

@@ -31,12 +31,12 @@ export async function saveWorkout(workout: Workout): Promise<Workout | null> {
   try {
     const oldWorkout = await prisma.workout.findFirst({
       where: {
-        name: workout.name,
+        OR: [{ id: workout.id }, { name: workout.name }],
       }
     });
 
     const newWorkout = oldWorkout ? updateWorkout(oldWorkout, workout) : createWorkout(workout);
-    return newWorkout;
+    return newWorkout; 
   } catch (error) {
     console.error(error);
     throw new Error('Failed to save workout' + error);

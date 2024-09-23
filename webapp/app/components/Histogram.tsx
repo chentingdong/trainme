@@ -71,13 +71,13 @@ const CustomizedBar = (props: any) => {
     <>
       <rect x={x} y={y} width={barWidth} height={height} fill={fill} />
       <text
-        x={x + barWidth / 2 + 10}
+        x={x + barWidth / 2}
         y={y + height / 2}
         fill="#fff"
         textAnchor="middle"
         dominantBaseline="middle"
       >
-        z {data[index].zone}
+        {data[index].zone.toString()}
       </text>
     </>
   );

@@ -57,7 +57,6 @@ export default function WorkoutEditor({ }: Props) {
     try {
       if (workout && workout.steps) {
         await saveWorkout(workout);
-        toaster.showToaster('Workout added to calendar', 'success');
       } else {
         toaster.showToaster('Workout not saved', 'error');
       }
@@ -75,7 +74,7 @@ export default function WorkoutEditor({ }: Props) {
 
   return (
     <div className='h-full grid grid-cols-12'>
-      <div className='col-span-2'>
+      <div className='col-span-2 h-full'>
         <WorkoutList />
       </div>
       <form
@@ -83,7 +82,7 @@ export default function WorkoutEditor({ }: Props) {
         className='h-full dark:text-white col-span-10'
       >
         <div className='px-4 grid grid-cols-12 gap-8'>
-          <div className='col-span-9 grid grid-col gap-2'>
+          <div className='col-span-9 grid grid-col gap-2 bg-center bg-cover' >
             <Label htmlFor='steps'>Steps</Label>
             <Controller
               name='steps'
@@ -93,7 +92,7 @@ export default function WorkoutEditor({ }: Props) {
                   <Textarea
                     id='steps'
                     autoFocus
-                    className='h-72'
+                    className='h-96 text-xl font-handwriting text-yellow-600 bg-white bg-opacity-70'
                     value={
                       Array.isArray(field.value) ? field.value.join('\n') : field.value?.toString() || ''
                     }
@@ -106,7 +105,9 @@ export default function WorkoutEditor({ }: Props) {
                 );
               }}
             />
-            <WorkoutChart workout={workout} />
+            <div className="h-36 w-full">
+              <WorkoutChart workout={workout} />
+            </div>
           </div>
           <div className='col-span-3 flex flex-col justify-start'>
             <div className='form-group'>

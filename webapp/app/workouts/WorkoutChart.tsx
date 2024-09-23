@@ -32,7 +32,8 @@ export default function WorkoutChart({ workout }: Props) {
       } else if (distanceMatch) {
         duration = parseFloat(distanceMatch[1]) * pace;
       }
-      zone = zoneMatch ? parseInt(zoneMatch[1]) : 1;
+      if (!zoneMatch) continue;
+      zone = parseInt(zoneMatch[1]);
       duration = Math.round(duration); // Round to 1 decimal place
       result.push({ time, zone });
       time += duration;

@@ -10,7 +10,7 @@ type Props = {
 };
 export function CalendarDayActivity({ activity }: Props) {
   return (
-    <div>
+    <div className='card rounded-sm calendar-tile bg-color-transparent'>
       <div className='card-header text-sm flex items-center justify-between'>
         <div className='flex items-center' >
           <ActivityIcon type={activity.type} withColor={false} />

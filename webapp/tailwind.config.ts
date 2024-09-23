@@ -27,6 +27,15 @@ const config: Config = {
         160: "40rem",
         176: "44rem", //laptop full height.
       },
+      fontSize: {
+        "3xl": "2.75rem",
+        "4xl": "3.5rem",
+        "5xl": "4rem",
+        "6xl": "4.5rem",
+      },
+      fontFamily: {
+        handwriting: ['"Comic Neue"', "cursive"],
+      },
     },
     container: {
       padding: {

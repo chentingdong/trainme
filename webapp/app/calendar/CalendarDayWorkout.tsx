@@ -43,9 +43,9 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
         </button>
       </div>
       <div className='card-body flex justify-between'></div>
-      <div className="h-12 w-full">
+      <button className="cursor-pointer h-20 w-full" onClick={() => handleEditWorkout(workout.id)}>
         <WorkoutChart workout={workout} />
-      </div>
+      </button>
     </div>
   );
 };
