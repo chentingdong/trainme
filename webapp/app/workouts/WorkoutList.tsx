@@ -22,7 +22,7 @@ export default function WorkoutList({ }: Props) {
   };
 
   return (
-    <div className='h-full overflow-y-auto flex flex-col justify-start gap-1 px-2'>
+    <div className='h-full flex flex-col justify-start gap-1 px-2 overflow-y-auto scroll'>
       <div className="flex justify-between items-center">
         <h3 className='h3'>Workouts</h3>
         <button className='btn btn-icon text-center' onClick={handleNewWorkout}>

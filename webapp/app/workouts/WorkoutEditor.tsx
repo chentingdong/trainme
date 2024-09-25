@@ -91,7 +91,7 @@ export default function WorkoutEditor({ }: Props) {
                   <Textarea
                     id='steps'
                     autoFocus
-                    className='flex-grow text-md font-handwriting tracking-widest-2 text-yellow-200 bg-slate-500 bg-opacity-70 w-144 mx-auto'
+                    className='flex-grow text-lg font-handwriting tracking-widest line-height-wide bg-opacity-70 w-144 mx-auto scroll'
                     value={
                       Array.isArray(field.value) ? field.value.join('\n') : field.value?.toString() || ''
                     }

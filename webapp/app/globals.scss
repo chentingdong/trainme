@@ -165,7 +165,11 @@ body {
   .popover {
     @apply p-4 rounded-md shadow-md bg-slate-50 text-slate-900;
   }
+  .scroll {
+    @apply scrollbar-none scrollbar-thumb-yellow-400 scrollbar-track-transparent;
+  }
 }
+
 /* Custom styles for dark mode */
 @media (prefers-color-scheme: dark) {
   .btn-info {

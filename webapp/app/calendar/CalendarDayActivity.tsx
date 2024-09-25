@@ -13,7 +13,7 @@ export function CalendarDayActivity({ activity }: Props) {
     <div className='card'>
       <div className='card-header text-sm flex items-center justify-between'>
         <div className='flex items-center' >
-          <ActivityIcon type={activity.type} withColor={false} />
+          <ActivityIcon type={activity.type} withColor={true} />
         </div>
         <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
       </div>

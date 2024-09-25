@@ -40,7 +40,7 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
       onClick={() => setEditorWorkout(workout)}
     >
       <div className="card-header flex justify-between items-center gap-2 p-0">
-        <ActivityIcon type={workout.type} />
+        <ActivityIcon type={workout.type} withColor={false} />
         <div className="flex-grow">{workout.name}</div>
         <button className='btn btn-icon btn-danger' onClick={handleUnschedule}>
           <MdAutoDelete />
