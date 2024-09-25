@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import Calendar from 'react-calendar';
 import { FixedSizeList as List } from 'react-window';
 import { addWeeks, startOfWeek, endOfWeek } from 'date-fns';

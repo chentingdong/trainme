@@ -24,19 +24,20 @@ export default function Page({ }: Props) {
   };
 
   return (
-    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between'>
+    <div className='gap-0 w-full h-full p-4 dark:text-white flex flex-col justify-between'>
       <Carousel
-        className='relative h-128'
+        className='relative w-full h-104 flex-grow-0'
         slide={false}
         indicators={false}
-        leftControl={<FaChevronLeft className='btn btn-icon absolute top-2 left-2' onClick={handlePrevWeek} />}
-        rightControl={<FaChevronRight className='btn btn-icon absolute top-2 right-2' onClick={handleNextWeek} />}
+        leftControl={<FaChevronLeft className='btn btn-icon absolute w-6 h-6 top-2 left-2' onClick={handlePrevWeek} />}
+        rightControl={<FaChevronRight className='btn btn-icon absolute w-6 h-6 top-2 right-2' onClick={handleNextWeek} />}
       >
-        <div className='h-full flex items-center justify-center'>
-          <CalendarWeek aday={aday} />
-        </div>
+        <CalendarWeek aday={aday} />
       </Carousel>
-      <WorkoutEditor />
+      <div className='overflow-auto flex-grow'
+        style={{ backgroundImage: `url('/art/20240811-act-goats.jpg')` }}>
+        <WorkoutEditor />
+      </div>
     </div>
   );
 }

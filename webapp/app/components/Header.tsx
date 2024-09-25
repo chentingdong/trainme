@@ -21,7 +21,7 @@ const Header = () => {
     try {
       const newActivities: Activity[] = await fetchLatestActivitiesFromStrava(true);
       for (const activity of newActivities) {
-        const laps = await fetchActivityLaps(activity.id, true);
+        await fetchActivityLaps(activity.id, true);
       }
       setNewActivityCount(newActivities.length);
       showToaster('Successfully synced activities', 'success');
@@ -37,14 +37,13 @@ const Header = () => {
     <header className='bg-slate-800 text-white p-2 fixed top-0 left-0 right-0 z-50'>
       <nav className='flex justify-between items-center'>
         <a href='/' className='text-xl font-normal flex gap-4'>
-          <div className='bg-blue-500 rounded-full'>
+          <div className='bg-blue-500 rounded-full h-7'>
             <Image src='/TrainMe.webp' alt='Logo' width={32} height={32} />
           </div>
           <div className='text-blue-100'>TrainMe</div>
         </a>
         <ul className='flex gap-4 items-center'>
           <li>
-
               <a href='#' onClick={syncStrava} className='flex items-center gap-2'>
                 <FcSynchronize className={loading ? 'icon loading-icon' : 'icon'} />
                 Sync Strava

@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import ConnectedHistogram from '../components/Histogram';
 import type { workout as Workout } from '@prisma/client';
+import Loading from '../loading';
 
 type Props = {
   workout: Workout;
@@ -30,7 +31,8 @@ export default function WorkoutChart({ workout }: Props) {
       } else if (distanceMatch) {
         duration = parseFloat(distanceMatch[1]) * pace;
       }
-      zone = zoneMatch ? parseInt(zoneMatch[1]) : 1;
+      if (!zoneMatch) continue;
+      zone = parseInt(zoneMatch[1]);
       duration = Math.round(duration); // Round to 1 decimal place
       result.push({ time, zone });
       time += duration;
@@ -39,7 +41,10 @@ export default function WorkoutChart({ workout }: Props) {
     return result;
   };
 
-  const chartData = parseWorkoutData(workout?.workout as string);
-
-  return <ConnectedHistogram chartData={chartData} chartRef={chartRef} height={200} />;
+  const chartData = parseWorkoutData(workout?.steps as string);
+  if (!chartData) return <Loading />;
+  return (
+    <ConnectedHistogram chartData={chartData} chartRef={chartRef} />
+  );
 }
+

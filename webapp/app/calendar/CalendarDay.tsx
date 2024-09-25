@@ -1,45 +1,53 @@
 "use client";
 
-import React from 'react';
-import { getActivityByDate } from '../actions/activities';
+import React, { useEffect, useState } from 'react';
 import ActivityIcon from '../activities/ActivityIcon';
-import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/distanceUtils';
-import { FaPlus } from 'react-icons/fa';
+
+import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from 'date-fns';
-import { activity as Activity } from '@prisma/client'
+import { useSchedule } from '../components/ScheduleProvider';
+import type { activity as Activity } from '@prisma/client';
+import { getActivitiesByDate } from '../actions/activities';
+import { useActivity } from '../components/ActivityProvider';
+import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
+import { getScheduledWorkoutsByDate } from '../actions/schedule';
+import { CalendarDayWorkout } from './CalendarDayWorkout';
+import { CalendarDayActivity } from './CalendarDayActivity';
 
 type CalendarDayProps = {
   date: Date;
-  view?: string;
-  setSelectedActivityId?: (id: number) => void;
-  workoutDate?: Date;
-  setWorkoutDate?: (date: Date) => void;
 };
 
-function CalendarDay({ date, view, setSelectedActivityId, workoutDate, setWorkoutDate }: CalendarDayProps) {
-  const [activities, setActivities] = React.useState<Activity[]>([]);
-  React.useEffect(() => {
-    if (typeof window !== 'undefined') {
-      getActivityByDate(date).then((data) => {
-        setActivities(data);
-      });
-    }
-  }, [date]);
+function CalendarDay({ date }: CalendarDayProps) {
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const { setActivity } = useActivity();
+  const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
+  const { scheduleDate, setScheduleDate } = useSchedule();
 
-  const selectActivity = (e: React.MouseEvent, id: number) => {
-    e.stopPropagation();
-    if (setSelectedActivityId)
-      setSelectedActivityId(id);
-  };
+  useEffect(() => {
+    getActivitiesByDate(date).then((data) => {
+      setActivities(data);
+    });
+  }, [date, setActivities]);
 
-  const getWorkoutButtonClass = () => {
-    return (date && workoutDate && date.toDateString() === workoutDate.toDateString()) ? 'selected' : '';
-  };
+  useEffect(() => {
+    getScheduledWorkoutsByDate(date).then((data) => {
+      setScheduledWorkouts(data);
+    });
+  }, [date, scheduleDate, setScheduledWorkouts]);
+
+  const workoutButtonStyle: string = (() => {
+    let cn = 'btn btn-icon btn-workout border-none w-full';
+    cn += ' flex gap-4 items-center justify-center';
+    cn += date?.getDate() === scheduleDate?.getDate() ? ' active' : '';
+    return cn;
+  })();
 
   return (
-    <div className="card rounded-sm calendar-tile">
-      <div className="card-header bg-white flex justify-between">
+    <div
+      className="card rounded-sm justify-between h-full"
+      onClick={() => setScheduleDate(date)}>
+      <div className="card-header p-1 flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
         </div>
@@ -51,30 +59,29 @@ function CalendarDay({ date, view, setSelectedActivityId, workoutDate, setWorkou
           ))}
         </div>
       </div>
-      <div className='card-body overflow-auto'>
-        <ul className="m-1 shadow-sm">
+      <div className='h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70'>
+        <ul className="mx-0.25 shadow-sm">
           {activities?.map((activity, index) => (
-            <li key={index} className='card my-1'
-              onClick={(e: React.MouseEvent<HTMLLIElement>) => selectActivity(e, activity.id)}>
-              <div className='card-header text-sm flex items-center justify-between'>
-                <div className='flex items-center' >
-                  <ActivityIcon type={activity.type} withColor={false} />
-                </div>
-                <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
-              </div>
-              <div className='card-body flex justify-between'>
-                <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
-                <div>{(activity.distance ?? 0) > 0 && formatDistance(activity.distance ?? 0)} miles</div>
-              </div>
+            <li key={index} className='my-1 cursor-pointer'
+              onClick={() => setActivity(activity)}>
+              <CalendarDayActivity activity={activity} />
+            </li>
+          ))}
+        </ul>
+        <ul className="mx-0.25 shadow-sm">
+          {scheduledWorkouts?.map((scheduledWorkout) => (
+            <li key={scheduledWorkout.id} className='my-1 cursor-pointer'>
+              <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
             </li>
           ))}
         </ul>
       </div>
-      <button className={`btn btn-info btn-icon border-none w-full flex gap-4 ${getWorkoutButtonClass()}`}
-        onClick={() => setWorkoutDate && setWorkoutDate(date)}>
-        {format(date, 'EEE')}
-        <FaPlus />
-      </button>
+      <div className="card-footer px-4 py-0.5">
+        <button className={workoutButtonStyle} >
+          {format(date, 'EEEE')}
+          <PiPaperPlaneFill width={200} />
+        </button>
+      </div>
     </div>
   );
 }

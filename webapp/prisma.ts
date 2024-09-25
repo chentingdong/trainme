@@ -7,16 +7,35 @@ const globalForPrisma = global as unknown as { prisma: PrismaClient; };
 export const prisma =
   globalForPrisma.prisma ||
   new PrismaClient({
-    log: ['query'],
+    log: ['error', 'warn'],
   });
 
 if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 export const defaultWorkout: Workout = {
   id: uuidv4(),
-  type: 'Run',
-  sport_type: 'Running',
+  type: '',
+  sport_type_id: 1,
   name: 'Base run',
-  description: 'default workout',
-  steps: ["10m Z1", "10m Z2", "10m Z1"],
+  description: '',
+  steps: ['10m Z1'],
+  distance: null,
+  duration: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null
+};
+
+export const emptyWorkout: Workout = {
+  id: uuidv4(),
+  type: '',
+  sport_type_id: 1,
+  name: '',
+  description: '',
+  steps: [],
+  distance: null,
+  duration: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null
 };

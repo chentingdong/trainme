@@ -7,12 +7,12 @@ import { type activity as Activity } from '@prisma/client';
 import { prisma } from '@/prisma';
 
 // get activities from strava with pagination.
-export async function getActivities(fromDate: Date, toDate: Date, page: number): Promise<Activity[]> {
+export async function getActivities(fromDate: Date, toDate: Date): Promise<Activity[]> {
   const activities = await prisma.activity.findMany({
     where: {
       start_date_local: {
         gte: fromDate.toISOString(),
-        lt: toDate.toISOString(),
+        lte: toDate.toISOString(),
       },
     }
   });
@@ -20,7 +20,7 @@ export async function getActivities(fromDate: Date, toDate: Date, page: number):
 }
 
 // get all activities from strava on one day.
-export async function getActivityByDate(date: Date): Promise<Activity[]> {
+export async function getActivitiesByDate(date: Date): Promise<Activity[]> {
   try {
     const activities = await prisma.activity.findMany({
       where: {

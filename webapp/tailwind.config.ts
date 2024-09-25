@@ -15,15 +15,32 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       height: {
+        96: "24rem",
+        104: "26rem",
+        112: "28rem",
         128: "32rem",
         144: "36rem",
         160: "40rem",
       },
       width: {
+        112: "28rem",
         128: "32rem",
         144: "36rem",
         160: "40rem",
         176: "44rem", //laptop full height.
+      },
+      fontSize: {
+        "2xs": "0.625rem",
+        "3xl": "2.75rem",
+        "4xl": "3.5rem",
+        "5xl": "4rem",
+        "6xl": "4.5rem",
+      },
+      fontFamily: {
+        handwriting: ['"Comic Neue"', "cursive"],
+      },
+      letterSpacing: {
+        'widest-2': '0.8rem',
       },
     },
     container: {
@@ -37,7 +54,8 @@ const config: Config = {
     },
   },
   plugins: [
-    require('flowbite/plugin')
+    require('flowbite/plugin'),
+    require('tailwind-scrollbar'),
   ],
   darkMode: 'media',
 };
