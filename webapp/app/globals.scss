@@ -105,21 +105,25 @@ body {
     &.btn-disabled {
       @apply bg-gray-300 text-gray-500 cursor-not-allowed;
     }
-    &.selected {
-      @apply bg-slate-500 text-slate-100;
+    &.btn-workout {
+      @apply bg-gray-500 text-white font-semibold;
+      @apply hover:bg-yellow-400 hover:text-white;
     }
     &.active {
       @apply bg-yellow-400 text-slate-100;
+    }
+    &.selected {
+      @apply bg-slate-500 text-slate-100;
     }
   }
   .btn-icon {
     @apply rounded-full flex items-center justify-center;
     @apply w-4 h-4 text-xs p-0.5;
     background-color: rgb(var(--background-end-rgb));
+    cursor: pointer;
     &:hover {
       background-color: rgb(var(--background-start-rgb));
     }
-    cursor: pointer;
   }
 }
 

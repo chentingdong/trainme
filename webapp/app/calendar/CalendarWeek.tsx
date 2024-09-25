@@ -37,13 +37,13 @@ export default function CalendarWeek({ aday }: Props) {
   }, [aday]);
 
   const backgroundImages = [
+    'url(/art/20240725-Arles-7.jpg)',
+    'url(/art/20240725-Arles-4.jpg)',
+    'url(/art/20240725-Arles-9.jpg)',
     'url(/art/20240725-Arles-1.jpg)',
+    'url(/art/20240725-Arles-5.jpg)',
     'url(/art/20240725-Arles-2.jpg)',
     'url(/art/20240725-Arles-3.jpg)',
-    'url(/art/20240725-Arles-4.jpg)',
-    'url(/art/20240725-Arles-5.jpg)',
-    'url(/art/20240725-Arles-7.jpg)',
-    'url(/art/20240725-Arles-9.jpg)'
   ]
 
   if (week.length === 0) return <Loading />;

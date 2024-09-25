@@ -40,7 +40,7 @@ const Header = () => {
           <div className='bg-blue-500 rounded-full'>
             <Image src='/TrainMe.webp' alt='Logo' width={32} height={32} />
           </div>
-          <div className='text-blue-100'>TrainMe 体育老师说</div>
+          <div className='text-blue-100'>TrainMe</div>
         </a>
         <ul className='flex gap-4 items-center'>
           <li>

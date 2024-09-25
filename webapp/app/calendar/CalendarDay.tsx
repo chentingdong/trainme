@@ -37,7 +37,7 @@ function CalendarDay({ date }: CalendarDayProps) {
   }, [date, scheduleDate, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {
-    let cn = 'btn btn-info btn-icon border-none w-full';
+    let cn = 'btn btn-icon btn-workout border-none w-full';
     cn += ' flex gap-4 items-center justify-center';
     cn += date?.getDate() === scheduleDate?.getDate() ? ' active' : '';
     return cn;
@@ -45,7 +45,7 @@ function CalendarDay({ date }: CalendarDayProps) {
 
   return (
     <div
-      className="card rounded-sm overflow-y-visible"
+      className="card rounded-sm justify-between h-full"
       onClick={() => setScheduleDate(date)}>
       <div className="card-header flex justify-between">
         <div className="flex gap-2 items-center">
@@ -59,7 +59,7 @@ function CalendarDay({ date }: CalendarDayProps) {
           ))}
         </div>
       </div>
-      <div className='bg-opacity-50 flex flex-col justify-between h-64 p-0 overflow-auto'>
+      <div className='bg-opacity-50 h-72 flex flex-col justify-between p-0 overflow-hidden'>
         <ul className="mx-0.5 shadow-sm">
           {activities?.map((activity, index) => (
             <li key={index} className='my-1 cursor-pointer'
