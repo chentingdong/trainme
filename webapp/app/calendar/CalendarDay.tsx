@@ -44,7 +44,9 @@ function CalendarDay({ date }: CalendarDayProps) {
   })();
 
   return (
-    <div className="card rounded-sm calendar-tile overflow-y-visible">
+    <div
+      className="card rounded-sm overflow-y-visible"
+      onClick={() => setScheduleDate(date)}>
       <div className="card-header flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
@@ -57,25 +59,25 @@ function CalendarDay({ date }: CalendarDayProps) {
           ))}
         </div>
       </div>
-      <div className='py-1 px-0 overflow-auto h-56'>
-        <ul className="my-1 shadow-sm">
+      <div className='overflow-auto h-72 flex flex-col justify-between'>
+        <ul className="my-1 mx-0.5 shadow-sm">
           {activities?.map((activity, index) => (
-            <li key={index} className='card my-1'
+            <li key={index} className='my-1 cursor-pointer'
               onClick={() => setActivity(activity)}>
               <CalendarDayActivity activity={activity} />
             </li>
           ))}
         </ul>
-        <ul>
+        <ul className="my-1 mx-0.5 shadow-sm">
           {scheduledWorkouts?.map((scheduledWorkout) => (
-            <li key={scheduledWorkout.id}>
+            <li key={scheduledWorkout.id} className='my-1 cursor-pointer'>
               <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
             </li>
           ))}
         </ul>
       </div>
-      <div className="card-footer px-4 py-1">
-        <button className={workoutButtonStyle} onClick={() => setScheduleDate(date)}>
+      <div className="card-footer px-4 py-0.5">
+        <button className={workoutButtonStyle} >
           {format(date, 'EEEE')}
           <PiPaperPlaneFill width={200} />
         </button>

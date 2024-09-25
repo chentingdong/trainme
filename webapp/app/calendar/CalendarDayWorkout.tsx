@@ -12,7 +12,7 @@ import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 
 export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: ScheduledWorkout; }) => {
   const [workout, setWorkout] = useState<Workout>();
-  const { setWorkout: setEditorWorkout } = useWorkout();
+  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkout();
 
   useEffect(() => {
     getWorkoutById(scheduledWorkout.workout_id).then((data) => {
@@ -33,7 +33,7 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
 
   return (
     <div className="card">
-      <div className="card-header flex justify-between items-center gap-2">
+      <div className="card-header flex justify-between items-center gap-2 p-0">
         <div className="flex-grow">{workout.name}</div>
         <button className='btn btn-primary p-1' onClick={() => { handleEditWorkout(workout.id); }}>
           <MdEditCalendar />
@@ -42,10 +42,14 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
           <MdFreeCancellation />
         </button>
       </div>
-      <div className='card-body flex justify-between'></div>
-      <button className="cursor-pointer h-20 w-full" onClick={() => handleEditWorkout(workout.id)}>
-        <WorkoutChart workout={workout} />
-      </button>
+      <div className={
+        `card-body  border-2` +
+          workout.id === editorWorkout?.id ? 'border-yellow-300' : 'border-transparent'
+      }>
+        <div className="p-0 h-10 w-full text-2xs" onClick={() => setEditorWorkout(workout)}>
+          <WorkoutChart workout={workout} />
+        </div>
+      </div>
     </div>
   );
 };

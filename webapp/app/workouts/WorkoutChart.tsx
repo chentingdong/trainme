@@ -3,7 +3,6 @@
 import React, { useRef } from 'react';
 import ConnectedHistogram from '../components/Histogram';
 import type { workout as Workout } from '@prisma/client';
-import { getWorkoutById } from '../actions/workout';
 import Loading from '../loading';
 
 type Props = {

@@ -24,7 +24,7 @@ export default function Page({ }: Props) {
   };
 
   return (
-    <div className='relative w-full h-full p-4 flex flex-col gap-4 justify-between dark:text-white'>
+    <div className='flex flex-col gap-4 justify-between w-full h-full p-4 dark:text-white '>
       <Carousel
         className='relative h-128'
         slide={false}
@@ -34,7 +34,10 @@ export default function Page({ }: Props) {
       >
         <CalendarWeek aday={aday} />
       </Carousel>
-      <WorkoutEditor />
+      <div className='h-[calc(100vh-128px)] overflow-auto'
+        style={{ backgroundImage: `url('/art/20240811-act-goats.jpg')` }}>
+        <WorkoutEditor />
+      </div>
     </div>
   );
 }

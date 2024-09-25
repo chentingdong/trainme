@@ -40,7 +40,7 @@ export default function RootLayout({
                 <ToastProvider>
                   <Header />
                   <Toaster />
-                  <main className='flex-grow mt-10'>
+                  <main className='flex-grow mt-8'>
                     <Suspense fallback={<Loading />}>{children}</Suspense>
                   </main>
                 </ToastProvider>
