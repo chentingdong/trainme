@@ -34,7 +34,7 @@ function CalendarDay({ date }: CalendarDayProps) {
     getScheduledWorkoutsByDate(date).then((data) => {
       setScheduledWorkouts(data);
     });
-  }, [date, scheduleDate, setScheduledWorkouts]);
+  }, [date, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {
     let cn = 'btn btn-icon btn-workout border-none w-full';

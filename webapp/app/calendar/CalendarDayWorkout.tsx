@@ -21,11 +21,6 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
     });
   }, [scheduledWorkout]);
 
-  const handleEditWorkout = async (workoutId: string) => {
-    const result = await getWorkoutById(workoutId);
-    setEditorWorkout(result);
-  };
-
   const handleUnschedule = async () => {
     await deleteScheduledWorkoutById(scheduledWorkout.id);
   };

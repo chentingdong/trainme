@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import WorkoutChart from './WorkoutChart';
 import { Label, TextInput, Textarea } from 'flowbite-react';
 import { addToCalendar, saveWorkout } from '../actions/workout';
@@ -10,7 +9,7 @@ import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useWorkout } from '../components/WorkoutProvider';
-import { defaultWorkout, emptyWorkout } from '@/prisma';
+import { defaultWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
 import { useSchedule } from '../components/ScheduleProvider';
 
@@ -252,7 +251,6 @@ export default function WorkoutEditor({ }: Props) {
             </div>
           </div>
         </div>
-
       </div>
     </form>
   );

@@ -8,9 +8,10 @@ import Loading from '../loading';
 
 type Props = {
   aday?: Date; //any day of the week.
+  showBgImage?: boolean;
 };
 
-export default function CalendarWeek({ aday }: Props) {
+export default function CalendarWeek({ aday, showBgImage = false }: Props) {
   // if didn't specify which day of the week, today is as good as any.
   if (!aday) aday = new Date();
 
@@ -57,7 +58,7 @@ export default function CalendarWeek({ aday }: Props) {
         {week.map((date, index) => {
           return (
             <div key={index} className='w-full bg-cover bg-center'
-              style={{ backgroundImage: backgroundImages[index] }}>
+              style={showBgImage ? { backgroundImage: backgroundImages[index] } : {}}>  
               <CalendarDay date={date} />
             </div>
           );

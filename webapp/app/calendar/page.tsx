@@ -32,7 +32,7 @@ export default function Page({ }: Props) {
         leftControl={<FaChevronLeft className='btn btn-icon absolute w-6 h-6 top-2 left-2' onClick={handlePrevWeek} />}
         rightControl={<FaChevronRight className='btn btn-icon absolute w-6 h-6 top-2 right-2' onClick={handleNextWeek} />}
       >
-        <CalendarWeek aday={aday} />
+        <CalendarWeek aday={aday} showBgImage={true} />
       </Carousel>
       <div className='overflow-auto flex-grow'
         style={{ backgroundImage: `url('/art/20240811-act-goats.jpg')` }}>
