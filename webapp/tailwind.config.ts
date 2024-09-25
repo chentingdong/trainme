@@ -40,7 +40,7 @@ const config: Config = {
         handwriting: ['"Comic Neue"', "cursive"],
       },
       letterSpacing: {
-        'widest-2': '1.2rem',
+        'widest-2': '0.8rem',
       },
     },
     container: {

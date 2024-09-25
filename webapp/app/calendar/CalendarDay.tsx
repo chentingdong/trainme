@@ -60,7 +60,7 @@ function CalendarDay({ date }: CalendarDayProps) {
         </div>
       </div>
       <div className='bg-opacity-50 h-72 flex flex-col justify-between p-0 overflow-hidden'>
-        <ul className="mx-0.5 shadow-sm">
+        <ul className="mx-0.25 shadow-sm">
           {activities?.map((activity, index) => (
             <li key={index} className='my-1 cursor-pointer'
               onClick={() => setActivity(activity)}>
@@ -68,7 +68,7 @@ function CalendarDay({ date }: CalendarDayProps) {
             </li>
           ))}
         </ul>
-        <ul className="mx-0.5 shadow-sm">
+        <ul className="mx-0.25 shadow-sm">
           {scheduledWorkouts?.map((scheduledWorkout) => (
             <li key={scheduledWorkout.id} className='my-1 cursor-pointer'>
               <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
