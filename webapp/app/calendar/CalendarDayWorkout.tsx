@@ -5,7 +5,7 @@ import { getWorkoutById } from '../actions/workout';
 import type { workout as Workout } from '@prisma/client';
 import Loading from '../loading';
 import WorkoutChart from '../workouts/WorkoutChart';
-import { useWorkout } from '../components/WorkoutProvider';
+import { useWorkoutStore } from '@/app/components/useWorkoutStore';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 import { cn } from '@/utils/helper';
 import ActivityIcon from '../activities/ActivityIcon';
@@ -13,7 +13,7 @@ import { IoClose } from "react-icons/io5";
 
 export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: ScheduledWorkout; }) => {
   const [workout, setWorkout] = useState<Workout>();
-  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkout();
+  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkoutStore();
 
   useEffect(() => {
     getWorkoutById(scheduledWorkout.workout_id).then((data) => {

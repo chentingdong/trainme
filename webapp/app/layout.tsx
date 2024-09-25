@@ -7,9 +7,6 @@ import { Toaster, ToastProvider } from './components/Toaster';
 import { Suspense } from 'react';
 import Loading from './components/Loading';
 import { ClerkProvider } from '@clerk/nextjs';
-import { WorkoutProvider } from './components/WorkoutProvider';
-import { ScheduleProvider } from './components/ScheduleProvider';
-import { ActivityProvider } from './components/ActivityProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
@@ -34,19 +31,13 @@ export default function RootLayout({
     <html lang='en'>
       <ClerkProvider>
         <body className={inter.className + bodyClass}>
-          <WorkoutProvider>
-            <ActivityProvider>
-              <ScheduleProvider>
-                <ToastProvider>
-                  <Header />
-                  <Toaster />
-                  <main className='flex-grow mt-8'>
-                    <Suspense fallback={<Loading />}>{children}</Suspense>
-                  </main>
-                </ToastProvider>
-              </ScheduleProvider>
-            </ActivityProvider>
-          </WorkoutProvider>
+          <ToastProvider>
+            <Header />
+            <Toaster />
+            <main className='flex-grow mt-8'>
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </main>
+          </ToastProvider>
         </body>
       </ClerkProvider>
     </html>

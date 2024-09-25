@@ -45,7 +45,8 @@
     "style-loader": "^4.0.0",
     "tailwind-merge": "^2.5.2",
     "tailwind-scrollbar": "^3.1.0",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",

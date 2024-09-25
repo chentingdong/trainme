@@ -5,10 +5,10 @@ import ActivityIcon from '../activities/ActivityIcon';
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from 'date-fns';
-import { useSchedule } from '../components/ScheduleProvider';
+import { useScheduleStore } from '@/app/components/useScheduleStore';
 import type { activity as Activity } from '@prisma/client';
 import { getActivitiesByDate } from '../actions/activities';
-import { useActivity } from '../components/ActivityProvider';
+import { useActivityStore } from '../components/useActivityStore';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 import { getScheduledWorkoutsByDate } from '../actions/schedule';
 import { CalendarDayWorkout } from './CalendarDayWorkout';
@@ -20,9 +20,9 @@ type CalendarDayProps = {
 
 function CalendarDay({ date }: CalendarDayProps) {
   const [activities, setActivities] = useState<Activity[]>([]);
-  const { setActivity } = useActivity();
+  const { setActivity } = useActivityStore();
   const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
-  const { scheduleDate, setScheduleDate } = useSchedule();
+  const { scheduleDate, setScheduleDate } = useScheduleStore();
 
   useEffect(() => {
     getActivitiesByDate(date).then((data) => {

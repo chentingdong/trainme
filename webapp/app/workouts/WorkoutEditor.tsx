@@ -8,16 +8,16 @@ import type { workout as Workout } from '@prisma/client';
 import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useWorkout } from '../components/WorkoutProvider';
+import { useWorkoutStore } from '@/app/components/useWorkoutStore';
 import { defaultWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
-import { useSchedule } from '../components/ScheduleProvider';
+import { useScheduleStore } from '../components/useScheduleStore';
 
 type Props = {};
 
 export default function WorkoutEditor({ }: Props) {
-  const { workout, setWorkout, workoutNames } = useWorkout();
-  const { scheduleDate, setScheduleDate } = useSchedule();
+  const { workout, setWorkout, workoutNames } = useWorkoutStore();
+  const { scheduleDate, setScheduleDate } = useScheduleStore();
 
   const { control, handleSubmit } = useForm<Workout>({
     values: workout ?? defaultWorkout,
@@ -29,7 +29,7 @@ export default function WorkoutEditor({ }: Props) {
   const onSubmit: SubmitHandler<Workout> = async (data) => {
     try {
       const updatedWorkout = { ...workout, ...data };
-      // setWorkout(updatedWorkout);
+      setWorkout(updatedWorkout);
       await saveWorkout(updatedWorkout);
       toaster.showToaster('Workout updated', 'success');
     } catch (error) {
