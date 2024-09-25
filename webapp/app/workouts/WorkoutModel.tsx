@@ -23,10 +23,10 @@ export default function WorkoutModel({ date, show, hide }: Props) {
       <Modal.Body className='dark:bg-gray-800 dark:text-gray-100'>
         <div className='grid grid-cols-5 h-176'>
           <div className='col-span-4 h-full overflow-auto'>
-            <WorkoutEditor workout={selectedWorkout} />
+            <WorkoutEditor />
           </div>
           <div className='col-span-1 border-l h-full overflow-auto border-slate-100 dark:border-slate-900 px-4'>
-            <WorkoutList setSelectedWorkout={setSelectedWorkout} />
+            <WorkoutList />
           </div>
         </div>
       </Modal.Body>

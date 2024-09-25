@@ -66,7 +66,7 @@ function Page({ }: Props) {
                   <div>{activity.total_elevation_gain} meters</div>
                 </div>
               </div>
-              {activity.map?.summary_polyline && (
+              {(activity.map && typeof activity.map === 'object' && 'summary_polyline' in activity.map && typeof activity.map.summary_polyline === 'string') && (
                 <div className="grid grid-cols-5 gap-8 h-128">
                   <ActivityMap className='col-span-2' summary_polyline={activity.map.summary_polyline} />
                   <ActivityLaps className='col-span-3' activityId={activity.id} />

@@ -39,7 +39,7 @@ export function ActivityDetail({ activityId }: Props) {
           <div className='text-gray-700 my-4'>
             <h3 >{activity.name}</h3>
             <div className="flex gap-4">
-              <div>{new Date(activity.start_date_local).toLocaleDateString()}</div>
+              <div>{new Date(activity.start_date_local as string).toLocaleDateString()}</div>
               <div>{activity.type}</div>
               <div>{activity.distance} meters</div>
               <div>{activity.moving_time} seconds</div>
@@ -48,7 +48,7 @@ export function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-      <ActivityMap summary_polyline={activity?.map?.summary_polyline} className='h-96' />
+      <ActivityMap summary_polyline={(activity?.map as any)?.summary_polyline as string | undefined} className='h-96' />
     </div>
   );
 }
