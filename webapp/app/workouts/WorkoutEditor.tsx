@@ -10,7 +10,7 @@ import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useWorkout } from '../components/WorkoutProvider';
-import { defaultWorkout } from '@/prisma';
+import { defaultWorkout, emptyWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
 import { useSchedule } from '../components/ScheduleProvider';
 
@@ -27,11 +27,12 @@ export default function WorkoutEditor({ }: Props) {
 
   const toaster = useToast();
 
-  const onSubmit: SubmitHandler<Workout> = (data) => {
+  const onSubmit: SubmitHandler<Workout> = async (data) => {
     try {
       const updatedWorkout = { ...workout, ...data };
+      // setWorkout(updatedWorkout);
+      await saveWorkout(updatedWorkout);
       toaster.showToaster('Workout updated', 'success');
-      setWorkout(updatedWorkout);
     } catch (error) {
       toaster.showToaster('Failed to update workout: ' + error, 'error');
     }
@@ -57,6 +58,8 @@ export default function WorkoutEditor({ }: Props) {
     try {
       if (workout && workout.steps) {
         await saveWorkout(workout);
+        setWorkout(workout);
+        toaster.showToaster('Workout saved', 'success');
       } else {
         toaster.showToaster('Workout not saved', 'error');
       }
@@ -166,11 +169,10 @@ export default function WorkoutEditor({ }: Props) {
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
-                  sportType={field.value?.toString() || ''}
-                  onChange={(e) => {
-                    const selected: string = e.target.value;
-                    field.onChange(selected);
-                    setWorkout({ ...workout, type: selected });
+                  value={field.value}
+                  onChange={(e, selectedSportId) => {
+                    field.onChange(selectedSportId);
+                    setWorkout({ ...workout, sport_type_id: selectedSportId });
                   }}
                 />
               )}

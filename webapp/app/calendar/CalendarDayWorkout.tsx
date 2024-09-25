@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { deleteScheduledWorkoutById, getScheduledWorkoutsByDate } from '../actions/schedule';
 import { getWorkoutById } from '../actions/workout';
-import { MdAutoDelete } from "react-icons/md";
 import type { workout as Workout } from '@prisma/client';
 import Loading from '../loading';
 import WorkoutChart from '../workouts/WorkoutChart';
@@ -10,6 +9,7 @@ import { useWorkout } from '../components/WorkoutProvider';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 import { cn } from '@/utils/helper';
 import ActivityIcon from '../activities/ActivityIcon';
+import { IoClose } from "react-icons/io5";
 
 export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: ScheduledWorkout; }) => {
   const [workout, setWorkout] = useState<Workout>();
@@ -43,7 +43,7 @@ export const CalendarDayWorkout = ({ scheduledWorkout }: { scheduledWorkout: Sch
         <ActivityIcon type={workout.type} withColor={false} />
         <div className="flex-grow">{workout.name}</div>
         <button className='btn btn-icon btn-danger' onClick={handleUnschedule}>
-          <MdAutoDelete />
+          <IoClose />
         </button>
       </div>
       <div className='card-body' >

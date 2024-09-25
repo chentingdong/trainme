@@ -201,9 +201,9 @@ body {
 
 
 .toast-container {
-  @apply fixed top-10 right-0 z-50 gap-4 px-4 py-2;
+  @apply fixed top-10 right-0 z-50 flex flex-col items-end gap-4 px-4 py-2 w-full max-w-sm;
   .toast {
-    @apply w-screen max-w-lg;
+  @apply w-full flex items-center justify-between p-4 rounded-lg shadow-lg text-white;
   }
   .toast-success {
     color: var(--success-color);
