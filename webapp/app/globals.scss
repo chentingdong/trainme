@@ -114,8 +114,8 @@ body {
   }
   .btn-icon {
     @apply rounded-full flex items-center justify-center;
+    @apply w-4 h-4 text-xs p-0.5;
     background-color: rgb(var(--background-end-rgb));
-    @apply w-6 h-6 text-xs p-1;
     &:hover {
       background-color: rgb(var(--background-start-rgb));
     }
@@ -126,21 +126,27 @@ body {
 @layer components {
   .card {
     @apply bg-transparent;
+    @apply text-sm;
     .card-header {
       @apply font-semibold p-2 flex-grow-0;
       @apply bg-slate-100  text-slate-700;
       @apply dark:bg-slate-700  dark:text-slate-100;
-      @apply bg-opacity-80
+      @apply bg-opacity-70;
     }
     .card-body {
-      @apply p-2 flex-grow bg-opacity-80;
       @apply bg-slate-100 text-slate-900;
       @apply dark:bg-slate-900 dark:text-slate-100;
+      @apply p-2 flex-grow;
+      @apply bg-opacity-90;
     }
     .card-footer {
-      @apply text-sm bg-opacity-50;
       @apply bg-slate-100  text-slate-900;
       @apply dark:bg-slate-900 dark:text-slate-100;
+      @apply text-sm;
+      @apply bg-opacity-50;
+    }
+    .card {
+      @apply rounded-lg overflow-hidden;
     }
   }
 

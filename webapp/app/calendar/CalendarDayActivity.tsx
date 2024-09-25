@@ -17,7 +17,7 @@ export function CalendarDayActivity({ activity }: Props) {
         </div>
         <div>{activity.start_date_local ? format(activity.start_date_local, 'p') : 'Invalid date'}</div>
       </div>
-      <div className='card-body flex justify-between'>
+      <div className='card-body cursor-pointer flex justify-between'>
         <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
         <div>{(activity.distance ?? 0) > 0 && formatDistance(activity.distance ?? 0)} miles</div>
       </div>

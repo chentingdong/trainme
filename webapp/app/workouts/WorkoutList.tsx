@@ -22,11 +22,13 @@ export default function WorkoutList({ }: Props) {
   };
 
   return (
-    <div className='h-full overflow-auto flex flex-col justify-start gap-2'>
-      <h2 className='h2'>Workouts</h2>
-      <button className='btn btn-info text-center' onClick={handleNewWorkout}>
-        <FiPlus />
-      </button>
+    <div className='h-full overflow-y-auto flex flex-col justify-start gap-1 px-2'>
+      <div className="flex justify-between items-center">
+        <h3 className='h3'>Workouts</h3>
+        <button className='btn btn-icon text-center' onClick={handleNewWorkout}>
+          <FiPlus />
+        </button>
+      </div>
       {workouts.map((workout) => (
         <Button
           key={workout.id}
