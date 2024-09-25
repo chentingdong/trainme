@@ -56,7 +56,8 @@ export default function CalendarWeek({ aday }: Props) {
       <div className='flex gap-3 justify-between p-2'>
         {week.map((date, index) => {
           return (
-            <div key={index} className='w-full bg-cover bg-center bg-color-transparent' style={{ backgroundImage: backgroundImages[index] }}>
+            <div key={index} className='w-full bg-cover bg-center'
+              style={{ backgroundImage: backgroundImages[index] }}>
               <CalendarDay date={date} />
             </div>
           );

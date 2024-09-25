@@ -47,7 +47,7 @@ function CalendarDay({ date }: CalendarDayProps) {
     <div
       className="card rounded-sm justify-between h-full"
       onClick={() => setScheduleDate(date)}>
-      <div className="card-header flex justify-between">
+      <div className="card-header p-1 flex justify-between">
         <div className="flex gap-2 items-center">
           {date.getDate()}
         </div>
@@ -59,7 +59,7 @@ function CalendarDay({ date }: CalendarDayProps) {
           ))}
         </div>
       </div>
-      <div className='bg-opacity-50 h-72 flex flex-col justify-between p-0 overflow-hidden'>
+      <div className='h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70'>
         <ul className="mx-0.25 shadow-sm">
           {activities?.map((activity, index) => (
             <li key={index} className='my-1 cursor-pointer'

@@ -73,7 +73,7 @@ export default function WorkoutEditor({ }: Props) {
   }
 
   return (
-    <div className='grid grid-cols-12 p-2 m-0 h-full w-full bg-slate-100 dark:bg-slate-800 opacity-90'>
+    <div className='grid grid-cols-12 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85'>
       <div className='col-span-2 h-full overflow-auto'>
         <WorkoutList />
       </div>
