@@ -68,6 +68,8 @@ model activity {
   kilojoules                    Float?
   device_watts                  Boolean?
   uuid                          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  workout_schedule workout_schedule[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -109,6 +111,8 @@ model workout {
   steps       Json?
   distance    Float?
   duration    Float?
+
+  workout_schedule workout_schedule[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -116,19 +120,24 @@ model workout_schedule {
   id            String    @id @db.Uuid
   workout_id    String?   @db.Uuid
   activity_uuid String?   @db.Uuid
+  sport_type_id Int?
   feeling       Int?
   rpe           Int?
   notes         String?   @db.VarChar(255)
   schedule_date DateTime?
-
+  workout       workout?  @relation(fields: [workout_id], references: [id])
+  activity      activity? @relation(fields: [activity_uuid], references: [uuid])
+  sport_type    sport_type? @relation(fields: [sport_type_id], references: [id])
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model sport_type {
   id         Int      @id
-  type       String?
-  sport_type String?
+  type       String
+  sport_type String
   active     Boolean?
+
+  workout_schedule workout_schedule[]
 }
 
 enum WorkoutStatus {

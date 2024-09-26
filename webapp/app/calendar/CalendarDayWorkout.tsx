@@ -17,9 +17,11 @@ export function CalendarDayWorkout({ scheduledWorkout }: { scheduledWorkout: Sch
   const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkoutStore();
 
   useEffect(() => {
-    getWorkoutById(scheduledWorkout.workout_id).then((data) => {
-      setWorkout(data);
-    });
+    if (scheduledWorkout.workout_id) {
+      getWorkoutById(scheduledWorkout.workout_id).then((data) => {
+        setWorkout(data);
+      });
+    }
   }, [scheduledWorkout]);
 
   const handleUnschedule = async () => {

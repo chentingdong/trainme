@@ -164,14 +164,14 @@ export default function WorkoutEditor({ }: Props) {
           <div className='form-group'>
             <Label htmlFor='type'>Sport Type</Label>
             <Controller
-              name='sport_type_id'
+              name='sport_type'
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
-                  value={field.value}
-                  onChange={(e, selectedSportId) => {
-                    field.onChange(selectedSportId);
-                    setWorkout({ ...workout, sport_type_id: selectedSportId });
+                  value={field.value ?? ''}
+                  onChange={(e, selectedSport) => {
+                    field.onChange(selectedSport);
+                    setWorkout({ ...workout, sport_type: selectedSport });
                   }}
                 />
               )}

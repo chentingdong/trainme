@@ -6,8 +6,8 @@ import { sport_type as SportType } from '@prisma/client';
 import { Select } from 'flowbite-react';
 
 type Props = {
-  value: number;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>, selectedSportId: number) => void;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>, selectedSportId: string) => void;
 };
 
 export default function SportTypeSelect({ value, onChange }: Props) {
@@ -20,7 +20,7 @@ export default function SportTypeSelect({ value, onChange }: Props) {
   }, []);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedSportId = Number(e.target.value);
+    const selectedSportId = e.target.value;
     onChange(e, selectedSportId);
   };
   return (

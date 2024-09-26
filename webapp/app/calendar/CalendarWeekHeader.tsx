@@ -1,27 +1,19 @@
-"use server";
+"use client";
 
-import { prisma } from '@/prisma';
+import React from 'react';
 import { getCurrentWeek } from '@/utils/timeUtils';
 import { formatDate } from 'date-fns';
-import React from 'react';
 import Debug from '../components/Debug';
+import { useActivityStore } from '../components/useActivityStore';
 
 type Props = {
   //any day of the week.
-  aday?: Date;
+  aday: Date;
 };
 
-export default async function CalendarWeekHeader({ aday }: Props) {
+export default function CalendarWeekHeader({ aday }: Props) {
   const week = getCurrentWeek(aday);
-
-  const activities = await prisma.activity.findMany({
-    where: {
-      start_date_local: {
-        gte: week[0].toISOString(),
-        lte: week[6].toISOString(),
-      },
-    }
-  });
+  const { weeklySummary } = useActivityStore();
 
 
   return (
@@ -29,7 +21,7 @@ export default async function CalendarWeekHeader({ aday }: Props) {
       <h2 className="mx-2 p-2 rounded-md">
         {formatDate(week[0], 'MMMM')} {formatDate(week[0], 'dd')} - {formatDate(week[6], 'dd')}
       </h2>
-      <Debug data={activities} />
+      <Debug data={weeklySummary} />
     </div>
   );
 }

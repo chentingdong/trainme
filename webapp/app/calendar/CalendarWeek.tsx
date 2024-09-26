@@ -8,14 +8,11 @@ import CalenderWeekHeader from './CalendarWeekHeader';
 import { getCurrentWeek } from '@/utils/timeUtils';
 
 type Props = {
-  aday?: Date; //any day of the week.
+  aday: Date; //any day of the week.
   showBgImage?: boolean;
 };
 
 export default function CalendarWeek({ aday, showBgImage = false }: Props) {
-  // if didn't specify which day of the week, today is as good as any.
-  if (!aday) aday = new Date();
-
   const week = getCurrentWeek(aday);
 
   const backgroundImages = [

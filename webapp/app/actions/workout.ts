@@ -5,12 +5,7 @@ import type { workout_schedule as WorkoutDate, workout as Workout } from '@prism
 import { v4 as uuidv4 } from 'uuid';
 
 export async function getWorkouts(): Promise<Workout[]> {
-  const workouts = await prisma.workout.findMany({
-    where: {
-      deletedAt: null,
-    },
-  });
-
+  const workouts = await prisma.workout.findMany({});
   return workouts;
 }
 
@@ -73,6 +68,7 @@ export async function addToCalendar(workoutId: string, date: Date | null): Promi
   try {
     const schedule = await prisma.workout_schedule.create({
       data: { 
+        id: uuidv4(), // added id field
         workout_id: workoutId,
         schedule_date: date,
       },
