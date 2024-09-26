@@ -1,4 +1,4 @@
-"use client";
+"use onent";
 
 import React from 'react';
 import { formatTimeSeconds } from '@/utils/timeUtils';
