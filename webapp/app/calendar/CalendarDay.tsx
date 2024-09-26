@@ -11,18 +11,41 @@ import { getActivitiesByDate } from '../actions/activities';
 import { useActivityStore } from '../components/useActivityStore';
 import type { workout_schedule as ScheduledWorkout } from '@prisma/client';
 import { getScheduledWorkoutsByDate } from '../actions/schedule';
-import { CalendarDayWorkout } from './CalendarDayWorkout';
-import { CalendarDayActivity } from './CalendarDayActivity';
+import Loading from '@/app/components/Loading';
+import dynamic from 'next/dynamic';
 
 type CalendarDayProps = {
   date: Date;
 };
+
+const CalendarDayActivity = dynamic(
+  async () => {
+    const { CalendarDayActivity } = await import('./CalendarDayActivity');
+    return CalendarDayActivity;
+  },
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  }
+);
+
+const CalendarDayWorkout = dynamic(
+  async () => {
+    const { CalendarDayWorkout } = await import('./CalendarDayWorkout');
+    return CalendarDayWorkout;
+  },
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  }
+);
 
 function CalendarDay({ date }: CalendarDayProps) {
   const [activities, setActivities] = useState<Activity[]>([]);
   const { setActivity } = useActivityStore();
   const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
   const { scheduleDate, setScheduleDate } = useScheduleStore();
+
 
   useEffect(() => {
     getActivitiesByDate(date).then((data) => {

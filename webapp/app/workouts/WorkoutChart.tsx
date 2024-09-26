@@ -3,13 +3,13 @@
 import React, { useRef } from 'react';
 import ConnectedHistogram from '../components/Histogram';
 import type { workout as Workout } from '@prisma/client';
-import Loading from '../loading';
+import Loading from '@/app/components/Loading';
 
 type Props = {
   workout: Workout;
 };
 
-export default function WorkoutChart({ workout }: Props) {
+export function WorkoutChart({ workout }: Props) {
   const pace = 6; // 6 minutes per km
   const chartRef = useRef<HTMLDivElement>(null);
 

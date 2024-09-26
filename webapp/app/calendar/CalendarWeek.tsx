@@ -4,7 +4,7 @@ import { formatDate } from 'date-fns';
 import React, { useState, useEffect } from 'react';
 import CalendarDay from './CalendarDay';
 import './calendar.scss';
-import Loading from '../loading';
+import Loading from '@/app/components/Loading';
 
 type Props = {
   aday?: Date; //any day of the week.

@@ -1,6 +1,6 @@
 'use client';
 
-import WorkoutChart from './WorkoutChart';
+import { WorkoutChart } from './WorkoutChart';
 import { Label, TextInput, Textarea } from 'flowbite-react';
 import { addToCalendar, saveWorkout } from '../actions/workout';
 import { useToast } from '../components/Toaster';
