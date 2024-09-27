@@ -1,4 +1,4 @@
-const PrismaPlugin = require('@prisma/nextjs-monorepo-workaround-plugin');
+const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
 
 const nextConfig = {
   reactStrictMode: true,
@@ -23,10 +23,6 @@ const nextConfig = {
       test: /\.node$/,
       use: 'node-loader',
     });
-
-    if (isServer) {
-      config.plugins = [...config.plugins, new PrismaPlugin()];
-    }
 
     if (isServer) {
       config.plugins.push(new PrismaPlugin());
