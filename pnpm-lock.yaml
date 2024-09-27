@@ -42,12 +42,6 @@ importers:
       '@prisma/client':
         specifier: ^5.20.0
         version: 5.20.0(prisma@5.20.0)
-      '@types/leaflet':
-        specifier: ^1.9.12
-        version: 1.9.12
-      '@types/polyline':
-        specifier: ^0.1.32
-        version: 0.1.32
       axios:
         specifier: ^1.7.7
         version: 1.7.7
@@ -178,9 +172,15 @@ importers:
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
+      '@types/leaflet':
+        specifier: ^1.9.12
+        version: 1.9.12
       '@types/pg':
         specifier: ^8.11.10
         version: 8.11.10
+      '@types/polyline':
+        specifier: ^0.1.32
+        version: 0.1.32
       '@types/react':
         specifier: ^18.3.9
         version: 18.3.9
