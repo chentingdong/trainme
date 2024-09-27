@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "turbo dev --filter=webapp",
+    "build": "turbo build --filter=webapp",
     "lint": "turbo lint --filter=webapp"
   },
   "private": true,
@@ -15,9 +16,6 @@
     "turbo": "^2.1.2"
   },
   "prisma": {
-    "schema": "./db/prisma/schema.prisma",
-    "host": "localhost",
-    "port": 7452,
-    "database": "postgres"
+    "schema": "./db/prisma/schema.prisma"
   }
 }

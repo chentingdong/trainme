@@ -4,9 +4,7 @@ import React from "react";
 import WorkoutEditor from "./WorkoutEditor";
 import WorkoutList from "./WorkoutList";
 
-type Props = {};
-
-export default function Page({}: Props) {
+export default function Page() {
   return (
     <div className="grid grid-cols-5 gap-4">
       <div className="col-span-4 p-4">

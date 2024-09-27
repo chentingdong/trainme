@@ -6,10 +6,9 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Carousel } from "flowbite-react";
 import WorkoutEditor from "../workouts/WorkoutEditor";
 
-type Props = {};
 const showImage = false;
 
-export default function Page({}: Props) {
+export default function Page() {
   const [aday, setAday] = React.useState<Date>(new Date());
 
   const handlePrevWeek = () => {

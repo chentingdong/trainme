@@ -27,10 +27,8 @@ export const garminSyncActivities = async (token: string) => {
       throw new Error("Error running Python script");
     }
     return stdout;
-  } catch (error: any) {
+  } catch (error) {
+    console.error(error);
     activeTokens.delete(token);
-
-    console.error(`Exception: ${error.message}`);
-    return "Server error" + error.message;
   }
 };

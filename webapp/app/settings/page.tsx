@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Garmin from "./Garmin";
+import Garmin from "@/app/settings/Garmin";
 import Strava from "./Strava";
 import { useAuth } from "@clerk/nextjs";
 

@@ -1,6 +1,6 @@
 "use client";
 import { getZoneColor } from "@/utils/helper";
-import { RefObject, useEffect, useState } from "react";
+import { RefObject } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,16 +11,15 @@ import {
 } from "recharts";
 
 type Props = {
-  chartData: any[];
+  chartData: unknown[];
   chartRef: RefObject<HTMLDivElement>;
 };
 
 const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
-
   // xScale function to convert time values to pixel positions
   const xScale = (time: number) => {
-    const d = chartData.map((d) => Number(d.time));
+    const d = chartData.map((d) => Number(d));
     const domain = [Math.min(...d), Math.max(...d)];
     const width =
       (chartRef?.current?.getBoundingClientRect().width || 1) + margin.left - 1;
@@ -60,6 +59,7 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
 };
 
 // CustomizedBar component to calculate the bar width dynamically
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const CustomizedBar = (props: any) => {
   const { x, y, height, index, data, xScale } = props;
   const currentTime = Number(data[index].time);

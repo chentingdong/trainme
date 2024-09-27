@@ -21,10 +21,12 @@ const Garmin = () => {
       if (cancelToken !== token) {
         return; // Ignore the result if the token has changed
       }
+      if (result === undefined) return;
       setData(result);
-    } catch (err: any) {
+    } catch (err) {
+      console.error(err);
       if (cancelToken === token) {
-        setError(err);
+        console.error(err);
       }
     } finally {
       setLoading(false);

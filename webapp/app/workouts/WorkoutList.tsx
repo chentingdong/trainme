@@ -8,14 +8,12 @@ import { getWorkouts } from "../actions/workout";
 import { emptyWorkout } from "@/prisma";
 import { FiPlus } from "react-icons/fi";
 
-type Props = {};
-
-export default function WorkoutList({}: Props) {
+export default function WorkoutList() {
   const { workouts, setWorkouts, workout, setWorkout } = useWorkoutStore();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
   useEffect(() => {
     getWorkouts().then(setWorkouts);
-  }, []);
+  }, [setWorkouts]);
 
   const handleNewWorkout = () => {
     setWorkout(emptyWorkout);

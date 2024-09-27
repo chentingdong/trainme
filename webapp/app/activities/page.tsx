@@ -5,25 +5,24 @@ import { getActivities } from "@/app/actions/activities";
 import type { activity as Activity } from "@prisma/client";
 import ActivityOne from "./ActivityOne";
 
-type Props = {};
-
-function Page({}: Props) {
-  const endDate = new Date();
-  const startDate = new Date();
-  startDate.setDate(startDate.getDate() - 7);
+function Page() {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const observer = useRef<IntersectionObserver | null>(null);
 
-  const fetchActivities = async () => {
-    setLoading(true);
-    const newActivities = await getActivities(startDate, endDate);
-    setActivities((prevActivities) => [...prevActivities, ...newActivities]);
-    setLoading(false);
-  };
   useEffect(() => {
     if (typeof window === "undefined") return;
+
+    const fetchActivities = async () => {
+      setLoading(true);
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 7);
+      const newActivities = await getActivities(startDate, endDate);
+      setActivities((prevActivities) => [...prevActivities, ...newActivities]);
+      setLoading(false);
+    };
     fetchActivities();
   }, [page]);
 

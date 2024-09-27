@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import CalendarDay from "./CalendarDay";
 import "./calendar.scss";
 import Loading from "@/app/components/Loading";

@@ -6,6 +6,7 @@ import Loading from "../components/Loading";
 import ActivityMap from "../activities/ActivityMap";
 import { Modal } from "flowbite-react";
 import type { activity as Activity } from "@prisma/client";
+import { Map } from "@/utils/types";
 
 type Props = {
   activityId: number | null;
@@ -14,6 +15,7 @@ type Props = {
 export function ActivityDetail({ activityId }: Props) {
   const [activity, setActivity] = React.useState<Activity | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [summaryPolyline, setSummaryPolyline] = React.useState<string>();
 
   useEffect(() => {
     setLoading(true);
@@ -29,7 +31,10 @@ export function ActivityDetail({ activityId }: Props) {
           setLoading(false);
         });
     }
-  }, [activityId]);
+
+    const sp = (activity?.map as Map)?.summary_polyline as string;
+    if (sp) setSummaryPolyline(sp);
+  }, [activityId, activity?.map]);
 
   return (
     <div className="m-4">
@@ -52,12 +57,7 @@ export function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-      <ActivityMap
-        summary_polyline={
-          (activity?.map as any)?.summary_polyline as string | undefined
-        }
-        className="h-96"
-      />
+      <ActivityMap summary_polyline={summaryPolyline} className="h-96" />
     </div>
   );
 }

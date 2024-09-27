@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  deleteScheduledWorkoutById,
-  getScheduledWorkoutsByDate,
-} from "../actions/schedule";
+import { deleteScheduledWorkoutById } from "../actions/schedule";
 import { getWorkoutById } from "../actions/workout";
 import type { workout as Workout } from "@prisma/client";
 import Loading from "@/app/components/Loading";

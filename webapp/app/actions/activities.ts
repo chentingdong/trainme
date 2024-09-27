@@ -5,6 +5,7 @@ import { getStravaAccessToken } from "@/utils/strava";
 import axios from "axios";
 import { type activity as Activity } from "@prisma/client";
 import { prisma } from "@/prisma";
+import { Prisma } from "@prisma/client";
 
 // get activities from strava with pagination.
 export async function getActivities(
@@ -89,6 +90,7 @@ export async function fetchLatestActivitiesFromStrava(
 
     return activities;
   } catch (err) {
+    console.error(err);
     throw new Error("Error fetching activities from Strava");
   }
 }
@@ -115,21 +117,21 @@ export async function findLastActivityDate(): Promise<Date> {
 
 // save activities to postgres.
 // For now we assume we sync often, activities count < 200, the strava api limit.
-export async function saveActivities(activities: any[]): Promise<void> {
+export async function saveActivities(activities: Activity[]): Promise<void> {
   try {
     for (const activity of activities) {
       const existingActivity = await prisma.activity.findFirst({
         where: { id: activity.id },
       });
 
-      if (existingActivity) {
-        await prisma.activity.update({
-          where: { uuid: existingActivity.uuid },
-          data: { ...activity },
+      if (!existingActivity) {
+        await prisma.activity.create({
+          data: activity as Prisma.activityCreateInput,
         });
       } else {
-        await prisma.activity.create({
-          data: activity,
+        await prisma.activity.update({
+          where: { id: existingActivity.id },
+          data: activity as Prisma.activityCreateInput, 
         });
       }
     }
@@ -140,3 +142,7 @@ export async function saveActivities(activities: any[]): Promise<void> {
     await prisma.$disconnect();
   }
 }
+function uuidv4(): string | undefined {
+  throw new Error('Function not implemented.');
+}
+

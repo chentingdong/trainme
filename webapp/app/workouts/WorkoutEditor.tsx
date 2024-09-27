@@ -13,9 +13,7 @@ import { defaultWorkout } from "@/prisma";
 import WorkoutList from "./WorkoutList";
 import { useScheduleStore } from "../components/useScheduleStore";
 
-type Props = {};
-
-export default function WorkoutEditor({}: Props) {
+export default function WorkoutEditor() {
   const { workout, setWorkout, workoutNames } = useWorkoutStore();
   const { scheduleDate, setScheduleDate } = useScheduleStore();
 
@@ -120,7 +118,7 @@ export default function WorkoutEditor({}: Props) {
               rules={{
                 validate: {
                   notTaken: (value) =>
-                    workoutNames.includes(value?.toString().trim()!)
+                    workoutNames.includes(value?.toString().trim() ?? "")
                       ? "Name taken"
                       : true,
                 },

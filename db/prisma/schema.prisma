@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../../node_modules/.prisma/client"
+  output   = "../../webapp/node_modules/.prisma/client"
 }
 
 datasource db {
@@ -11,7 +11,7 @@ datasource db {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model activity {
   resource_state                Float?
-  athlete                       Json?    @db.Json
+  athlete                       Json     @db.Json
   name                          String?
   distance                      Float?
   moving_time                   Float?

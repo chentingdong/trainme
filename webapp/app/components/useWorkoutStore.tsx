@@ -21,12 +21,12 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
 
   // Set the entire list of workouts
   setWorkouts: (workouts: Workout[]) =>
-    set((state) => ({
+    set({
       workouts,
       workoutNames: workouts
         .map((workout) => workout.name)
         .filter((name): name is string => name !== null),
-    })),
+    }),
 
   // Set the current workout
   setWorkout: (workout: Workout) => set(() => ({ workout })),

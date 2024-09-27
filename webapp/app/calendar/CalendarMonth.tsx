@@ -13,7 +13,7 @@ const CalendarMonth: React.FC = () => {
     null,
   );
   const [workoutDate, setWorkoutDate] = useState<Date | null>(null);
-  const calendarRef = React.useRef<any>(null);
+  const calendarRef = React.useRef<unknown>(null);
 
   const tileContent = ({ date }: { date: Date }) => {
     return <CalendarDay date={date} />;
@@ -36,8 +36,11 @@ const CalendarMonth: React.FC = () => {
   const goToToday = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
-      if (calendarRef.current) {
-        calendarRef.current.setActiveStartDate(new Date());
+      const calendar = calendarRef.current as {
+        setActiveStartDate: (date: Date) => void;
+      };
+      if (calendar) {
+        calendar.setActiveStartDate(new Date());
       }
     },
     [],

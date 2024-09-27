@@ -1,14 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import { Lap, getStravaActivityLaps } from "@/app/actions/laps";
-import {
-  ResponsiveContainer,
-  BarChart,
-  XAxis,
-  YAxis,
-  Bar,
-  LabelList,
-} from "recharts";
+import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
 
@@ -20,7 +13,6 @@ type Props = {
 export default function ActivityLaps({ activityId, className }: Props) {
   const [laps, setLaps] = useState<Lap[]>([]);
   const [loading, setLoading] = useState(true);
-  const [chartWidth, setChartWidth] = useState(0);
   const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,12 +28,6 @@ export default function ActivityLaps({ activityId, className }: Props) {
         setLoading(false);
       });
   }, [activityId]);
-
-  useEffect(() => {
-    if (chartRef.current) {
-      setChartWidth(chartRef.current.offsetWidth);
-    }
-  }, []);
 
   // Convert average speed (m/s) to pace (min/mile)
   const lapWithPace = laps.map((lap) => {
