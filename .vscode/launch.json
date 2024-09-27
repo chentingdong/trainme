@@ -24,8 +24,8 @@
       "name": "Webapp",
       "type": "node-terminal",
       "request": "launch",
-      "command": "yarn dev",
-      "cwd": "${workspaceFolder}/webapp",
+      "command": "pnpm webapp",
+      "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.env",
       "remoteRoot": "/app"
     },

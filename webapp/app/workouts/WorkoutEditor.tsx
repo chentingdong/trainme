@@ -1,7 +1,6 @@
 'use client';
 
-import React from 'react';
-import WorkoutChart from './WorkoutChart';
+import { WorkoutChart } from './WorkoutChart';
 import { Label, TextInput, Textarea } from 'flowbite-react';
 import { addToCalendar, saveWorkout } from '../actions/workout';
 import { useToast } from '../components/Toaster';
@@ -9,16 +8,16 @@ import type { workout as Workout } from '@prisma/client';
 import SportTypeSelect from '../components/SportTypeSelect';
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useWorkout } from '../components/WorkoutProvider';
+import { useWorkoutStore } from '@/app/components/useWorkoutStore';
 import { defaultWorkout } from '@/prisma';
 import WorkoutList from './WorkoutList';
-import { useSchedule } from '../components/ScheduleProvider';
+import { useScheduleStore } from '../components/useScheduleStore';
 
 type Props = {};
 
 export default function WorkoutEditor({ }: Props) {
-  const { workout, setWorkout, workoutNames } = useWorkout();
-  const { scheduleDate, setScheduleDate } = useSchedule();
+  const { workout, setWorkout, workoutNames } = useWorkoutStore();
+  const { scheduleDate, setScheduleDate } = useScheduleStore();
 
   const { control, handleSubmit } = useForm<Workout>({
     values: workout ?? defaultWorkout,
@@ -27,11 +26,12 @@ export default function WorkoutEditor({ }: Props) {
 
   const toaster = useToast();
 
-  const onSubmit: SubmitHandler<Workout> = (data) => {
+  const onSubmit: SubmitHandler<Workout> = async (data) => {
     try {
       const updatedWorkout = { ...workout, ...data };
-      toaster.showToaster('Workout updated', 'success');
       setWorkout(updatedWorkout);
+      await saveWorkout(updatedWorkout);
+      toaster.showToaster('Workout updated', 'success');
     } catch (error) {
       toaster.showToaster('Failed to update workout: ' + error, 'error');
     }
@@ -57,6 +57,8 @@ export default function WorkoutEditor({ }: Props) {
     try {
       if (workout && workout.steps) {
         await saveWorkout(workout);
+        setWorkout(workout);
+        toaster.showToaster('Workout saved', 'success');
       } else {
         toaster.showToaster('Workout not saved', 'error');
       }
@@ -162,15 +164,14 @@ export default function WorkoutEditor({ }: Props) {
           <div className='form-group'>
             <Label htmlFor='type'>Sport Type</Label>
             <Controller
-              name='sport_type_id'
+              name='sport_type'
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
-                  sportType={field.value?.toString() || ''}
-                  onChange={(e) => {
-                    const selected: string = e.target.value;
-                    field.onChange(selected);
-                    setWorkout({ ...workout, type: selected });
+                  value={field.value ?? ''}
+                  onChange={(e, selectedSport) => {
+                    field.onChange(selectedSport);
+                    setWorkout({ ...workout, sport_type: selectedSport });
                   }}
                 />
               )}
@@ -250,7 +251,6 @@ export default function WorkoutEditor({ }: Props) {
             </div>
           </div>
         </div>
-
       </div>
     </form>
   );

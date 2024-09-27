@@ -7,6 +7,7 @@ import { Carousel } from 'flowbite-react';
 import WorkoutEditor from '../workouts/WorkoutEditor';
 
 type Props = {};
+const showImage = false;
 
 export default function Page({ }: Props) {
   const [aday, setAday] = React.useState<Date>(new Date());
@@ -29,13 +30,23 @@ export default function Page({ }: Props) {
         className='relative w-full h-104 flex-grow-0'
         slide={false}
         indicators={false}
-        leftControl={<FaChevronLeft className='btn btn-icon absolute w-6 h-6 top-2 left-2' onClick={handlePrevWeek} />}
-        rightControl={<FaChevronRight className='btn btn-icon absolute w-6 h-6 top-2 right-2' onClick={handleNextWeek} />}
+        leftControl={
+          <FaChevronLeft
+            className='btn btn-icon absolute w-6 h-6 top-2 left-2'
+            onClick={handlePrevWeek}
+          />
+        }
+        rightControl={
+          <FaChevronRight
+            className='btn btn-icon absolute w-6 h-6 top-2 right-2'
+            onClick={handleNextWeek}
+          />
+        }
       >
         <CalendarWeek aday={aday} />
       </Carousel>
       <div className='overflow-auto flex-grow'
-        style={{ backgroundImage: `url('/art/20240811-act-goats.jpg')` }}>
+        style={showImage ? { backgroundImage: `url('/art/20240811-act-goats.jpg')` } : undefined} >
         <WorkoutEditor />
       </div>
     </div>

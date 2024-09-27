@@ -1,0 +1,44 @@
+# # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+# name: Migrate
+
+# on:
+#   push:
+#     branches:
+#       - 'main'
+#     paths:
+#       - 'packages/db/prisma/schema.prisma'
+
+# defaults:
+#   run:
+#     working-directory: ./packages/db
+
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+
+#     strategy:
+#       matrix:
+#         node-version: [18.x]
+#         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+#     environment: Production
+
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: pnpm/action-setup@v4
+
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#           cache: 'pnpm'
+#       - run: pnpm install --filter "@brikmate/db"
+
+#       - name: Run migrations
+#         env:
+#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+#           DIRECT_URL: ${{ secrets.DIRECT_URL }}
+#         run: pnpm dlx prisma migrate deploy

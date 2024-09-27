@@ -34,7 +34,7 @@ export const ToastProvider = ({ children }: { children: ReactNode; }) => {
     setToasts([...toasts, { message, type }]);
     setTimeout(() => {
       setToasts((currentToasts) => currentToasts.slice(1));
-    }, 60 * 1000);
+    }, 10 * 1000);
   };
 
   return (
@@ -51,12 +51,14 @@ export const Toaster = () => {
     <div className='toast-container'>
       {toasts.map((toast, index) => (
         <Toast key={index} className={`toast toast-${toast.type}`}>
-          <div className="toast-icon my-1">
-            {toast.type === 'info' && <FaInfoCircle />}
-            {toast.type === 'success' && <FaCheckCircle />}
-            {toast.type === 'error' && <FaTimesCircle />}
+          <div className='flex items-center justify-between w-full'>
+            <div className="toast-icon my-1">
+              {toast.type === 'info' && <FaInfoCircle />}
+              {toast.type === 'success' && <FaCheckCircle />}
+              {toast.type === 'error' && <FaTimesCircle />}
+            </div>
+            <div className="w-full mx-4">{toast.message}</div>
           </div>
-          <div className="toast-message mx-4">{toast.message}</div>
           <Toast.Toggle />
         </Toast>
       ))}

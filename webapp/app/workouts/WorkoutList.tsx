@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { Button } from 'flowbite-react';
 import ActivityIcon from '../activities/ActivityIcon';
-import { useWorkout } from '../components/WorkoutProvider';
+import { useWorkoutStore } from '../components/useWorkoutStore';
 import { getWorkouts } from '../actions/workout';
 import { emptyWorkout } from '@/prisma';
 import { FiPlus } from 'react-icons/fi';
@@ -11,7 +11,7 @@ import { FiPlus } from 'react-icons/fi';
 type Props = {};
 
 export default function WorkoutList({ }: Props) {
-  const { workouts, setWorkouts, workout, setWorkout } = useWorkout();
+  const { workouts, setWorkouts, workout, setWorkout } = useWorkoutStore();
   const selected = (id: string) => (workout?.id === id ? ' selected' : '');
   useEffect(() => {
     getWorkouts().then(setWorkouts);

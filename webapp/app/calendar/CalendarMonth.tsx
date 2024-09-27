@@ -13,13 +13,10 @@ const CalendarMonth: React.FC = () => {
   const [workoutDate, setWorkoutDate] = useState<Date | null>(null);
   const calendarRef = React.useRef<any>(null);
 
-  const tileContent = ({ date, view }: { date: Date; view: string; }) => {
+  const tileContent = ({ date }: { date: Date; }) => {
     return (
       <CalendarDay
         date={date}
-        view={view}
-        setSelectedActivityId={setSelectedActivityId}
-        setWorkoutDate={setWorkoutDate}
       />
     );
   };

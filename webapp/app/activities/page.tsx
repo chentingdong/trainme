@@ -2,12 +2,8 @@
 
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { getActivities } from '@/app/actions/activities';
-import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/distanceUtils';
-import ActivityIcon from './ActivityIcon';
-import ActivityMap from './ActivityMap';
-import ActivityLaps from './ActivityLaps';
 import type { activity as Activity } from '@prisma/client';
+import ActivityOne from './ActivityOne';
 
 type Props = {};
 
@@ -53,29 +49,7 @@ function Page({ }: Props) {
             className='card my-2'
             ref={index === activities.length - 1 ? lastActivityRef : null}
           >
-            <div className='card-header flex items-center'>
-              <ActivityIcon type={activity.type} />
-              <div className='mx-4'>{activity.name}</div>
-            </div>
-            <div className="card-body">
-              <div className='my-4'>
-                <div className="flex gap-4">
-                  <div>{activity.type}</div>
-                  <div>{activity.distance} meters</div>
-                  <div>{activity.moving_time} seconds</div>
-                  <div>{activity.total_elevation_gain} meters</div>
-                </div>
-              </div>
-              {activity.map?.summary_polyline && (
-                <div className="grid grid-cols-5 gap-8 h-128">
-                  <ActivityMap className='col-span-2' summary_polyline={activity.map.summary_polyline} />
-                  <ActivityLaps className='col-span-3' activityId={activity.id} />
-                </div>
-              )}
-            </div>
-            <div className='card-footer'>
-              {formatDistance(activity?.distance || 0)} miles in {formatTimeSeconds(activity?.moving_time || 0)}
-            </div>
+            <ActivityOne activity={activity} />
           </li>
         ))}
       </ul>
