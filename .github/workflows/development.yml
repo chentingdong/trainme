@@ -1,45 +1,40 @@
-# # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+name: Development Workflow
 
-# name: Migrate
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
 
-# on:
-#   push:
-#     branches:
-#       - '**'
-#       - '!main'
-#   pull_request:
-#     branches:
-#       - '**'
-#       - '!main'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      # Run linting
+      - name: Run Lint
+        run: pnpm lint
+
+      # Run tests
+      - name: Run Tests
+        run: pnpm test # Adjust according to your testing command
+
+      # Build the application (optional, include if you want to build on every push)
+      - name: Build Application
+        run: pnpm build # Adjust according to your build command
 
 
-# defaults:
-#   run:
-#     working-directory: ./packages/db
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     strategy:
-#       matrix:
-#         node-version: [18.x]
-
-#     environment: Development
-
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: pnpm/action-setup@v4
-
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#           cache: 'pnpm'
-#       - run: pnpm install --filter=db
-
-#       - name: Run migrations
-#         env:
-#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-#           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-#         run: pnpm convert-migrations && pnpm dlx prisma migrate deploy
+      # Optionally, you can add more steps such as deploying to a staging environment or notifying a service

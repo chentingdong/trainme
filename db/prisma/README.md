@@ -1,4 +1,3 @@
-
 - about prisma
 
 In dev/local, run npx in this order:

@@ -1,14 +1,14 @@
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    serverComponentsExternalPackages: ['knex'],
+    serverComponentsExternalPackages: ["knex"],
     turbo: {
       rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
+        "*.svg": {
+          loaders: ["@svgr/webpack"],
+          as: "*.js",
         },
       },
     },
@@ -21,7 +21,7 @@ const nextConfig = {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     config.module.rules.push({
       test: /\.node$/,
-      use: 'node-loader',
+      use: "node-loader",
     });
 
     if (isServer) {
@@ -29,13 +29,13 @@ const nextConfig = {
     }
 
     if (dev && !isServer) {
-      config.resolve.alias['@'] = __dirname;
-      config.devtool = 'eval-source-map';
+      config.resolve.alias["@"] = __dirname;
+      config.devtool = "eval-source-map";
     } else if (!dev && !isServer) {
-      config.devtool = 'source-map';
+      config.devtool = "source-map";
     }
     return config;
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

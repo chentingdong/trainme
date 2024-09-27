@@ -1,5 +1,5 @@
-import { create } from 'zustand';
-import type { activity as Activity } from '@prisma/client';
+import { create } from "zustand";
+import type { activity as Activity } from "@prisma/client";
 
 interface ActivityState {
   activity: Activity | null | undefined;
@@ -12,5 +12,6 @@ export const useActivityStore = create<ActivityState>((set) => ({
   activity: null,
   setActivity: (activity: Activity | null) => set({ activity }),
   weeklySummary: [],
-  setWeeklySummary: (activities: Activity[]) => set({ weeklySummary: activities }),
+  setWeeklySummary: (activities: Activity[]) =>
+    set({ weeklySummary: activities }),
 }));

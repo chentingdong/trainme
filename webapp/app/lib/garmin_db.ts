@@ -1,6 +1,6 @@
 // lib/db.ts
-import sqlite3 from 'sqlite3';
-import { open, Database } from 'sqlite';
+import sqlite3 from "sqlite3";
+import { open, Database } from "sqlite";
 
 export type SQLiteDatabase = Database<sqlite3.Database, sqlite3.Statement>;
 

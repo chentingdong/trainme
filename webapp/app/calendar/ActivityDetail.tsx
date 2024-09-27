@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect } from 'react';
-import { getActivityById } from '../actions/activities';
-import Loading from '../components/Loading';
-import ActivityMap from '../activities/ActivityMap';
-import { Modal } from 'flowbite-react';
-import type { activity as Activity } from '@prisma/client';
+import React, { useEffect } from "react";
+import { getActivityById } from "../actions/activities";
+import Loading from "../components/Loading";
+import ActivityMap from "../activities/ActivityMap";
+import { Modal } from "flowbite-react";
+import type { activity as Activity } from "@prisma/client";
 
 type Props = {
   activityId: number | null;
@@ -32,14 +32,18 @@ export function ActivityDetail({ activityId }: Props) {
   }, [activityId]);
 
   return (
-    <div className='m-4'>
+    <div className="m-4">
       <div>
         {loading && <Loading size={32} />}
         {activity && (
-          <div className='text-gray-700 my-4'>
-            <h3 >{activity.name}</h3>
+          <div className="text-gray-700 my-4">
+            <h3>{activity.name}</h3>
             <div className="flex gap-4">
-              <div>{new Date(activity.start_date_local as string).toLocaleDateString()}</div>
+              <div>
+                {new Date(
+                  activity.start_date_local as string,
+                ).toLocaleDateString()}
+              </div>
               <div>{activity.type}</div>
               <div>{activity.distance} meters</div>
               <div>{activity.moving_time} seconds</div>
@@ -48,7 +52,12 @@ export function ActivityDetail({ activityId }: Props) {
           </div>
         )}
       </div>
-      <ActivityMap summary_polyline={(activity?.map as any)?.summary_polyline as string | undefined} className='h-96' />
+      <ActivityMap
+        summary_polyline={
+          (activity?.map as any)?.summary_polyline as string | undefined
+        }
+        className="h-96"
+      />
     </div>
   );
 }
@@ -58,22 +67,27 @@ type ActivityModalProps = {
   show: boolean;
   close: () => void;
 };
-export function ActivityDetailModal({ activityId, show, close }: ActivityModalProps) {
+export function ActivityDetailModal({
+  activityId,
+  show,
+  close,
+}: ActivityModalProps) {
   return (
-    <Modal dismissible
+    <Modal
+      dismissible
       show={show}
       onClose={() => close()}
       size="xlg"
       position="top-center"
     >
-      <Modal.Header>
-        Activity Details
-      </Modal.Header>
+      <Modal.Header>Activity Details</Modal.Header>
       <Modal.Body>
         <ActivityDetail activityId={activityId} />
       </Modal.Body>
       <Modal.Footer>
-        <button className="btn btn-primary" onClick={() => close()}>Close</button>
+        <button className="btn btn-primary" onClick={() => close()}>
+          Close
+        </button>
       </Modal.Footer>
     </Modal>
   );

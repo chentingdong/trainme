@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Loading from '@/app/components/Loading';
-import Debug from '@/app/components/Debug';
-import { garminSyncActivities } from '@/app/actions/syncGarmin'; // Assuming this is the correct import
-import { v4 as uuidv4 } from 'uuid'; // Import UUID library
+import React, { useState } from "react";
+import Loading from "@/app/components/Loading";
+import Debug from "@/app/components/Debug";
+import { garminSyncActivities } from "@/app/actions/syncGarmin"; // Assuming this is the correct import
+import { v4 as uuidv4 } from "uuid"; // Import UUID library
 
 const Garmin = () => {
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const Garmin = () => {
     <div>
       <h2>Garmin</h2>
       <p>Connect your Garmin account to let the app sync your activities.</p>
-      <div className='py-4 flex gap-4'>
+      <div className="py-4 flex gap-4">
         <button className="btn btn-primary" disabled>
           Connect to Garmin
         </button>
@@ -48,14 +48,16 @@ const Garmin = () => {
           <button
             className="btn btn-primary"
             title="This might take longer time. Please be patient."
-            onClick={handleRefresh}>
+            onClick={handleRefresh}
+          >
             Sync Garmin Activities
           </button>
         )}
         {loading && (
           <button
             className="btn btn-warning flex gap-2 items-center"
-            onClick={handleCancel}>
+            onClick={handleCancel}
+          >
             Cancel Garmin Sync
             <Loading size={16} />
           </button>

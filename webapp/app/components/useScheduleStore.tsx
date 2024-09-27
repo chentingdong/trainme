@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface ScheduleState {
   scheduleDate: Date | null;
@@ -7,5 +7,6 @@ interface ScheduleState {
 
 export const useScheduleStore = create<ScheduleState>((set) => ({
   scheduleDate: new Date(),
-  setScheduleDate: (date: Date | null) => set({ scheduleDate: date || new Date() }),
+  setScheduleDate: (date: Date | null) =>
+    set({ scheduleDate: date || new Date() }),
 }));

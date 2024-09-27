@@ -1,9 +1,16 @@
 "use client";
-import React, { useRef, useEffect, useState } from 'react';
-import { Lap, getStravaActivityLaps } from '@/app/actions/laps';
-import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar, LabelList } from 'recharts';
-import { formatTimeSeconds } from '@/utils/timeUtils';
-import { formatDistance } from '@/utils/distanceUtils';
+import React, { useRef, useEffect, useState } from "react";
+import { Lap, getStravaActivityLaps } from "@/app/actions/laps";
+import {
+  ResponsiveContainer,
+  BarChart,
+  XAxis,
+  YAxis,
+  Bar,
+  LabelList,
+} from "recharts";
+import { formatTimeSeconds } from "@/utils/timeUtils";
+import { formatDistance } from "@/utils/distanceUtils";
 
 type Props = {
   activityId: number;
@@ -41,7 +48,7 @@ export default function ActivityLaps({ activityId, className }: Props) {
     const paceInMinutesPerMile = 26.8224 / lap.average_speed; // Convert m/s to min/mile
     const minutes = Math.floor(paceInMinutesPerMile);
     const seconds = Math.round((paceInMinutesPerMile - minutes) * 60);
-    const pace = `${minutes}:${seconds.toString().padStart(2, '0')}`; // Format as mm:ss/mile    return {
+    const pace = `${minutes}:${seconds.toString().padStart(2, "0")}`; // Format as mm:ss/mile    return {
     return {
       ...lap,
       pace: paceInMinutesPerMile,
@@ -52,7 +59,11 @@ export default function ActivityLaps({ activityId, className }: Props) {
   const barSize = 20;
 
   return (
-    <div ref={chartRef} className={className} style={{ width: '100%', maxHeight: barSize * laps.length }}>
+    <div
+      ref={chartRef}
+      className={className}
+      style={{ width: "100%", maxHeight: barSize * laps.length }}
+    >
       {loading && <div>Loading...</div>}
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1 grid grid-cols-4">
@@ -61,20 +72,18 @@ export default function ActivityLaps({ activityId, className }: Props) {
           <div>Dist (miles)</div>
           <div>Pace (min/mile)</div>
         </div>
-        <div className='col-span-1'>Pace</div>
+        <div className="col-span-1">Pace</div>
       </div>
       <div className="grid grid-cols-2 gap-2 h-full">
         <div className="col-span-1 h-full">
-          {
-            lapWithPace.map((lap, index) => (
-              <div className="gap-2 grid grid-cols-4" key={index}>
-                <div >{index + 1}</div>
-                <div >{formatTimeSeconds(lap.elapsed_time)}</div>
-                <div >{formatDistance(lap.distance)}</div>
-                <div >{lap.formattedPace}</div>
-              </div>
-            ))
-          }
+          {lapWithPace.map((lap, index) => (
+            <div className="gap-2 grid grid-cols-4" key={index}>
+              <div>{index + 1}</div>
+              <div>{formatTimeSeconds(lap.elapsed_time)}</div>
+              <div>{formatDistance(lap.distance)}</div>
+              <div>{lap.formattedPace}</div>
+            </div>
+          ))}
         </div>
         <div className="col-span-1 flex flex-col h-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -85,11 +94,7 @@ export default function ActivityLaps({ activityId, className }: Props) {
               barCategoryGap={2} // Set a fixed pixel value for the gap between bars
               barGap={0} // No gap between bars within the same category
             >
-              <XAxis
-                type="number"
-                dataKey="pace"
-                hide
-              />
+              <XAxis type="number" dataKey="pace" hide />
               <YAxis type="category" dataKey="id" hide />
               <Bar dataKey="pace" fill="#0f766e" />
             </BarChart>

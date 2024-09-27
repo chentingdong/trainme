@@ -6,11 +6,8 @@
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
-    "webapp": "turbo dev --filter=webapp",
-    "lint": "turbo lint",
-    "lint:prettier": "turbo lint:prettier",
-    "lint:eslint": "turbo lint:eslint",
-    "check-types": "tsc --noEmit"
+    "dev": "turbo dev --filter=webapp",
+    "lint": "turbo lint --filter=webapp"
   },
   "private": true,
   "packageManager": "pnpm@9.10.0",

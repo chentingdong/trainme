@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { workout as Workout } from '@prisma/client';
-import { defaultWorkout } from '@/prisma';
+import { create } from "zustand";
+import { workout as Workout } from "@prisma/client";
+import { defaultWorkout } from "@/prisma";
 
 // Zustand store for workouts
 interface WorkoutState {
@@ -23,7 +23,9 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
   setWorkouts: (workouts: Workout[]) =>
     set((state) => ({
       workouts,
-      workoutNames: workouts.map((workout) => workout.name).filter((name): name is string => name !== null),
+      workoutNames: workouts
+        .map((workout) => workout.name)
+        .filter((name): name is string => name !== null),
     })),
 
   // Set the current workout
@@ -31,14 +33,11 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
 
   // Add a new workout
   addWorkout: (workout: Workout) => {
-    if (!(workout.name)) throw new Error('Workout name is required');
+    if (!workout.name) throw new Error("Workout name is required");
 
     set((state) => ({
       workouts: [...state.workouts, workout],
-      workoutNames: [
-        ...state.workoutNames,
-        workout.name ?? '',
-      ],
+      workoutNames: [...state.workoutNames, workout.name ?? ""],
     }));
   },
 
@@ -46,9 +45,11 @@ export const useWorkoutStore = create<WorkoutState>((set) => ({
   updateWorkout: (updatedWorkout: Workout) =>
     set((state) => ({
       workouts: state.workouts.map((workout) =>
-        workout.id === updatedWorkout.id ? updatedWorkout : workout
+        workout.id === updatedWorkout.id ? updatedWorkout : workout,
       ),
-      workoutNames: state.workouts.map((workout) => workout.name).filter((name): name is string => name !== null),
+      workoutNames: state.workouts
+        .map((workout) => workout.name)
+        .filter((name): name is string => name !== null),
     })),
 
   // Delete a workout by ID

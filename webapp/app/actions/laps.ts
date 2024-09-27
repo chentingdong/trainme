@@ -1,9 +1,9 @@
 "use server";
 
-import { getStravaAccessToken } from '@/utils/strava';
-import axios from 'axios';
-import { cookies } from 'next/headers';
-import { pool } from './postgres';
+import { getStravaAccessToken } from "@/utils/strava";
+import axios from "axios";
+import { cookies } from "next/headers";
+import { pool } from "./postgres";
 
 export type Lap = {
   id: number;
@@ -32,15 +32,20 @@ export type Lap = {
   lap_index: number;
 };
 
-export async function fetchActivityLaps(activityId: number, persist: boolean = false): Promise<Lap[]> {
+export async function fetchActivityLaps(
+  activityId: number,
+  persist: boolean = false,
+): Promise<Lap[]> {
   // Get refresh token from cookies
   const cookieStore = cookies();
-  const refreshToken = cookieStore.get('strava_refresh_token')?.value;
+  const refreshToken = cookieStore.get("strava_refresh_token")?.value;
 
   // Get temporary access token from Strava
   const accessToken = await getStravaAccessToken(refreshToken);
 
-  const url = new URL(`https://www.strava.com/api/v3/activities/${activityId}/laps`);
+  const url = new URL(
+    `https://www.strava.com/api/v3/activities/${activityId}/laps`,
+  );
   const response = await axios.get(url.href, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -61,8 +66,8 @@ export async function saveLaps(laps: Lap[]): Promise<void> {
     for (const lap of laps) {
       const values = Object.values(lap);
       const query = `
-        INSERT INTO lap (${fields.join(', ')}) 
-        VALUES (${values.map((_, i) => `$${i + 1}`).join(', ')}) 
+        INSERT INTO lap (${fields.join(", ")}) 
+        VALUES (${values.map((_, i) => `$${i + 1}`).join(", ")}) 
         ON CONFLICT DO NOTHING;
       `;
       await client.query(query, values);
@@ -72,7 +77,6 @@ export async function saveLaps(laps: Lap[]): Promise<void> {
     console.error(err);
   }
 }
-
 
 export async function getStravaActivityLaps(id: number): Promise<Lap[]> {
   try {
