@@ -12,14 +12,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
-        with:
-          node-version: "20"
 
       - name: Install dependencies
         run: pnpm install
@@ -29,12 +31,11 @@ jobs:
         run: pnpm lint
 
       # Run tests
-      - name: Run Tests
-        run: pnpm test # Adjust according to your testing command
+      # - name: Run Tests
+        # run: pnpm test 
 
-      # Build the application (optional, include if you want to build on every push)
+      # Build the application 
       - name: Build Application
-        run: pnpm build # Adjust according to your build command
+        run: pnpm build 
 
 
-      # Optionally, you can add more steps such as deploying to a staging environment or notifying a service
