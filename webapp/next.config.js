@@ -1,3 +1,5 @@
+const PrismaPlugin = require('@prisma/nextjs-monorepo-workaround-plugin');
+
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -21,6 +23,14 @@ const nextConfig = {
       test: /\.node$/,
       use: 'node-loader',
     });
+
+    if (isServer) {
+      config.plugins = [...config.plugins, new PrismaPlugin()];
+    }
+
+    if (isServer) {
+      config.plugins.push(new PrismaPlugin());
+    }
 
     if (dev && !isServer) {
       config.resolve.alias['@'] = __dirname;
