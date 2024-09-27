@@ -36,7 +36,7 @@
 #         with:
 #           node-version: ${{ matrix.node-version }}
 #           cache: 'pnpm'
-#       - run: pnpm install --filter "@brikmate/db"
+#       - run: pnpm install --filter=db
 
 #       - name: Run migrations
 #         env:
