@@ -131,7 +131,7 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
       } else {
         await prisma.activity.update({
           where: { id: existingActivity.id },
-          data: activity as Prisma.activityCreateInput, 
+          data: activity as Prisma.activityCreateInput,
         });
       }
     }
@@ -142,7 +142,3 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
     await prisma.$disconnect();
   }
 }
-function uuidv4(): string | undefined {
-  throw new Error('Function not implemented.');
-}
-
