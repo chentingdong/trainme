@@ -8,8 +8,9 @@
   "scripts": {
     "dev": "turbo dev --filter=webapp",
     "build": "turbo build --filter=webapp",
-    "lint": "turbo lint --filter=webapp",
-    "convert-migrations": "./db/bin/convert-migrations.sh"
+    "db:generate": "turbo db:generate --filter=db",
+    "convert-migrations": "./db/bin/convert-migrations.sh",
+    "lint": "turbo lint --filter=webapp"
   },
   "private": true,
   "packageManager": "pnpm@9.10.0",

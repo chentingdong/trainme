@@ -3,18 +3,29 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+    },
+    "build-app": {
+      "dependsOn": ["db:generate", "^build"],
+      "outputs": ["dist/**"],
+      "env": []
     },
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "start": {
+      "dependsOn": ["^build", "build"]
+    },
     "dev": {
+      "dependsOn": ["^db:generate"],
       "persistent": true,
+      "cache": false,
+      "inputs": ["$TURBO_DEFAULT$", ".env.local"]
+    },
+    "db:generate": {
       "cache": false
     },
-    "lint": {
-      "dependsOn": ["^lint"],
-      "outputs": []
-    }
+    "lint:eslint": {},
+    "lint:prettier": {}
   }
 }
