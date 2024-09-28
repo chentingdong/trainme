@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "turbo dev --filter=@trainme/webapp",
     "build": "turbo build --filter=@trainme/webapp --filter=@trainme/db",
-    "db:generate": "turbo db:generate --filter=@trainme/db",
     "convert-migrations": "./db/bin/convert-migrations.sh",
     "lint": "turbo lint --filter=@trainme/webapp"
   },
