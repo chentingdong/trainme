@@ -24,10 +24,5 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - run: pnpm install
-
-      - name: Run migrations
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: pnpm convert-migrations && pnpm dlx prisma migrate deploy
+          
+      - run: pnpm install --filter=db

@@ -29,10 +29,10 @@ const nextConfig = {
     }
 
     if (dev && !isServer) {
-      config.resolve.alias["@"] = __dirname;
-      config.devtool = "eval-source-map";
+      config.devtool = 'eval-source-map';
     } else if (!dev && !isServer) {
-      config.devtool = "source-map";
+      config.devtool = 'source-map';
+      config.plugins = [...config.plugins, new PrismaPlugin()];
     }
     return config;
   },
