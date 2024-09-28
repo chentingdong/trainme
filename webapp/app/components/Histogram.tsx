@@ -11,7 +11,7 @@ import {
 } from "recharts";
 
 type Props = {
-  chartData: unknown[];
+  chartData: { time: number; zone: number; }[];
   chartRef: RefObject<HTMLDivElement>;
 };
 
@@ -19,7 +19,7 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
   // xScale function to convert time values to pixel positions
   const xScale = (time: number) => {
-    const d = chartData.map((d) => Number(d));
+    const d = chartData.map((d) => Number(d.time));
     const domain = [Math.min(...d), Math.max(...d)];
     const width =
       (chartRef?.current?.getBoundingClientRect().width || 1) + margin.left - 1;
@@ -27,7 +27,7 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
     return (
       ((time - domain[0]) / (domain[1] - domain[0])) * (range[1] - range[0])
     );
-  };
+  }; 
 
   return (
     <ResponsiveContainer width="100%" height="100%" ref={chartRef}>

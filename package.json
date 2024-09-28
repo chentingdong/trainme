@@ -6,7 +6,7 @@
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
-    "dev": "turbo dev --filter=@trainme/webapp --filter=@trainme/db",
+    "dev": "turbo dev --filter=@trainme/webapp",
     "build": "turbo build --filter=@trainme/webapp --filter=@trainme/db",
     "db:generate": "turbo db:generate --filter=@trainme/db",
     "convert-migrations": "./db/bin/convert-migrations.sh",
