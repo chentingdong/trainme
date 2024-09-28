@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "db:generate": "prisma generate",
-    "build": "tsc",
+    "build": "tsc && pnpm db:generate",
     "postinstall": "prisma generate",
     "convert-migrations": "./bin/convert_migrations.sh",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
