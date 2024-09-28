@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { deleteScheduledWorkoutById } from "../actions/schedule";
 import { getWorkoutById } from "../actions/workout";
-import type { workout as Workout } from "@prisma/client";
+import type { workout as Workout } from "@trainme/db";
 import Loading from "@/app/components/Loading";
 import { WorkoutChart } from "../workouts/WorkoutChart";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
-import type { workout_schedule as ScheduledWorkout } from "@prisma/client";
+import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import { cn } from "@/utils/helper";
 import ActivityIcon from "../activities/ActivityIcon";
 import { IoClose } from "react-icons/io5";

@@ -3,9 +3,9 @@
 import { cookies } from "next/headers";
 import { getStravaAccessToken } from "@/utils/strava";
 import axios from "axios";
-import { type activity as Activity } from "@prisma/client";
-import { prisma } from "@/prisma";
-import { Prisma } from "@prisma/client";
+import { type activity as Activity } from "@trainme/db";
+import { prisma } from "@trainme/db/src/index";
+import { Prisma } from "@trainme/db";
 
 // get activities from strava with pagination.
 export async function getActivities(

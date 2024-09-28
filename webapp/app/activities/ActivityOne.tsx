@@ -2,7 +2,7 @@ import React from "react";
 import ActivityIcon from "./ActivityIcon";
 import ActivityLaps from "./ActivityLaps";
 import ActivityMap from "./ActivityMap";
-import type { activity as Activity } from "@prisma/client";
+import type { activity as Activity } from "@trainme/db";
 import type { Map } from "@/utils/types";
 
 type Props = {

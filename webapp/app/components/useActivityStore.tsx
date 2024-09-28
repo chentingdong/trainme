@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { activity as Activity } from "@prisma/client";
+import type { activity as Activity } from "@trainme/db";
 
 interface ActivityState {
   activity: Activity | null | undefined;

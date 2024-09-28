@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import ConnectedHistogram from "../components/Histogram";
-import type { workout as Workout } from "@prisma/client";
+import type { workout as Workout } from "@trainme/db";
 import Loading from "@/app/components/Loading";
 
 type Props = {

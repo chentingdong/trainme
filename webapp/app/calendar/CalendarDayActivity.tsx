@@ -3,7 +3,7 @@
 import React from "react";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
-import type { activity as Activity } from "@prisma/client";
+import type { activity as Activity } from "@trainme/db";
 import { format } from "date-fns";
 import ActivityIcon from "../activities/ActivityIcon";
 

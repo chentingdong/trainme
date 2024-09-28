@@ -7,7 +7,7 @@ import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
 import { fetchLatestActivitiesFromStrava } from "../actions/activities";
-import type { activity as Activity } from "@prisma/client";
+import type { activity as Activity } from "@trainme/db";
 import { useToast } from "./Toaster";
 import { fetchActivityLaps } from "../actions/laps";
 

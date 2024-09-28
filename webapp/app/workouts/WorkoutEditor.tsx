@@ -4,7 +4,7 @@ import { WorkoutChart } from "./WorkoutChart";
 import { Label, TextInput, Textarea } from "flowbite-react";
 import { addToCalendar, saveWorkout } from "../actions/workout";
 import { useToast } from "../components/Toaster";
-import type { workout as Workout } from "@prisma/client";
+import type { workout as Workout } from "@trainme/db";
 import SportTypeSelect from "../components/SportTypeSelect";
 
 import { Controller, SubmitHandler, useForm } from "react-hook-form";

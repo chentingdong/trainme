@@ -6,18 +6,18 @@
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
-    "dev": "turbo dev --filter=webapp",
-    "build": "turbo build --filter=webapp",
-    "db:generate": "turbo db:generate --filter=db",
+    "dev": "turbo dev --filter=@trainme/webapp --filter=@trainme/db",
+    "build": "turbo build --filter=@trainme/webapp --filter=@trainme/db",
+    "db:generate": "turbo db:generate --filter=@trainme/db",
     "convert-migrations": "./db/bin/convert-migrations.sh",
-    "lint": "turbo lint --filter=webapp"
+    "lint": "turbo lint --filter=@trainme/webapp"
   },
   "private": true,
-  "packageManager": "pnpm@9.10.0",
   "devDependencies": {
     "turbo": "^2.1.2"
   },
   "prisma": {
     "schema": "./db/prisma/schema.prisma"
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"
 }

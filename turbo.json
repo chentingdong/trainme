@@ -5,9 +5,9 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**"]
     },
-    "build-app": {
+    "webapp#build": {
       "dependsOn": ["db:generate", "^build"],
-      "outputs": ["dist/**"],
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
       "env": []
     },
     "check-types": {

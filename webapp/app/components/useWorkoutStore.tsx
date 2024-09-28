@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { workout as Workout } from "@prisma/client";
+import { workout as Workout } from "@trainme/db";
 import { defaultWorkout } from "@/prisma";
 
 // Zustand store for workouts

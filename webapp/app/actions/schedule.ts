@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/prisma";
-import type { workout_schedule as ScheduledWorkout } from "@prisma/client";
+import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 
 export const getScheduledWorkoutsByDate = async (
   date: Date,

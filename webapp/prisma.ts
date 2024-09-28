@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
-import type { workout as Workout } from "@prisma/client";
-import { PrismaClient } from "@prisma/client";
+import type { workout as Workout } from "@trainme/db";
+import { PrismaClient } from "@trainme/db";
 
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;

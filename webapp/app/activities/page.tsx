@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { getActivities } from "@/app/actions/activities";
-import type { activity as Activity } from "@prisma/client";
+import type { activity as Activity } from "@trainme/db";
 import ActivityOne from "./ActivityOne";
 
 function Page() {

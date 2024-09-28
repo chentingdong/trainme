@@ -4,7 +4,7 @@ import { prisma } from "@/prisma";
 import type {
   workout_schedule as WorkoutDate,
   workout as Workout,
-} from "@prisma/client";
+} from "@trainme/db";
 import { v4 as uuidv4 } from "uuid";
 
 export async function getWorkouts(): Promise<Workout[]> {
