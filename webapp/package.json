@@ -1,5 +1,5 @@
 {
-  "name": "webapp",
+  "name": "@trainme/webapp",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -55,6 +55,7 @@
     "style-loader": "^4.0.0",
     "tailwind-merge": "^2.5.2",
     "tailwind-scrollbar": "^3.1.0",
+    "@trainme/db": "workspace:*",
     "uuid": "^10.0.0",
     "zustand": "5.0.0-rc.2"
   },
