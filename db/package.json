@@ -12,7 +12,7 @@
     "db:generate": "prisma generate",
     "build": "tsc && pnpm run db:generate",
     "postinstall": "prisma generate",
-    "convert-migrations": "./db/bin/convert_migrations.sh",
+    "convert-migrations": "./bin/convert-migrations.sh",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
     "lint:eslint": "eslint --fix"
   },
