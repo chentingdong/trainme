@@ -1,3 +1,5 @@
+# This workflow do the prisma migration deploy to supabase, for preview.
+
 name: Development Workflow
 
 on:
