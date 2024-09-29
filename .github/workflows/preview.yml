@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [20.9.0]
 
 
     environment: Preview
@@ -35,4 +35,4 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: pnpm run convert-migrations && pnpm dlx prisma migrate deploy
+        run: pnpm run convert-migrations && npx prisma migrate deploy --env-file .env.local
