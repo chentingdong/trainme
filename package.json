@@ -12,7 +12,6 @@
   "scripts": {
     "dev": "turbo dev --filter=@trainme/webapp",
     "build": "turbo build --filter=@trainme/webapp...",
-    "convert-migrations": "./db/bin/convert-migrations.sh",
     "lint": "turbo lint --filter=@trainme/webapp"
   },
   "private": true,
