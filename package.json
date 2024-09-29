@@ -10,9 +10,10 @@
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
-    "dev": "turbo dev --filter=@trainme/webapp",
-    "build": "turbo build --filter=@trainme/webapp...",
-    "lint": "turbo lint --filter=@trainme/webapp"
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "convert-migrations": "./db/bin/convert-migrations.sh",
+    "lint": "turbo lint"
   },
   "private": true,
   "devDependencies": {
