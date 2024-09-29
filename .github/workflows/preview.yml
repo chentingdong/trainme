@@ -36,7 +36,7 @@ jobs:
       - name: DB Migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DIRECT_URL: ${{ secrets.DATABASE_URL }}
         run: pnpm -w run convert-migrations && npx prisma migrate deploy
         timeout-minutes: 2
         
