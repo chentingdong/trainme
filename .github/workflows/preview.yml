@@ -26,3 +26,8 @@ jobs:
           cache: 'pnpm'
           
       - run: pnpm install --filter=db
+      - name: Run migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+        run: pnpm convert-migrations && pnpm dlx prisma migrate deploy
