@@ -4,8 +4,10 @@ on:
   push:
     branches:
       - 'develop'
-    tags:
-      - 'dev-*'
+
+defaults:
+  run:
+    working-directory: ./db
 
 jobs:
   build:
@@ -14,6 +16,9 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
+
+
+    environment: Preview
 
     steps:
       - uses: actions/checkout@v3
@@ -24,8 +29,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-          
-      - run: pnpm install --filter=db
+      - run: pnpm install --filter "@brikmate/db"
+
       - name: Run migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
