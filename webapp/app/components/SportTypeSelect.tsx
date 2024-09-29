@@ -1,13 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { getActiveSportTypes } from '../actions/sportType';
-import { sport_type as SportType } from '@prisma/client';
-import { Select } from 'flowbite-react';
+import React, { useState, useEffect } from "react";
+import { getActiveSportTypes } from "../actions/sportType";
+import { sport_type as SportType } from "@trainme/db";
+import { Select } from "flowbite-react";
 
 type Props = {
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>, selectedSportId: string) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLSelectElement>,
+    selectedSportId: string,
+  ) => void;
 };
 
 export default function SportTypeSelect({ value, onChange }: Props) {
@@ -25,8 +28,8 @@ export default function SportTypeSelect({ value, onChange }: Props) {
   };
   return (
     <Select
-      id='type'
-      className='form-control'
+      id="type"
+      className="form-control"
       value={value}
       onChange={handleSelect}
     >

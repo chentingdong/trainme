@@ -1,4 +1,4 @@
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
 
 const nextConfig = {
   reactStrictMode: true,
@@ -29,13 +29,13 @@ const nextConfig = {
     }
 
     if (dev && !isServer) {
-      config.resolve.alias['@'] = __dirname;
       config.devtool = 'eval-source-map';
     } else if (!dev && !isServer) {
       config.devtool = 'source-map';
+      config.plugins = [...config.plugins, new PrismaPlugin()];
     }
     return config;
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

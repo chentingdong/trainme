@@ -1,34 +1,32 @@
-'use client';
+"use client";
 
-import React, { useCallback, useState } from 'react';
-import Calendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-import './calendar.scss';
-import CalendarDay from './CalendarDay';
-import { ActivityDetailModal } from './ActivityDetail';
-import WorkoutModel from '../workouts/WorkoutModel';
+import React, { useCallback, useState } from "react";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import "./calendar.scss";
+import CalendarDay from "./CalendarDay";
+import { ActivityDetailModal } from "./ActivityDetail";
+import WorkoutModel from "../workouts/WorkoutModel";
 
 const CalendarMonth: React.FC = () => {
-  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(null);
+  const [selectedActivityId, setSelectedActivityId] = useState<number | null>(
+    null,
+  );
   const [workoutDate, setWorkoutDate] = useState<Date | null>(null);
-  const calendarRef = React.useRef<any>(null);
+  const calendarRef = React.useRef<unknown>(null);
 
-  const tileContent = ({ date }: { date: Date; }) => {
-    return (
-      <CalendarDay
-        date={date}
-      />
-    );
+  const tileContent = ({ date }: { date: Date }) => {
+    return <CalendarDay date={date} />;
   };
 
-  const calendarHeader = ({ date }: { date: Date; }) => {
+  const calendarHeader = ({ date }: { date: Date }) => {
     return (
-      <div className='flex items-center'>
-        <span className='flex-none btn btn-info' onClick={goToToday}>
+      <div className="flex items-center">
+        <span className="flex-none btn btn-info" onClick={goToToday}>
           Today
         </span>
-        <div className='flex-auto'>
-          {date.toLocaleDateString(undefined, { month: 'long' })}{' '}
+        <div className="flex-auto">
+          {date.toLocaleDateString(undefined, { month: "long" })}{" "}
           {date.getFullYear()}
         </div>
       </div>
@@ -38,20 +36,23 @@ const CalendarMonth: React.FC = () => {
   const goToToday = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       event.stopPropagation();
-      if (calendarRef.current) {
-        calendarRef.current.setActiveStartDate(new Date());
+      const calendar = calendarRef.current as {
+        setActiveStartDate: (date: Date) => void;
+      };
+      if (calendar) {
+        calendar.setActiveStartDate(new Date());
       }
     },
-    []
+    [],
   );
 
   return (
-    <div className='flex-grow flex flex-col'>
-      <div className='flex-grow'>
+    <div className="flex-grow flex flex-col">
+      <div className="flex-grow">
         <Calendar
-          className='custom-calendar'
-          tileClassName='calendar-day'
-          view='month'
+          className="custom-calendar"
+          tileClassName="calendar-day"
+          view="month"
           ref={calendarRef}
           navigationLabel={calendarHeader}
           tileContent={tileContent}

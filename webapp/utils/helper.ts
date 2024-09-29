@@ -1,22 +1,22 @@
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export const getZoneColor = (zone: number) => {
-  let fill = '#8884d8';
+  let fill = "#8884d8";
   switch (zone) {
     case 1:
-      fill = '#8884d8';
+      fill = "#8884d8";
       break;
     case 2:
-      fill = '#82ca9d';
+      fill = "#82ca9d";
       break;
     case 3:
-      fill = '#ffc658';
+      fill = "#ffc658";
       break;
     case 4:
-      fill = '#ff7300';
+      fill = "#ff7300";
       break;
-  };
+  }
   return fill;
 };
 

@@ -24,7 +24,7 @@
       "name": "Webapp",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm webapp",
+      "command": "pnpm dev",
       "cwd": "${workspaceFolder}",
       "envFile": "${workspaceFolder}/.env",
       "remoteRoot": "/app"

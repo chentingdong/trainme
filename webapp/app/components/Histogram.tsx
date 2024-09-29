@@ -1,6 +1,6 @@
-'use client';
-import { getZoneColor } from '@/utils/helper';
-import { RefObject, useEffect, useState } from 'react';
+"use client";
+import { getZoneColor } from "@/utils/helper";
+import { RefObject } from "react";
 import {
   ResponsiveContainer,
   BarChart,
@@ -8,47 +8,47 @@ import {
   XAxis,
   YAxis,
   Bar,
-} from 'recharts';
+} from "recharts";
 
 type Props = {
-  chartData: any[];
+  chartData: { time: number; zone: number; }[];
   chartRef: RefObject<HTMLDivElement>;
 };
 
 const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
-
   // xScale function to convert time values to pixel positions
   const xScale = (time: number) => {
     const d = chartData.map((d) => Number(d.time));
     const domain = [Math.min(...d), Math.max(...d)];
-    const width = (chartRef?.current?.getBoundingClientRect().width || 1) + margin.left - 1;
+    const width =
+      (chartRef?.current?.getBoundingClientRect().width || 1) + margin.left - 1;
     const range = [margin.left, width];
     return (
       ((time - domain[0]) / (domain[1] - domain[0])) * (range[1] - range[0])
     );
-  };
+  }; 
 
   return (
-    <ResponsiveContainer width='100%' height='100%' ref={chartRef}>
+    <ResponsiveContainer width="100%" height="100%" ref={chartRef}>
       <BarChart data={chartData} margin={margin} barGap={0} barCategoryGap={0}>
-        <CartesianGrid strokeDasharray='3 3' syncWithTicks={true} />
+        <CartesianGrid strokeDasharray="3 3" syncWithTicks={true} />
         <XAxis
-          type='number'
-          dataKey='time'
-          domain={['minData', 'maxData']}
+          type="number"
+          dataKey="time"
+          domain={["minData", "maxData"]}
           ticks={[]}
         />
         <YAxis
-          type='number'
-          dataKey='zone'
-          domain={['minData', 'maxData']}
+          type="number"
+          dataKey="zone"
+          domain={["minData", "maxData"]}
           tick={false}
           axisLine={false}
           label={undefined}
         />
         <Bar
-          dataKey='zone'
+          dataKey="zone"
           isAnimationActive={false}
           width={0}
           shape={<CustomizedBar data={chartData} xScale={xScale} />}
@@ -59,6 +59,7 @@ const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
 };
 
 // CustomizedBar component to calculate the bar width dynamically
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const CustomizedBar = (props: any) => {
   const { x, y, height, index, data, xScale } = props;
   const currentTime = Number(data[index].time);

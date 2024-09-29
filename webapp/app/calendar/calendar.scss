@@ -26,7 +26,8 @@
     background-color: var(--card-background-color);
   }
   .react-calendar__navigation {
-    button, button:hover {
+    button,
+    button:hover {
       @apply bg-transparent;
     }
     .btn-info {
@@ -45,16 +46,16 @@
   @apply rounded-sm cursor-pointer;
   background-color: var(--card-background-color);
   color: var(--text-color);
-  
+
   abbr {
     display: none;
   }
-  
+
   .card-header {
     @apply py-1 px-2 text-left;
     background-color: var(--card-header-background-color);
   }
-  
+
   .card-body {
     @apply p-2;
   }

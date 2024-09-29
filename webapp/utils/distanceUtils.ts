@@ -11,8 +11,7 @@ export const workoutTotalDistance = (steps: string[]): number => {
 
     if (distanceMatch) {
       totalDistance += parseFloat(distanceMatch[1]);
-    }
-    else if (durationMatch) {
+    } else if (durationMatch) {
       totalDistance += parseFloat(durationMatch[1]) / pace;
     }
   }

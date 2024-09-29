@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useRef } from 'react';
-import ConnectedHistogram from '../components/Histogram';
-import type { workout as Workout } from '@prisma/client';
-import Loading from '@/app/components/Loading';
+import React, { useRef } from "react";
+import ConnectedHistogram from "../components/Histogram";
+import type { workout as Workout } from "@trainme/db";
+import Loading from "@/app/components/Loading";
 
 type Props = {
   workout: Workout;
@@ -16,9 +16,10 @@ export function WorkoutChart({ workout }: Props) {
   // Helper function to extract time and zone
   const parseWorkoutData = (steps: string | undefined) => {
     if (!steps) return [];
-    let duration = 0.0, time = 0.0;
+    let duration = 0.0,
+      time = 0.0;
     let zone = 0;
-    let result: { time: number, zone: number; }[] = [];
+    const result: { time: number; zone: number }[] = [];
     result.push({ time, zone });
     for (let i = 0; i < steps.length; i++) {
       const item = steps[i];
@@ -36,15 +37,12 @@ export function WorkoutChart({ workout }: Props) {
       duration = Math.round(duration); // Round to 1 decimal place
       result.push({ time, zone });
       time += duration;
-    };
+    }
     result.push({ time, zone });
     return result;
   };
 
   const chartData = parseWorkoutData(workout?.steps as string);
   if (!chartData) return <Loading />;
-  return (
-    <ConnectedHistogram chartData={chartData} chartRef={chartRef} />
-  );
+  return <ConnectedHistogram chartData={chartData} chartRef={chartRef} />;
 }
-

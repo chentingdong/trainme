@@ -1,45 +1,28 @@
-# # https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+name: Development Workflow
 
-# name: Migrate
+on:
+  push:
+    branches:
+      - 'develop'
+    tags:
+      - 'dev-*'
 
-# on:
-#   push:
-#     branches:
-#       - '**'
-#       - '!main'
-#   pull_request:
-#     branches:
-#       - '**'
-#       - '!main'
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20.x]
 
-# defaults:
-#   run:
-#     working-directory: ./packages/db
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     strategy:
-#       matrix:
-#         node-version: [18.x]
-
-#     environment: Development
-
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: pnpm/action-setup@v4
-
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#           cache: 'pnpm'
-#       - run: pnpm install --filter "@brikmate/db"
-
-#       - name: Run migrations
-#         env:
-#           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-#           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-#         run: pnpm convert-migrations && pnpm dlx prisma migrate deploy
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+          
+      - run: pnpm install --filter=db

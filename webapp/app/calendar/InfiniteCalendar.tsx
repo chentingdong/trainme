@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
-import Calendar from 'react-calendar';
-import { FixedSizeList as List } from 'react-window';
-import { addWeeks, startOfWeek, endOfWeek } from 'date-fns';
+import React, { useState, useCallback } from "react";
+import Calendar from "react-calendar";
+import { FixedSizeList as List } from "react-window";
+import { addWeeks, startOfWeek, endOfWeek } from "date-fns";
 
 // Define the DateRange type
 export type DateRange = {
@@ -10,7 +10,10 @@ export type DateRange = {
 };
 
 const InfiniteScrollCalendar = () => {
-  const generateMoreWeeks = (startDate: Date, numWeeks: number): DateRange[] => {
+  const generateMoreWeeks = (
+    startDate: Date,
+    numWeeks: number,
+  ): DateRange[] => {
     const newWeeks: DateRange[] = [];
     let currentWeekStart = startOfWeek(startDate);
 
@@ -36,7 +39,6 @@ const InfiniteScrollCalendar = () => {
     const newWeeks = generateMoreWeeks(lastWeekStartDate, 5);
     setWeeks((prevWeeks) => [...prevWeeks, ...newWeeks]);
   }, [weeks]);
-
 
   return (
     <List

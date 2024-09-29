@@ -1,12 +1,21 @@
 {
-  "name": "webapp",
+  "name": "@trainme/webapp",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
+  "engines": {
+    "node": "v20.9.0"
+  },
   "scripts": {
     "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar'",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "preview": "next build && next start",
+    "check-types": "tsc --noEmit",
+    "lint:eslint": "next lint --fix",
+    "lint:prettier": "prettier --ignore-path .gitignore --write .",
+    "lint": "pnpm run lint:eslint && pnpm run lint:prettier",
+    "clean": "rm -rf .next"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.6.2",
@@ -46,28 +55,36 @@
     "style-loader": "^4.0.0",
     "tailwind-merge": "^2.5.2",
     "tailwind-scrollbar": "^3.1.0",
+    "@trainme/db": "workspace:*",
     "uuid": "^10.0.0",
     "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.12",
-    "@types/polyline": "^0.1.32",
     "@clerk/types": "^4.23.0",
+    "@next/eslint-plugin-next": "^14.2.13",
+    "@ianvs/prettier-plugin-sort-imports": "4.1.1",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^5.20.0",
     "@types/convert-units": "^2.3.9",
     "@types/cookie": "^0.6.0",
     "@types/date-fns": "^2.6.0",
     "@types/dotenv": "^8.2.0",
     "@types/js-cookie": "^3.0.6",
+    "@types/leaflet": "^1.9.12",
     "@types/pg": "^8.11.10",
+    "@types/polyline": "^0.1.32",
     "@types/react": "^18.3.9",
     "@types/react-dom": "^18.3.0",
     "@types/react-window": "^1.8.8",
     "@types/uuid": "^10.0.0",
-    "eslint": "^9.11.1",
+    "eslint": "8.57.0",
     "eslint-config-next": "14.2.13",
+    "eslint-plugin-react": "^7.37.0",
     "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.13",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"
 }

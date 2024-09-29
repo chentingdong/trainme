@@ -3,7 +3,7 @@ services:
   postgres:
     container_name: trainmedb
     image: postgis/postgis
-    platform: linux/amd64  # Emulate amd64
+    platform: linux/amd64 # Emulate amd64
     ports:
       - "7452:5432"
     volumes:
@@ -19,4 +19,3 @@ volumes:
   trainme-data:
     external: true
     name: trainme-data
-

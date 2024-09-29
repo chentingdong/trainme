@@ -190,7 +190,7 @@ body {
   label {
     @apply col-span-5;
   }
-  >div {
+  > div {
     @apply col-span-7;
     input,
     select {
@@ -199,11 +199,10 @@ body {
   }
 }
 
-
 .toast-container {
   @apply fixed top-10 right-0 z-50 gap-4 px-4 py-2 w-full max-w-sm;
   .toast {
-  @apply w-full p-4 rounded-lg shadow-lg text-white;
+    @apply w-full p-4 rounded-lg shadow-lg text-white;
   }
   .toast-success {
     color: var(--success-color);

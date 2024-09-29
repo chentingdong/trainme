@@ -5,7 +5,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    './node_modules/flowbite-react/**/*.js',
+    "./node_modules/flowbite-react/**/*.js",
   ],
   theme: {
     extend: {
@@ -40,23 +40,20 @@ const config: Config = {
         handwriting: ['"Comic Neue"', "cursive"],
       },
       letterSpacing: {
-        'widest-2': '0.8rem',
+        "widest-2": "0.8rem",
       },
     },
     container: {
       padding: {
-        DEFAULT: '1rem',
-        sm: '2rem',
-        lg: '4rem',
-        xl: '5rem',
-        '2xl': '6rem',
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "5rem",
+        "2xl": "6rem",
       },
     },
   },
-  plugins: [
-    require('flowbite/plugin'),
-    require('tailwind-scrollbar'),
-  ],
-  darkMode: 'media',
+  plugins: [require("flowbite/plugin"), require("tailwind-scrollbar")],
+  darkMode: "media",
 };
 export default config;
