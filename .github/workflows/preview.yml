@@ -31,8 +31,11 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --filter=@brikmate/db
 
-      - name: Run migrations
+      - name: Convert migrations from prisma to supabase
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: pnpm run convert-migrations && npx prisma migrate deploy --env-file .env.local
+        run: pnpm run convert-migrations 
+        
+      - name: Run migrations
+        run: npx prisma migrate deploy
