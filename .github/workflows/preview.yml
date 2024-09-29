@@ -33,6 +33,14 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --filter=@trainme/db
 
+      - name: Check Database Connection
+        run: |
+          echo "Attempting to connect to the database..."
+          # Replace `psql` command below with whatever database operation you are performing
+          psql ${{ secrets.DATABASE_URL }} -c "SELECT 1;" || exit 1
+          echo "Database connection successful."
+
+
       - name: DB Migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
