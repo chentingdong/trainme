@@ -33,9 +33,9 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --filter=@trainme/db
 
-      - name: Debug
+      - name: Debug database connection
         run: | 
-          psql ${{ secrets.DATABASE_URL }}
+          psql ${{ secrets.DATABASE_URL }} --command="SELECT NOW();"
 
       - name: DB Migrations
         env:
