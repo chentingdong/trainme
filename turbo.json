@@ -9,17 +9,8 @@
       "dependsOn": ["db:generate", "^build"],
       "outputs": [".next/**", "dist/**"],
       "env": [
-        "NEXT_PUBLIC_PORT",
-        "NEXT_PUBLIC_STRAVA_CLIENT_ID",
-        "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY",
         "CLERK_SECRET_KEY",
-        "POSTGRES_PORT",
-        "POSTGRES_HOST",
-        "POSTGRES_USER",
-        "POSTGRES_PASSWORD",
-        "POSTGRES_DB",
-        "POSTGRES_SCHEMA",
-        "DIRECT_URL",
+        "DATABASE_URL",
         "STRAVA_CLIENT_SECRET",
         "GARMIN_USER",
         "GARMIN_PASSWORD"
