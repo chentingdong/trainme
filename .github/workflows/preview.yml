@@ -33,6 +33,10 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --filter=@trainme/db
 
+      - name: Debug
+        run: | 
+          psql ${{ secrets.DATABASE_URL }}
+
       - name: DB Migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
