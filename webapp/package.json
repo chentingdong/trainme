@@ -4,17 +4,17 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "18.x"
   },
   "scripts": {
     "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar'",
-    "build": "next build",
+    "build": "pnpm run clean && next build",
     "start": "next start",
     "preview": "next build && next start",
     "check-types": "tsc --noEmit",
     "lint:eslint": "next lint --fix",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
-    "lint": "pnpm lint:eslint && pnpm lint:prettier",
+    "lint": "pnpm run lint:eslint && pnpm run lint:prettier",
     "clean": "rm -rf .next"
   },
   "dependencies": {

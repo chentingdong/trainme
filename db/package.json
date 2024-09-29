@@ -5,12 +5,12 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": "18.x"
   },
   "type": "module",
   "scripts": {
     "db:generate": "prisma generate",
-    "build": "tsc && pnpm db:generate",
+    "build": "tsc && pnpm run db:generate",
     "postinstall": "prisma generate",
     "convert-migrations": "./bin/convert_migrations.sh",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",

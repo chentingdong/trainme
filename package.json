@@ -1,13 +1,18 @@
 {
   "name": "trainme",
   "version": "1.0.0",
+  "privtate": true,
+  "engines": {
+    "node": "18.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
     "dev": "turbo dev --filter=@trainme/webapp",
-    "build": "turbo build --filter=@trainme/webapp --filter=@trainme/db",
+    "#1 build": "with the ... it build @trainme/db before @trainme/webapp.",
+    "build": "turbo build --filter=@trainme/webapp...",
     "convert-migrations": "./db/bin/convert-migrations.sh",
     "lint": "turbo lint --filter=@trainme/webapp"
   },
