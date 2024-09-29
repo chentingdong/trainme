@@ -1,0 +1,1 @@
+-- CI through github actions, that deploy to supabase.
