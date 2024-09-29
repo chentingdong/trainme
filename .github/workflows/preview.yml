@@ -35,7 +35,7 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: pnpm run convert-migrations 
+        run: pnpm -w run convert-migrations
         
       - name: Run migrations
         run: npx prisma migrate deploy
