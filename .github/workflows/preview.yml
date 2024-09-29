@@ -31,11 +31,9 @@ jobs:
           cache: 'pnpm'
       - run: pnpm install --filter=@trainme/db
 
-      - name: Convert migrations from prisma to supabase
+      - name: DB Migrations
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: pnpm -w run convert-migrations
+        run: pnpm -w run convert-migrations && npx prisma migrate deploy
         
-      - name: Run migrations
-        run: npx prisma migrate deploy
