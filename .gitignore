@@ -44,9 +44,5 @@ next-env.d.ts
 
 **/__pycache__/
 
-# db
-*.backup
-*.sql
-
 # turbo
 .turbo
