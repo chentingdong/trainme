@@ -27,7 +27,7 @@ export const getScheduledWorkoutsByDate = async (
     return scheduledWorkouts;
   } catch (error) {
     console.error("Error fetching scheduled workouts:", error);
-    throw new Error("Failed to fetch scheduled workouts");
+    throw "Failed to fetch scheduled workouts";
   }
 };
 
@@ -40,6 +40,6 @@ export const deleteScheduledWorkoutById = async (id: string) => {
     });
   } catch (error) {
     console.error("Error deleting scheduled workout:", error);
-    throw new Error("Failed to delete scheduled workout");
+    throw "Failed to delete scheduled workout";
   }
 };
