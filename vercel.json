@@ -1,8 +1,7 @@
 {
   "version": 2,
-  "installCommand": "pnpm install --filter @trainme/webapp",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "webapp/.next",
+  "installCommand": "pnpm install -r --shamefully-hoist",
+  "buildCommand": "pnpm --filter @trainme/db run generate && pnpm --filter @trainme/webapp run build",
   "framework": "nextjs",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD ./webapp ./db"
 }

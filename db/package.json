@@ -9,8 +9,8 @@
   },
   "type": "module",
   "scripts": {
-    "db:generate": "prisma generate",
-    "build": "tsc && pnpm run db:generate",
+    "generate": "prisma generate",
+    "build": "tsc",
     "postinstall": "prisma generate",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
     "lint:eslint": "eslint --fix"
