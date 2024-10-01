@@ -60,3 +60,9 @@
     @apply p-2;
   }
 }
+
+.workout-board {
+  @apply text-lg font-handwriting tracking-widest;
+  @apply w-144 mx-auto scroll rounded-lg border-none;
+  @apply bg-stone-300 dark:bg-stone-800;
+}

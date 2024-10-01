@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": "v20.9.0"
+    "node": "20.x"
   },
   "scripts": {
     "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar'",
+    "prebuild": "pnpm --filter @trainme/db run build",
     "build": "next build",
     "start": "next start",
     "preview": "next build && next start",

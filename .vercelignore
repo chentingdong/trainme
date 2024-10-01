@@ -1,0 +1,58 @@
+# Ignore node_modules and any dependencies installed via package managers
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Ignore build output if you are building in a CI pipeline
+dist/
+build/
+
+# Ignore configuration or environment files
+.env
+.env.local
+.env.*.local
+
+# Ignore large assets or media that are not needed in deployment
+static/media/
+public/videos/
+
+# Ignore logs or other development files
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore test files or directories
+tests/
+__tests__/
+coverage/
+*.spec.js
+*.test.js
+
+# next.js
+webapp/.next/
+webapp/out/
+
+# production
+webapp/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+*.log
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# vscode
+.history/
+
+# turbo
+.turbo

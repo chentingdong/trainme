@@ -89,7 +89,7 @@ export default function WorkoutEditor() {
               <Textarea
                 id="steps"
                 autoFocus
-                className="flex-grow text-lg font-handwriting tracking-widest line-height-wide bg-opacity-70 w-144 mx-auto scroll"
+                className="workout-board flex-grow "
                 value={
                   Array.isArray(field.value)
                     ? field.value.join("\n")

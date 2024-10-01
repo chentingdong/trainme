@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "privtate": true,
   "engines": {
-    "node": "v20.9.0"
+    "node": "v20.x"
   },
   "repository": {
     "type": "git",
