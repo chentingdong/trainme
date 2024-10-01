@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "webapp/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "installCommand": "pnpm install --filter=@trainme/db",
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "webapp/.next",
+  "framework": "nextjs",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./webapp ./db"
+}
