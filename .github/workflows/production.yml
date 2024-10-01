@@ -1,0 +1,49 @@
+# This workflow do the prisma migration deploy to supabase, for preview.
+
+name: Development Workflow
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'packages/db/prisma/schema.prisma'
+
+defaults:
+  run:
+    working-directory: ./db
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.17.0] 
+
+
+    environment: Production
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - run: pnpm install --filter=@trainme/db
+
+      - name: Debug database connection
+        run: | 
+          psql ${{ secrets.DATABASE_URL }} --command="SELECT NOW();"
+
+      - name: DB Migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DATABASE_URL }}
+        run: pnpm -w run convert-migrations && 
+            pnpm dlx prisma migrate deploy --preview-feature
+        timeout-minutes: 1
+        
