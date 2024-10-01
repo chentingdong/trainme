@@ -3,5 +3,5 @@
   "installCommand": "pnpm install -r --shamefully-hoist",
   "buildCommand": "pnpm --filter @trainme/db run generate && pnpm --filter @trainme/webapp run build",
   "framework": "nextjs",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./webapp ./db"
+  "ignoreCommand": "git diff --quiet -- webapp/ db/"
 }
