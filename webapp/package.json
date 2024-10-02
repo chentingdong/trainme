@@ -7,7 +7,7 @@
     "node": "20.x"
   },
   "scripts": {
-    "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar'",
+    "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar 200'",
     "prebuild": "pnpm --filter @trainme/db run build",
     "build": "next build",
     "start": "next start",

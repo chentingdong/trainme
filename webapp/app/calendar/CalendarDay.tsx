@@ -8,11 +8,11 @@ import { format } from "date-fns";
 import { useScheduleStore } from "@/app/components/useScheduleStore";
 import type { activity as Activity } from "@trainme/db";
 import { getActivitiesByDate } from "../actions/activities";
-import { useActivityStore } from "../components/useActivityStore";
 import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import { getScheduledWorkoutsByDate } from "../actions/schedule";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
+import { useActivityStore } from '@/app/components/useActivityStore';
 
 type CalendarDayProps = {
   date: Date;
