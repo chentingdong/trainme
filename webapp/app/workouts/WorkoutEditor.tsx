@@ -2,44 +2,32 @@
 
 import { WorkoutChart } from "./WorkoutChart";
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { addToCalendar, saveWorkout } from "../actions/workout";
 import { useToast } from "../components/Toaster";
 import type { workout as Workout } from "@trainme/db";
 import SportTypeSelect from "../components/SportTypeSelect";
 
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { defaultWorkout } from "@/prisma";
 import { useScheduleStore } from "../components/useScheduleStore";
 
 export default function WorkoutEditor() {
-  const { workout, setWorkout, workoutNames } = useWorkoutStore();
-  const { scheduleDate, setScheduleDate } = useScheduleStore();
+  const { workout, setWorkout, updateWorkout, workouts } = useWorkoutStore();
+  const { scheduleDate, scheduleWorkout, refetchScheduledWorkouts } = useScheduleStore();
 
-  const { control, handleSubmit } = useForm<Workout>({
+  const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: "onChange",
   });
 
   const toaster = useToast();
 
-  const onSubmit: SubmitHandler<Workout> = async (data) => {
-    try {
-      const updatedWorkout = { ...workout, ...data };
-      setWorkout(updatedWorkout);
-      await saveWorkout(updatedWorkout);
-      toaster.showToaster("Workout updated", "success");
-    } catch (error) {
-      toaster.showToaster("Failed to update workout: " + error, "error");
-    }
-  };
-
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        await saveWorkout(workout);
-        await addToCalendar(workout.id, scheduleDate);
-        setScheduleDate(null);
+        const updatedWorkout = await updateWorkout(workout);
+        await scheduleWorkout(updatedWorkout, scheduleDate);
+        await refetchScheduledWorkouts(scheduleDate);
         toaster.showToaster("Workout added to calendar", "success");
       } catch (error) {
         toaster.showToaster(
@@ -50,10 +38,10 @@ export default function WorkoutEditor() {
     }
   };
 
-  const handleSaveWorkout = async () => {
+  const handleSaveWorkout = () => {
     try {
       if (workout && workout.steps) {
-        await saveWorkout(workout);
+        updateWorkout(workout);
         setWorkout(workout);
         toaster.showToaster("Workout saved", "success");
       } else {
@@ -73,7 +61,6 @@ export default function WorkoutEditor() {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
       className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
     >
       <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
@@ -85,7 +72,7 @@ export default function WorkoutEditor() {
               <Textarea
                 id="steps"
                 autoFocus
-                className="workout-board flex-grow "
+                className="flex-grow workout-board"
                 value={
                   Array.isArray(field.value)
                     ? field.value.join("\n")
@@ -114,7 +101,7 @@ export default function WorkoutEditor() {
               rules={{
                 validate: {
                   notTaken: (value) =>
-                    workoutNames.includes(value?.toString().trim() ?? "")
+                    workouts.map(workout => workout.name).includes(value?.toString().trim() ?? "")
                       ? "Name taken"
                       : true,
                 },
@@ -203,7 +190,9 @@ export default function WorkoutEditor() {
               control={control}
               rules={{
                 validate: (value) =>
-                  workoutNames.includes(value?.toString() ?? "")
+                  workouts
+                    .map(workout => workout.name)
+                    .includes(value?.toString() ?? "")
                     ? "Name taken"
                     : true,
               }}
@@ -254,3 +243,4 @@ export default function WorkoutEditor() {
     </form>
   );
 }
+

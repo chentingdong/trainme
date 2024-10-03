@@ -4,16 +4,16 @@ import React, { useEffect } from "react";
 import { Button } from "flowbite-react";
 import ActivityIcon from "../activities/ActivityIcon";
 import { useWorkoutStore } from "../components/useWorkoutStore";
-import { getWorkouts } from "../actions/workout";
 import { emptyWorkout } from "@/prisma";
 import { FiPlus } from "react-icons/fi";
 
 export default function WorkoutList() {
-  const { workouts, setWorkouts, workout, setWorkout } = useWorkoutStore();
+  const { workouts, refreshWorkouts, workout, setWorkout } = useWorkoutStore();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
+  // on page load, get workouts from the database
   useEffect(() => {
-    getWorkouts().then(setWorkouts);
-  }, [setWorkouts]);
+    refreshWorkouts();
+  }, [refreshWorkouts]);
 
   const handleNewWorkout = () => {
     setWorkout(emptyWorkout);

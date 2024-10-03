@@ -10,7 +10,6 @@ import type { activity as Activity } from "@trainme/db";
 import { getActivitiesByDate } from "@/app/api/strava/activities";
 import { useActivityStore } from "../components/useActivityStore";
 import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
-import { getScheduledWorkoutsByDate } from "../actions/schedule";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
 
@@ -41,12 +40,11 @@ const CalendarDayWorkout = dynamic(
 );
 
 function CalendarDay({ date }: CalendarDayProps) {
-  const [activities, setActivities] = useState<Activity[]>([]);
   const { setActivity } = useActivityStore();
-  const [scheduledWorkouts, setScheduledWorkouts] = useState<
-    ScheduledWorkout[]
-  >([]);
-  const { scheduleDate, setScheduleDate } = useScheduleStore();
+  const { scheduleDate, setScheduleDate, refetchScheduledWorkouts } = useScheduleStore();
+
+  const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
     getActivitiesByDate(date).then((data) => {
@@ -55,10 +53,10 @@ function CalendarDay({ date }: CalendarDayProps) {
   }, [date, setActivities]);
 
   useEffect(() => {
-    getScheduledWorkoutsByDate(date).then((data) => {
-      setScheduledWorkouts(data);
+    refetchScheduledWorkouts(date).then((newScheduledWorkouts) => {
+      setScheduledWorkouts(newScheduledWorkouts);
     });
-  }, [date, setScheduledWorkouts]);
+  }, [date, refetchScheduledWorkouts, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {
     let cn = "btn btn-icon btn-workout border-none w-full";
@@ -97,7 +95,10 @@ function CalendarDay({ date }: CalendarDayProps) {
         <ul className="mx-0.25 shadow-sm">
           {scheduledWorkouts?.map((scheduledWorkout) => (
             <li key={scheduledWorkout.id} className="my-1 cursor-pointer">
-              <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
+              <CalendarDayWorkout
+                scheduledWorkout={scheduledWorkout}
+                scheduledWorkouts={scheduledWorkouts}
+                setScheduledWorkouts={setScheduledWorkouts} />
             </li>
           ))}
         </ul>

@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { deleteScheduledWorkoutById } from "../actions/schedule";
-import { getWorkoutById } from "../actions/workout";
-import type { workout as Workout } from "@trainme/db";
+import React, { useEffect } from "react";
 import Loading from "@/app/components/Loading";
 import { WorkoutChart } from "../workouts/WorkoutChart";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
@@ -11,26 +8,33 @@ import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import { cn } from "@/utils/helper";
 import ActivityIcon from "../activities/ActivityIcon";
 import { IoClose } from "react-icons/io5";
+import { useScheduleStore } from '@/app/components/useScheduleStore';
 
 export function CalendarDayWorkout({
   scheduledWorkout,
+  scheduledWorkouts,
+  setScheduledWorkouts,
 }: {
-  scheduledWorkout: ScheduledWorkout;
+    scheduledWorkout: ScheduledWorkout;
+    scheduledWorkouts: ScheduledWorkout[];
+    setScheduledWorkouts: (scheduledWorkouts: ScheduledWorkout[]) => void;
 }) {
-  const [workout, setWorkout] = useState<Workout>();
-  const { workout: editorWorkout, setWorkout: setEditorWorkout } =
-    useWorkoutStore();
+  const { workout, refetchWorkout } = useWorkoutStore();
+  const {
+    workout: editorWorkout,
+    setWorkout: setEditorWorkout,
+  } = useWorkoutStore();
+  const { unScheduleWorkout } = useScheduleStore();
 
   useEffect(() => {
     if (scheduledWorkout.workout_id) {
-      getWorkoutById(scheduledWorkout.workout_id).then((data) => {
-        setWorkout(data);
-      });
+      refetchWorkout(scheduledWorkout.workout_id);
     }
-  }, [scheduledWorkout]);
+  }, []);
 
-  const handleUnschedule = async () => {
-    await deleteScheduledWorkoutById(scheduledWorkout.id);
+  const handleUnschedule = () => {
+    unScheduleWorkout(scheduledWorkout.id);
+    setScheduledWorkouts(scheduledWorkouts.filter(workout => workout.id !== scheduledWorkout.id));
   };
 
   if (!workout) return <Loading />;
