@@ -1,52 +1,47 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ActivityIcon from "../activities/ActivityIcon";
+import SportIcon from "@/app/activities/SportIcon";
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
-import { useScheduleStore } from "@/app/components/useScheduleStore";
-import type { activity as Activity } from "@trainme/db";
-import { getActivitiesByDate } from "../actions/activities";
-import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
-import { getScheduledWorkoutsByDate } from "../actions/schedule";
+import type { Activity } from "@trainme/db";
+import { getActivitiesByDate } from "@/server/routes/strava/activities";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
-import { useActivityStore } from '@/app/components/useActivityStore';
+import { useCalendarState } from '@/app/calendar/useCalendarState';
+
+const CalendarDayActivities = dynamic(
+  async () => {
+    const { CalendarDayActivities } = await import("./CalendarDayActivity");
+    return CalendarDayActivities;
+  },
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  },
+);
+
+const CalendarDayWorkouts = dynamic(
+  async () => {
+    const { CalendarDayWorkouts } = await import("./CalendarDayWorkouts");
+    return CalendarDayWorkouts;
+  },
+  {
+    ssr: false,
+    loading: () => <Loading />,
+  },
+);
+
 
 type CalendarDayProps = {
   date: Date;
 };
 
-const CalendarDayActivity = dynamic(
-  async () => {
-    const { CalendarDayActivity } = await import("./CalendarDayActivity");
-    return CalendarDayActivity;
-  },
-  {
-    ssr: false,
-    loading: () => <Loading />,
-  },
-);
-
-const CalendarDayWorkout = dynamic(
-  async () => {
-    const { CalendarDayWorkout } = await import("./CalendarDayWorkout");
-    return CalendarDayWorkout;
-  },
-  {
-    ssr: false,
-    loading: () => <Loading />,
-  },
-);
-
 function CalendarDay({ date }: CalendarDayProps) {
+  const { scheduleDate, setScheduleDate } = useCalendarState();
+
   const [activities, setActivities] = useState<Activity[]>([]);
-  const { setActivity } = useActivityStore();
-  const [scheduledWorkouts, setScheduledWorkouts] = useState<
-    ScheduledWorkout[]
-  >([]);
-  const { scheduleDate, setScheduleDate } = useScheduleStore();
 
   useEffect(() => {
     getActivitiesByDate(date).then((data) => {
@@ -54,11 +49,6 @@ function CalendarDay({ date }: CalendarDayProps) {
     });
   }, [date, setActivities]);
 
-  useEffect(() => {
-    getScheduledWorkoutsByDate(date).then((data) => {
-      setScheduledWorkouts(data);
-    });
-  }, [date, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {
     let cn = "btn btn-icon btn-workout border-none w-full";
@@ -77,30 +67,14 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
-              <ActivityIcon type={activity.type} />
+              <SportIcon type={activity.sportType || ''} />
             </div>
           ))}
         </div>
       </div>
       <div className="h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70">
-        <ul className="mx-0.25 shadow-sm">
-          {activities?.map((activity, index) => (
-            <li
-              key={index}
-              className="my-1 cursor-pointer"
-              onClick={() => setActivity(activity)}
-            >
-              <CalendarDayActivity activity={activity} />
-            </li>
-          ))}
-        </ul>
-        <ul className="mx-0.25 shadow-sm">
-          {scheduledWorkouts?.map((scheduledWorkout) => (
-            <li key={scheduledWorkout.id} className="my-1 cursor-pointer">
-              <CalendarDayWorkout scheduledWorkout={scheduledWorkout} />
-            </li>
-          ))}
-        </ul>
+        <CalendarDayActivities date={date} />
+        <CalendarDayWorkouts date={date} />
       </div>
       <div className="card-footer px-4 py-0.5">
         <button className={workoutButtonStyle}>

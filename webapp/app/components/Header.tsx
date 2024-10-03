@@ -6,10 +6,10 @@ import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
 
-import { fetchLatestActivitiesFromStrava } from "../actions/activities";
+import { fetchLatestActivitiesFromStrava } from "@/app/api/strava/activities";
 import type { activity as Activity } from "@trainme/db";
 import { useToast } from "./Toaster";
-import { fetchActivityLaps } from "../actions/laps";
+import { fetchActivityLaps } from "@/app/api/strava/laps";
 
 const Header = () => {
   const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
