@@ -7,7 +7,7 @@ import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
 import { useScheduleStore } from "@/app/components/useScheduleStore";
 import type { activity as Activity } from "@trainme/db";
-import { getActivitiesByDate } from "../actions/activities";
+import { getActivitiesByDate } from "@/app/api/strava/activities";
 import { useActivityStore } from "../components/useActivityStore";
 import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import { getScheduledWorkoutsByDate } from "../actions/schedule";

@@ -1,8 +1,5 @@
 "use server";
 
-import { getStravaAccessToken } from "@/utils/strava";
-import axios from "axios";
-import { cookies } from "next/headers";
 import { pool } from "./postgres";
 
 export type Lap = {
@@ -31,32 +28,6 @@ export type Lap = {
   max_heartrate?: number;
   lap_index: number;
 };
-
-export async function fetchActivityLaps(
-  activityId: number,
-  persist: boolean = false,
-): Promise<Lap[]> {
-  // Get refresh token from cookies
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get("strava_refresh_token")?.value;
-
-  // Get temporary access token from Strava
-  const accessToken = await getStravaAccessToken(refreshToken);
-
-  const url = new URL(
-    `https://www.strava.com/api/v3/activities/${activityId}/laps`,
-  );
-  const response = await axios.get(url.href, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  const laps = response.data;
-  if (persist && laps.length > 0) {
-    await saveLaps(laps);
-  }
-  return laps;
-}
 
 export async function saveLaps(laps: Lap[]): Promise<void> {
   try {
