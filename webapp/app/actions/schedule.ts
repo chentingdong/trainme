@@ -38,6 +38,7 @@ export const deleteScheduledWorkoutById = async (id: string) => {
         id,
       },
     });
+    return true;
   } catch (error) {
     console.error("Error deleting scheduled workout:", error);
     throw "Failed to delete scheduled workout";
