@@ -5,6 +5,7 @@ import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Carousel } from "flowbite-react";
 import WorkoutEditor from "../workouts/WorkoutEditor";
+import WorkoutList from '@/app/workouts/WorkoutList';
 
 const showImage = false;
 
@@ -45,14 +46,19 @@ export default function Page() {
         <CalendarWeek aday={aday} />
       </Carousel>
       <div
-        className="overflow-auto flex-grow"
+        className="overflow-auto flex-grow grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85"
         style={
           showImage
             ? { backgroundImage: `url('/art/20240811-act-goats.jpg')` }
             : undefined
         }
       >
-        <WorkoutEditor />
+        <div className="col-span-3 h-full overflow-auto">
+          <WorkoutList />
+        </div>
+        <div className="col-span-9 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
+          <WorkoutEditor />
+        </div>
       </div>
     </div>
   );

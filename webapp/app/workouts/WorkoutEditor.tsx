@@ -10,7 +10,6 @@ import SportTypeSelect from "../components/SportTypeSelect";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { defaultWorkout } from "@/prisma";
-import WorkoutList from "./WorkoutList";
 import { useScheduleStore } from "../components/useScheduleStore";
 
 export default function WorkoutEditor() {
@@ -75,11 +74,8 @@ export default function WorkoutEditor() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-12 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
+      className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
     >
-      <div className="col-span-3 h-full overflow-auto">
-        <WorkoutList />
-      </div>
       <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
         <Controller
           name="steps"
@@ -104,7 +100,7 @@ export default function WorkoutEditor() {
             );
           }}
         />
-        <div className="h-24 w-full px-2">
+        <div className="h-1/3 min-h-18 w-full px-2">
           <WorkoutChart workout={workout} />
         </div>
       </div>
