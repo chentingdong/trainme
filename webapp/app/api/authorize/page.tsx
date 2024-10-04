@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const AuthorizationHandler = () => {
-  const [message, setMessage] = React.useState("Authorizing...");
-  const [hasError, setHasError] = React.useState(false);
+  const [message, setMessage] = useState("Authorizing...");
+  const [hasError, setHasError] = useState(false);
 
   useEffect((): void => {
     // Check if there is a 'code' query parameter in the URL

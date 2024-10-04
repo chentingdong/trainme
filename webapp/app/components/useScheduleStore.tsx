@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { deleteScheduledWorkoutById, getScheduledWorkoutsByDate } from '@/app/actions/schedule';
 import { workout as Workout } from "@trainme/db";

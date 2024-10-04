@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { getActivityById } from "../actions/activities";
+// import { getActivityById } from "../actions/activities";
 import Loading from "../components/Loading";
 import ActivityMap from "../activities/ActivityMap";
 import { Modal } from "flowbite-react";
@@ -13,23 +13,23 @@ type Props = {
 };
 
 export function ActivityDetail({ activityId }: Props) {
-  const [activity, setActivity] = React.useState<Activity | null>(null);
+  const [activity] = React.useState<Activity | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [summaryPolyline, setSummaryPolyline] = React.useState<string>();
 
   useEffect(() => {
     setLoading(true);
     if (activityId) {
-      getActivityById(activityId)
-        .then((activity) => {
-          setActivity(activity);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      // getActivityById(activityId)
+      //   .then((activity) => {
+      //     setActivity(activity);
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //   })
+      //   .finally(() => {
+      //     setLoading(false);
+      //   });
     }
 
     const sp = (activity?.map as Map)?.summary_polyline as string;

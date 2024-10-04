@@ -2,7 +2,7 @@
 
 import { WorkoutChart } from "./WorkoutChart";
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { useToast } from "../components/Toaster";
+import { useToast } from "@/app/components/Toaster";
 import type { workout as Workout } from "@trainme/db";
 import SportTypeSelect from "../components/SportTypeSelect";
 
@@ -20,7 +20,7 @@ export default function WorkoutEditor() {
     mode: "onChange",
   });
 
-  const toaster = useToast();
+  // const toaster = useToast();
 
   const handleAddToCalendar = async () => {
     if (workout?.id) {
@@ -30,12 +30,13 @@ export default function WorkoutEditor() {
         // TODO: not working because it's not refreshing that day's scheduled workouts
         await refetchScheduledWorkouts(scheduleDate);
 
-        toaster.showToaster("Workout added to calendar", "success");
+        // toaster.showToaster("Workout added to calendar", "success");
       } catch (error) {
-        toaster.showToaster(
-          "Failed to add workout to calendar: " + error,
-          "error",
-        );
+        throw new Error("Failed to add workout to calendar: " + error);
+        // toaster.showToaster(
+        //   "Failed to add workout to calendar: " + error,
+        //   "error",
+        // );
       }
     }
   };
@@ -45,15 +46,16 @@ export default function WorkoutEditor() {
       if (workout && workout.steps) {
         updateWorkout(workout);
         setWorkout(workout);
-        toaster.showToaster("Workout saved", "success");
+        // toaster.showToaster("Workout saved", "success");
       } else {
-        toaster.showToaster("Workout not saved", "error");
+        // toaster.showToaster("Workout not saved", "error");
       }
     } catch (error) {
-      toaster.showToaster(
-        "Failed to add workout to calendar: " + error,
-        "error",
-      );
+      throw new Error("Failed to add workout to calendar: " + error);
+      // toaster.showToaster(
+      //   "Failed to add workout to calendar: " + error,
+      //   "error",
+      // );
     }
   };
 
