@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import type { activity as Activity } from "@trainme/db";
 

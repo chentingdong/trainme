@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.scss";
 import type { Metadata } from "next";
 import Header from "./components/Header";
-import { Toaster, ToastProvider } from "./components/Toaster";
+import { Toaster } from "./components/Toaster";
 import { Suspense } from "react";
 import Loading from "./components/Loading";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from '@/app/components/Providers';
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -29,17 +29,15 @@ export default function RootLayout({
   };
   return (
     <html lang="en">
-      <ClerkProvider>
+      <Providers>
         <body className={inter.className + bodyClass}>
-          <ToastProvider>
-            <Header />
+          <Header />
             <Toaster />
             <main className="flex-grow mt-8">
               <Suspense fallback={<Loading />}>{children}</Suspense>
-            </main>
-          </ToastProvider>
+          </main>
         </body>
-      </ClerkProvider>
+      </Providers>
     </html>
   );
 }

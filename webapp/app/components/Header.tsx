@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
@@ -8,13 +8,13 @@ import { BsCalendar3 } from "react-icons/bs";
 
 import { fetchLatestActivitiesFromStrava } from "@/app/api/strava/activities";
 import type { activity as Activity } from "@trainme/db";
-import { useToast } from "./Toaster";
+// import { useToast } from "./Toaster";
 import { fetchActivityLaps } from "@/app/api/strava/laps";
 
 const Header = () => {
-  const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const { showToaster } = useToast();
+  const [newActivityCount, setNewActivityCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const { showToaster } = useToast();
 
   const syncStrava = async () => {
     setLoading(true);
@@ -25,10 +25,10 @@ const Header = () => {
         await fetchActivityLaps(activity.id, true);
       }
       setNewActivityCount(newActivities.length);
-      showToaster("Successfully synced activities", "success");
+      // showToaster("Successfully synced activities", "success");
     } catch (error) {
       console.error(error);
-      showToaster("Failed to sync activities", "error");
+      // showToaster("Failed to sync activities", "error");
     } finally {
       setLoading(false);
     }

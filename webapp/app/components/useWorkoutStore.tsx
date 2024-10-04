@@ -1,3 +1,5 @@
+"use client";
+
 import { create } from "zustand";
 import { workout as Workout } from "@trainme/db";
 import { defaultWorkout } from "@/prisma";

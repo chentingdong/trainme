@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Carousel } from "flowbite-react";
@@ -10,7 +10,7 @@ import WorkoutList from '@/app/workouts/WorkoutList';
 const showImage = false;
 
 export default function Page() {
-  const [aday, setAday] = React.useState<Date>(new Date());
+  const [aday, setAday] = useState<Date>(new Date());
 
   const handlePrevWeek = () => {
     const prevWeek = new Date(aday!);

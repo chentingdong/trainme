@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Loading from "@/app/components/Loading";
 import Debug from "@/app/components/Debug";
