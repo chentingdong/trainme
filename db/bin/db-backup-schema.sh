@@ -21,6 +21,7 @@ BEGIN
   FOR table_name IN SELECT tablename FROM pg_tables WHERE schemaname = 'public'
   LOOP
     BEGIN
+      EXECUTE 'DROP TABLE IF EXISTS backup.' || quote_ident(table_name);
       EXECUTE 'CREATE TABLE backup.' || quote_ident(table_name) || ' AS TABLE public.' || quote_ident(table_name);
     EXCEPTION WHEN OTHERS THEN
       RAISE NOTICE 'Failed to copy table %: %', table_name, SQLERRM;
