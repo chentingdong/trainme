@@ -1,6 +1,6 @@
 import React from "react";
 import Cookies from "js-cookie";
-import { getStravaAuthUrl } from "@/utils/strava";
+import { getStravaAuthUrl } from '@/app/api/strava/authorization';
 
 export default function Strava() {
   const [refreshToken, setRefreshToken] = React.useState<string | null>("");

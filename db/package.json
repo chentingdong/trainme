@@ -10,7 +10,7 @@
   "type": "module",
   "scripts": {
     "generate": "prisma generate",
-    "build": "tsc",
+    "build": "tsc && prisma generate",
     "postinstall": "prisma generate",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
     "lint:eslint": "eslint --fix"
