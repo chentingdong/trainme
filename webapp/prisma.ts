@@ -3,16 +3,16 @@ import type { workout as Workout } from "@trainme/db";
 import { PrismaClient } from "@trainme/db";
 
 const globalForPrisma = global as unknown as {
-  prisma: PrismaClient | undefined;
+  db: PrismaClient | undefined;
 };
 
-export const prisma =
-  globalForPrisma.prisma ||
+export const db =
+  globalForPrisma.db ||
   new PrismaClient({
     log: ["error", "warn"],
   });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") globalForPrisma.db = db;
 
 export const defaultWorkout: Workout = {
   id: uuidv4(),
