@@ -12,7 +12,7 @@ export async function getActivities(
   fromDate: Date,
   toDate: Date,
 ): Promise<Activity[]> {
-  const activities = await prisma.activity.findMany({
+  const activities = await db.activity.findMany({
     where: {
       start_date_local: {
         gte: fromDate.toISOString(),
@@ -26,7 +26,7 @@ export async function getActivities(
 // get all activities from strava on one day.
 export async function getActivitiesByDate(date: Date): Promise<Activity[]> {
   try {
-    const activities = await prisma.activity.findMany({
+    const activities = await db.activity.findMany({
       where: {
         start_date_local: {
           gte: date.toISOString(),
@@ -47,7 +47,7 @@ export async function getActivitiesByDate(date: Date): Promise<Activity[]> {
 // get activity from strava by id.
 export async function getActivityById(id: number): Promise<Activity | null> {
   try {
-    const activity = await prisma.activity.findUnique({
+    const activity = await db.activity.findUnique({
       where: {
         id: id,
       },

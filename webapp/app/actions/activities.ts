@@ -1,15 +1,14 @@
 "use server";
 
 import { type activity as Activity } from "@trainme/db";
-import { prisma } from "@trainme/db/src/index";
-import { Prisma } from "@trainme/db";
+import { db, Prisma } from "@trainme/db";
 
 export async function findLastActivityDate(): Promise<Date> {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
 
   try {
-    const lastActivity = await prisma.activity.findFirst({
+    const lastActivity = await db.activity.findFirst({
       orderBy: {
         start_date_local: "desc",
       },
@@ -29,16 +28,16 @@ export async function findLastActivityDate(): Promise<Date> {
 export async function saveActivities(activities: Activity[]): Promise<void> {
   try {
     for (const activity of activities) {
-      const existingActivity = await prisma.activity.findFirst({
+      const existingActivity = await db.activity.findFirst({
         where: { id: activity.id },
       });
 
       if (!existingActivity) {
-        await prisma.activity.create({
+        await db.activity.create({
           data: activity as Prisma.activityCreateInput,
         });
       } else {
-        await prisma.activity.update({
+        await db.activity.update({
           where: { id: existingActivity.id },
           data: activity as Prisma.activityCreateInput,
         });
@@ -48,6 +47,6 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
     console.error("Error during upsert:", err);
     throw new Error("Error saving activities to database" + err);
   } finally {
-    await prisma.$disconnect();
+    await db.$disconnect();
   }
 }

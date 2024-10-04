@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/prisma";
+import { db } from "@trainme/db";
 import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 
 export const getScheduledWorkoutsByDate = async (
@@ -12,7 +12,7 @@ export const getScheduledWorkoutsByDate = async (
   endOfDay.setHours(23, 59, 59, 999);
 
   try {
-    const scheduledWorkouts = await prisma.workout_schedule.findMany({
+    const scheduledWorkouts = await db.workout_schedule.findMany({
       where: {
         schedule_date: {
           gte: startOfDay,
@@ -33,7 +33,7 @@ export const getScheduledWorkoutsByDate = async (
 
 export const deleteScheduledWorkoutById = async (id: string) => {
   try {
-    await prisma.workout_schedule.delete({
+    await db.workout_schedule.delete({
       where: {
         id,
       },

@@ -1,6 +1,6 @@
 "use server";
 
-import { prisma } from "@/prisma";
+import { db } from "@/prisma";
 import type {
   workout_schedule as WorkoutDate,
   workout as Workout,
@@ -8,12 +8,12 @@ import type {
 import { v4 as uuidv4 } from "uuid";
 
 export async function getWorkouts(): Promise<Workout[]> {
-  const workouts = await prisma.workout.findMany({});
+  const workouts = await db.workout.findMany({});
   return workouts;
 }
 
 export async function getWorkoutById(id: string): Promise<Workout> {
-  const workout = await prisma.workout.findUnique({
+  const workout = await db.workout.findUnique({
     where: {
       id,
     },
@@ -27,7 +27,7 @@ export async function getWorkoutById(id: string): Promise<Workout> {
 
 export async function saveWorkout(workout: Workout): Promise<Workout | null> {
   try {
-    const oldWorkout = await prisma.workout.findFirst({
+    const oldWorkout = await db.workout.findFirst({
       where: {
         OR: [{ id: workout.id }, { name: workout.name }],
       },
@@ -44,7 +44,7 @@ export async function saveWorkout(workout: Workout): Promise<Workout | null> {
 }
 
 export async function createWorkout(workout: Workout): Promise<Workout | null> {
-  const newWorkout = await prisma.workout.create({
+  const newWorkout = await db.workout.create({
     data: {
       ...workout,
       id: uuidv4(),
@@ -58,7 +58,7 @@ export async function updateWorkout(
   oldWorkout: Workout,
   workout: Workout,
 ): Promise<Workout | null> {
-  const updatedWorkout = await prisma.workout.update({
+  const updatedWorkout = await db.workout.update({
     where: {
       id: oldWorkout.id,
     },
@@ -77,7 +77,7 @@ export async function addToCalendar(
 ): Promise<WorkoutDate | null> {
   if (!date) return null;
   try {
-    const schedule = await prisma.workout_schedule.create({
+    const schedule = await db.workout_schedule.create({
       data: {
         id: uuidv4(), // added id field
         workout_id: workoutId,
