@@ -9,6 +9,6 @@ const getPrismaClient = () => {
     globalThis.prismaGlobal = new PrismaClient();
     return globalThis.prismaGlobal;
 };
-const prisma = getPrismaClient();
-export { prisma };
+const db = getPrismaClient();
+export { db };
 //# sourceMappingURL=index.js.map

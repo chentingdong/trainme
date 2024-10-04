@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { getActivities } from "@/app/actions/activities";
 import type { activity as Activity } from "@trainme/db";
 import ActivityOne from "./ActivityOne";
+import { getActivities } from '@/app/api/strava/activities';
 
 function Page() {
   const [activities, setActivities] = useState<Activity[]>([]);

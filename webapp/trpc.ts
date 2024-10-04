@@ -5,7 +5,6 @@ import superjson from 'superjson';
 
 type BaseContext = {
   db: PrismaClient;
-  links?: any;
 };
 type AuthContext = BaseContext & {
   userId: string;

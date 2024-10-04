@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client';
+
 export * from '@prisma/client';
 
-const getPrismaClient = (): PrismaClient => {
+const getPrismaClient = () => {
   if (process.env.VERCEL_ENV) {
     return new PrismaClient();
   }
@@ -14,6 +15,6 @@ declare const globalThis: {
   prismaGlobal: PrismaClient;
 } & typeof global;
 
-const prisma = getPrismaClient();
+const db = getPrismaClient();
 
-export { prisma };
+export { db };

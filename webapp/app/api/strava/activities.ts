@@ -4,7 +4,7 @@ import { getStravaAccessToken } from "@/app/api/strava/authorization";
 import { cookies } from "next/headers";
 import axios from "axios";
 import { type activity as Activity } from "@trainme/db";
-import { prisma } from "@trainme/db/src/index";
+import { db } from "@trainme/db";
 import { findLastActivityDate, saveActivities } from '@/app/actions/activities';
 
 // get activities from strava with pagination.
