@@ -1,23 +1,25 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "flowbite-react";
 import ActivityIcon from "../activities/ActivityIcon";
 import { useWorkoutStore } from "../components/useWorkoutStore";
 import { emptyWorkout } from "@/prisma";
 import { FiPlus } from "react-icons/fi";
+import { trpc } from '@/app/api/trpc/client';
+import Loading from '@/app/loading';
 
 export default function WorkoutList() {
-  const { workouts, refreshWorkouts, workout, setWorkout } = useWorkoutStore();
+  const { workout, setWorkout } = useWorkoutStore();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
-  // on page load, get workouts from the database
-  useEffect(() => {
-    refreshWorkouts();
-  }, [refreshWorkouts]);
+  const { data: workouts, isLoading, isError } = trpc.workouts.list.useQuery({});
 
   const handleNewWorkout = () => {
     setWorkout(emptyWorkout);
   };
+
+  if (isLoading) return <Loading />;
+  if (isError || !workouts) return <div>Error loading workouts</div>;
 
   return (
     <div className="h-full gap-1 px-2 overflow-y-auto scroll">
