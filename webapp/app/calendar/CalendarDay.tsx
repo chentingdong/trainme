@@ -53,9 +53,14 @@ function CalendarDay({ date }: CalendarDayProps) {
   }, [date, setActivities]);
 
   useEffect(() => {
+
+    // TODO: need day level scheduled workouts store?
     refetchScheduledWorkouts(date).then((newScheduledWorkouts) => {
       setScheduledWorkouts(newScheduledWorkouts);
     });
+
+
+
   }, [date, refetchScheduledWorkouts, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {

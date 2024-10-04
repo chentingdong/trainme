@@ -27,7 +27,9 @@ export default function WorkoutEditor() {
       try {
         const updatedWorkout = await updateWorkout(workout);
         await scheduleWorkout(updatedWorkout, scheduleDate);
+        // TODO: not working because it's not refreshing that day's scheduled workouts
         await refetchScheduledWorkouts(scheduleDate);
+
         toaster.showToaster("Workout added to calendar", "success");
       } catch (error) {
         toaster.showToaster(
