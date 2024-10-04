@@ -11,7 +11,6 @@ type BaseContext = {
 };
 type AuthContext = BaseContext & {
   userId: string;
-  orgId: string;
 };
 
 const t = initTRPC.context<BaseContext>().create({
@@ -24,7 +23,7 @@ export const publicProcedure = t.procedure;
 
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   // Perform authentication inside the middleware
-  const { userId, orgId } = auth();
+  const { userId } = auth();
 
   if (!userId) {
     throw new TRPCError({
@@ -33,18 +32,10 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     });
   }
 
-  if (!orgId) {
-    throw new TRPCError({
-      code: 'BAD_REQUEST',
-      message: 'Missing orgId'
-    });
-  }
-
   // Extend the context with userId and orgId
   const authContext: AuthContext = {
     ...ctx,
     userId,
-    orgId,
     db
   };
 
