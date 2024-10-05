@@ -1,5 +1,3 @@
-import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
-
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -26,7 +24,7 @@ const nextConfig = {
 
     // Provide source maps for development
     if (dev && !isServer) {
-      config.devtool = 'eval-source-map';
+      config.devtool = 'eval-source-map'; // Enables source maps for client-side development
     }
 
     // Use hidden-source-map for production for debugging

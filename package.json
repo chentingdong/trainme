@@ -12,6 +12,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
+    "start": "turbo start",
     "convert-migrations": "./db/bin/convert-migrations.sh",
     "lint": "turbo lint"
   },
