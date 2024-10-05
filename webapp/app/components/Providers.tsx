@@ -1,7 +1,7 @@
 "use client";
 
 import { trpc } from '@/app/api/trpc/client';
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
 import { ClerkProvider } from "@clerk/nextjs";
@@ -22,9 +22,11 @@ export function Providers({ children }: { children: React.ReactNode; }) {
   return (
     <ClerkProvider>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
         <ToastProvider>
           {children}
-        </ToastProvider>
+          </ToastProvider>
+        </QueryClientProvider>
       </trpc.Provider>
     </ClerkProvider>
   );

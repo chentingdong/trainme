@@ -3,13 +3,12 @@
 import { create } from "zustand";
 import { workout as Workout } from "@trainme/db";
 import { defaultWorkout } from "@/prisma";
-import { createWorkout, getWorkoutById, getWorkouts, saveWorkout } from '@/app/actions/workout';
+import { createWorkout, getWorkoutById, saveWorkout } from '@/app/actions/workout';
 
 // Zustand store for workouts
 interface WorkoutStore {
   workouts: Workout[];
   workout: Workout | null;
-  refreshWorkouts: () => Promise<void>;
   refetchWorkout: (id: string) => void;
   setWorkout: (workout: Workout) => void;
   addWorkout: (workout: Workout) => void;
@@ -19,12 +18,6 @@ interface WorkoutStore {
 export const useWorkoutStore = create<WorkoutStore>((set) => ({
   workouts: [],
   workout: defaultWorkout,
-
-  // Reload the list of workouts from db.
-  refreshWorkouts: async () => {
-    const newWorkouts = await getWorkouts();
-    set({ workouts: newWorkouts });
-  },
 
   // Set the current workout
   setWorkout: (workout: Workout) => set(() => ({ workout })),

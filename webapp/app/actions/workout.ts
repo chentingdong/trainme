@@ -7,10 +7,10 @@ import type {
 } from "@trainme/db";
 import { v4 as uuidv4 } from "uuid";
 
-export async function getWorkouts(): Promise<Workout[]> {
-  const workouts = await db.workout.findMany({});
-  return workouts;
-}
+// export async function getWorkouts(): Promise<Workout[]> {
+//   const workouts = await db.workout.findMany({});
+//   return workouts;
+// }
 
 export async function getWorkoutById(id: string): Promise<Workout> {
   const workout = await db.workout.findUnique({
