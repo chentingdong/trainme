@@ -23,8 +23,8 @@ export function Providers({ children }: { children: React.ReactNode; }) {
     <ClerkProvider>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          {children}
+          <ToastProvider>
+            {children}
           </ToastProvider>
         </QueryClientProvider>
       </trpc.Provider>

@@ -15,6 +15,7 @@ import { trpc } from '@/app/api/trpc/client';
 export default function WorkoutEditor() {
   const { workout, setWorkout, updateWorkout } = useWorkoutStore();
   const { scheduleDate, scheduleWorkout } = useScheduleStore();
+  const { toast } = useToast();
 
   const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
@@ -34,20 +35,21 @@ export default function WorkoutEditor() {
     },
   });
 
-  // const toaster = useToast();
 
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
         const updatedWorkout = await updateWorkout(workout);
         await scheduleWorkout(updatedWorkout, scheduleDate);
-        // toaster.showToaster("Workout added to calendar", "success");
+        toast({
+          type: "success",
+          content: "Workout added to calendar",
+        });
       } catch (error) {
-        throw new Error("Failed to add workout to calendar: " + error);
-        // toaster.showToaster(
-        //   "Failed to add workout to calendar: " + error,
-        //   "error",
-        // );
+        toast({
+          type: "error",
+          content: "Failed to add workout to calendar: " + error,
+        });
       }
     }
   };
@@ -55,13 +57,20 @@ export default function WorkoutEditor() {
   const handleSaveWorkout = () => {
     try {
       if (!workout?.id) throw new Error("Workout not saved");
-      updatedWorkout.mutate({ id: workout.id, workout: workout });
+      updatedWorkout.mutate({
+        id: workout.id,
+        workout: workout
+      });
+      toast({
+        type: "success",
+        content: "Workout saved",
+        timeout: 60 * 60 * 1000,
+      });
     } catch (error) {
-      throw new Error("Failed to add workout to calendar: " + error);
-      // toaster.showToaster(
-      //   "Failed to add workout to calendar: " + error,
-      //   "error",
-      // );
+      toast({
+        type: "error",
+        content: "Failed to add workout to calendar: " + error,
+      });
     }
   };
 
