@@ -10,14 +10,28 @@ import { Controller, useForm } from "react-hook-form";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { defaultWorkout } from "@/prisma";
 import { useScheduleStore } from "../components/useScheduleStore";
+import { trpc } from '@/app/api/trpc/client';
 
 export default function WorkoutEditor() {
-  const { workout, setWorkout, updateWorkout, workouts } = useWorkoutStore();
-  const { scheduleDate, scheduleWorkout, refetchScheduledWorkouts } = useScheduleStore();
+  const { workout, setWorkout, updateWorkout } = useWorkoutStore();
+  const { scheduleDate, scheduleWorkout } = useScheduleStore();
 
   const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: "onChange",
+  });
+
+  const { data: workouts } = trpc.workouts.getWorkouts.useQuery({
+    filter: { schedule_date: scheduleDate },
+  });
+
+  const updatedWorkout = trpc.workouts.updateWorkout.useMutation({
+    onSuccess: (newWorkout: Workout) => {
+      setWorkout(newWorkout);
+    },
+    onError: (error) => {
+      throw new Error("Failed to update workout: " + error);
+    },
   });
 
   // const toaster = useToast();
@@ -27,9 +41,6 @@ export default function WorkoutEditor() {
       try {
         const updatedWorkout = await updateWorkout(workout);
         await scheduleWorkout(updatedWorkout, scheduleDate);
-        // TODO: not working because it's not refreshing that day's scheduled workouts
-        await refetchScheduledWorkouts(scheduleDate);
-
         // toaster.showToaster("Workout added to calendar", "success");
       } catch (error) {
         throw new Error("Failed to add workout to calendar: " + error);
@@ -43,13 +54,8 @@ export default function WorkoutEditor() {
 
   const handleSaveWorkout = () => {
     try {
-      if (workout && workout.steps) {
-        updateWorkout(workout);
-        setWorkout(workout);
-        // toaster.showToaster("Workout saved", "success");
-      } else {
-        // toaster.showToaster("Workout not saved", "error");
-      }
+      if (!workout?.id) throw new Error("Workout not saved");
+      updatedWorkout.mutate({ id: workout.id, workout: workout });
     } catch (error) {
       throw new Error("Failed to add workout to calendar: " + error);
       // toaster.showToaster(
@@ -105,7 +111,7 @@ export default function WorkoutEditor() {
               rules={{
                 validate: {
                   notTaken: (value) =>
-                    workouts.map(workout => workout.name).includes(value?.toString().trim() ?? "")
+                    workouts?.map(workout => workout.name).includes(value?.toString().trim() ?? "")
                       ? "Name taken"
                       : true,
                 },
@@ -194,8 +200,7 @@ export default function WorkoutEditor() {
               control={control}
               rules={{
                 validate: (value) =>
-                  workouts
-                    .map(workout => workout.name)
+                  workouts?.map(workout => workout.name)
                     .includes(value?.toString() ?? "")
                     ? "Name taken"
                     : true,

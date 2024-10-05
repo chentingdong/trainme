@@ -1,15 +1,13 @@
-import { router } from './trpc';
+import { router } from '@/server/trpc';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { db } from '@trainme/db';
 import superjson from 'superjson';
 import { inferRouterOutputs } from '@trpc/server';
-import { list } from '@/server/routes/workouts/list';
+import { workoutRouter } from '@/server/routes/workouts';
 
 // Routers
 export const appRouter = router({
-  workouts: router({
-    list
-  }),
+  workouts: workoutRouter,
 });
 
 export const trpcSSRHelper = createServerSideHelpers({

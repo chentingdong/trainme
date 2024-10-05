@@ -29,15 +29,15 @@ export default function RootLayout({
   };
   return (
     <html lang="en">
-      <Providers>
-        <body className={inter.className + bodyClass}>
+      <body className={inter.className + bodyClass}>
+        <Providers>
           <Header />
-            <Toaster />
-            <main className="flex-grow mt-8">
-              <Suspense fallback={<Loading />}>{children}</Suspense>
+          <Toaster />
+          <main className="flex-grow mt-8">
+            <Suspense fallback={<Loading />}>{children}</Suspense>
           </main>
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   );
 }

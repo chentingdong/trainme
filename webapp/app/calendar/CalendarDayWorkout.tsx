@@ -20,6 +20,7 @@ export function CalendarDayWorkout({
     setScheduledWorkouts: (scheduledWorkouts: ScheduledWorkout[]) => void;
 }) {
   const { workout, refetchWorkout } = useWorkoutStore();
+
   const {
     workout: editorWorkout,
     setWorkout: setEditorWorkout,

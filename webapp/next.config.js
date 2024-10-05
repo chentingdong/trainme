@@ -24,16 +24,16 @@ const nextConfig = {
       use: 'node-loader',
     });
 
-    if (isServer) {
-      config.plugins.push(new PrismaPlugin());
-    }
-
+    // Provide source maps for development
     if (dev && !isServer) {
       config.devtool = 'eval-source-map';
-    } else if (!dev && !isServer) {
-      config.devtool = 'source-map';
-      config.plugins = [...config.plugins, new PrismaPlugin()];
     }
+
+    // Use hidden-source-map for production for debugging
+    if (!dev && !isServer) {
+      config.devtool = 'hidden-source-map';
+    }
+
     return config;
   },
 };

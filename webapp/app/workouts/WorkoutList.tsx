@@ -12,7 +12,7 @@ import Loading from '@/app/loading';
 export default function WorkoutList() {
   const { workout, setWorkout } = useWorkoutStore();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
-  const { data: workouts, isLoading, isError } = trpc.workouts.list.useQuery({});
+  const { data: workouts, isLoading, isError } = trpc.workouts.getWorkouts.useQuery({});
 
   const handleNewWorkout = () => {
     setWorkout(emptyWorkout);
