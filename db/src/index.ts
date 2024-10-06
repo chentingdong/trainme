@@ -2,6 +2,8 @@ import { Prisma, PrismaClient } from '@prisma/client';
 
 export * from '@prisma/client';
 
+// const LOG_LEVELS = ['query', 'info', 'warn', 'error', 'trace'] as const;
+const LOG_LEVELS = ['info', 'warn', 'error'] as const;
 const getPrismaClient = () => {
   if (process.env.VERCEL_ENV) {
     return new PrismaClient();
@@ -9,7 +11,7 @@ const getPrismaClient = () => {
   if (globalThis.prismaGlobal) return globalThis.prismaGlobal;
 
   const prismaOptions: Prisma.PrismaClientOptions = {
-    log: ['query', 'info', 'warn', 'error'].map((level) => ({
+    log: LOG_LEVELS.map((level) => ({
       emit: 'stdout',
       level: level as Prisma.LogLevel
     })),
