@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ActivityIcon from "../activities/ActivityIcon";
+import SportIcon from "../activities/SportIcon";
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
@@ -70,7 +70,7 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
-              <ActivityIcon type={activity.type || ''} />
+              <SportIcon type={activity.type || ''} />
             </div>
           ))}
         </div>

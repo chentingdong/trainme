@@ -23,9 +23,9 @@ export const defaultWorkout: WorkoutWithSportType = {
   duration: null,
   sport_type_id: 1,
   sport_type: {
-    id: 0,
-    sport_type: '',
-    type: '',
+    id: 1,
+    sport_type: 'Run',
+    type: 'Run',
     active: null
   },
 };
@@ -37,7 +37,7 @@ export const emptyWorkout: WorkoutWithSportType = {
   steps: [],
   distance: null,
   duration: null,
-  sport_type_id: 1,
+  sport_type_id: 0,
   sport_type: {
     id: 0,
     sport_type: '',

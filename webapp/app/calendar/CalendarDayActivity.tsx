@@ -5,7 +5,7 @@ import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
 import type { activity as Activity } from "@trainme/db";
 import { format } from "date-fns";
-import ActivityIcon from "../activities/ActivityIcon";
+import SportIcon from "../activities/SportIcon";
 
 type Props = {
   activity: Activity;
@@ -15,7 +15,7 @@ export function CalendarDayActivity({ activity }: Props) {
     <div className="card">
       <div className="card-header text-sm flex items-center justify-between">
         <div className="flex items-center">
-          <ActivityIcon type={activity.type} withColor={true} />
+          <SportIcon type={activity.type} withColor={true} />
         </div>
         <div>
           {activity.start_date_local

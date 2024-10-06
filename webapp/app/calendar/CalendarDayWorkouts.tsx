@@ -4,7 +4,7 @@ import Loading from "@/app/components/Loading";
 import { WorkoutChart } from "../workouts/WorkoutChart";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { cn } from "@/utils/helper";
-import ActivityIcon from "../activities/ActivityIcon";
+import SportIcon from "../activities/SportIcon";
 import { IoClose } from "react-icons/io5";
 import { trpc } from '@/app/api/trpc/client';
 import { emptyWorkout } from '@/prisma';
@@ -48,7 +48,7 @@ export function CalendarDayWorkouts({
             onClick={() => workoutSchedule.workout && setEditorWorkout(workoutSchedule.workout)}
           >
             <div className="card-header flex justify-between items-center gap-2 p-0">
-              <ActivityIcon type={workoutSchedule.workout?.sport_type?.sport_type || ''} withColor={false} />
+              <SportIcon type={workoutSchedule.workout?.sport_type?.sport_type || ''} withColor={false} />
               <div className="flex-grow">{workoutSchedule.workout?.name}</div>
               <button className="btn btn-icon btn-danger" onClick={() => handleUnscheduleWorkout(workoutSchedule.id)}>
                 <IoClose />

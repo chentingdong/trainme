@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "flowbite-react";
-import ActivityIcon from "../activities/ActivityIcon";
+import SportIcon from "../activities/SportIcon";
 import { useWorkoutStore } from "../components/useWorkoutStore";
 import { emptyWorkout } from "@/prisma";
 import { FiPlus } from "react-icons/fi";
@@ -39,7 +39,7 @@ export default function WorkoutList() {
             }
             onClick={() => setWorkout(workout)}
           >
-            <ActivityIcon type={workout.sport_type.sport_type} />
+            <SportIcon type={workout.sport_type?.sport_type} />
             <div className="ml-2 font-semibold text-sm">
               {workout.name || "No name"}
             </div>

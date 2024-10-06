@@ -11,7 +11,7 @@ import { useScheduleStore } from "../components/useScheduleStore";
 import { trpc } from '@/app/api/trpc/client';
 import { useState } from 'react';
 import { WorkoutWithSportType } from '@/utils/types';
-
+import type { workout as Workout } from "@trainme/db";
 
 export default function WorkoutEditor() {
   const [workout, setWorkout] = useState<WorkoutWithSportType>(defaultWorkout);
@@ -33,7 +33,7 @@ export default function WorkoutEditor() {
 
   const createWorkoutSchedule = trpc.schedules.createWorkoutSchedule.useMutation({
     onError: (error) => {
-      throw new Error("Failed to update workout: " + error);
+      toast({ type: "error", content: "Failed to createWorkoutSchedule: " + error });
     },
   });
 
@@ -41,7 +41,7 @@ export default function WorkoutEditor() {
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        updatedWorkout.mutate({ id: workout.id, workout: workout });
+        handleSaveWorkout();
         createWorkoutSchedule.mutate({ workout_id: workout.id, date: scheduleDate });
         toast({ type: "success", content: "Workout saved and added to calendar" });
       } catch (error) {
@@ -53,8 +53,14 @@ export default function WorkoutEditor() {
   const handleSaveWorkout = () => {
     try {
       if (!workout?.id) throw new Error("Workout not saved");
-      const result = updatedWorkout.mutate({ id: workout.id, workout: workout });
-      console.log(result);
+      updatedWorkout.mutate({
+        id: workout.id,
+        workout: {
+          ...workout,
+          sport_type_id: workout.sport_type.id,
+          sport_type: undefined
+        } as Workout
+      });
       toast({ type: "success", content: "Workout saved" });
     } catch (error) {
       toast({ type: "error", content: "Failed to add workout to calendar: " + error });

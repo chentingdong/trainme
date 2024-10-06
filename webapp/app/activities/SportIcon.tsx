@@ -7,11 +7,11 @@ import { TbSwimming } from "react-icons/tb";
 import { TbStretching } from "react-icons/tb";
 
 interface Props {
-  type: string | null;
+  type: string | null | undefined;
   withColor?: boolean;
 }
 
-export default function ActivityIcon({ type, withColor }: Props) {
+export default function SportIcon({ type, withColor }: Props) {
   if (withColor === undefined) withColor = true;
 
   const getClassNames = (baseClass: string, colorClass: string) => {
