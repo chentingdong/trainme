@@ -5,6 +5,10 @@ import { createServerSideHelpers } from '@trpc/react-query/server';
 import { inferRouterOutputs } from '@trpc/server';
 import { workoutRouter } from '@/server/routes/workouts';
 import { schedulesRouter } from '@/server/routes/schedules';
+import { interceptStdout } from './stdoutInterceptor';
+
+// Apply the stdout interception
+interceptStdout();
 
 // Routers
 export const appRouter = router({
