@@ -6,7 +6,13 @@ const getPrismaClient = () => {
     }
     if (globalThis.prismaGlobal)
         return globalThis.prismaGlobal;
-    globalThis.prismaGlobal = new PrismaClient();
+    const prismaOptions = {
+        log: ['query', 'info', 'warn', 'error'].map((level) => ({
+            emit: 'stdout',
+            level: level
+        })),
+    };
+    globalThis.prismaGlobal = new PrismaClient(prismaOptions);
     return globalThis.prismaGlobal;
 };
 const db = getPrismaClient();

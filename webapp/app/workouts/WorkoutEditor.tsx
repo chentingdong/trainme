@@ -3,33 +3,35 @@
 import { WorkoutChart } from "./WorkoutChart";
 import { Label, TextInput, Textarea } from "flowbite-react";
 import { useToast } from "@/app/components/Toaster";
-import type { workout as Workout } from "@trainme/db";
 import SportTypeSelect from "../components/SportTypeSelect";
 
 import { Controller, useForm } from "react-hook-form";
-import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { defaultWorkout } from "@/prisma";
 import { useScheduleStore } from "../components/useScheduleStore";
 import { trpc } from '@/app/api/trpc/client';
+import { useState } from 'react';
+import { WorkoutWithSportType } from '@/utils/types';
+
 
 export default function WorkoutEditor() {
-  const { workout, setWorkout, updateWorkout } = useWorkoutStore();
-  const { scheduleDate, scheduleWorkout } = useScheduleStore();
+  const [workout, setWorkout] = useState<WorkoutWithSportType>(defaultWorkout);
+  const { scheduleDate } = useScheduleStore();
   const { toast } = useToast();
 
-  const { control } = useForm<Workout>({
+  const { control } = useForm<WorkoutWithSportType>({
     values: workout ?? defaultWorkout,
     mode: "onChange",
   });
 
-  const { data: workouts } = trpc.workouts.getWorkouts.useQuery({
-    filter: { schedule_date: scheduleDate },
-  });
+  const { data: workouts } = trpc.workouts.getWorkouts.useQuery({});
 
   const updatedWorkout = trpc.workouts.updateWorkout.useMutation({
-    onSuccess: (newWorkout: Workout) => {
-      setWorkout(newWorkout);
+    onError: (error) => {
+      throw new Error("Failed to update workout: " + error);
     },
+  });
+
+  const createWorkoutSchedule = trpc.schedules.createWorkoutSchedule.useMutation({
     onError: (error) => {
       throw new Error("Failed to update workout: " + error);
     },
@@ -39,17 +41,11 @@ export default function WorkoutEditor() {
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        const updatedWorkout = await updateWorkout(workout);
-        await scheduleWorkout(updatedWorkout, scheduleDate);
-        toast({
-          type: "success",
-          content: "Workout added to calendar",
-        });
+        updatedWorkout.mutate({ id: workout.id, workout: workout });
+        createWorkoutSchedule.mutate({ workout_id: workout.id, date: scheduleDate });
+        toast({ type: "success", content: "Workout saved and added to calendar" });
       } catch (error) {
-        toast({
-          type: "error",
-          content: "Failed to add workout to calendar: " + error,
-        });
+        toast({ type: "error", content: "Failed to add workout to calendar: " + error });
       }
     }
   };
@@ -57,20 +53,11 @@ export default function WorkoutEditor() {
   const handleSaveWorkout = () => {
     try {
       if (!workout?.id) throw new Error("Workout not saved");
-      updatedWorkout.mutate({
-        id: workout.id,
-        workout: workout
-      });
-      toast({
-        type: "success",
-        content: "Workout saved",
-        timeout: 60 * 60 * 1000,
-      });
+      const result = updatedWorkout.mutate({ id: workout.id, workout: workout });
+      console.log(result);
+      toast({ type: "success", content: "Workout saved" });
     } catch (error) {
-      toast({
-        type: "error",
-        content: "Failed to add workout to calendar: " + error,
-      });
+      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
     }
   };
 
@@ -167,14 +154,14 @@ export default function WorkoutEditor() {
           <div className="form-group">
             <Label htmlFor="type">Sport Type</Label>
             <Controller
-              name="sport_type"
+              name="sport_type.sport_type"
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
                   value={field.value ?? ""}
                   onChange={(e, selectedSport) => {
                     field.onChange(selectedSport);
-                    setWorkout({ ...workout, sport_type: selectedSport });
+                    setWorkout({ ...workout, sport_type: { ...workout.sport_type, sport_type: selectedSport } });
                   }}
                 />
               )}

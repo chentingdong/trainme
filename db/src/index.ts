@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 export * from '@prisma/client';
 
@@ -7,7 +7,15 @@ const getPrismaClient = () => {
     return new PrismaClient();
   }
   if (globalThis.prismaGlobal) return globalThis.prismaGlobal;
-  globalThis.prismaGlobal = new PrismaClient();
+
+  const prismaOptions: Prisma.PrismaClientOptions = {
+    log: ['query', 'info', 'warn', 'error'].map((level) => ({
+      emit: 'stdout',
+      level: level as Prisma.LogLevel
+    })),
+  };
+
+  globalThis.prismaGlobal = new PrismaClient(prismaOptions);
   return globalThis.prismaGlobal;
 };
 

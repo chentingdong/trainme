@@ -17,18 +17,23 @@ const nextConfig = {
 
   webpack: (config, { dev, isServer }) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
+
     config.module.rules.push({
       test: /\.node$/,
       use: 'node-loader',
     });
 
-    // Provide source maps for development
     if (dev && !isServer) {
-      config.devtool = 'eval-source-map'; // Enables source maps for client-side development
+      config.module.rules.push({
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+        exclude: /node_modules/,
+      });
+      config.devtool = 'eval-source-map';
     }
 
-    // Use hidden-source-map for production for debugging
-    if (!dev && !isServer) {
+    if (!dev && isServer) {
       config.devtool = 'hidden-source-map';
     }
 

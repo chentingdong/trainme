@@ -13,10 +13,6 @@ import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
 
-type CalendarDayProps = {
-  date: Date;
-};
-
 const CalendarDayActivity = dynamic(
   async () => {
     const { CalendarDayActivity } = await import("./CalendarDayActivity");
@@ -28,10 +24,10 @@ const CalendarDayActivity = dynamic(
   },
 );
 
-const CalendarDayWorkout = dynamic(
+const CalendarDayWorkouts = dynamic(
   async () => {
-    const { CalendarDayWorkout } = await import("./CalendarDayWorkout");
-    return CalendarDayWorkout;
+    const { CalendarDayWorkouts } = await import("./CalendarDayWorkouts");
+    return CalendarDayWorkouts;
   },
   {
     ssr: false,
@@ -39,11 +35,15 @@ const CalendarDayWorkout = dynamic(
   },
 );
 
+
+type CalendarDayProps = {
+  date: Date;
+};
+
 function CalendarDay({ date }: CalendarDayProps) {
   const { setActivity } = useActivityStore();
-  const { scheduleDate, setScheduleDate, refetchScheduledWorkouts } = useScheduleStore();
+  const { scheduleDate, setScheduleDate } = useScheduleStore();
 
-  const [scheduledWorkouts, setScheduledWorkouts] = useState<ScheduledWorkout[]>([]);
   const [activities, setActivities] = useState<Activity[]>([]);
 
   useEffect(() => {
@@ -52,16 +52,6 @@ function CalendarDay({ date }: CalendarDayProps) {
     });
   }, [date, setActivities]);
 
-  useEffect(() => {
-
-    // TODO: need day level scheduled workouts store?
-    refetchScheduledWorkouts(date).then((newScheduledWorkouts) => {
-      setScheduledWorkouts(newScheduledWorkouts);
-    });
-
-
-
-  }, [date, refetchScheduledWorkouts, setScheduledWorkouts]);
 
   const workoutButtonStyle: string = (() => {
     let cn = "btn btn-icon btn-workout border-none w-full";
@@ -80,7 +70,7 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
-              <ActivityIcon type={activity.type} />
+              <ActivityIcon type={activity.type || ''} />
             </div>
           ))}
         </div>
@@ -97,16 +87,8 @@ function CalendarDay({ date }: CalendarDayProps) {
             </li>
           ))}
         </ul>
-        <ul className="mx-0.25 shadow-sm">
-          {scheduledWorkouts?.map((scheduledWorkout) => (
-            <li key={scheduledWorkout.id} className="my-1 cursor-pointer">
-              <CalendarDayWorkout
-                scheduledWorkout={scheduledWorkout}
-                scheduledWorkouts={scheduledWorkouts}
-                setScheduledWorkouts={setScheduledWorkouts} />
-            </li>
-          ))}
-        </ul>
+        <CalendarDayWorkouts date={date} />
+
       </div>
       <div className="card-footer px-4 py-0.5">
         <button className={workoutButtonStyle}>

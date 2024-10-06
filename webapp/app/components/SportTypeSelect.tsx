@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { getActiveSportTypes } from "../actions/sportType";
-import { sport_type as SportType } from "@trainme/db";
+import type { sport_type as SportType } from "@trainme/db";
 import { Select } from "flowbite-react";
 
 type Props = {
