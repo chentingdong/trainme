@@ -34,7 +34,7 @@ export default function SportTypeSelect({ value, onChange }: Props) {
       onChange={handleSelect}
     >
       {sportTypes.map((sportType) => (
-        <option key={sportType.id} value={sportType.id}>
+        <option key={sportType.id} value={sportType.sport_type}>
           {sportType.sport_type}
         </option>
       ))}
