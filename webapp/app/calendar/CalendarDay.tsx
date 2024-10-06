@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import SportIcon from "../activities/SportIcon";
+import SportIcon from "@/app/activities/SportIcon";
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
@@ -9,7 +9,6 @@ import { useScheduleStore } from "@/app/components/useScheduleStore";
 import type { activity as Activity } from "@trainme/db";
 import { getActivitiesByDate } from "@/app/api/strava/activities";
 import { useActivityStore } from "../components/useActivityStore";
-import type { workout_schedule as ScheduledWorkout } from "@trainme/db";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
 

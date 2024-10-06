@@ -4,7 +4,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
     "module": "esnext",
     "target": "esnext",
@@ -15,6 +15,8 @@
     "incremental": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "rootDir": "./", // Ensures everything is compiled relative to webapp/
+    "outDir": "./dist", // Specify a specific output directory
     "plugins": [
       {
         "name": "next"
@@ -29,8 +31,8 @@
     "clerk.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "middleware.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "/(api|trpc)(.*)"
   ],
   "exclude": ["node_modules"]
 }

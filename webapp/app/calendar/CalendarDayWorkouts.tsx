@@ -4,7 +4,7 @@ import Loading from "@/app/components/Loading";
 import { WorkoutChart } from "../workouts/WorkoutChart";
 import { useWorkoutStore } from "@/app/components/useWorkoutStore";
 import { cn } from "@/utils/helper";
-import SportIcon from "../activities/SportIcon";
+import SportIcon from "@/app/activities/SportIcon";
 import { IoClose } from "react-icons/io5";
 import { trpc } from '@/app/api/trpc/client';
 import { emptyWorkout } from '@/prisma';
@@ -15,13 +15,26 @@ export function CalendarDayWorkouts({
   date: Date;
 }) {
   const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkoutStore();
+
+  const startOfDay = new Date(date);
+  startOfDay.setHours(0, 0, 0, 0);
+
+  const endOfDay = new Date(date);
+  endOfDay.setHours(23, 59, 59, 999);
+
   const { data: workoutSchedules, isLoading, isError } = trpc.schedules.getWorkoutSchedules.useQuery({
-    filter: { schedule_date: date },
+    filter: {
+      schedule_date: {
+        gte: startOfDay,
+        lte: endOfDay
+      }
+    },
   });
 
   const deleteWorkoutSchedule = trpc.schedules.deleteWorkoutSchedule.useMutation({
     onError: (error) => {
       throw new Error("Failed to update workout: " + error);
+
     },
   });
 
