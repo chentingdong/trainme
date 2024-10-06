@@ -10,13 +10,13 @@
     "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar 200'",
     "prebuild": "pnpm --filter @trainme/db run build",
     "build": "next build",
+    "clean": "rm -rf .next node_modules",
     "start": "next start",
     "preview": "next build && next start",
     "check-types": "tsc --noEmit",
     "lint:eslint": "next lint --fix",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
-    "lint": "pnpm run lint:eslint && pnpm run lint:prettier",
-    "clean": "rm -rf .next"
+    "lint": "pnpm run lint:eslint && pnpm run lint:prettier"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.6.2",

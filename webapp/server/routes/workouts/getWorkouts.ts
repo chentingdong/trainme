@@ -13,6 +13,9 @@ export const getWorkouts = protectedProcedure
       where: {
         ...(input?.filter || {})
       },
+      include: {
+        sport_type: true
+      }
     });
 
     return workouts;
@@ -27,7 +30,11 @@ export const getScheduledWorkoutsByDate = protectedProcedure
   .query(async ({ input }) => {
     const workoutSchedules = await db.workout_schedule.findMany({
       include: {
-        workout: true
+        workout: {
+          include: {
+            sport_type: true
+          }
+        }
       },
       where: {
         schedule_date: input?.date

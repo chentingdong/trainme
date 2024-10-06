@@ -1,6 +1,6 @@
 "use server";
 
-import { type activity as Activity } from "@trainme/db";
+import type { activity as Activity } from "@trainme/db";
 import { db, Prisma } from "@trainme/db";
 
 export async function findLastActivityDate(): Promise<Date> {
