@@ -103,13 +103,12 @@ model lap {
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model workout {
   id               String             @id @default(uuid()) @db.Uuid
-  sport_type_id    Int
-  name             String?
+  name             String?            @unique
+  sport_type       String             @default("Run")
   description      String?
   steps            Json?
   distance         Float?
   duration         Float?
-  sport_type       sport_type?        @relation(fields: [sport_type_id], references: [id])
   workout_schedule workout_schedule[]
 }
 
@@ -128,11 +127,10 @@ model workout_schedule {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model sport_type {
-  id         Int       @id @default(autoincrement())
+  id         Int      @id @default(autoincrement())
   type       String
   sport_type String
   active     Boolean?
-  workout    workout[]
 }
 
 enum WorkoutStatus {

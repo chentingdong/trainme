@@ -13,7 +13,6 @@ export function WorkoutChart({ workout }: Props) {
   const pace = 6; // 6 minutes per km
   const chartRef = useRef<HTMLDivElement>(null);
 
-  if (!workout) return <></>;
   // Helper function to extract time and zone
   const parseWorkoutData = (steps: string | undefined) => {
     if (!steps) return [];
