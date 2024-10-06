@@ -7,15 +7,15 @@ import SportTypeSelect from "../components/SportTypeSelect";
 
 import { Controller, useForm } from "react-hook-form";
 import { defaultWorkout } from "@/prisma";
-import { useScheduleStore } from "../components/useScheduleStore";
 import { trpc } from '@/app/api/trpc/client';
 import { useState } from 'react';
 import { WorkoutWithSportType } from '@/utils/types';
 import type { workout as Workout } from "@trainme/db";
+import { useCalendarState } from '@/app/calendar/useCalendarState';
 
 export default function WorkoutEditor() {
   const [workout, setWorkout] = useState<WorkoutWithSportType>(defaultWorkout);
-  const { scheduleDate } = useScheduleStore();
+  const { scheduleDate } = useCalendarState();
   const { toast } = useToast();
 
   const { control } = useForm<WorkoutWithSportType>({

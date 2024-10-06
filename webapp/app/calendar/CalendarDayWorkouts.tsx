@@ -2,7 +2,7 @@
 
 import Loading from "@/app/components/Loading";
 import { WorkoutChart } from "../workouts/WorkoutChart";
-import { useWorkoutStore } from "@/app/components/useWorkoutStore";
+import { useCalendarState } from "@/app/calendar/useCalendarState";
 import { cn } from "@/utils/helper";
 import SportIcon from "@/app/activities/SportIcon";
 import { IoClose } from "react-icons/io5";
@@ -14,7 +14,7 @@ export function CalendarDayWorkouts({
 }: {
   date: Date;
 }) {
-  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useWorkoutStore();
+  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useCalendarState();
 
   const startOfDay = new Date(date);
   startOfDay.setHours(0, 0, 0, 0);
