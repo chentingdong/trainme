@@ -1,3 +1,5 @@
+import path from 'path';
+
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
@@ -16,6 +18,7 @@ const nextConfig = {
   },
 
   webpack: (config, { dev, isServer }) => {
+    config.context = path.resolve(process.cwd());
     config.experiments = { ...config.experiments, topLevelAwait: true };
 
     config.module.rules.push({
@@ -25,7 +28,7 @@ const nextConfig = {
 
     if (dev && !isServer) {
       config.module.rules.push({
-        test: /\.js$/,
+        test: /\.(ts|tsx)$/,
         enforce: 'pre',
         use: ['source-map-loader'],
         exclude: /node_modules/,
@@ -34,7 +37,8 @@ const nextConfig = {
     }
 
     if (!dev && isServer) {
-      config.devtool = 'hidden-source-map';
+      // config.devtool = 'hidden-source-map';
+      config.devtool = false;
     }
 
     return config;

@@ -5,21 +5,32 @@ import { z } from 'zod';
 export const getWorkoutSchedules = protectedProcedure
   .input(
     z.object({
-      filter: z.record(z.string(), z.any()).optional()
+      filter: z
+        .object({
+          schedule_date: z
+            .object({
+              gte: z.date().optional(),
+              lte: z.date().optional(),
+            })
+            .optional(),
+        })
+        .optional(),
     })
   )
   .query(async ({ input }) => {
+    const { filter } = input || {};
     const workoutSchedules = await db.workout_schedule.findMany({
       where: {
-        ...(input?.filter || {})
+        ...(filter || {}),
       },
       include: {
         workout: {
           include: {
-            sport_type: true
-          }
-        }
+            sport_type: true,
+          },
+        },
       },
     });
+
     return workoutSchedules;
   });
