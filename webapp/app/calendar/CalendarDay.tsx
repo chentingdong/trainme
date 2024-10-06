@@ -1,27 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import SportIcon from "@/app/activities/SportIcon";
-=======
-import SportIcon from "../activities/SportIcon";
->>>>>>> 59c794b (rename file. workout save and schedule write to db successfully)
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
 import type { Activity } from "@trainme/db";
 import { getActivitiesByDate } from "@/server/routes/strava/activities";
-=======
-import SportIcon from "@/app/activities/SportIcon";
-
-import { PiPaperPlaneFill } from "react-icons/pi";
-import { format } from "date-fns";
-import { useScheduleStore } from "@/app/components/useScheduleStore";
-import type { activity as Activity } from "@trainme/db";
-import { getActivitiesByDate } from "@/app/api/strava/activities";
-import { useActivityStore } from "../components/useActivityStore";
->>>>>>> 8caedcf (daily workout list works)
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
@@ -82,11 +67,7 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
-<<<<<<< HEAD
               <SportIcon type={activity.sportType || ''} />
-=======
-              <SportIcon type={activity.type || ''} />
->>>>>>> 59c794b (rename file. workout save and schedule write to db successfully)
             </div>
           ))}
         </div>

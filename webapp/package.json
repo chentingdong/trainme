@@ -7,11 +7,7 @@
     "node": "20.x"
   },
   "scripts": {
-<<<<<<< HEAD
-    "dev": "next dev --port $NEXT_PUBLIC_PORT | grep -v 'POST /calendar 200'",
-=======
     "dev": "cross-env next dev --port $NEXT_PUBLIC_PORT",
->>>>>>> 8caedcf (daily workout list works)
     "prebuild": "pnpm --filter @trainme/db run build",
     "build": "next build",
     "clean": "rm -rf .next node_modules",
