@@ -1,5 +1,5 @@
 import React from "react";
-import ActivityIcon from "./ActivityIcon";
+import SportIcon from "./SportIcon";
 import ActivityLaps from "./ActivityLaps";
 import ActivityMap from "./ActivityMap";
 import type { activity as Activity } from "@trainme/db";
@@ -13,7 +13,7 @@ export default function ActivityOne({ activity }: Props) {
   return (
     <div>
       <div className="card-header flex items-center">
-        <ActivityIcon type={activity.type} />
+        <SportIcon type={activity.type} />
         <div className="mx-4">{activity.name}</div>
       </div>
       <div className="card-body">

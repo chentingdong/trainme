@@ -1,7 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import SportIcon from "@/app/activities/SportIcon";
+=======
+import SportIcon from "../activities/SportIcon";
+>>>>>>> 59c794b (rename file. workout save and schedule write to db successfully)
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
@@ -67,7 +71,11 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
+<<<<<<< HEAD
               <SportIcon type={activity.sportType || ''} />
+=======
+              <SportIcon type={activity.type || ''} />
+>>>>>>> 59c794b (rename file. workout save and schedule write to db successfully)
             </div>
           ))}
         </div>

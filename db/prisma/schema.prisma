@@ -109,8 +109,8 @@ model workout {
   steps            Json?
   distance         Float?
   duration         Float?
-  workout_schedule workout_schedule[] 
-  sport_type       sport_type         @relation(fields: [sport_type_id], references: [id])
+  sport_type       sport_type?        @relation(fields: [sport_type_id], references: [id])
+  workout_schedule workout_schedule[]
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
