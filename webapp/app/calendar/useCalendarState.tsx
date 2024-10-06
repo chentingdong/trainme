@@ -3,6 +3,7 @@
 import { create } from "zustand";
 import type { activity as Activity } from "@trainme/db";
 import type { workout as Workout } from "@trainme/db";
+import { defaultWorkout } from '@/prisma';
 
 interface CalendarState {
   activity: Activity | null;
@@ -16,7 +17,7 @@ interface CalendarState {
 export const useCalendarState = create<CalendarState>((set) => ({
   activity: null,
   setActivity: (activity: Activity | null) => set({ activity }),
-  workout: null,
+  workout: defaultWorkout,
   setWorkout: (workout: Workout | null) => set({ workout }),
   scheduleDate: new Date(),
   setScheduleDate: (date: Date | null) => set({ scheduleDate: date || new Date() }),

@@ -8,17 +8,14 @@ import SportTypeSelect from "../components/SportTypeSelect";
 import { Controller, useForm } from "react-hook-form";
 import { defaultWorkout } from "@/prisma";
 import { trpc } from '@/app/api/trpc/client';
-import { useState } from 'react';
-import { WorkoutWithSportType } from '@/utils/types';
 import type { workout as Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 
 export default function WorkoutEditor() {
-  const [workout, setWorkout] = useState<WorkoutWithSportType>(defaultWorkout);
-  const { scheduleDate } = useCalendarState();
+  const { workout, setWorkout, scheduleDate } = useCalendarState();
   const { toast } = useToast();
 
-  const { control } = useForm<WorkoutWithSportType>({
+  const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: "onChange",
   });
@@ -55,11 +52,7 @@ export default function WorkoutEditor() {
       if (!workout?.id) throw new Error("Workout not saved");
       updatedWorkout.mutate({
         id: workout.id,
-        workout: {
-          ...workout,
-          sport_type_id: workout.sport_type.id,
-          sport_type: undefined
-        } as Workout
+        workout: workout
       });
       toast({ type: "success", content: "Workout saved" });
     } catch (error) {
@@ -67,9 +60,7 @@ export default function WorkoutEditor() {
     }
   };
 
-  if (!workout) {
-    return <div>No workout selected</div>;
-  }
+  if (!workout) return <></>;
 
   return (
     <form
@@ -160,14 +151,14 @@ export default function WorkoutEditor() {
           <div className="form-group">
             <Label htmlFor="type">Sport Type</Label>
             <Controller
-              name="sport_type.sport_type"
+              name="sport_type"
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
                   value={field.value ?? ""}
                   onChange={(e, selectedSport) => {
                     field.onChange(selectedSport);
-                    setWorkout({ ...workout, sport_type: { ...workout.sport_type, sport_type: selectedSport } });
+                    setWorkout({ ...workout, sport_type: selectedSport });
                   }}
                 />
               )}

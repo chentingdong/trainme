@@ -61,7 +61,7 @@ export function CalendarDayWorkouts({
             onClick={() => workoutSchedule.workout && setEditorWorkout(workoutSchedule.workout)}
           >
             <div className="card-header flex justify-between items-center gap-2 p-0">
-              <SportIcon type={workoutSchedule.workout?.sport_type?.sport_type || ''} withColor={false} />
+              <SportIcon type={workoutSchedule.workout.sport_type || ''} withColor={false} />
               <div className="flex-grow">{workoutSchedule.workout?.name}</div>
               <button className="btn btn-icon btn-danger" onClick={() => handleUnscheduleWorkout(workoutSchedule.id)}>
                 <IoClose />

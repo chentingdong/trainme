@@ -24,11 +24,7 @@ export const getWorkoutSchedules = protectedProcedure
         ...(filter || {}),
       },
       include: {
-        workout: {
-          include: {
-            sport_type: true,
-          },
-        },
+        workout: true,
       },
     });
 

@@ -14,7 +14,8 @@ export default function WorkoutList() {
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
   const { data: workouts, isLoading, isError } = trpc.workouts.getWorkouts.useQuery({});
 
-  const handleNewWorkout = () => {
+  const handleCreateWorkout = () => {
+    console.log("handleCreateWorkout");
     setWorkout(emptyWorkout);
   };
 
@@ -25,7 +26,7 @@ export default function WorkoutList() {
     <div className="h-full gap-1 px-2 overflow-y-auto scroll">
       <div className="col-span-2 flex justify-between items-center">
         <h3 className="h3">Workouts</h3>
-        <button className="btn btn-icon text-center" onClick={handleNewWorkout}>
+        <button className="btn btn-icon text-center" onClick={handleCreateWorkout}>
           <FiPlus />
         </button>
       </div>
@@ -39,7 +40,7 @@ export default function WorkoutList() {
             }
             onClick={() => setWorkout(workout)}
           >
-            <SportIcon type={workout.sport_type?.sport_type} />
+            <SportIcon type={workout.sport_type} />
             <div className="ml-2 font-semibold text-sm">
               {workout.name || "No name"}
             </div>
