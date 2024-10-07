@@ -10,8 +10,10 @@ import { defaultWorkout } from "@/prisma";
 import { trpc } from '@/app/api/trpc/client';
 import type { workout as Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export default function WorkoutEditor() {
+  const utils = trpc.useUtils();
   const { workout, setWorkout, scheduleDate } = useCalendarState();
   const { toast } = useToast();
 
@@ -29,8 +31,18 @@ export default function WorkoutEditor() {
   });
 
   const createWorkoutSchedule = trpc.schedules.createWorkoutSchedule.useMutation({
+    onSuccess: () => {
+      utils.schedules.getWorkoutSchedules.refetch({
+        filter: {
+          schedule_date: {
+            gte: startOfDay(scheduleDate),
+            lte: endOfDay(scheduleDate),
+          },
+        },
+      });
+    },
     onError: (error) => {
-      toast({ type: "error", content: "Failed to createWorkoutSchedule: " + error });
+      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
     },
   });
 
@@ -40,7 +52,6 @@ export default function WorkoutEditor() {
       try {
         handleSaveWorkout();
         createWorkoutSchedule.mutate({ workout_id: workout.id, date: scheduleDate });
-        toast({ type: "success", content: "Workout saved and added to calendar" });
       } catch (error) {
         toast({ type: "error", content: "Failed to add workout to calendar: " + error });
       }

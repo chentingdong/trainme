@@ -18,22 +18,3 @@ export const getWorkouts = protectedProcedure
     return workouts;
   });
 
-export const getScheduledWorkoutsByDate = protectedProcedure
-  .input(
-    z.object({
-      date: z.date().optional()
-    })
-  )
-  .query(async ({ input }) => {
-    const workoutSchedules = await db.workout_schedule.findMany({
-      include: {
-        workout: true
-      },
-      where: {
-        schedule_date: input?.date
-      },
-    });
-
-    const workouts = workoutSchedules.map(workoutSchedule => workoutSchedule.workout);
-    return workouts;
-  });

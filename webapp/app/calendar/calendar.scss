@@ -60,3 +60,8 @@
     @apply p-2;
   }
 }
+/* Hide default carousel left and right controls */
+[data-testid="carousel-left-control"],
+[data-testid="carousel-right-control"] {
+  display: none !important;
+}

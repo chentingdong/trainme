@@ -8,33 +8,39 @@ import SportIcon from "@/app/activities/SportIcon";
 import { IoClose } from "react-icons/io5";
 import { trpc } from '@/app/api/trpc/client';
 import { emptyWorkout } from '@/prisma';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export function CalendarDayWorkouts({
   date
 }: {
   date: Date;
-}) {
-  const { workout: editorWorkout, setWorkout: setEditorWorkout } = useCalendarState();
+  }) {
 
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23, 59, 59, 999);
+  const utils = trpc.useUtils();
+  const { scheduleDate, workout: editorWorkout, setWorkout: setEditorWorkout } = useCalendarState();
 
   const { data: workoutSchedules, isLoading, isError } = trpc.schedules.getWorkoutSchedules.useQuery({
     filter: {
       schedule_date: {
-        gte: startOfDay,
-        lte: endOfDay
-      }
+        gte: startOfDay(date),
+        lte: endOfDay(date),
+      },
     },
   });
 
   const deleteWorkoutSchedule = trpc.schedules.deleteWorkoutSchedule.useMutation({
+    onSuccess: () => {
+      utils.schedules.getWorkoutSchedules.invalidate({
+        filter: {
+          schedule_date: {
+            gte: startOfDay(scheduleDate),
+            lte: endOfDay(scheduleDate),
+          },
+        },
+      });
+    },
     onError: (error) => {
-      throw new Error("Failed to update workout: " + error);
-
+      throw new Error("Failed to delete workout: " + error);
     },
   });
 

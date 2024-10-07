@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import { Carousel } from "flowbite-react";
 import WorkoutEditor from "../workouts/WorkoutEditor";
 import WorkoutList from '@/app/workouts/WorkoutList';
 
@@ -25,26 +24,20 @@ export default function Page() {
   };
 
   return (
-    <div className="gap-0 w-full h-full p-4 dark:text-white flex flex-col justify-between">
-      <Carousel
-        className="relative w-full h-104 flex-grow-0"
-        slide={false}
-        indicators={false}
-        leftControl={
-          <FaChevronLeft
-            className="btn btn-icon absolute w-6 h-6 top-2 left-2"
-            onClick={handlePrevWeek}
-          />
-        }
-        rightControl={
-          <FaChevronRight
-            className="btn btn-icon absolute w-6 h-6 top-2 right-2"
-            onClick={handleNextWeek}
-          />
-        }
+    <div className="gap-0 w-full p-4 dark:text-white flex flex-col justify-between">
+      <div
+        className="relative"
       >
+        <FaChevronLeft
+          className="btn btn-icon absolute z-10 w-6 h-6 top-2 left-2"
+          onClick={handlePrevWeek}
+        />
+        <FaChevronRight
+          className="btn btn-icon absolute z-10 w-6 h-6 top-2 right-2"
+          onClick={handleNextWeek}
+        />
         <CalendarWeek aday={aday} />
-      </Carousel>
+      </div>
       <div
         className="overflow-auto flex-grow grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85"
         style={
