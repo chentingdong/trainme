@@ -4,13 +4,45 @@ import React from "react";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
 import type { activity as Activity } from "@trainme/db";
-import { format } from "date-fns";
+import { endOfDay, format, startOfDay } from "date-fns";
 import SportIcon from "../activities/SportIcon";
+import { trpc } from '@/app/api/trpc/client';
+import { useCalendarState } from '@/app/calendar/useCalendarState';
 
 type Props = {
-  activity: Activity;
+  date: Date;
 };
-export function CalendarDayActivity({ activity }: Props) {
+
+export function CalendarDayActivities({ date }: Props) {
+  const { setActivity } = useCalendarState();
+  const { data: activities } = trpc.activities.getActivities.useQuery({
+    filter: {
+      start_date_local: {
+        gte: startOfDay(date),
+        lt: endOfDay(date),
+      },
+    },
+    orderBy: {
+      start_date_local: 'asc'
+    }
+  });
+
+  return (
+    <ul className="mx-0.25 shadow-sm">
+      {activities?.map((activity, index) => (
+        <li
+          key={index}
+          className="my-1 cursor-pointer"
+          onClick={() => setActivity(activity)}
+        >
+          <CalendarDayActivity activity={activity} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function CalendarDayActivity({ activity }: { activity: Activity; }) {
   return (
     <div className="card">
       <div className="card-header text-sm flex items-center justify-between">

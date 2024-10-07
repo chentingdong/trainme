@@ -1,60 +1,61 @@
 "use client";
 
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import type { activity as Activity } from "@trainme/db";
 import ActivityOne from "./ActivityOne";
-import { getActivities } from '@/app/api/strava/activities';
+import { trpc } from '@/app/api/trpc/client';
+import Loading from '@/app/components/Loading';
+import type { activity as Activity } from "@trainme/db";
 
 function Page() {
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(0); 
   const observer = useRef<IntersectionObserver | null>(null);
+  const [allActivities, setAllActivities] = useState<Activity[]>([]);
+
+  const { data, isLoading, isError, isFetching } = trpc.activities.getPaginatedActivities.useQuery({
+    cursor: page,
+    limit: 10,
+  });
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (data && data.activities) {
+      setAllActivities((prevActivities) => [...prevActivities, ...data.activities]);
+    }
+  }, [data]);
 
-    const fetchActivities = async () => {
-      setLoading(true);
-      const endDate = new Date();
-      const startDate = new Date();
-      startDate.setDate(startDate.getDate() - 7);
-      const newActivities = await getActivities(startDate, endDate);
-      setActivities((prevActivities) => [...prevActivities, ...newActivities]);
-      setLoading(false);
-    };
-    fetchActivities();
-  }, [page]);
+  const hasMore = data?.hasMore; 
 
   const lastActivityRef = useCallback(
     (node: HTMLLIElement | null) => {
-      if (loading) return;
+      if (isLoading || isFetching || !hasMore) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
+        if (entries[0].isIntersecting && hasMore) {
           setPage((prevPage) => prevPage + 1);
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading],
+    [isLoading, isFetching, hasMore]
   );
+
+  if (!allActivities || allActivities.length === 0) return <></>;
+  if (isError) return <div>Error loading activities</div>;
 
   return (
     <div>
       <h1 className="h1">Activities</h1>
       <ul>
-        {activities.map((activity, index) => (
+        {allActivities.map((activity, index) => (
           <li
             key={index}
             className="card my-2"
-            ref={index === activities.length - 1 ? lastActivityRef : null}
+            ref={index === allActivities.length - 1 ? lastActivityRef : null}
           >
             <ActivityOne activity={activity} />
           </li>
         ))}
       </ul>
-      {loading && <div>Loading more activities...</div>}
+      {isLoading && <div><Loading /> Loading more activities...</div>}
     </div>
   );
 }
