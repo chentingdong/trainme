@@ -11,10 +11,10 @@ import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 
-const CalendarDayActivity = dynamic(
+const CalendarDayActivities = dynamic(
   async () => {
-    const { CalendarDayActivity } = await import("./CalendarDayActivity");
-    return CalendarDayActivity;
+    const { CalendarDayActivities } = await import("./CalendarDayActivity");
+    return CalendarDayActivities;
   },
   {
     ssr: false,
@@ -73,19 +73,8 @@ function CalendarDay({ date }: CalendarDayProps) {
         </div>
       </div>
       <div className="h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70">
-        <ul className="mx-0.25 shadow-sm">
-          {activities?.map((activity, index) => (
-            <li
-              key={index}
-              className="my-1 cursor-pointer"
-              onClick={() => setActivity(activity)}
-            >
-              <CalendarDayActivity activity={activity} />
-            </li>
-          ))}
-        </ul>
+        <CalendarDayActivities date={date} />
         <CalendarDayWorkouts date={date} />
-
       </div>
       <div className="card-footer px-4 py-0.5">
         <button className={workoutButtonStyle}>

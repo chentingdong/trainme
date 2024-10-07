@@ -6,12 +6,14 @@ import { inferRouterOutputs } from '@trpc/server';
 import { workoutRouter } from '@/server/routes/workouts';
 import { schedulesRouter } from '@/server/routes/schedules';
 import { interceptStdout } from './stdoutInterceptor';
+import { activityRouter } from '@/server/routes/activities';
 
 // Apply the stdout interception
 interceptStdout();
 
 // Routers
 export const appRouter = router({
+  activities: activityRouter,
   workouts: workoutRouter,
   schedules: schedulesRouter,
 });
