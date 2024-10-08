@@ -7,6 +7,7 @@ import { workoutRouter } from '@/server/routes/workouts';
 import { schedulesRouter } from '@/server/routes/schedules';
 import { interceptStdout } from './stdoutInterceptor';
 import { activityRouter } from '@/server/routes/activities';
+import { sportRouter } from '@/server/routes/sports';
 
 // Apply the stdout interception
 interceptStdout();
@@ -16,6 +17,7 @@ export const appRouter = router({
   activities: activityRouter,
   workouts: workoutRouter,
   schedules: schedulesRouter,
+  sports: sportRouter
 });
 
 export const trpcSSRHelper = createServerSideHelpers({

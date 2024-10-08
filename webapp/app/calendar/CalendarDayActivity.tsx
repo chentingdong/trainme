@@ -8,7 +8,6 @@ import { endOfDay, format, startOfDay } from "date-fns";
 import SportIcon from "../activities/SportIcon";
 import { trpc } from '@/app/api/trpc/client';
 import { useCalendarState } from '@/app/calendar/useCalendarState';
-import Debug from '@/app/components/Debug';
 
 type Props = {
   date: Date;
@@ -29,7 +28,6 @@ export function CalendarDayActivities({ date }: Props) {
   });
 
   return (<>
-    <Debug data={activities} />
     <ul className="mx-0.25 shadow-sm">
       {activities?.map((activity, index) => (
         <li

@@ -24,7 +24,7 @@ export const workoutTotalDuration = (steps: string[]): number => {
   const pace = 6; // 6 minutes per km
 
   let totalDuration = 0;
-  for (let step of steps) {
+  for (const step of steps) {
     const distanceMatch = step.match(/(\d+(\.\d+)?)km/);
     const durationMatch = step.match(/(\d+(\.\d+)?)m/);
     if (durationMatch) {
