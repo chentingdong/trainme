@@ -1,3 +1,8 @@
+"""
+This module provides functionalities to connect to a PostgreSQL database
+and save activity data using psycopg2.
+"""
+
 import os
 import json
 import logging
