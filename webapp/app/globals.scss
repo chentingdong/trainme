@@ -131,8 +131,8 @@ body {
     }
   }
   .btn-icon {
-    @apply rounded-full flex items-center justify-center;
-    @apply w-4 h-4 text-xs p-0.5;
+    @apply rounded-full flex justify-center items-center;
+    @apply w-4 h-4 text-2xs p-0.5;
     background-color: rgb(var(--background-end-rgb));
     cursor: pointer;
     &:hover {
