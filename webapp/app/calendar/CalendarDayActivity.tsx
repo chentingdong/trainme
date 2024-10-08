@@ -1,4 +1,4 @@
-"use onent";
+"use client";
 
 import React from "react";
 import { formatTimeSeconds } from "@/utils/timeUtils";
@@ -8,6 +8,7 @@ import { endOfDay, format, startOfDay } from "date-fns";
 import SportIcon from "../activities/SportIcon";
 import { trpc } from '@/app/api/trpc/client';
 import { useCalendarState } from '@/app/calendar/useCalendarState';
+import Debug from '@/app/components/Debug';
 
 type Props = {
   date: Date;
@@ -27,7 +28,8 @@ export function CalendarDayActivities({ date }: Props) {
     }
   });
 
-  return (
+  return (<>
+    <Debug data={activities} />
     <ul className="mx-0.25 shadow-sm">
       {activities?.map((activity, index) => (
         <li
@@ -39,6 +41,7 @@ export function CalendarDayActivities({ date }: Props) {
         </li>
       ))}
     </ul>
+  </>
   );
 }
 

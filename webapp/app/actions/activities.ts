@@ -3,6 +3,7 @@
 import type { activity as Activity } from "@trainme/db";
 import { db, Prisma } from "@trainme/db";
 
+// last activity date synced from strava
 export async function findLastActivityDate(): Promise<Date> {
   const yesterday = new Date();
   yesterday.setDate(yesterday.getDate() - 1);

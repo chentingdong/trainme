@@ -33,12 +33,13 @@ export async function saveLaps(laps: Lap[]): Promise<void> {
   try {
     const client = await pool.connect();
     const fields = Object.keys(laps[0]);
+    fields.push("activity_id");
 
     for (const lap of laps) {
       const values = Object.values(lap);
       const query = `
-        INSERT INTO lap (${fields.join(", ")}) 
-        VALUES (${values.map((_, i) => `$${i + 1}`).join(", ")}) 
+        INSERT INTO lap (${fields.join(", ")}, activity_id)
+        VALUES (${values.map((_, i) => `$${i + 1}`).join(", "), lap.activity.id})
         ON CONFLICT DO NOTHING;
       `;
       await client.query(query, values);
@@ -49,15 +50,3 @@ export async function saveLaps(laps: Lap[]): Promise<void> {
   }
 }
 
-export async function getStravaActivityLaps(id: number): Promise<Lap[]> {
-  try {
-    const client = await pool.connect();
-    const query = `SELECT * FROM lap WHERE (activity->>'id')::bigint = $1;`;
-    const res = await client.query(query, [id]);
-    client.release();
-    return res.rows as Lap[];
-  } catch (err) {
-    console.error(err);
-    return [];
-  }
-}

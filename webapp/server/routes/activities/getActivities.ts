@@ -2,6 +2,7 @@ import { db } from "@trainme/db";
 import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
+// TODO: these two can be merged into one
 export const getActivities = protectedProcedure
   .input(
     z.object({
@@ -25,6 +26,9 @@ export const getActivities = protectedProcedure
   .query(async ({ input }) => {
     const { filter, orderBy } = input || {};
     const activities = await db.activity.findMany({
+      include: {
+        laps: true
+      },
       where: {
         start_date_local: filter?.start_date_local
           ? {
@@ -52,11 +56,16 @@ export const getPaginatedActivities = protectedProcedure
     const { cursor = 0, limit } = input;
 
     const activities = await db.activity.findMany({
+      include: {
+        laps: true,
+      },
       orderBy: { start_date_local: 'desc' },
       skip: cursor * limit,
       // Fetch one extra to check if there are more results
       take: limit + 1,
     });
+
+    console.log(activities);
 
     const hasMore = activities.length > limit;
     // Remove the extra item if there are more pages

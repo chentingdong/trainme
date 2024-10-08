@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 
+//TODO: deprecated, remove this.
 export const pool = new Pool({
   user: "postgres",
   host: "localhost",

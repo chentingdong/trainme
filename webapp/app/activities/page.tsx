@@ -1,27 +1,27 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import ActivityOne from "./ActivityOne";
 import { trpc } from '@/app/api/trpc/client';
 import Loading from '@/app/components/Loading';
-import type { activity as Activity } from "@trainme/db";
+import { ActivityWithLaps } from '@/utils/types';
 
 function Page() {
   const [page, setPage] = useState(0); 
   const observer = useRef<IntersectionObserver | null>(null);
-  const [allActivities, setAllActivities] = useState<Activity[]>([]);
+  const [allActivities, setAllActivities] = useState<ActivityWithLaps[]>([]);
 
   const { data, isLoading, isError, isFetching } = trpc.activities.getPaginatedActivities.useQuery({
     cursor: page,
-    limit: 10,
+    limit: 5,
   });
 
   useEffect(() => {
     if (data && data.activities) {
       setAllActivities((prevActivities) => [...prevActivities, ...data.activities]);
+      console.log(allActivities);
     }
   }, [data]);
-
   const hasMore = data?.hasMore; 
 
   const lastActivityRef = useCallback(
