@@ -4,7 +4,7 @@
 import os
 import logging
 import requests
-from etl.db import save_activities_to_postgres
+from db import save_activities_to_postgres
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # get the client_id and client_secret from the environment variables
@@ -12,7 +12,7 @@ client_id = os.getenv('STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage. 
-ACCESS_TOKEN = 'fe3306fd500dec7750a62c1a188f4c4d2330225f'
+ACCESS_TOKEN = '92686a5fb5715a20c232a96376289a3a246baf11'
 
 url = 'https://www.strava.com/api/v3/athlete/activities'
 

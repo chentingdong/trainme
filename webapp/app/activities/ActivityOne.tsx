@@ -2,11 +2,10 @@ import React from "react";
 import SportIcon from "./SportIcon";
 import ActivityLaps from "./ActivityLaps";
 import ActivityMap from "./ActivityMap";
-import type { activity as Activity } from "@trainme/db";
-import type { Map } from "@/utils/types";
+import type { ActivityWithLaps, Map } from "@/utils/types";
 
 type Props = {
-  activity: Activity;
+  activity: ActivityWithLaps;
 };
 
 export default function ActivityOne({ activity }: Props) {
@@ -33,7 +32,7 @@ export default function ActivityOne({ activity }: Props) {
               (activity?.map as Map)?.summary_polyline as string
             }
           />
-          <ActivityLaps className="col-span-3" activityId={activity.id} />
+          <ActivityLaps className="col-span-3" laps={activity.laps || []} />
         </div>
       </div>
       <div className="card-footer">{activity.distance}</div>

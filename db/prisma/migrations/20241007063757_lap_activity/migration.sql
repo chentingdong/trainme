@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "lap" ADD COLUMN     "activity_id" DOUBLE PRECISION NOT NULL DEFAULT 0;

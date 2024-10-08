@@ -13,7 +13,8 @@ export PGPASSWORD=$PASSWORD
 
 echo "Creating backup schema and copying tables..."
 psql -h $HOST -p $PORT -U $USER -d $DATABASE -f - <<EOF
-CREATE SCHEMA IF NOT EXISTS backup;
+DROP SCHEMA IF EXISTS backup CASCADE;
+CREATE SCHEMA backup;
 DO \$\$
 DECLARE
   table_name text;
