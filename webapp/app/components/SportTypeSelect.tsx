@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { getActiveSportTypes } from "../actions/sportType";
-import type { sport_type as SportType } from "@trainme/db";
+import React from "react";
 import { Select } from "flowbite-react";
+import { trpc } from '@/app/api/trpc/client';
+import Loading from '@/app/loading';
 
 type Props = {
   value: string;
@@ -14,18 +14,16 @@ type Props = {
 };
 
 export default function SportTypeSelect({ value, onChange }: Props) {
-  const [sportTypes, setSportTypes] = useState<SportType[]>([]);
-
-  useEffect(() => {
-    getActiveSportTypes().then((data) => {
-      setSportTypes(data);
-    });
-  }, []);
+  const { data: sportTypes, isLoading, isError } = trpc.sports.getSportTypes.useQuery();
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSportId = e.target.value;
     onChange(e, selectedSportId);
   };
+
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error loading sport types</div>;
+
   return (
     <Select
       id="type"
@@ -33,7 +31,8 @@ export default function SportTypeSelect({ value, onChange }: Props) {
       value={value}
       onChange={handleSelect}
     >
-      {sportTypes.map((sportType) => (
+      {!sportTypes && <option>No sport types</option>}
+      {sportTypes && sportTypes.map((sportType) => (
         <option key={sportType.id} value={sportType.sport_type}>
           {sportType.sport_type}
         </option>
