@@ -2,10 +2,11 @@
 # Idenpodent operation.
 
 import os
+import sys
+import time
 import logging
 import requests
-import time
-from db import save_laps_to_postgres, conn
+from etl.db import save_laps_to_postgres, conn
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # get the client_id and client_secret from the environment variables
@@ -36,9 +37,9 @@ def fetch_strava_laps(activity_id) -> list:
             logging.warning("Rate limit exceeded, retrying in %s seconds...", retry_delay)
             time.sleep(retry_delay)
             retry_delay *= 2  # Exponential backoff
-        elif response.status_code == 401:
+        if response.status_code == 401:
             logging.error("Failed Authorization. Exit.")
-            exit()
+            sys.exit()
         else:
             logging.error("Error: %s - %s", response.status_code, response.text)
             return []

@@ -4,7 +4,7 @@
 import os
 import logging
 import requests
-from db import save_activities_to_postgres
+from etl.db import save_activities_to_postgres
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # get the client_id and client_secret from the environment variables
