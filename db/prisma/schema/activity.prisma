@@ -1,0 +1,64 @@
+model Activity {
+  resource_state                Float?
+  athlete                       Json               @db.Json
+  name                          String?
+  distance                      Float?
+  moving_time                   Float?
+  elapsed_time                  Float?
+  total_elevation_gain          Float?
+  type                          String?
+  sport_type                    String?
+  workout_type                  Float?
+  id                            Float              @unique
+  start_date                    String?
+  start_date_local              String?
+  timezone                      String?
+  utc_offset                    Float?
+  location_city                 String?
+  location_state                String?
+  location_country              String?
+  achievement_count             Float?
+  kudos_count                   Float?
+  comment_count                 Float?
+  athlete_count                 Float?
+  photo_count                   Float?
+  map                           Json?              @db.Json
+  trainer                       Boolean?
+  commute                       Boolean?
+  manual                        Boolean?
+  private                       Boolean?
+  visibility                    String?
+  flagged                       Boolean?
+  gear_id                       String?
+  start_latlng                  Json?              @db.Json
+  end_latlng                    Json?              @db.Json
+  average_speed                 Float?
+  max_speed                     Float?
+  average_cadence               Float?
+  average_temp                  Float?
+  has_heartrate                 Boolean?
+  average_heartrate             Float?
+  max_heartrate                 Float?
+  heartrate_opt_out             Boolean?
+  display_hide_heartrate_option Boolean?
+  elev_high                     Float?
+  elev_low                      Float?
+  upload_id                     Float?
+  upload_id_str                 String?
+  external_id                   String?
+  from_accepted_tag             Boolean?
+  pr_count                      Float?
+  total_photo_count             Float?
+  has_kudoed                    Boolean?
+  suffer_score                  Float?
+  average_watts                 Float?
+  max_watts                     Float?
+  weighted_average_watts        Float?
+  kilojoules                    Float?
+  device_watts                  Boolean?
+  uuid                          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  schedule                      schedule[]
+  laps                          lap[]
+
+  @@map("activity")
+}

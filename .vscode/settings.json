@@ -27,5 +27,6 @@
       "database": "${workspaceFolder:trainme}/sqlite/strava_activities.db",
       "group": "strava"
     }
-  ]
+  ],
+  "workbench.preferredDarkColorTheme": "Dark Green+"
 }

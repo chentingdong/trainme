@@ -1,0 +1,28 @@
+
+model athlete {
+  id                     String    @id
+  username               String
+  resource_state         Int
+  firstname              String
+  lastname               String
+  city                   String
+  state                  String
+  country                String
+  premium                Boolean
+  created_at             DateTime
+  updated_at             DateTime
+  badge_type_id          Int
+  profile_medium         String
+  profile                String
+  friend                 String?
+  follower               String?
+  follower_count         Int
+  friend_count           Int
+  mutual_friend_count    Int
+  athlete_type           Int
+  date_preference        String
+  measurement_preference String
+  ftp                    Float?
+  weight                 Float
+  sex                    Sex
+}

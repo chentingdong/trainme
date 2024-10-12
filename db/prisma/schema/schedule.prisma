@@ -1,0 +1,11 @@
+model schedule {
+  id            String    @id @db.Uuid
+  workout_id    String    @db.Uuid
+  activity_uuid String?   @db.Uuid
+  feeling       Int?
+  rpe           Int?
+  notes         String?   @db.VarChar(255)
+  schedule_date DateTime
+  activity      activity? @relation(fields: [activity_uuid], references: [uuid])
+  workout       workout   @relation(fields: [workout_id], references: [id])
+}
