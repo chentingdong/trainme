@@ -1,0 +1,10 @@
+model workout {
+  id               String             @id @default(uuid()) @db.Uuid
+  sport_type       String             @default("Run")
+  name             String?            @unique
+  description      String?
+  steps            Json?
+  distance         Float?
+  duration         Float?
+  workout_schedule workout_schedule[]
+}

@@ -1,0 +1,6 @@
+model sport {
+  id         Int      @id @default(autoincrement())
+  type       String
+  sport_type String
+  active     Boolean?
+}
