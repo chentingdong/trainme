@@ -63,14 +63,13 @@ export async function getActivityById(id: number): Promise<Activity | null> {
 export async function fetchLatestActivitiesFromStrava(
   persist: boolean = false,
 ): Promise<Activity[]> {
-  // Get refresh token from cookies
-  const cookieStore = cookies();
-  const refreshToken = cookieStore.get("strava_refresh_token")?.value;
-
-  // Get temporary access token from Strava
-  const accessToken = await getStravaAccessToken(refreshToken);
-
   try {
+    // Get refresh token from cookies
+    const cookieStore = cookies();
+    const refreshToken = cookieStore.get("strava_refresh_token")?.value;
+
+    // Get temporary access token from Strava
+    const accessToken = await getStravaAccessToken(refreshToken);
     // Fetch activities from Strava.
     const fromDate = new Date(await findLastActivityDate());
     const url = new URL("https://www.strava.com/api/v3/athlete/activities");

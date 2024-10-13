@@ -4,16 +4,16 @@ import { pool } from "./postgres";
 
 export type Lap = {
   id: number;
-  resource_state: number;
+  resourceState: number;
   name: string;
   activity: {
     id: number;
     visibility?: string;
-    resource_state: number;
+    resourceState: number;
   };
   athlete: {
     id: number;
-    resource_state: number;
+    resourceState: number;
   };
   elapsed_time: number;
   movingTime: number;

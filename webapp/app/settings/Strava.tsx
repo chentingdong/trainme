@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { getStravaAuthUrl } from '@/app/api/strava/authorization';
+import { useStravaSync } from '@/app/hooks/useStravaSync';
 
 export default function Strava() {
   const [refreshToken, setRefreshToken] = useState<string | null>("");
+  const { syncStrava } = useStravaSync();
 
   const disConnectStrava = () => {
     Cookies.remove("strava_refresh_token");
@@ -25,8 +27,7 @@ export default function Strava() {
   return (
     <div>
       <h2>Strava</h2>
-      <p>Connect your Strava account to let the app sync your activities.</p>
-      <div className="py-4">
+      <div className="py-4 flex gap-4">
         {refreshToken && (
           <button
             className="btn btn-secondary"
@@ -40,6 +41,7 @@ export default function Strava() {
             Connect to Strava
           </button>
         )}
+        <button className="btn btn-primary" onClick={() => syncStrava()}>Sync Strava Data</button>
       </div>
     </div>
   );
