@@ -2,12 +2,12 @@ import { protectedProcedure } from '@/server/trpc';
 import { db } from '@trainme/db';
 import { z } from 'zod';
 
-export const getWorkoutSchedules = protectedProcedure
+export const getSchedules = protectedProcedure
   .input(
     z.object({
       filter: z
         .object({
-          schedule_date: z
+          date: z
             .object({
               gte: z.date().optional(),
               lte: z.date().optional(),
@@ -19,14 +19,19 @@ export const getWorkoutSchedules = protectedProcedure
   )
   .query(async ({ input }) => {
     const { filter } = input || {};
-    const workoutSchedules = await db.workout_schedule.findMany({
+    const schedules = await db.schedule.findMany({
       where: {
-        ...(filter || {}),
+        date: filter?.date
+          ? {
+            gte: filter.date.gte,
+            lte: filter.date.lte,
+          }
+          : undefined,
       },
       include: {
         workout: true,
       },
     });
 
-    return workoutSchedules;
+    return schedules;
   });

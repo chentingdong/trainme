@@ -9,6 +9,8 @@ import { IoClose } from "react-icons/io5";
 import { trpc } from '@/app/api/trpc/client';
 import { emptyWorkout } from '@/prisma';
 import { startOfDay, endOfDay } from 'date-fns';
+import { JsonValue } from '@prisma/client/runtime/library';
+import { Key } from 'react';
 
 export function CalendarDayWorkouts({
   date
@@ -19,20 +21,20 @@ export function CalendarDayWorkouts({
   const utils = trpc.useUtils();
   const { scheduleDate, workout: editorWorkout, setWorkout: setEditorWorkout } = useCalendarState();
 
-  const { data: workoutSchedules, isLoading, isError } = trpc.schedules.getWorkoutSchedules.useQuery({
+  const { data: schedules, isLoading, isError } = trpc.schedules.getSchedules.useQuery({
     filter: {
-      schedule_date: {
+      date: {
         gte: startOfDay(date),
         lte: endOfDay(date),
       },
     },
   });
 
-  const deleteWorkoutSchedule = trpc.schedules.deleteWorkoutSchedule.useMutation({
+  const deleteSchedule = trpc.schedules.deleteSchedule.useMutation({
     onSuccess: () => {
-      utils.schedules.getWorkoutSchedules.invalidate({
+      utils.schedules.getSchedules.invalidate({
         filter: {
-          schedule_date: {
+          date: {
             gte: startOfDay(scheduleDate),
             lte: endOfDay(scheduleDate),
           },
@@ -45,37 +47,37 @@ export function CalendarDayWorkouts({
   });
 
   const handleUnscheduleWorkout = (id: string) => {
-    deleteWorkoutSchedule.mutate({ id: id });
+    deleteSchedule.mutate({ id: id });
     setEditorWorkout(emptyWorkout);
   };
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error loading workouts</div>;
-  if (!workoutSchedules) return <div>No workouts</div>;
+  if (!schedules) return <div>No workouts</div>;
 
   return (
     <ul className="mx-0.25 shadow-sm">
-      {workoutSchedules?.map((workoutSchedule) => (
-        <li key={workoutSchedule.id} className="my-1 cursor-pointer">
+      {schedules?.map((schedule: { id: Key | null | undefined; workoutId: string | undefined; workout: { name: string | null; distance: number | null; id: string; sportType: string; description: string | null; duration: number | null; steps: JsonValue | null; } | null | undefined; }) => (
+        <li key={schedule.id} className="my-1 cursor-pointer">
           <div
             className={cn([
               "card cursor-pointer border-2",
-              workoutSchedule.workout_id === editorWorkout?.id
+              schedule.workoutId === editorWorkout?.id
                 ? "border-yellow-300"
                 : "border-transparent",
             ])}
-            onClick={() => workoutSchedule.workout && setEditorWorkout(workoutSchedule.workout)}
+            onClick={() => schedule.workout && setEditorWorkout(schedule.workout)}
           >
             <div className="card-header flex justify-between items-center gap-2 p-0">
-              <SportIcon type={workoutSchedule.workout.sport_type || ''} withColor={false} />
-              <div className="flex-grow">{workoutSchedule.workout?.name}</div>
-              <button className="btn btn-icon btn-danger" onClick={() => handleUnscheduleWorkout(workoutSchedule.id)}>
+              <SportIcon type={schedule.workout?.sportType || ''} withColor={false} />
+              <div className="flex-grow">{schedule.workout?.name}</div>
+              <button className="btn btn-icon btn-danger" onClick={() => handleUnscheduleWorkout(schedule.id as string)}>
                 <IoClose />
               </button>
             </div>
             <div className="card-body">
               <div className="h-10 w-full text-2xs">
-                <WorkoutChart workout={workoutSchedule.workout} />
+                <WorkoutChart workout={schedule.workout || undefined} />
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import React from "react";
 import { Select } from "flowbite-react";
 import { trpc } from '@/app/api/trpc/client';
 import Loading from '@/app/loading';
-
+import type { Sport } from "@trainme/db";
 type Props = {
   value: string;
   onChange: (
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default function SportTypeSelect({ value, onChange }: Props) {
-  const { data: sportTypes, isLoading, isError } = trpc.sports.getSportTypes.useQuery();
+  const { data: sportTypes, isLoading, isError } = trpc.sports.getSportTypes.useQuery<Sport[]>();
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedSportId = e.target.value;
@@ -32,9 +32,9 @@ export default function SportTypeSelect({ value, onChange }: Props) {
       onChange={handleSelect}
     >
       {!sportTypes && <option>No sport types</option>}
-      {sportTypes && sportTypes.map((sportType) => (
-        <option key={sportType.id} value={sportType.sport_type}>
-          {sportType.sport_type}
+      {sportTypes && sportTypes.map((sportType: Sport) => (
+        <option key={sportType.id} value={sportType.sportType}>
+          {sportType.sportType}
         </option>
       ))}
     </Select>

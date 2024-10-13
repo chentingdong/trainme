@@ -3,7 +3,7 @@
 import React from "react";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
-import type { activity as Activity } from "@trainme/db";
+import type { Activity } from "@trainme/db";
 import { endOfDay, format, startOfDay } from "date-fns";
 import SportIcon from "../activities/SportIcon";
 import { trpc } from '@/app/api/trpc/client';
@@ -17,13 +17,13 @@ export function CalendarDayActivities({ date }: Props) {
   const { setActivity } = useCalendarState();
   const { data: activities } = trpc.activities.getActivities.useQuery({
     filter: {
-      start_date_local: {
+      startDateLocal: {
         gte: startOfDay(date),
         lt: endOfDay(date),
       },
     },
     orderBy: {
-      start_date_local: 'asc'
+      startDateLocal: 'asc'
     }
   });
 
@@ -48,16 +48,16 @@ export function CalendarDayActivity({ activity }: { activity: Activity; }) {
     <div className="card">
       <div className="card-header text-sm flex items-center justify-between">
         <div className="flex items-center">
-          <SportIcon type={activity.type} withColor={true} />
+          <SportIcon type={activity.sportType} withColor={true} />
         </div>
         <div>
-          {activity.start_date_local
-            ? format(activity.start_date_local, "p")
+          {activity.startDateLocal
+            ? format(activity.startDateLocal, "p")
             : "Invalid date"}
         </div>
       </div>
       <div className="card-body cursor-pointer flex justify-between">
-        <div>{formatTimeSeconds(activity.moving_time || 0)}</div>
+        <div>{formatTimeSeconds(activity.movingTime || 0)}</div>
         <div>
           {(activity.distance ?? 0) > 0 &&
             formatDistance(activity.distance ?? 0)}{" "}

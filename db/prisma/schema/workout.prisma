@@ -1,10 +1,12 @@
-model workout {
-  id               String             @id @default(uuid()) @db.Uuid
-  sport_type       String             @default("Run")
-  name             String?            @unique
+model Workout {
   description      String?
-  steps            Json?
   distance         Float?
   duration         Float?
-  workout_schedule workout_schedule[]
+  id               String             @id @default(uuid()) @db.Uuid
+  name             String?            @unique
+  schedule         Schedule[]
+  sportType        String             @default("Run") @map("sport_type")
+  steps            Json?
+
+  @@map("workout")
 }

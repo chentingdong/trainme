@@ -16,9 +16,9 @@ export type Lap = {
     resource_state: number;
   };
   elapsed_time: number;
-  moving_time: number;
+  movingTime: number;
   start_date: Date;
-  start_date_local: Date;
+  startDateLocal: Date;
   distance: number;
   average_speed: number;
   max_speed: number;
@@ -33,12 +33,12 @@ export async function saveLaps(laps: Lap[]): Promise<void> {
   try {
     const client = await pool.connect();
     const fields = Object.keys(laps[0]);
-    fields.push("activity_id");
+    fields.push("activityId");
 
     for (const lap of laps) {
       const values = Object.values(lap);
       const query = `
-        INSERT INTO lap (${fields.join(", ")}, activity_id)
+        INSERT INTO lap (${fields.join(", ")}, activityId)
         VALUES (${values.map((_, i) => `$${i + 1}`).join(", "), lap.activity.id})
         ON CONFLICT DO NOTHING;
       `;

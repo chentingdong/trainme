@@ -19,7 +19,7 @@ export const getActivityLaps = protectedProcedure
 
     const laps = await db.lap.findMany({
       where: {
-        activity_id: activity.id,
+        activityId: activity.id,
       },
       orderBy: {
         id: 'asc',

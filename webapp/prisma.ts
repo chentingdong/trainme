@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { PrismaClient } from "@trainme/db";
-import type { workout as Workout } from '@trainme/db';
+import type { Workout } from '@trainme/db';
 
 const globalForPrisma = global as unknown as {
   db: PrismaClient | undefined;
@@ -21,7 +21,7 @@ export const defaultWorkout: Workout = {
   steps: ["10m Z1"],
   distance: null,
   duration: null,
-  sport_type: "Run",
+  sportType: "Run",
 };
 
 export const emptyWorkout: Workout = {
@@ -31,5 +31,5 @@ export const emptyWorkout: Workout = {
   steps: [],
   distance: null,
   duration: null,
-  sport_type: "",
+  sportType: "",
 };

@@ -21,7 +21,7 @@ function Page() {
       setAllActivities((prevActivities) => [...prevActivities, ...data.activities]);
       console.log(allActivities);
     }
-  }, [data]);
+  }, [allActivities, data]);
   const hasMore = data?.hasMore; 
 
   const lastActivityRef = useCallback(

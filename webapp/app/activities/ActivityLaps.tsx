@@ -3,8 +3,7 @@ import React, { useRef } from "react";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
-import type { lap as Lap } from "@trainme/db";
-import Debug from '@/app/components/Debug';
+import type { Lap } from "@trainme/db";
 
 type Props = {
   laps: Lap[]; 
@@ -16,7 +15,7 @@ export default function ActivityLaps({ laps, className }: Props) {
 
   // Convert average speed (m/s) to pace (min/mile)
   const lapWithPace = laps?.map((lap) => {
-    if (lap.average_speed === null || lap.average_speed === undefined) {
+    if (lap.averageSpeed === null || lap.averageSpeed === undefined) {
       return {
         ...lap,
         pace: null,
@@ -24,7 +23,7 @@ export default function ActivityLaps({ laps, className }: Props) {
       };
     }
 
-    const paceInMinutesPerMile = 26.8224 / lap.average_speed; // Convert m/s to min/mile
+    const paceInMinutesPerMile = 26.8224 / lap.averageSpeed; // Convert m/s to min/mile
     const minutes = Math.floor(paceInMinutesPerMile);
     const seconds = Math.round((paceInMinutesPerMile - minutes) * 60);
     const pace = `${minutes}:${seconds.toString().padStart(2, "0")}`; // Format as mm:ss/mile
@@ -58,7 +57,7 @@ export default function ActivityLaps({ laps, className }: Props) {
           {lapWithPace?.map((lap, index) => (
             <div className="gap-2 grid grid-cols-4" key={index}>
               <div>{index + 1}</div>
-              <div>{formatTimeSeconds(lap.elapsed_time ?? 0)}</div>
+              <div>{formatTimeSeconds(lap.elapsedTime ?? 0)}</div>
               <div>{formatDistance(lap.distance ?? 0)}</div>
               <div>{lap.formattedPace}</div>
             </div>
