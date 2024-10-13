@@ -1,6 +1,8 @@
-model sport {
-  id         Int      @id @default(autoincrement())
-  type       String
-  sport_type String
-  active     Boolean?
+model Sport {
+  active     Boolean?  @map("active")
+  id         Int       @id @default(autoincrement())
+  sportType  String     @map("sport_type")
+  type       String     @map("type")
+
+  @@map("sport")
 }

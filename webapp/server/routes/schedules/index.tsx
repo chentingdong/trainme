@@ -1,10 +1,10 @@
 import { router } from '@/server/trpc';
-import { createWorkoutSchedule } from '@/server/routes/schedules/createWorkoutSchedule';
-import { getWorkoutSchedules } from '@/server/routes/schedules/getWorkoutSchedules';
-import { deleteWorkoutSchedule } from '@/server/routes/schedules/deleteWorkoutSchedule';
+import { createSchedule } from '@/server/routes/schedules/createSchedule';
+import { getSchedules } from '@/server/routes/schedules/getSchedules';
+import { deleteSchedule } from '@/server/routes/schedules/deleteSchedule';
 
 export const schedulesRouter = router({
-  getWorkoutSchedules,
-  createWorkoutSchedule,
-  deleteWorkoutSchedule
+  getSchedules,
+  createSchedule,
+  deleteSchedule
 });

@@ -1,8 +1,8 @@
 "use client";
 
 import { create } from "zustand";
-import type { activity as Activity } from "@trainme/db";
-import type { workout as Workout } from "@trainme/db";
+import type { Activity } from "@trainme/db";
+import type { Workout } from "@trainme/db";
 import { defaultWorkout } from '@/prisma';
 
 interface CalendarState {

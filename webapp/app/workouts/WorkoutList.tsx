@@ -40,7 +40,7 @@ export default function WorkoutList() {
             }
             onClick={() => setWorkout(workout)}
           >
-            <SportIcon type={workout.sport_type} />
+            <SportIcon type={workout.sportType} />
             <div className="ml-2 font-semibold text-sm">
               {workout.name || "No name"}
             </div>

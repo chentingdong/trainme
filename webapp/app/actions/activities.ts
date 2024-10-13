@@ -1,6 +1,6 @@
 "use server";
 
-import type { activity as Activity } from "@trainme/db";
+import type { Activity } from "@trainme/db";
 import { db, Prisma } from "@trainme/db";
 
 // last activity date synced from strava
@@ -11,12 +11,12 @@ export async function findLastActivityDate(): Promise<Date> {
   try {
     const lastActivity = await db.activity.findFirst({
       orderBy: {
-        start_date_local: "desc",
+        startDateLocal: "desc",
       },
     });
 
-    return lastActivity?.start_date_local
-      ? new Date(lastActivity.start_date_local)
+    return lastActivity?.startDateLocal
+      ? new Date(lastActivity.startDateLocal)
       : yesterday;
   } catch (err) {
     console.error(err);
@@ -35,12 +35,12 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
 
       if (!existingActivity) {
         await db.activity.create({
-          data: activity as Prisma.activityCreateInput,
+          data: activity as Prisma.ActivityCreateInput,
         });
       } else {
         await db.activity.update({
           where: { id: existingActivity.id },
-          data: activity as Prisma.activityCreateInput,
+          data: activity as Prisma.ActivityCreateInput,
         });
       }
     }

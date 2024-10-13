@@ -1,11 +1,15 @@
-model schedule {
-  id            String    @id @db.Uuid
-  workout_id    String    @db.Uuid
-  activity_uuid String?   @db.Uuid
-  feeling       Int?
-  rpe           Int?
-  notes         String?   @db.VarChar(255)
-  schedule_date DateTime
-  activity      activity? @relation(fields: [activity_uuid], references: [uuid])
-  workout       workout   @relation(fields: [workout_id], references: [id])
+model Schedule {
+  activityUuid  String?   @db.Uuid @map("activity_uuid")
+  activity      Activity? @relation(fields: [activityUuid], references: [uuid])
+  date          DateTime  @map("date") @default(now())
+  feeling       Int?      @map("feeling")
+  id            String    @id @db.Uuid @map("id")
+  notes         String?   @db.VarChar(255) @map("notes")
+  rpe           Int?      @map("rpe")
+  workoutId     String    @db.Uuid @map("workout_id")
+  workout       Workout   @relation(fields: [workoutId], references: [id])
+
+  @@map("schedule")
+  @@index([activityUuid])
+  @@index([workoutId])
 }

@@ -2,7 +2,7 @@ import React from "react";
 import SportIcon from "./SportIcon";
 import ActivityLaps from "./ActivityLaps";
 import ActivityMap from "./ActivityMap";
-import type { ActivityWithLaps, Map } from "@/utils/types";
+import type { ActivityWithLaps } from "@/utils/types";
 
 type Props = {
   activity: ActivityWithLaps;
@@ -21,15 +21,15 @@ export default function ActivityOne({ activity }: Props) {
             <div>{activity.id}</div>
             <div>{activity.type}</div>
             <div>{activity.distance} meters</div>
-            <div>{activity.moving_time} seconds</div>
-            <div>{activity.total_elevation_gain} meters</div>
+            <div>{activity.movingTime} seconds</div>
+            <div>{activity.totalElevationGain} meters</div>
           </div>
         </div>
         <div className="grid grid-cols-5 gap-8 h-128">
           <ActivityMap
             className="col-span-2"
-            summary_polyline={
-              (activity?.map as Map)?.summary_polyline as string
+            summaryPolyline={
+              (activity.mapField as { summaryPolyline?: string; })?.summaryPolyline
             }
           />
           <ActivityLaps className="col-span-3" laps={activity.laps || []} />

@@ -3,21 +3,21 @@ import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 
-export const createWorkoutSchedule = protectedProcedure
+export const createSchedule = protectedProcedure
   .input(
     z.object({
-      workout_id: z.string(),
+      workoutId: z.string(),
       date: z.date(),
     })
   )
   .mutation(async ({ input }) => {
-    const { workout_id, date } = input;
+    const { workoutId, date } = input;
 
-    const schedule = await db.workout_schedule.create({
+    const schedule = await db.schedule.create({
       data: {
         id: uuidv4(),
-        workout_id: workout_id,
-        schedule_date: date,
+        workoutId: workoutId,
+        date: date,
       },
     });
 

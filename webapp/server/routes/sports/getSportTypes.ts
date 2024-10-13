@@ -3,7 +3,7 @@ import { db } from '@trainme/db';
 
 export const getSportTypes = protectedProcedure
   .query(async () => {
-    const sportTypes = await db.sport_type.findMany({
+    const sportTypes = await db.sport.findMany({
       where: {
         active: true,
       },

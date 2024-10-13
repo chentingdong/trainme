@@ -8,7 +8,7 @@ export const getActivities = protectedProcedure
     z.object({
       filter: z
         .object({
-          start_date_local: z
+          startDateLocal: z
             .object({
               gte: z.date().optional(),
               lt: z.date().optional(),
@@ -18,7 +18,7 @@ export const getActivities = protectedProcedure
         .optional(),
       orderBy: z
         .object({
-          start_date_local: z.string().optional(),
+          startDateLocal: z.string().optional(),
         })
         .optional(),
     })
@@ -30,15 +30,15 @@ export const getActivities = protectedProcedure
         laps: true
       },
       where: {
-        start_date_local: filter?.start_date_local
+        startDateLocal: filter?.startDateLocal
           ? {
-            gte: filter.start_date_local.gte?.toISOString(),
-            lt: filter.start_date_local.lt?.toISOString(),
+            gte: filter.startDateLocal.gte?.toISOString(),
+            lt: filter.startDateLocal.lt?.toISOString(),
           }
           : undefined,
       },
       orderBy: orderBy
-        ? { start_date_local: orderBy.start_date_local as 'asc' | 'desc' }
+        ? { startDateLocal: orderBy.startDateLocal as 'asc' | 'desc' }
         : undefined,
     });
 
@@ -59,7 +59,7 @@ export const getPaginatedActivities = protectedProcedure
       include: {
         laps: true,
       },
-      orderBy: { start_date_local: 'desc' },
+      orderBy: { startDateLocal: 'desc' },
       skip: cursor * limit,
       // Fetch one extra to check if there are more results
       take: limit + 1,
