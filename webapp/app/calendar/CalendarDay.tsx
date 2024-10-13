@@ -5,7 +5,7 @@ import SportIcon from "@/app/activities/SportIcon";
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
-import type { activity as Activity } from "@trainme/db";
+import type { Activity } from "@trainme/db";
 import { getActivitiesByDate } from "@/app/api/strava/activities";
 import Loading from "@/app/components/Loading";
 import dynamic from "next/dynamic";
@@ -39,7 +39,7 @@ type CalendarDayProps = {
 };
 
 function CalendarDay({ date }: CalendarDayProps) {
-  const { setActivity, scheduleDate, setScheduleDate } = useCalendarState();
+  const { scheduleDate, setScheduleDate } = useCalendarState();
 
   const [activities, setActivities] = useState<Activity[]>([]);
 
@@ -67,7 +67,7 @@ function CalendarDay({ date }: CalendarDayProps) {
         <div className="flex gap-2">
           {activities?.map((activity) => (
             <div key={activity.id}>
-              <SportIcon type={activity.type || ''} />
+              <SportIcon type={activity.sportType || ''} />
             </div>
           ))}
         </div>

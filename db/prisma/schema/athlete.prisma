@@ -1,0 +1,27 @@
+model Athlete {
+  athleteType           Int       @map("athlete_type")
+  badgeTypeId           Int       @map("badge_type_id")
+  city                  String
+  country               String
+  createdAt             DateTime  @map("created_at")
+  profile               String
+  profileMedium         String     @map("profile_medium")
+  follower              String?
+  followerCount         Int       @map("follower_count")
+  friend                String?
+  friendCount           Int       @map("friend_count")
+  mutualFriendCount     Int       @map("mutual_friend_count")
+  datePreference        String    @map("date_preference")
+  measurementPreference String    @map("measurement_preference")
+  ftp                   Float?
+  id                    String    @id
+  lastname              String
+  premium               Boolean
+  resourceState         Int       @map("resource_state")
+  sex                   Sex
+  updatedAt             DateTime  @map("updated_at")
+  weight                Float
+  firstname             String    @map("firstname")
+  
+  @@map("athlete")
+}

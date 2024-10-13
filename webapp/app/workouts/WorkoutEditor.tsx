@@ -8,7 +8,7 @@ import SportTypeSelect from "../components/SportTypeSelect";
 import { Controller, useForm } from "react-hook-form";
 import { defaultWorkout } from "@/prisma";
 import { trpc } from '@/app/api/trpc/client';
-import type { workout as Workout } from "@trainme/db";
+import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 import { startOfDay, endOfDay } from 'date-fns';
 
@@ -30,11 +30,11 @@ export default function WorkoutEditor() {
     },
   });
 
-  const createWorkoutSchedule = trpc.schedules.createWorkoutSchedule.useMutation({
+  const createSchedule = trpc.schedules.createSchedule.useMutation({
     onSuccess: () => {
-      utils.schedules.getWorkoutSchedules.refetch({
+      utils.schedules.getSchedules.refetch({
         filter: {
-          schedule_date: {
+          date: {
             gte: startOfDay(scheduleDate),
             lte: endOfDay(scheduleDate),
           },
@@ -51,7 +51,7 @@ export default function WorkoutEditor() {
     if (workout?.id) {
       try {
         handleSaveWorkout();
-        createWorkoutSchedule.mutate({ workout_id: workout.id, date: scheduleDate });
+        createSchedule.mutate({ workoutId: workout.id, date: scheduleDate });
       } catch (error) {
         toast({ type: "error", content: "Failed to add workout to calendar: " + error });
       }
@@ -162,14 +162,14 @@ export default function WorkoutEditor() {
           <div className="form-group">
             <Label htmlFor="type">Sport Type</Label>
             <Controller
-              name="sport_type"
+              name="sportType"
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
                   value={field.value ?? ""}
                   onChange={(e, selectedSport) => {
                     field.onChange(selectedSport);
-                    setWorkout({ ...workout, sport_type: selectedSport });
+                    setWorkout({ ...workout, sportType: selectedSport });
                   }}
                 />
               )}

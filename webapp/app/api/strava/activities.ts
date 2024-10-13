@@ -3,7 +3,7 @@
 import { getStravaAccessToken } from "@/app/api/strava/authorization";
 import { cookies } from "next/headers";
 import axios from "axios";
-import { type activity as Activity } from "@trainme/db";
+import { type Activity } from "@trainme/db";
 import { db } from "@trainme/db";
 import { findLastActivityDate, saveActivities } from '@/app/actions/activities';
 
@@ -14,7 +14,7 @@ export async function getActivities(
 ): Promise<Activity[]> {
   const activities = await db.activity.findMany({
     where: {
-      start_date_local: {
+      startDateLocal: {
         gte: fromDate.toISOString(),
         lte: toDate.toISOString(),
       },
@@ -28,7 +28,7 @@ export async function getActivitiesByDate(date: Date): Promise<Activity[]> {
   try {
     const activities = await db.activity.findMany({
       where: {
-        start_date_local: {
+        startDateLocal: {
           gte: date.toISOString(),
           lt: new Date(date.getTime() + 24 * 60 * 60 * 1000).toISOString(),
         },

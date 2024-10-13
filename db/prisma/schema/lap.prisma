@@ -1,0 +1,31 @@
+model Lap {
+  activity           Json?    @db.Json
+  activityId         Float    @default(0) @map("activity_id")
+  activityRef        Activity @relation(fields: [activityId], references: [id])
+  athlete            Json?    @db.Json
+  averageCadence     Float?   @map("average_cadence")
+  averageHeartrate   Float?   @map("average_heartrate")
+  averageSpeed       Float?   @map("average_speed")
+  averageWatts       Float?   @map("average_watts")
+  deviceWatts        Boolean? @map("device_watts")
+  distance           Float?   @map("distance")
+  endIndex           Float?   @map("end_index")
+  elapsedTime        Float?   @map("elapsed_time")
+  id                 Float    @default(0) @map("id")
+  lapIndex           Float?   @map("lap_index")
+  maxHeartrate       Float?   @map("max_heartrate")
+  maxSpeed           Float?   @map("max_speed")
+  movingTime         Float?   @map("moving_time")
+  name               String?  @map("name")
+  paceZone           Float?   @map("pace_zone")
+  resourceState      Float?   @map("resource_state")
+  split              Float?   @map("split")
+  startDate          String?  @map("start_date")
+  startDateLocal     String?  @map("start_date_local")
+  startIndex         Float?   @map("start_index")
+  totalElevationGain Float?   @map("total_elevation_gain")
+  uuid               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+  @@index([activityId])
+  @@map("lap")
+}
