@@ -16,8 +16,9 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  productionBrowserSourceMaps: true,
 
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config) => {
     config.context = path.resolve(process.cwd());
     config.experiments = { ...config.experiments, topLevelAwait: true };
 
@@ -26,20 +27,12 @@ const nextConfig = {
       use: 'node-loader',
     });
 
-    if (dev && !isServer) {
-      config.module.rules.push({
-        test: /\.(ts|tsx)$/,
-        enforce: 'pre',
-        use: ['source-map-loader'],
-        exclude: /node_modules/,
-      });
-      config.devtool = 'eval-source-map';
-    }
+    // Enable source maps for all environments and file types
+    config.devtool = 'source-map';
 
-    if (!dev && isServer) {
-      // config.devtool = 'hidden-source-map';
-      config.devtool = false;
-    }
+    // Ensure source maps are generated for vendor chunks
+    config.optimization.moduleIds = 'named';
+    config.optimization.chunkIds = 'named';
 
     return config;
   },

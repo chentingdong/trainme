@@ -20,7 +20,7 @@ export function Providers({ children }: { children: React.ReactNode; }) {
   const queryClient = new QueryClient();
 
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl="/">
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <ToastProvider>

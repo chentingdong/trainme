@@ -1,24 +1,37 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "garmindb cli",
-      "type": "debugpy",
+      "name": "Next.js: debug server-side",
+      "type": "node-terminal",
       "request": "launch",
-      "program": "${workspaceFolder}/etl/garmindb_cli.py",
-      "console": "integratedTerminal",
-      "args": ["--activities", "--download", "--import", "--analyze"]
+      "command": "pnpm run dev",
+      "cwd": "${workspaceFolder}/webapp",
+      "console": "integratedTerminal"
     },
     {
-      "name": "Python Debugger: Current File",
-      "type": "debugpy",
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
       "request": "launch",
-      "program": "${file}",
-      "console": "integratedTerminal",
-      "envFile": "${workspaceFolder}/.env"
+      "url": "http://localhost:7451",
+      "webRoot": "${workspaceFolder}/webapp",
+      "sourceMapPathOverrides": {
+        "webpack://_N_E/*": "${webRoot}/*"
+      },
+      "port": 9222,
+      "runtimeArgs": ["--remote-debugging-port=9222"]
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm run dev",
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      },
+      "cwd": "${workspaceFolder}/webapp"
     },
     {
       "name": "Webapp",
@@ -47,6 +60,22 @@
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "garmindb cli",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/etl/garmindb_cli.py",
+      "console": "integratedTerminal",
+      "args": ["--activities", "--download", "--import", "--analyze"]
+    },
+    {
+      "name": "Python Debugger: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "envFile": "${workspaceFolder}/.env"
     }
   ]
 }

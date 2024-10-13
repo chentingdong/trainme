@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
+import { UserButton } from "@clerk/nextjs";
 
 import { fetchLatestActivitiesFromStrava } from "@/app/api/strava/activities";
 import type { Activity } from "@trainme/db";
@@ -14,7 +15,6 @@ import { fetchActivityLaps } from "@/app/api/strava/laps";
 const Header = () => {
   const [newActivityCount, setNewActivityCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
-  // const { showToaster } = useToast();
 
   const syncStrava = async () => {
     setLoading(true);
@@ -85,9 +85,13 @@ const Header = () => {
             </a>
           </li>
           <li>
-            <a href="/settings" className="hover:underline">
-              Settings
-            </a>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "h-5 w-5",
+                }
+              }}
+            />
           </li>
         </ul>
       </nav>
