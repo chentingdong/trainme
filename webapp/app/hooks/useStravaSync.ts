@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { fetchLatestActivitiesFromStrava } from "@/app/api/strava/activities";
-import { fetchActivityLaps } from "@/app/api/strava/laps";
+import { fetchLatestActivitiesFromStrava } from "@/app/venders/strava/activities";
+import { fetchActivityLaps } from "@/app/venders/strava/laps";
 import type { Activity } from "@trainme/db";
 import { useToast } from "@/app/components/Toaster";
+import { fetchAthlete } from '@/app/venders/strava/athlete';
 
 export const useStravaSync = () => {
   const { toast } = useToast();
@@ -12,9 +13,14 @@ export const useStravaSync = () => {
   const syncStrava = async () => {
     setLoading(true);
     try {
-      const newActivities: Activity[] = await fetchLatestActivitiesFromStrava(true);
+      // fetch athlete first to get the latest data
+      await fetchAthlete({ persist: true });
+      return;
+      // fetch activities
+      const newActivities: Activity[] = await fetchLatestActivitiesFromStrava({ persist: true });
+      // fetch laps for each activity
       for (const activity of newActivities) {
-        await fetchActivityLaps(activity.id, true);
+        await fetchActivityLaps({ activityId: activity.id, persist: true });
       }
       setNewActivityCount(newActivities.length);
       toast({ type: "success", content: "Successfully synced activities" });

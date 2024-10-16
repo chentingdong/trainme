@@ -8,7 +8,6 @@ import { UserButton, useUser, SignInButton } from "@clerk/nextjs";
 import { useStravaSync } from '@/app/hooks/useStravaSync';
 import Loading from '@/app/loading';
 import { FaDumbbell, FaGear, FaUser } from 'react-icons/fa6';
-import Link from 'next/link';
 
 const Header = () => {
   const { newActivityCount, loading, syncStrava } = useStravaSync();

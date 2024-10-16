@@ -28,7 +28,8 @@ const nextConfig = {
     });
 
     // Enable source maps for all environments and file types
-    config.devtool = 'source-map';
+    config.devtool =
+      process.env.NODE_ENV === 'development' ? 'eval-source-map' : 'source-map';
 
     // Ensure source maps are generated for vendor chunks
     config.optimization.moduleIds = 'named';

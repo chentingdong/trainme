@@ -6,8 +6,7 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm run dev",
-      "cwd": "${workspaceFolder}/webapp",
-      "console": "integratedTerminal"
+      "cwd": "${workspaceFolder}/webapp"
     },
     {
       "name": "Next.js: debug client-side",

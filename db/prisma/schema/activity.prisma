@@ -1,6 +1,7 @@
 model Activity {
   achievementCount           Float?    @map("achievement_count")
-  athlete                    Json      @db.Json @map("athlete")
+  athleteId                  Float     @map("athlete_id")
+  athlete                    Athlete   @relation(fields: [athleteId], references: [id])
   athleteCount               Float?    @map("athlete_count")
   averageCadence             Float?    @map("average_cadence")
   averageHeartrate           Float?    @map("average_heartrate")
@@ -61,4 +62,6 @@ model Activity {
   uuid                       String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   @@map("activity")
+  @@index([athleteId])
 }
+
