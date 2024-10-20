@@ -14,6 +14,7 @@ export const db =
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.db = db;
 
+// TODO: These should either in the db or somewhere hold all constants
 export const defaultWorkout: Workout = {
   id: uuidv4(),
   name: "Base run",

@@ -43,13 +43,3 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     ctx: authContext
   });
 });
-
-// Admins extend the protectedProcedure to check if the user is logged in.
-export const adminProcedure = protectedProcedure.use(async opts => {
-  const { orgRole } = auth();
-  const isAdmin = orgRole === 'org:owner' || orgRole === 'org:admin';
-  if (!isAdmin) {
-    throw new TRPCError({ code: 'UNAUTHORIZED' });
-  }
-  return opts.next();
-});

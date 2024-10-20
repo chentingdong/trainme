@@ -37,7 +37,7 @@ export async function saveActivities(activities: Activity[]): Promise<void> {
 
       if (!existingActivity) {
         await db.activity.create({
-          data: activity as Prisma.ActivityCreateInput,
+          data: activity as unknown as Prisma.ActivityCreateInput,
         });
       } else {
         await db.activity.update({

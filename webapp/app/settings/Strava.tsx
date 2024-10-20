@@ -18,7 +18,6 @@ export default function Strava() {
       });
     } catch (error) {
       console.error('Failed to disconnect Strava:', error);
-      // Optionally, show an error message to the user
     }
   };
 
