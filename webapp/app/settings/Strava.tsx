@@ -23,7 +23,11 @@ export default function Strava() {
 
   return (
     <div>
-      <h2>Strava</h2>
+      <p>
+        {stravaConnected
+          ? 'Connected to Strava.'
+          : 'Connect your Strava account to sync your activities.'}
+      </p>
       <div className="py-4 flex gap-4">
         {!stravaConnected && (
           <button className="btn btn-primary" onClick={handleConnect}>
@@ -48,8 +52,8 @@ export const getAuthUrl = () => {
   const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID || '';
   const port = ":" + process.env.NEXT_PUBLIC_PORT || "";
   const redirectUri = `http://localhost${port}/venders/strava/authorize`;
-
   const scope = 'activity:read_all';
+
   // const params = new URLSearchParams({
   //   client_id: clientId,
   //   response_type: 'code',

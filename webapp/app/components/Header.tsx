@@ -72,7 +72,7 @@ const Header = () => {
             </a>
           </li>
           <li className="flex gap-1 items-center">
-            {user ? (
+            {!!user ? (
               <UserButton
                 appearance={{
                   elements: {

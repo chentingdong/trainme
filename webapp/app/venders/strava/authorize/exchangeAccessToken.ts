@@ -6,7 +6,7 @@ type ExchangeAccessTokenInput = {
   refreshToken: string;
 };
 
-export const exchangeAccessToken = async ({ userId, refreshToken }: ExchangeAccessTokenInput) => {
+export const exchangeAccessToken = async ({ userId, refreshToken }: ExchangeAccessTokenInput): Promise<string> => {
   const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID;
   const clientSecret = process.env.STRAVA_CLIENT_SECRET;
   if (!clientId || !clientSecret) {
@@ -28,4 +28,6 @@ export const exchangeAccessToken = async ({ userId, refreshToken }: ExchangeAcce
       stravaAccessToken: accessToken
     },
   });
+
+  return accessToken;
 };

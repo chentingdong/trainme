@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Toast } from "flowbite-react";
 import { FaInfoCircle, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-const TOASTER_TIMEOUT = 3 * 1000;
+const TOASTER_TIMEOUT = 15 * 1000;
 
 type MessageType = "info" | "success" | "error";
 
