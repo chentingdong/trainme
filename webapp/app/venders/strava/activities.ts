@@ -60,7 +60,6 @@ export async function fetchLatestActivitiesFromStrava({
         const urlActivitesOne = new URL(`https://www.strava.com/api/v3/activities/${partialActivity.id}`);
         const { data } = await axios.get(urlActivitesOne.href, { headers });
 
-        console.log("upserting activity", data);
         const activity = {
           id: data.id,
           resourceState: data.resource_state,
@@ -105,10 +104,42 @@ export async function fetchLatestActivitiesFromStrava({
           calories: data.calories
         };
 
-        await db.activity.upsert({
-          where: { id: activity.id },
-          update: activity,
-          create: activity,
+
+        await db.$transaction(async (tx) => {
+          await tx.activity.upsert({
+            where: { id: activity.id },
+            update: activity,
+            create: activity,
+          });
+
+          for (const lap of data.laps) {
+            const lapData = {
+              id: lap.id,
+              activityId: activity.id,
+              athlete: lap.athlete,
+              activity: lap.activity,
+              averageCadence: lap.average_cadence,
+              averageHeartrate: lap.average_heartrate,
+              averageSpeed: lap.average_speed,
+              averageWatts: lap.average_watts,
+              deviceWatts: lap.device_watts,
+              distance: lap.distance,
+              elapsedTime: lap.elapsed_time,
+              lapIndex: lap.lap_index,
+              maxHeartrate: lap.max_heartrate,
+              maxSpeed: lap.max_speed,
+              movingTime: lap.moving_time,
+              startDate: lap.start_date,
+              startDateLocal: lap.start_date_local,
+              startIndex: lap.start_index,
+              totalElevationGain: lap.total_elevation_gain,
+            };
+            await tx.lap.upsert({
+              where: { id: lapData.id },
+              update: lapData,
+              create: lapData,
+            });
+          }
         });
       }
     }
