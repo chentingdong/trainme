@@ -1,5 +1,6 @@
 "use server";
 
+import { auth } from '@clerk/nextjs/server';
 import { db } from "@trainme/db";
 import axios from "axios";
 
@@ -15,6 +16,10 @@ export async function fetchAthlete({ accessToken, persist = true }: GetAthletePa
       Authorization: `Bearer ${accessToken}`,
     },
   });
+  const { userId } = auth();
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
 
   if (persist) {
     const athleteData = {
@@ -40,10 +45,19 @@ export async function fetchAthlete({ accessToken, persist = true }: GetAthletePa
       weight: athlete.weight ?? 0,
     };
 
-    await db.athlete.upsert({
-      where: { id: athlete.id },
-      update: athleteData,
-      create: athleteData,
+    await db.$transaction(async (tx) => {
+      await tx.athlete.upsert({
+        where: { id: athlete.id },
+        update: athleteData,
+        create: athleteData,
+      });
+
+      await db.user.update({
+        where: { id: userId },
+        data: {
+          athleteId: athlete.id as number
+        },
+      });
     });
   }
 }

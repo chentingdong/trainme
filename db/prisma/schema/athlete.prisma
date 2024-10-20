@@ -23,7 +23,6 @@ model Athlete {
   weight                Float
   resourceState         Int      @map("resource_state")
   activities            Activity[]
-
   @@map("athlete")
 }
 
