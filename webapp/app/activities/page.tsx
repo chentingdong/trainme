@@ -19,7 +19,6 @@ function Page() {
   useEffect(() => {
     if (data && data.activities) {
       setAllActivities((prevActivities) => [...prevActivities, ...data.activities]);
-      console.log(allActivities);
     }
   }, [allActivities, data]);
   const hasMore = data?.hasMore; 

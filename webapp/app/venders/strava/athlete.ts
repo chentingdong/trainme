@@ -11,7 +11,7 @@ type GetAthleteParams = {
 
 export async function fetchAthlete({ accessToken, persist = true }: GetAthleteParams): Promise<void> {
   const url = "https://www.strava.com/api/v3/athlete";
-  const { data: athlete } = await axios.get(url, {
+  const { data } = await axios.get(url, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -22,40 +22,41 @@ export async function fetchAthlete({ accessToken, persist = true }: GetAthletePa
   }
 
   if (persist) {
-    const athleteData = {
-      id: athlete.id,
-      firstname: athlete.firstname ?? "",
-      lastname: athlete.lastname ?? "",
-      city: athlete.city ?? "",
-      country: athlete.country ?? "",
-      sex: athlete.sex ?? "",
-      premium: athlete.premium ?? false,
-      athleteType: athlete.athlete_type ?? 0,
-      datePreference: athlete.date_preference ?? "",
-      createdAt: new Date(athlete.created_at),
-      updatedAt: new Date(athlete.updated_at),
-      badgeTypeId: athlete.badge_type_id ?? 0,
-      resourceState: athlete.resource_state ?? 0,
-      measurementPreference: athlete.measurement_preference ?? "",
-      followerCount: athlete.follower_count ?? 0,
-      friendCount: athlete.friend_count ?? 0,
-      mutualFriendCount: athlete.mutual_friend_count ?? 0,
-      profileMedium: athlete.profile_medium ?? "",
-      profile: athlete.profile ?? "",
-      weight: athlete.weight ?? 0,
+    // TODO: use Prisma.AthleteCreateInput mapping
+    const athlete = {
+      id: data.id,
+      firstname: data.firstname ?? "",
+      lastname: data.lastname ?? "",
+      city: data.city ?? "",
+      country: data.country ?? "",
+      sex: data.sex ?? "",
+      premium: data.premium ?? false,
+      athleteType: data.athlete_type ?? 0,
+      datePreference: data.date_preference ?? "",
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at),
+      badgeTypeId: data.badge_type_id ?? 0,
+      resourceState: data.resource_state ?? 0,
+      measurementPreference: data.measurement_preference ?? "",
+      followerCount: data.follower_count ?? 0,
+      friendCount: data.friend_count ?? 0,
+      mutualFriendCount: data.mutual_friend_count ?? 0,
+      profileMedium: data.profile_medium ?? "",
+      profile: data.profile ?? "",
+      weight: data.weight ?? 0,
     };
 
     await db.$transaction(async (tx) => {
       await tx.athlete.upsert({
-        where: { id: athlete.id },
-        update: athleteData,
-        create: athleteData,
+        where: { id: data.id },
+        update: athlete,
+        create: athlete,
       });
 
       await db.user.update({
         where: { id: userId },
         data: {
-          athleteId: athlete.id as number
+          athleteId: data.id as number
         },
       });
     });

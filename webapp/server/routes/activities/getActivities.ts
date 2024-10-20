@@ -2,7 +2,7 @@ import { db } from "@trainme/db";
 import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
-// TODO: these two can be merged into one
+// TODO: getActivities and getPaginatedActivities can be merged into one
 export const getActivities = protectedProcedure
   .input(
     z.object({
@@ -26,9 +26,6 @@ export const getActivities = protectedProcedure
   .query(async ({ input }) => {
     const { filter, orderBy } = input || {};
     const activities = await db.activity.findMany({
-      include: {
-        laps: true
-      },
       where: {
         startDateLocal: filter?.startDateLocal
           ? {
@@ -42,6 +39,7 @@ export const getActivities = protectedProcedure
         : undefined,
     });
 
+    console.log('activities:', activities);
     return activities;
   });
 
@@ -65,7 +63,6 @@ export const getPaginatedActivities = protectedProcedure
       take: limit + 1,
     });
 
-    console.log(activities);
 
     const hasMore = activities.length > limit;
     // Remove the extra item if there are more pages

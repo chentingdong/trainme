@@ -30,6 +30,7 @@
         "uriFormat": "%s",
         "action": "debugWithChrome"
       },
+      "envFile": "${workspaceFolder}/.env",
       "cwd": "${workspaceFolder}"
     },
     {

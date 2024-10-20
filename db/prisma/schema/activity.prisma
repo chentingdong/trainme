@@ -11,6 +11,7 @@ model Activity {
   commute                    Boolean?  @map("commute")
   commentCount               Float?    @map("comment_count")
   deviceWatts                Boolean?  @map("device_watts")
+  description                String?   @map("description")
   distance                   Float?    @map("distance")
   displayHideHeartrateOption Boolean?  @map("display_hide_heartrate_option")
   elevHigh                   Float?    @map("elev_high")
