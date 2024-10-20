@@ -24,3 +24,4 @@ export const getZoneColor = (zone: number) => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+

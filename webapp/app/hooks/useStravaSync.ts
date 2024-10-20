@@ -25,6 +25,7 @@ export const useStravaSync = () => {
       await fetchAthlete({ accessToken: accessToken, persist: true });
       // fetch activities
       const newActivities: Activity[] = await fetchLatestActivitiesFromStrava({ persist: true });
+
       return;
 
       // fetch laps for each activity

@@ -1,9 +1,8 @@
 "use server";
 
-import { trpc } from '@/app/api/trpc/client';
 import { auth } from '@clerk/nextjs/server';
 import type { Activity } from "@trainme/db";
-import { db, Prisma } from "@trainme/db";
+import { db } from "@trainme/db";
 import axios from 'axios';
 
 // last activity date synced from strava
@@ -27,34 +26,6 @@ export async function findLastActivityDate(): Promise<Date> {
   }
 }
 
-// save activities to postgres.
-// For now we assume we sync often, activities count < 200, the strava api limit.
-// export async function saveActivities(activities: Activity[]): Promise<void> {
-//   try {
-//     for (const activity of activities) {
-//       const existingActivity = await db.activity.findFirst({
-//         where: { id: activity.id },
-//       });
-
-//       if (!existingActivity) {
-//         await db.activity.create({
-//           data: activity as unknown as Prisma.ActivityCreateInput,
-//         });
-//       } else {
-//         await db.activity.update({
-//           where: { id: existingActivity.id },
-//           data: activity as Prisma.ActivityUpdateInput,
-//         });
-//       }
-//     }
-//   } catch (err) {
-//     throw new Error("Error saving activities to database" + err);
-//   } finally {
-//     await db.$disconnect();
-//   }
-// }
-
-// sync activities from strava to postgres
 export async function fetchLatestActivitiesFromStrava({
   persist = true,
 }: {
@@ -64,8 +35,8 @@ export async function fetchLatestActivitiesFromStrava({
     // Fetch activities from Strava.
     const fromDate = new Date(await findLastActivityDate());
 
-    const url = new URL("https://www.strava.com/api/v3/athlete/activities");
-    url.search = new URLSearchParams({
+    const urlActivities = new URL("https://www.strava.com/api/v3/athlete/activities");
+    urlActivities.search = new URLSearchParams({
       after: Math.floor(fromDate.getTime() / 1000).toString(),
       per_page: "200",
     }).toString();
@@ -77,62 +48,63 @@ export async function fetchLatestActivitiesFromStrava({
       select: { stravaAccessToken: true },
     });
 
-    const { data } = await axios.get(url.href, {
-      headers: {
-        Authorization: `Bearer ${stravaAccessToken}`,
-      },
-    });
+    const headers = {
+      Authorization: `Bearer ${stravaAccessToken}`,
+    };
+
+    const { data: partialData } = await axios.get(urlActivities.href, { headers });
+
     // Save activities to postgres if persist is true
-    if (persist && data.length > 0) {
-      for (const rawActivity of data) {
+    if (persist && partialData.length > 0) {
+      for (const partialActivity of partialData) {
+        const urlActivitesOne = new URL(`https://www.strava.com/api/v3/activities/${partialActivity.id}`);
+        const { data } = await axios.get(urlActivitesOne.href, { headers });
+
+        console.log("upserting activity", data);
         const activity = {
-          id: rawActivity.id,
-          resourceState: rawActivity.resource_state,
-          externalId: rawActivity.external_id ?? null,
-          uploadId: rawActivity.upload_id ?? null,
+          id: data.id,
+          resourceState: data.resource_state,
+          externalId: data.external_id ?? null,
+          uploadId: data.upload_id ?? null,
           athlete: {
-            connect: { id: rawActivity.athlete.id },
+            connect: { id: data.athlete.id },
           },
-          name: rawActivity.name,
-          distance: rawActivity.distance,
-          movingTime: rawActivity.moving_time,
-          elapsedTime: rawActivity.elapsed_time,
-          totalElevationGain: rawActivity.total_elevation_gain,
-          type: rawActivity.type,
-          sportType: rawActivity.sport_type,
-          startDate: rawActivity.start_date,
-          startDateLocal: rawActivity.start_date_local,
-          timezone: rawActivity.timezone,
-          utcOffset: rawActivity.utc_offset,
-          achievementCount: rawActivity.achievement_count,
-          kudosCount: rawActivity.kudos_count,
-          commentCount: rawActivity.comment_count,
-          athleteCount: rawActivity.athlete_count,
-          photoCount: rawActivity.photo_count,
-          mapField: {
-            id: rawActivity.map.id,
-            polyline: rawActivity.map.polyline ?? null,
-            resourceState: rawActivity.map.resource_state,
-          },
-          trainer: rawActivity.trainer,
-          commute: rawActivity.commute,
-          manual: rawActivity.manual,
-          private: rawActivity.private,
-          flagged: rawActivity.flagged,
-          gearId: rawActivity.gear_id ?? null,
-          fromAcceptedTag: rawActivity.from_accepted_tag ?? null,
-          averageSpeed: rawActivity.average_speed,
-          maxSpeed: rawActivity.max_speed,
-          deviceWatts: rawActivity.device_watts,
-          hasHeartrate: rawActivity.has_heartrate,
-          prCount: rawActivity.pr_count,
-          totalPhotoCount: rawActivity.total_photo_count,
-          hasKudoed: rawActivity.has_kudoed,
-          workoutType: rawActivity.workout_type ?? null,
-          description: rawActivity.description ?? "",
-          calories: rawActivity.calories,
-          segmentEfforts: rawActivity.segment_efforts,
+          name: data.name,
+          distance: data.distance,
+          movingTime: data.moving_time,
+          elapsedTime: data.elapsed_time,
+          totalElevationGain: data.total_elevation_gain,
+          type: data.type,
+          sportType: data.sport_type,
+          startDate: data.start_date,
+          startDateLocal: data.start_date_local,
+          timezone: data.timezone,
+          utcOffset: data.utc_offset,
+          achievementCount: data.achievement_count,
+          kudosCount: data.kudos_count,
+          commentCount: data.comment_count,
+          athleteCount: data.athlete_count,
+          photoCount: data.photo_count,
+          mapField: data.map,
+          trainer: data.trainer,
+          commute: data.commute,
+          manual: data.manual,
+          private: data.private,
+          flagged: data.flagged,
+          gearId: data.gear_id ?? null,
+          fromAcceptedTag: data.from_accepted_tag ?? null,
+          averageSpeed: data.average_speed,
+          maxSpeed: data.max_speed,
+          deviceWatts: data.device_watts,
+          hasHeartrate: data.has_heartrate,
+          prCount: data.pr_count,
+          totalPhotoCount: data.total_photo_count,
+          hasKudoed: data.has_kudoed,
+          workoutType: data.workout_type ?? null,
+          description: data.description ?? "",
+          calories: data.calories
         };
+
         await db.activity.upsert({
           where: { id: activity.id },
           update: activity,
@@ -141,8 +113,9 @@ export async function fetchLatestActivitiesFromStrava({
       }
     }
 
-    return data as Activity[];
+    return partialData as Activity[];
   } catch (err) {
+    console.error("Error fetching activities from Strava", { cause: err });
     throw new Error("Error fetching activities from Strava", { cause: err });
   }
 }

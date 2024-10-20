@@ -22,16 +22,19 @@
     },
     {
       "name": "Next.js: debug full stack",
-      "type": "node-terminal",
+      "type": "node",
       "request": "launch",
-      "command": "pnpm dev",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["run", "dev", "--inspect"],
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",
         "action": "debugWithChrome"
       },
       "envFile": "${workspaceFolder}/.env",
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}",
+      "sourceMaps": true,
+      "outFiles": ["${workspaceFolder}/.next/**/*.js"]
     },
     {
       "name": "Webapp",
