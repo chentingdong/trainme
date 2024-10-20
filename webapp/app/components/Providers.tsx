@@ -19,7 +19,6 @@ export function Providers({ children }: { children: React.ReactNode; }) {
 
   const queryClient = new QueryClient();
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  console.log(publishableKey);
   return (
     <ClerkProvider afterSignOutUrl="/" publishableKey={publishableKey}>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>

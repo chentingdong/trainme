@@ -37,6 +37,10 @@ const nextConfig = {
 
     return config;
   },
+
+  images: {
+    domains: ['dgalywyr863hv.cloudfront.net'],
+  },
 };
 
 export default nextConfig;
