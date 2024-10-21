@@ -1,38 +1,17 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
-
-import { fetchLatestActivitiesFromStrava } from "../actions/activities";
-import type { activity as Activity } from "@trainme/db";
-import { useToast } from "./Toaster";
-import { fetchActivityLaps } from "../actions/laps";
+import { UserButton, useUser, SignInButton } from "@clerk/nextjs";
+import { useStravaSync } from '@/app/hooks/useStravaSync';
+import Loading from '@/app/loading';
+import { FaDumbbell, FaGear, FaUser } from 'react-icons/fa6';
 
 const Header = () => {
-  const [newActivityCount, setNewActivityCount] = React.useState<number>(0);
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const { showToaster } = useToast();
-
-  const syncStrava = async () => {
-    setLoading(true);
-    try {
-      const newActivities: Activity[] =
-        await fetchLatestActivitiesFromStrava(true);
-      for (const activity of newActivities) {
-        await fetchActivityLaps(activity.id, true);
-      }
-      setNewActivityCount(newActivities.length);
-      showToaster("Successfully synced activities", "success");
-    } catch (error) {
-      console.error(error);
-      showToaster("Failed to sync activities", "error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { newActivityCount, loading, syncStrava } = useStravaSync();
+  const { user } = useUser();
 
   return (
     <header className="bg-slate-800 text-white p-2 fixed top-0 left-0 right-0 z-50">
@@ -43,23 +22,24 @@ const Header = () => {
           </div>
           <div className="text-blue-100">TrainMe</div>
         </a>
-        <ul className="flex gap-4 items-center">
+        <ul className="flex gap-2 items-center">
           <li>
             <a
               href="#"
               onClick={syncStrava}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 btn btn-link"
             >
               <FcSynchronize
                 className={loading ? "icon loading-icon" : "icon"}
               />
               Sync Strava
+              {loading && <Loading />}
             </a>
           </li>
           <li>
             <a
               href="/calendar"
-              className="hover:underline flex gap-2 items-center"
+              className="hover:underline flex gap-2 items-center btn btn-link"
             >
               <BsCalendar3 className="icon" />
               Calendar
@@ -68,7 +48,7 @@ const Header = () => {
           <li className="relative flex gap-1 items-center">
             <a
               href="/activities"
-              className="hover:underline flex gap-2 items-center"
+              className="hover:underline flex gap-2 items-center btn btn-link"
             >
               <RxActivityLog className="icon" />
               Activities
@@ -80,14 +60,33 @@ const Header = () => {
             )}
           </li>
           <li>
-            <a href="/workouts" className="hover:underline">
+            <a href="/workouts" className="hover:underline flex gap-2 items-center btn btn-link">
+              <FaDumbbell className="icon" />
               Workouts
             </a>
           </li>
           <li>
-            <a href="/settings" className="hover:underline">
+            <a href="/settings" className="hover:underline flex gap-2 items-center btn btn-link">
+              <FaGear className="icon" />
               Settings
             </a>
+          </li>
+          <li className="flex gap-1 items-center">
+            {!!user ? (
+              <UserButton
+                appearance={{
+                  elements: {
+                    avatarBox: "h-6 w-6",
+                  }
+                }}
+              />
+            ) : (
+              <SignInButton mode="modal">
+                <button className="btn btn-link">
+                  <FaUser className="icon" />
+                </button>
+              </SignInButton>
+            )}
           </li>
         </ul>
       </nav>

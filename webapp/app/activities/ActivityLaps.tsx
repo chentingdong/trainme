@@ -1,40 +1,33 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
-import { Lap, getStravaActivityLaps } from "@/app/actions/laps";
+import React, { useRef } from "react";
 import { ResponsiveContainer, BarChart, XAxis, YAxis, Bar } from "recharts";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
+import type { Lap } from "@trainme/db";
 
 type Props = {
-  activityId: number;
+  laps: Lap[]; 
   className?: string;
 };
 
-export default function ActivityLaps({ activityId, className }: Props) {
-  const [laps, setLaps] = useState<Lap[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function ActivityLaps({ laps, className }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    setLoading(true);
-    getStravaActivityLaps(activityId)
-      .then((resp) => {
-        setLaps(resp);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [activityId]);
-
   // Convert average speed (m/s) to pace (min/mile)
-  const lapWithPace = laps.map((lap) => {
-    const paceInMinutesPerMile = 26.8224 / lap.average_speed; // Convert m/s to min/mile
+  const lapWithPace = laps?.map((lap) => {
+    if (lap.averageSpeed === null || lap.averageSpeed === undefined) {
+      return {
+        ...lap,
+        pace: null,
+        formattedPace: null,
+      };
+    }
+
+    const paceInMinutesPerMile = 26.8224 / lap.averageSpeed; // Convert m/s to min/mile
     const minutes = Math.floor(paceInMinutesPerMile);
     const seconds = Math.round((paceInMinutesPerMile - minutes) * 60);
-    const pace = `${minutes}:${seconds.toString().padStart(2, "0")}`; // Format as mm:ss/mile    return {
+    const pace = `${minutes}:${seconds.toString().padStart(2, "0")}`; // Format as mm:ss/mile
+
     return {
       ...lap,
       pace: paceInMinutesPerMile,
@@ -48,9 +41,8 @@ export default function ActivityLaps({ activityId, className }: Props) {
     <div
       ref={chartRef}
       className={className}
-      style={{ width: "100%", maxHeight: barSize * laps.length }}
+      style={{ width: "100%", maxHeight: barSize * laps?.length }}
     >
-      {loading && <div>Loading...</div>}
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1 grid grid-cols-4">
           <div>Lap</div>
@@ -62,11 +54,11 @@ export default function ActivityLaps({ activityId, className }: Props) {
       </div>
       <div className="grid grid-cols-2 gap-2 h-full">
         <div className="col-span-1 h-full">
-          {lapWithPace.map((lap, index) => (
+          {lapWithPace?.map((lap, index) => (
             <div className="gap-2 grid grid-cols-4" key={index}>
               <div>{index + 1}</div>
-              <div>{formatTimeSeconds(lap.elapsed_time)}</div>
-              <div>{formatDistance(lap.distance)}</div>
+              <div>{formatTimeSeconds(lap.elapsedTime ?? 0)}</div>
+              <div>{formatDistance(lap.distance ?? 0)}</div>
               <div>{lap.formattedPace}</div>
             </div>
           ))}

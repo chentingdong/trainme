@@ -54,6 +54,20 @@ html {
     font-size: 24px;
   }
 }
+/* Custom styles for dark mode */
+@media (prefers-color-scheme: dark) {
+  .btn-info {
+    background-color: #17a2b8; 
+    border-color: #17a2b8;
+    color: #dedede;
+  }
+
+  .btn-info:hover {
+    background-color: #138496; 
+    border-color: #117a8b; 
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -117,8 +131,8 @@ body {
     }
   }
   .btn-icon {
-    @apply rounded-full flex items-center justify-center;
-    @apply w-4 h-4 text-xs p-0.5;
+    @apply rounded-full flex justify-center items-center;
+    @apply w-4 h-4 text-2xs p-0.5;
     background-color: rgb(var(--background-end-rgb));
     cursor: pointer;
     &:hover {
@@ -168,55 +182,49 @@ body {
   .scroll {
     @apply scrollbar-none scrollbar-thumb-yellow-400 scrollbar-track-transparent;
   }
-}
-
-/* Custom styles for dark mode */
-@media (prefers-color-scheme: dark) {
-  .btn-info {
-    background-color: #17a2b8; /* Info button background color */
-    border-color: #17a2b8; /* Info button border color */
-    color: #dedede;
-  }
-
-  .btn-info:hover {
-    background-color: #138496; /* Darker info button background on hover */
-    border-color: #117a8b; /* Darker info button border on hover */
-  }
-}
-
-/* Custom styles for form-group alignment */
-.form-group {
-  @apply my-1 grid grid-cols-12 gap-2 items-center;
-  label {
-    @apply col-span-5;
-  }
-  > div {
-    @apply col-span-7;
+  /* Custom styles for form-group alignment */
+  .form-group {
+    @apply my-1 grid grid-cols-12 gap-2 items-center;
+    label {
+      @apply col-span-5;
+    }
+    > div {
+      @apply col-span-7;
+    }
     input,
+    textarea,
     select {
-      @apply w-full;
+      @apply w-full rounded-lg border-none;
+      @apply bg-stone-300 dark:bg-stone-800;
+    }
+  }
+
+  textarea.workout-board {
+    @apply text-lg font-handwriting tracking-widest;
+    @apply w-4/5 mx-auto scroll rounded-lg border-none;
+    @apply bg-stone-300 dark:bg-stone-800;
+  }
+
+  .toast-container {
+    @apply fixed top-9 right-0 z-50 gap-4 px-4 py-2 w-1/2;
+    .toast {
+      @apply my-1 p-4 rounded-sm shadow-lg text-white;
+    }
+    .toast-success {
+      color: var(--success-color);
+    }
+
+    .toast-error {
+      color: var(--error-color);
+    }
+
+    .toast-info {
+      color: var(--info-color);
+    }
+
+    .toast-warning {
+      color: var(--warning-color);
     }
   }
 }
 
-.toast-container {
-  @apply fixed top-10 right-0 z-50 gap-4 px-4 py-2 w-full max-w-sm;
-  .toast {
-    @apply w-full p-4 rounded-lg shadow-lg text-white;
-  }
-  .toast-success {
-    color: var(--success-color);
-  }
-
-  .toast-error {
-    color: var(--error-color);
-  }
-
-  .toast-info {
-    color: var(--info-color);
-  }
-
-  .toast-warning {
-    color: var(--warning-color);
-  }
-}

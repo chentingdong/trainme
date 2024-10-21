@@ -1,10 +1,11 @@
 "use server";
 
-import { prisma } from "@/prisma";
-import { sport_type as SportType } from "@trainme/db";
+import { db } from "@/prisma";
+import type { Sport } from "@trainme/db";
 
-export async function getActiveSportTypes(): Promise<SportType[]> {
-  const sports = await prisma.sport_type.findMany({
+// TODO: use trpc 
+export async function getActiveSportTypes(): Promise<Sport[]> {
+  const sports = await db.sport.findMany({
     where: {
       active: true,
     },

@@ -1,3 +1,8 @@
+"""
+This module provides functionalities to connect to a PostgreSQL database
+and save activity data using psycopg2.
+"""
+
 import os
 import json
 import logging
@@ -49,7 +54,9 @@ def save_laps_to_postgres(laps):
             for key, value in lap.items():
                 if isinstance(value, (list, dict)):
                     lap[key] = json.dumps(value)
-            
+
+            activity_data = json.loads(lap['activity'])
+            lap['activity_id'] = activity_data['id']
             escaped_columns = [f'"{col}"' if '.' in col else col for col in lap.keys()]
             columns = ', '.join(escaped_columns)
             placeholders = ', '.join(['%s' for _ in lap])

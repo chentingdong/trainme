@@ -1,44 +1,69 @@
-import React from "react";
-import Cookies from "js-cookie";
-import { getStravaAuthUrl } from "@/utils/strava";
+"use client";
+
+import { useStravaSync } from '@/app/hooks/useStravaSync';
+import { trpc } from '@/app/api/trpc/client';
 
 export default function Strava() {
-  const [refreshToken, setRefreshToken] = React.useState<string | null>("");
+  const { syncStrava } = useStravaSync();
+  const { data: stravaConnected, refetch: refetchStravaConnected } = trpc.user.stravaConnected.useQuery();
 
-  const disConnectStrava = () => {
-    Cookies.remove("strava_refresh_token");
-    Cookies.remove("strava_access_token");
-    window.location.reload();
+  const handleConnect = () => {
+    window.location.href = getAuthUrl();
   };
 
-  const connectStrava = () => {
-    window.location.href = getStravaAuthUrl();
+  const handleDisconnect = () => {
+    try {
+      trpc.strava.disconnect.useMutation({
+        onSuccess: () => refetchStravaConnected(),
+      });
+    } catch (error) {
+      console.error('Failed to disconnect Strava:', error);
+    }
   };
-
-  React.useEffect(() => {
-    const token = Cookies.get("strava_refresh_token") || null;
-    setRefreshToken(token);
-  }, []);
 
   return (
     <div>
-      <h2>Strava</h2>
-      <p>Connect your Strava account to let the app sync your activities.</p>
-      <div className="py-4">
-        {refreshToken && (
+      <p>
+        {stravaConnected
+          ? 'Connected to Strava.'
+          : 'Connect your Strava account to sync your activities.'}
+      </p>
+      <div className="py-4 flex gap-4">
+        {!stravaConnected && (
+          <button className="btn btn-primary" onClick={handleConnect}>
+            Connect to Strava
+          </button>
+        )}
+        {stravaConnected && (
           <button
             className="btn btn-secondary"
-            onClick={() => disConnectStrava()}
+            onClick={handleDisconnect}
           >
             Disconnect Strava
           </button>
         )}
-        {refreshToken === null && (
-          <button className="btn btn-primary" onClick={() => connectStrava()}>
-            Connect to Strava
-          </button>
-        )}
+        <button className="btn btn-primary" onClick={syncStrava}>Sync Strava Data</button>
       </div>
     </div>
   );
 }
+
+export const getAuthUrl = () => {
+  const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID || '';
+  const port = ":" + process.env.NEXT_PUBLIC_PORT || "";
+  const redirectUri = `http://localhost${port}/venders/strava/authorize`;
+  const scope = 'activity:read_all';
+
+  // const params = new URLSearchParams({
+  //   client_id: clientId,
+  //   response_type: 'code',
+  //   redirect_uri: encodeURIComponent(redirectUri),
+  //   scope: scope,
+  //   _prompt: 'force'
+  // });
+  // const stravaAuthUrl = `https://www.strava.com/oauth/authorize?${params.toString()}`;
+
+  const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&_prompt=force`;
+
+  return stravaAuthUrl;
+};

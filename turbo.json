@@ -5,6 +5,9 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "dist/**"]
     },
+    "clean": {
+      "dependsOn": ["^clean"]
+    },
     "webapp#build": {
       "dependsOn": ["generate", "^build"],
       "outputs": [".next/**", "dist/**"],

@@ -2,84 +2,81 @@
 
 import { WorkoutChart } from "./WorkoutChart";
 import { Label, TextInput, Textarea } from "flowbite-react";
-import { addToCalendar, saveWorkout } from "../actions/workout";
-import { useToast } from "../components/Toaster";
-import type { workout as Workout } from "@trainme/db";
+import { useToast } from "@/app/components/Toaster";
 import SportTypeSelect from "../components/SportTypeSelect";
 
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useWorkoutStore } from "@/app/components/useWorkoutStore";
+import { Controller, useForm } from "react-hook-form";
 import { defaultWorkout } from "@/prisma";
-import WorkoutList from "./WorkoutList";
-import { useScheduleStore } from "../components/useScheduleStore";
+import { trpc } from '@/app/api/trpc/client';
+import type { Workout } from "@trainme/db";
+import { useCalendarState } from '@/app/calendar/useCalendarState';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export default function WorkoutEditor() {
-  const { workout, setWorkout, workoutNames } = useWorkoutStore();
-  const { scheduleDate, setScheduleDate } = useScheduleStore();
+  const utils = trpc.useUtils();
+  const { workout, setWorkout, scheduleDate } = useCalendarState();
+  const { toast } = useToast();
 
-  const { control, handleSubmit } = useForm<Workout>({
+  const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
     mode: "onChange",
   });
 
-  const toaster = useToast();
+  const { data: workouts } = trpc.workouts.getWorkouts.useQuery({});
 
-  const onSubmit: SubmitHandler<Workout> = async (data) => {
-    try {
-      const updatedWorkout = { ...workout, ...data };
-      setWorkout(updatedWorkout);
-      await saveWorkout(updatedWorkout);
-      toaster.showToaster("Workout updated", "success");
-    } catch (error) {
-      toaster.showToaster("Failed to update workout: " + error, "error");
-    }
-  };
+  const updatedWorkout = trpc.workouts.updateWorkout.useMutation({
+    onError: (error) => {
+      throw new Error("Failed to update workout: " + error);
+    },
+  });
+
+  const createSchedule = trpc.schedules.createSchedule.useMutation({
+    onSuccess: () => {
+      utils.schedules.getSchedules.refetch({
+        filter: {
+          date: {
+            gte: startOfDay(scheduleDate),
+            lte: endOfDay(scheduleDate),
+          },
+        },
+      });
+    },
+    onError: (error) => {
+      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
+    },
+  });
+
 
   const handleAddToCalendar = async () => {
     if (workout?.id) {
       try {
-        await saveWorkout(workout);
-        await addToCalendar(workout.id, scheduleDate);
-        setScheduleDate(null);
-        toaster.showToaster("Workout added to calendar", "success");
+        handleSaveWorkout();
+        createSchedule.mutate({ workoutId: workout.id, date: scheduleDate });
       } catch (error) {
-        toaster.showToaster(
-          "Failed to add workout to calendar: " + error,
-          "error",
-        );
+        toast({ type: "error", content: "Failed to add workout to calendar: " + error });
       }
     }
   };
 
-  const handleSaveWorkout = async () => {
+  const handleSaveWorkout = () => {
     try {
-      if (workout && workout.steps) {
-        await saveWorkout(workout);
-        setWorkout(workout);
-        toaster.showToaster("Workout saved", "success");
-      } else {
-        toaster.showToaster("Workout not saved", "error");
-      }
+      if (!workout?.id) throw new Error("Workout not saved");
+      updatedWorkout.mutate({
+        id: workout.id,
+        workout: workout
+      });
+      toast({ type: "success", content: "Workout saved" });
     } catch (error) {
-      toaster.showToaster(
-        "Failed to add workout to calendar: " + error,
-        "error",
-      );
+      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
     }
   };
 
-  if (!workout) {
-    return <div>No workout selected</div>;
-  }
+  if (!workout) return <></>;
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-12 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
+      className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
     >
-      <div className="col-span-3 h-full overflow-auto">
-        <WorkoutList />
-      </div>
       <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
         <Controller
           name="steps"
@@ -89,7 +86,7 @@ export default function WorkoutEditor() {
               <Textarea
                 id="steps"
                 autoFocus
-                className="workout-board flex-grow "
+                className="flex-grow workout-board"
                 value={
                   Array.isArray(field.value)
                     ? field.value.join("\n")
@@ -104,7 +101,7 @@ export default function WorkoutEditor() {
             );
           }}
         />
-        <div className="h-24 w-full px-2">
+        <div className="h-1/3 min-h-18 w-full px-2">
           <WorkoutChart workout={workout} />
         </div>
       </div>
@@ -118,7 +115,7 @@ export default function WorkoutEditor() {
               rules={{
                 validate: {
                   notTaken: (value) =>
-                    workoutNames.includes(value?.toString().trim() ?? "")
+                    workouts?.map(workout => workout.name).includes(value?.toString().trim() ?? "")
                       ? "Name taken"
                       : true,
                 },
@@ -165,14 +162,14 @@ export default function WorkoutEditor() {
           <div className="form-group">
             <Label htmlFor="type">Sport Type</Label>
             <Controller
-              name="sport_type"
+              name="sportType"
               control={control}
               render={({ field }) => (
                 <SportTypeSelect
                   value={field.value ?? ""}
                   onChange={(e, selectedSport) => {
                     field.onChange(selectedSport);
-                    setWorkout({ ...workout, sport_type: selectedSport });
+                    setWorkout({ ...workout, sportType: selectedSport });
                   }}
                 />
               )}
@@ -207,7 +204,8 @@ export default function WorkoutEditor() {
               control={control}
               rules={{
                 validate: (value) =>
-                  workoutNames.includes(value?.toString() ?? "")
+                  workouts?.map(workout => workout.name)
+                    .includes(value?.toString() ?? "")
                     ? "Name taken"
                     : true,
               }}
@@ -258,3 +256,4 @@ export default function WorkoutEditor() {
     </form>
   );
 }
+

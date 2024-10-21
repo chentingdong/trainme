@@ -2,11 +2,11 @@
 
 import React, { useRef } from "react";
 import ConnectedHistogram from "../components/Histogram";
-import type { workout as Workout } from "@trainme/db";
+import type { Workout } from "@trainme/db";
 import Loading from "@/app/components/Loading";
 
 type Props = {
-  workout: Workout;
+  workout: Workout | undefined;
 };
 
 export function WorkoutChart({ workout }: Props) {

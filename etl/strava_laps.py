@@ -2,9 +2,10 @@
 # Idenpodent operation.
 
 import os
+import sys
+import time
 import logging
 import requests
-import time
 from etl.db import save_laps_to_postgres, conn
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -14,7 +15,7 @@ client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage.
 # TODO: automate this in the backend too. use fresh token to get access token.
-ACCESS_TOKEN = '7796c119f0ef46fd91f283aeaf06d30d95499c9c'
+ACCESS_TOKEN = '92686a5fb5715a20c232a96376289a3a246baf11'
 
 url = 'https://www.strava.com/api/v3/activities/{id}/laps'
 
@@ -36,9 +37,9 @@ def fetch_strava_laps(activity_id) -> list:
             logging.warning("Rate limit exceeded, retrying in %s seconds...", retry_delay)
             time.sleep(retry_delay)
             retry_delay *= 2  # Exponential backoff
-        elif response.status_code == 401:
+        if response.status_code == 401:
             logging.error("Failed Authorization. Exit.")
-            exit()
+            sys.exit()
         else:
             logging.error("Error: %s - %s", response.status_code, response.text)
             return []

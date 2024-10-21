@@ -1,4 +1,4 @@
-import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
+import path from 'path';
 
 const nextConfig = {
   reactStrictMode: true,
@@ -16,25 +16,30 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  productionBrowserSourceMaps: true,
 
-  webpack: (config, { dev, isServer }) => {
+  webpack: (config) => {
+    config.context = path.resolve(process.cwd());
     config.experiments = { ...config.experiments, topLevelAwait: true };
+
     config.module.rules.push({
       test: /\.node$/,
       use: 'node-loader',
     });
 
-    if (isServer) {
-      config.plugins.push(new PrismaPlugin());
-    }
+    // Enable source maps for all environments and file types
+    config.devtool =
+      process.env.NODE_ENV === 'development' ? 'eval-source-map' : 'source-map';
 
-    if (dev && !isServer) {
-      config.devtool = 'eval-source-map';
-    } else if (!dev && !isServer) {
-      config.devtool = 'source-map';
-      config.plugins = [...config.plugins, new PrismaPlugin()];
-    }
+    // Ensure source maps are generated for vendor chunks
+    config.optimization.moduleIds = 'named';
+    config.optimization.chunkIds = 'named';
+
     return config;
+  },
+
+  images: {
+    domains: ['dgalywyr863hv.cloudfront.net'],
   },
 };
 

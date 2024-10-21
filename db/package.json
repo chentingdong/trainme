@@ -10,13 +10,13 @@
   "type": "module",
   "scripts": {
     "generate": "prisma generate",
-    "build": "tsc",
+    "build": "tsc && prisma generate",
     "postinstall": "prisma generate",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
     "lint:eslint": "eslint --fix"
   },
   "dependencies": {
-    "@prisma/client": "5.17.0",
+    "@prisma/client": "5.20.0",
     "@langchain/community": "0.2.27",
     "@langchain/core": "0.2.23",
     "@langchain/openai": "0.2.6",
@@ -26,7 +26,7 @@
     "eslint": "8.57.0",
     "typescript": "5.5.2",
     "prettier": "3.3.2",
-    "prisma": "5.17.0",
+    "prisma": "5.20.0",
     "@types/node": "20.14.8"
   },
   "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"

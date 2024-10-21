@@ -20,15 +20,15 @@ const Polyline = dynamic(
 );
 
 interface Props {
-  summary_polyline: string | undefined;
+  summaryPolyline: string | undefined;
   className?: string;
 }
-const ActivityMap: React.FC<Props> = ({ summary_polyline, className }) => {
-  if (!summary_polyline) {
+const ActivityMap: React.FC<Props> = ({ summaryPolyline, className }) => {
+  if (!summaryPolyline) {
     return <div></div>;
   }
 
-  const decodedPolyline = polyline.decode(summary_polyline);
+  const decodedPolyline = polyline.decode(summaryPolyline);
   const latitudes = decodedPolyline.map((coord) => coord[0]);
   const longitudes = decodedPolyline.map((coord) => coord[1]);
   const avgLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;

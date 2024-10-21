@@ -5,7 +5,7 @@ name: Preview
 on:
   push:
     tags:
-      - 'dev-*'
+      # tag db since only need to run when need db migration
       - 'db-*'
 
 defaults:

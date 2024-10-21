@@ -1,40 +1,28 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { getActivityById } from "../actions/activities";
+// import { getActivityById } from "../actions/activities";
 import Loading from "../components/Loading";
 import ActivityMap from "../activities/ActivityMap";
 import { Modal } from "flowbite-react";
-import type { activity as Activity } from "@trainme/db";
-import { Map } from "@/utils/types";
+import type { Activity } from "@trainme/db";
+import type { MapField } from "@/utils/types";
 
 type Props = {
   activityId: number | null;
 };
 
 export function ActivityDetail({ activityId }: Props) {
-  const [activity, setActivity] = React.useState<Activity | null>(null);
+  const [activity] = React.useState<Activity | null>(null);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [summaryPolyline, setSummaryPolyline] = React.useState<string>();
 
   useEffect(() => {
     setLoading(true);
-    if (activityId) {
-      getActivityById(activityId)
-        .then((activity) => {
-          setActivity(activity);
-        })
-        .catch((err) => {
-          console.error(err);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
 
-    const sp = (activity?.map as Map)?.summary_polyline as string;
+    const sp = (activity?.mapField as MapField)?.summaryPolyline as string;
     if (sp) setSummaryPolyline(sp);
-  }, [activityId, activity?.map]);
+  }, [activityId, activity?.mapField]);
 
   return (
     <div className="m-4">
@@ -46,18 +34,18 @@ export function ActivityDetail({ activityId }: Props) {
             <div className="flex gap-4">
               <div>
                 {new Date(
-                  activity.start_date_local as string,
+                  activity.startDateLocal as string,
                 ).toLocaleDateString()}
               </div>
               <div>{activity.type}</div>
               <div>{activity.distance} meters</div>
-              <div>{activity.moving_time} seconds</div>
-              <div>{activity.total_elevation_gain} meters</div>
+              <div>{activity.movingTime} seconds</div>
+              <div>{activity.totalElevationGain} meters</div>
             </div>
           </div>
         )}
       </div>
-      <ActivityMap summary_polyline={summaryPolyline} className="h-96" />
+      <ActivityMap summaryPolyline={summaryPolyline} className="h-96" />
     </div>
   );
 }

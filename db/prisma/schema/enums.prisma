@@ -1,0 +1,11 @@
+enum Sex {
+  M
+  F
+  Other
+}
+
+enum WorkoutStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+}

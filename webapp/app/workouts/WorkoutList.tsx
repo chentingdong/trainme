@@ -1,29 +1,32 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { Button } from "flowbite-react";
-import ActivityIcon from "../activities/ActivityIcon";
-import { useWorkoutStore } from "../components/useWorkoutStore";
-import { getWorkouts } from "../actions/workout";
 import { emptyWorkout } from "@/prisma";
 import { FiPlus } from "react-icons/fi";
+import { trpc } from '@/app/api/trpc/client';
+import Loading from '@/app/loading';
+import { useCalendarState } from '@/app/calendar/useCalendarState';
+import SportIcon from '@/app/activities/SportIcon';
 
 export default function WorkoutList() {
-  const { workouts, setWorkouts, workout, setWorkout } = useWorkoutStore();
+  const { workout, setWorkout } = useCalendarState();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
-  useEffect(() => {
-    getWorkouts().then(setWorkouts);
-  }, [setWorkouts]);
+  const { data: workouts, isLoading, isError } = trpc.workouts.getWorkouts.useQuery({});
 
-  const handleNewWorkout = () => {
+  const handleCreateWorkout = () => {
+    console.log("handleCreateWorkout");
     setWorkout(emptyWorkout);
   };
+
+  if (isLoading) return <Loading />;
+  if (isError || !workouts) return <div>Error loading workouts</div>;
 
   return (
     <div className="h-full gap-1 px-2 overflow-y-auto scroll">
       <div className="col-span-2 flex justify-between items-center">
         <h3 className="h3">Workouts</h3>
-        <button className="btn btn-icon text-center" onClick={handleNewWorkout}>
+        <button className="btn btn-icon text-center" onClick={handleCreateWorkout}>
           <FiPlus />
         </button>
       </div>
@@ -37,7 +40,7 @@ export default function WorkoutList() {
             }
             onClick={() => setWorkout(workout)}
           >
-            <ActivityIcon type={workout.type} />
+            <SportIcon type={workout.sportType} />
             <div className="ml-2 font-semibold text-sm">
               {workout.name || "No name"}
             </div>

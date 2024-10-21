@@ -15,7 +15,7 @@ type Props = {
   chartRef: RefObject<HTMLDivElement>;
 };
 
-const ConnectedHistogram = ({ chartData, chartRef }: Props) => {
+const ConnectedHistogram = ({ chartData = [], chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
   // xScale function to convert time values to pixel positions
   const xScale = (time: number) => {

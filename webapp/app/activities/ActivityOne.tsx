@@ -1,19 +1,18 @@
 import React from "react";
-import ActivityIcon from "./ActivityIcon";
+import SportIcon from "./SportIcon";
 import ActivityLaps from "./ActivityLaps";
 import ActivityMap from "./ActivityMap";
-import type { activity as Activity } from "@trainme/db";
-import type { Map } from "@/utils/types";
+import type { ActivityWithLaps } from "@/utils/types";
 
 type Props = {
-  activity: Activity;
+  activity: ActivityWithLaps;
 };
 
 export default function ActivityOne({ activity }: Props) {
   return (
     <div>
       <div className="card-header flex items-center">
-        <ActivityIcon type={activity.type} />
+        <SportIcon type={activity.type} />
         <div className="mx-4">{activity.name}</div>
       </div>
       <div className="card-body">
@@ -22,18 +21,18 @@ export default function ActivityOne({ activity }: Props) {
             <div>{activity.id}</div>
             <div>{activity.type}</div>
             <div>{activity.distance} meters</div>
-            <div>{activity.moving_time} seconds</div>
-            <div>{activity.total_elevation_gain} meters</div>
+            <div>{activity.movingTime} seconds</div>
+            <div>{activity.totalElevationGain} meters</div>
           </div>
         </div>
         <div className="grid grid-cols-5 gap-8 h-128">
           <ActivityMap
             className="col-span-2"
-            summary_polyline={
-              (activity?.map as Map)?.summary_polyline as string
+            summaryPolyline={
+              (activity.mapField as { summaryPolyline?: string; })?.summaryPolyline
             }
           />
-          <ActivityLaps className="col-span-3" activityId={activity.id} />
+          <ActivityLaps className="col-span-3" laps={activity.laps || []} />
         </div>
       </div>
       <div className="card-footer">{activity.distance}</div>
