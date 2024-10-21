@@ -11,6 +11,7 @@ export const useStravaSync = () => {
   const { toast } = useToast();
   const [newActivityCount, setNewActivityCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
   const { data: accessToken } = trpc.strava.updateAccessToken.useQuery();
 
   if (!accessToken) {
@@ -25,10 +26,6 @@ export const useStravaSync = () => {
       // fetch activities
       const newActivities: Activity[] = await fetchLatestActivitiesFromStrava({ persist: true });
 
-      // fetch laps for each activity
-      // for (const activity of newActivities) {
-      //   await fetchActivityLaps({ activityId: activity.id, persist: true });
-      // }
       setNewActivityCount(newActivities.length);
       toast({ type: "success", content: "Successfully synced activities" });
     } catch (error) {
