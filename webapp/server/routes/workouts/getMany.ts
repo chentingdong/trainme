@@ -5,13 +5,26 @@ import { z } from 'zod';
 export const getMany = protectedProcedure
   .input(
     z.object({
-      filter: z.record(z.string(), z.any()).optional()
+      filter: z.object({
+        date: z.object({
+          gte: z.date().optional(),
+          lt: z.date().optional(),
+        }).optional()
+      }).optional(),
+      orderBy: z.object({
+        startDateLocal: z.string().optional()
+      }).optional()
     })
   )
   .query(async ({ input }) => {
     const workouts = await db.workout.findMany({
       where: {
-        ...(input?.filter || {})
+        date: input?.filter?.date
+          ? {
+            gte: input.filter.date.gte?.toISOString(),
+            lt: input.filter.date.lt?.toISOString(),
+          }
+          : undefined,
       },
     });
 
