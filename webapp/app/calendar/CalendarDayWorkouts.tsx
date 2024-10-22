@@ -44,7 +44,11 @@ export function CalendarDayWorkouts({ date, workouts }: Props) {
     <ul className="mx-0.25 shadow-sm">
       {workouts.map(workout => {
         return (
-          <li key={workout.id} className="my-1 cursor-pointer">
+          <li
+            key={workout.id} className="my-1 cursor-pointer"
+            draggable={true}
+            onDragStart={(event) => event.dataTransfer.setData("workoutId", workout.id)}
+          >
             <div
               className={cn([
                 "card cursor-pointer border-2",
