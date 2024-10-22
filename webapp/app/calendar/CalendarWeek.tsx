@@ -39,6 +39,8 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
     }
   });
 
+  const { mutate: upsertWorkout } = trpc.workouts.upsert.useMutation();
+
   useEffect(() => {
     if (weeklyData) {
       setActivities(weeklyData.activities);
@@ -50,6 +52,14 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
       setWorkouts(workoutsData);
     }
   }, [workoutsData, setWorkouts]);
+
+  const handleWorkoutDrop = (workoutId: string, newDate: Date) => {
+    const updatedWorkouts = workouts.map(workout =>
+      workout.id === workoutId ? { ...workout, date: newDate } : workout
+    );
+    setWorkouts(updatedWorkouts);
+    upsertWorkout({ workout: updatedWorkouts.find(workout => workout.id === workoutId) });
+  };
 
   const backgroundImages = [
     "url(/art/20240725-Arles-7.jpg)",
@@ -80,6 +90,7 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
                 date={date}
                 activities={activities.filter(activity => isSameDay(activity.startDateLocal, date))}
                 workouts={workouts.filter(workout => isSameDay(workout.date, date))}
+                onWorkoutDrop={handleWorkoutDrop}
               />
             </div>
           );

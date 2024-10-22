@@ -13,9 +13,10 @@ type CalendarDayProps = {
   date: Date;
   activities: Activity[];
   workouts: Workout[];
+  onWorkoutDrop: (workoutId: string, newDate: Date) => void;
 };
 
-function CalendarDay({ date, activities, workouts }: CalendarDayProps) {
+function CalendarDay({ date, activities, workouts, onWorkoutDrop }: CalendarDayProps) {
   const { scheduleDate, setScheduleDate } = useCalendarState();
 
   const workoutButtonStyle: string = (() => {
@@ -25,10 +26,24 @@ function CalendarDay({ date, activities, workouts }: CalendarDayProps) {
     return cn;
   })();
 
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const workoutId = event.dataTransfer.getData("workoutId");
+    if (workoutId) {
+      onWorkoutDrop(workoutId, date);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   return (
     <div
       className="card rounded-sm justify-between h-full"
       onClick={() => setScheduleDate(date)}
+      onDrop={handleDrop}
+      onDragOver={handleDragOver}
     >
       <div className="card-header p-1 flex justify-between">
         <div className="flex gap-2 items-center">{date.getDate()}</div>
