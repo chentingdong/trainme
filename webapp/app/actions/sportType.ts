@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/prisma";
+import { db } from "@trainme/db";
 import type { Sport } from "@trainme/db";
 
 // TODO: use trpc 

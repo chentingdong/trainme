@@ -3,7 +3,7 @@
 import { create } from "zustand";
 import type { Activity } from "@trainme/db";
 import type { Workout } from "@trainme/db";
-import { defaultWorkout } from '@/prisma';
+import { defaultWorkout } from '@trainme/db';
 
 interface CalendarState {
   activity: Activity | null;

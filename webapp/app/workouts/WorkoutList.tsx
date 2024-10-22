@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Button } from "flowbite-react";
-import { emptyWorkout } from "@/prisma";
+import { emptyWorkout } from "@trainme/db";
 import { FiPlus } from "react-icons/fi";
 import { trpc } from '@/app/api/trpc/client';
 import Loading from '@/app/loading';
@@ -15,7 +15,6 @@ export default function WorkoutList() {
   const { data: workouts, isLoading, isError } = trpc.workouts.getWorkouts.useQuery({});
 
   const handleCreateWorkout = () => {
-    console.log("handleCreateWorkout");
     setWorkout(emptyWorkout);
   };
 

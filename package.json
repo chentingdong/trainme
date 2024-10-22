@@ -18,7 +18,6 @@
     "convert-migrations": "./db/bin/convert-migrations.sh",
     "lint": "turbo lint"
   },
-  "private": true,
   "devDependencies": {
     "turbo": "^2.1.3"
   },
