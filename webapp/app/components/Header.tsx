@@ -60,7 +60,7 @@ const Header = () => {
               Activities
             </a>
             {newActivities && newActivities.length > 0 && (
-              <span className="circle small bg-green-700">
+              <span className="btn-icon small bg-green-700">
                 {newActivities.length}
               </span>
             )}

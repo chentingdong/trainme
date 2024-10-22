@@ -44,7 +44,6 @@ model Activity {
   photoCount                 Float?     @map("photo_count")
   prCount                    Float?     @map("pr_count")
   resourceState              Float?     @map("resource_state")
-  schedule                   Schedule[]
   sportType                  String?    @map("sport_type")
   startDate                  String?    @map("start_date")
   startDateLocal             String?    @map("start_date_local")

@@ -7,7 +7,6 @@ model Schedule {
   notes         String?   @db.VarChar(255) @map("notes")
   rpe           Int?      @map("rpe")
   workoutId     String    @db.Uuid @map("workout_id")
-  workout       Workout   @relation(fields: [workoutId], references: [id])
 
   @@map("schedule")
   @@index([activityUuid])
