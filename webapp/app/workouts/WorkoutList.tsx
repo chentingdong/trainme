@@ -2,20 +2,20 @@
 
 import React from "react";
 import { Button } from "flowbite-react";
-import { emptyWorkout } from "@trainme/db";
 import { FiPlus } from "react-icons/fi";
 import { trpc } from '@/app/api/trpc/client';
 import Loading from '@/app/loading';
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 import SportIcon from '@/app/activities/SportIcon';
+import { defaultWorkout } from '@trainme/db';
 
 export default function WorkoutList() {
   const { workout, setWorkout } = useCalendarState();
   const selected = (id: string) => (workout?.id === id ? " selected" : "");
-  const { data: workouts, isLoading, isError } = trpc.workouts.getWorkouts.useQuery({});
+  const { data: workouts, isLoading, isError } = trpc.workouts.getMany.useQuery({});
 
   const handleCreateWorkout = () => {
-    setWorkout(emptyWorkout);
+    setWorkout(defaultWorkout);
   };
 
   if (isLoading) return <Loading />;

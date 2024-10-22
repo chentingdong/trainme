@@ -1,4 +1,4 @@
-import { db, PrismaClient } from '@trainme/db';
+import { db, PrismaClient, User } from '@trainme/db';
 import { auth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
@@ -11,6 +11,7 @@ type BaseContext = {
 };
 type AuthContext = BaseContext & {
   userId: string;
+  user: User;
 };
 
 const t = initTRPC.context<BaseContext>().create({
@@ -32,10 +33,23 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     });
   }
 
-  // Extend the context with userId and orgId
+  // Fetch the user data
+  const user = await db.user.findUnique({
+    where: { id: userId }
+  });
+
+  if (!user) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: 'User not found'
+    });
+  }
+
+  // Extend the context with userId and user
   const authContext: AuthContext = {
     ...ctx,
     userId,
+    user,
     db
   };
 
