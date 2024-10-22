@@ -1,7 +1,9 @@
 ## Making database changes with Prisma
-**any migration files checked into the GitHub repo will be applied to the Preview database instance shared by all preview branches**.
+If you change data modal by updating schema, you can run this in root to db push and generate types for app.
 
-Instead of creating migrations and applying them immediately with `pnpm dlx prisma migrate dev`, you should _always_ use `pnpm dlx prisma db push` to apply the schema changes without generating a migration. Once you are happy with your schema changes, you can generate a migration using `pnpm dlx prisma migrate dev`.
+```zsh
+pnpm prisma
+```
 
 If you need to see what SQL is generated for a potential schema change before applying it, you can run:
 

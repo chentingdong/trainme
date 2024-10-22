@@ -150,3 +150,4 @@ export const sync = protectedProcedure.mutation(async ({ ctx }) => {
   const activities = await fetchLatestActivitiesFromStrava(ctx.userId);
   return activities;
 });
+
