@@ -10,6 +10,7 @@ import { defaultWorkout } from "@trainme/db";
 import { trpc } from '@/app/api/trpc/client';
 import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
+import { cn } from '@/utils/helper';
 
 export default function WorkoutEditor() {
   const { scheduleDate, workout, setWorkout, setWorkouts } = useCalendarState();
@@ -41,7 +42,7 @@ export default function WorkoutEditor() {
     <form
       className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
     >
-      <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
+      <div className="col-span-4 bg-center bg-cover h-full">
         <Controller
           name="steps"
           control={control}
@@ -50,7 +51,7 @@ export default function WorkoutEditor() {
               <Textarea
                 id="steps"
                 autoFocus
-                className="flex-grow workout-board"
+                className="h-full workout-board"
                 value={
                   Array.isArray(field.value)
                     ? field.value.join("\n")
@@ -65,12 +66,9 @@ export default function WorkoutEditor() {
             );
           }}
         />
-        <div className="h-1/3 min-h-18 w-full px-2">
-          <WorkoutChart workout={workout} />
-        </div>
       </div>
-      <div className="col-span-3 flex flex-col justify-between h-full overflow-auto">
-        <div>
+      <div className="col-span-5 flex flex-col justify-between h-full overflow-auto">
+        <div className="flex-1">
           <div className="form-group">
             <Label htmlFor="name">Workout Name</Label>
             <Controller
@@ -193,20 +191,21 @@ export default function WorkoutEditor() {
               )}
             />
           </div>
-          <div className="form-group">
-            <label />
-            <div className="col-span-2 flex flex-col gap-4 my-6">
+        </div>
+        <div className="h-20 w-full px-2 my-2">
+          <WorkoutChart workout={workout} />
+        </div>
+        <div className="flex justify-end">
               <button
                 type="button"
-                className={
-                  `btn ${workout.id ? "btn-primary" : "btn-warning"}`
-                }
+            className={cn(
+              `btn ${workout.id ? "btn-primary" : "btn-warning"}`,
+              "col-span-2 my-6"
+            )}
                 onClick={() => upsertWorkout({ workout: { ...workout, date: scheduleDate } })}
               >
                 {workout.id ? "Update workout" : "Create workout"}
-              </button>
-            </div>
-          </div>
+          </button>
         </div>
       </div>
     </form>

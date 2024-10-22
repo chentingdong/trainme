@@ -33,7 +33,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           <Toaster />
-          <main className="flex-grow mt-8">
+          <main className="flex-grow mt-14">
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </main>
         </Providers>
