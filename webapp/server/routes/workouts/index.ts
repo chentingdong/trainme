@@ -1,10 +1,11 @@
 import { router } from '@/server/trpc';
-import { getWorkouts } from '@/server/routes/workouts/getWorkouts';
-import { getWorkout } from '@/server/routes/workouts/getWorkout';
-import { updateWorkout } from '@/server/routes/workouts/updateWorkout';
-
+import { getById } from '@/server/routes/workouts/getById';
+import { getMany } from '@/server/routes/workouts/getMany';
+import { deleteById } from '@/server/routes/workouts/deleteById';
+import { upsert } from '@/server/routes/workouts/upsert';
 export const workoutRouter = router({
-  getWorkouts,
-  getWorkout,
-  updateWorkout
+  upsert,
+  getById,
+  getMany,
+  deleteById,
 });

@@ -10,11 +10,9 @@ import { defaultWorkout } from "@trainme/db";
 import { trpc } from '@/app/api/trpc/client';
 import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
-import { startOfDay, endOfDay } from 'date-fns';
 
 export default function WorkoutEditor() {
-  const utils = trpc.useUtils();
-  const { workout, setWorkout, scheduleDate } = useCalendarState();
+  const { workout, setWorkout } = useCalendarState();
   const { toast } = useToast();
 
   const { control } = useForm<Workout>({
@@ -22,54 +20,17 @@ export default function WorkoutEditor() {
     mode: "onChange",
   });
 
-  const { data: workouts } = trpc.workouts.getWorkouts.useQuery({});
+  const { data: workouts, refetch: refetchWorkouts } = trpc.workouts.getMany.useQuery({});
 
-  const updatedWorkout = trpc.workouts.updateWorkout.useMutation({
-    onError: (error) => {
-      throw new Error("Failed to update workout: " + error);
-    },
-  });
-
-  const createSchedule = trpc.schedules.createSchedule.useMutation({
+  const { mutate: upsertWorkout } = trpc.workouts.upsert.useMutation({
     onSuccess: () => {
-      utils.schedules.getSchedules.refetch({
-        filter: {
-          date: {
-            gte: startOfDay(scheduleDate),
-            lte: endOfDay(scheduleDate),
-          },
-        },
-      });
+      refetchWorkouts();
     },
     onError: (error) => {
-      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
+      toast({ type: "error", content: "Failed to create workout: " + error });
     },
   });
 
-
-  const handleAddToCalendar = async () => {
-    if (workout?.id) {
-      try {
-        handleSaveWorkout();
-        createSchedule.mutate({ workoutId: workout.id, date: scheduleDate });
-      } catch (error) {
-        toast({ type: "error", content: "Failed to add workout to calendar: " + error });
-      }
-    }
-  };
-
-  const handleSaveWorkout = () => {
-    try {
-      if (!workout?.id) throw new Error("Workout not saved");
-      updatedWorkout.mutate({
-        id: workout.id,
-        workout: workout
-      });
-      toast({ type: "success", content: "Workout saved" });
-    } catch (error) {
-      toast({ type: "error", content: "Failed to add workout to calendar: " + error });
-    }
-  };
 
   if (!workout) return <></>;
 
@@ -235,19 +196,11 @@ export default function WorkoutEditor() {
               <button
                 type="button"
                 className={
-                  `btn ` + (!workout.id ? "btn-disabled" : "btn-primary")
+                  `btn ${workout.id ? "btn-primary" : "btn-warning"}`
                 }
-                onClick={handleAddToCalendar}
-                disabled={!workout.id}
+                onClick={() => upsertWorkout({ workout })}
               >
-                Add to calendar
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSaveWorkout}
-              >
-                Save workout
+                {workout.id ? "Update workout" : "Create workout"}
               </button>
             </div>
           </div>

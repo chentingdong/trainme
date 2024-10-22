@@ -1,12 +1,12 @@
 model Workout {
+  id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String?    @unique
+  date         DateTime   @default(now()) @map("date")
   description  String?
+  sportType    String     @default("Run") @map("sport_type")
   distance     Float?
   duration     Float?
-  id           String     @id @default(uuid()) @db.Uuid
-  name         String?    @unique
-  sportType    String     @default("Run") @map("sport_type")
   steps        Json?
-  date         DateTime   @default(now()) @map("date")
   feeling      Int?       @map("feeling")
   rpe          Int?       @map("rpe")
   notes        String?    @map("notes") @db.VarChar(255)

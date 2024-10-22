@@ -4,7 +4,6 @@ import superjson from 'superjson';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { inferRouterOutputs } from '@trpc/server';
 import { workoutRouter } from '@/server/routes/workouts';
-import { schedulesRouter } from '@/server/routes/schedules';
 import { interceptStdout } from './stdoutInterceptor';
 import { activityRouter } from '@/server/routes/activities';
 import { sportRouter } from '@/server/routes/sports';
@@ -18,7 +17,6 @@ interceptStdout();
 export const appRouter = router({
   activities: activityRouter,
   workouts: workoutRouter,
-  schedules: schedulesRouter,
   sports: sportRouter,
   strava: stravaRouter,
   user: userRouter

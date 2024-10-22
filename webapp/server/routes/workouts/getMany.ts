@@ -2,19 +2,19 @@ import { db } from "@trainme/db";
 import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
-export const getWorkout = protectedProcedure
+export const getMany = protectedProcedure
   .input(
     z.object({
-      id: z.string(),
+      filter: z.record(z.string(), z.any()).optional()
     })
   )
   .query(async ({ input }) => {
-    const workout = await db.workout.findUnique({
+    const workouts = await db.workout.findMany({
       where: {
-        id: input.id,
+        ...(input?.filter || {})
       },
     });
 
-    return workout;
+    return workouts;
   });
 

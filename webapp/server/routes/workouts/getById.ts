@@ -2,18 +2,19 @@ import { db } from "@trainme/db";
 import { protectedProcedure } from '@/server/trpc';
 import { z } from 'zod';
 
-export const deleteSchedule = protectedProcedure
+export const getById = protectedProcedure
   .input(
     z.object({
       id: z.string(),
     })
   )
-  .mutation(async ({ input }) => {
-    const success = await db.schedule.delete({
+  .query(async ({ input }) => {
+    const workout = await db.workout.findUnique({
       where: {
         id: input.id,
       },
     });
 
-    return success;
+    return workout;
   });
+
