@@ -28,13 +28,13 @@ export { db };
 
 export const defaultWorkout: Workout = {
   id: '',
-  name: "Default Run",
+  name: '',
   date: new Date(),
   description: "",
   sportType: "Run",
   distance: null,
   duration: null,
-  steps: ['30m Z2'],
+  steps: [''],
   feeling: null,
   rpe: null,
   notes: null,

@@ -1,54 +1,22 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import SportIcon from "@/app/activities/SportIcon";
 
 import { PiPaperPlaneFill } from "react-icons/pi";
 import { format } from "date-fns";
-import type { Activity } from "@trainme/db";
-import { getActivitiesByDate } from "@/server/routes/strava/activities";
-import Loading from "@/app/components/Loading";
-import dynamic from "next/dynamic";
+import type { Activity, Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
-
-const CalendarDayActivities = dynamic(
-  async () => {
-    const { CalendarDayActivities } = await import("./CalendarDayActivity");
-    return CalendarDayActivities;
-  },
-  {
-    ssr: false,
-    loading: () => <Loading />,
-  },
-);
-
-const CalendarDayWorkouts = dynamic(
-  async () => {
-    const { CalendarDayWorkouts } = await import("./CalendarDayWorkouts");
-    return CalendarDayWorkouts;
-  },
-  {
-    ssr: false,
-    loading: () => <Loading />,
-  },
-);
-
+import { CalendarDayActivities } from "./CalendarDayActivity";
+import { CalendarDayWorkouts } from "./CalendarDayWorkouts";
 
 type CalendarDayProps = {
   date: Date;
+  activities: Activity[];
+  workouts: Workout[];
 };
 
-function CalendarDay({ date }: CalendarDayProps) {
+function CalendarDay({ date, activities, workouts }: CalendarDayProps) {
   const { scheduleDate, setScheduleDate } = useCalendarState();
-
-  const [activities, setActivities] = useState<Activity[]>([]);
-
-  useEffect(() => {
-    getActivitiesByDate(date).then((data) => {
-      setActivities(data);
-    });
-  }, [date, setActivities]);
-
 
   const workoutButtonStyle: string = (() => {
     let cn = "btn btn-icon btn-workout border-none w-full";
@@ -73,8 +41,8 @@ function CalendarDay({ date }: CalendarDayProps) {
         </div>
       </div>
       <div className="h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70">
-        <CalendarDayActivities date={date} />
-        <CalendarDayWorkouts date={date} />
+        <CalendarDayActivities activities={activities} />
+        <CalendarDayWorkouts date={date} workouts={workouts} />
       </div>
       <div className="card-footer px-4 py-0.5">
         <button className={workoutButtonStyle}>

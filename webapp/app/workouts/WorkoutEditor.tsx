@@ -12,7 +12,7 @@ import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 
 export default function WorkoutEditor() {
-  const { workout, setWorkout } = useCalendarState();
+  const { scheduleDate, workout, setWorkout, setWorkouts } = useCalendarState();
   const { toast } = useToast();
 
   const { control } = useForm<Workout>({
@@ -23,8 +23,11 @@ export default function WorkoutEditor() {
   const { data: workouts, refetch: refetchWorkouts } = trpc.workouts.getMany.useQuery({});
 
   const { mutate: upsertWorkout } = trpc.workouts.upsert.useMutation({
-    onSuccess: () => {
-      refetchWorkouts();
+    onSuccess: async () => {
+      const updatedWorkouts = await refetchWorkouts();
+      if (updatedWorkouts.data) {
+        setWorkouts(updatedWorkouts.data);
+      }
     },
     onError: (error) => {
       toast({ type: "error", content: "Failed to create workout: " + error });
@@ -198,7 +201,7 @@ export default function WorkoutEditor() {
                 className={
                   `btn ${workout.id ? "btn-primary" : "btn-warning"}`
                 }
-                onClick={() => upsertWorkout({ workout })}
+                onClick={() => upsertWorkout({ workout: { ...workout, date: scheduleDate } })}
               >
                 {workout.id ? "Update workout" : "Create workout"}
               </button>
