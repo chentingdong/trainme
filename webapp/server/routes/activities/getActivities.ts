@@ -39,7 +39,6 @@ export const getActivities = protectedProcedure
         : undefined,
     });
 
-    console.log('activities:', activities);
     return activities;
   });
 

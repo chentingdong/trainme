@@ -1,9 +1,9 @@
-"use server";
-
-import { auth } from '@clerk/nextjs/server';
+import { exchangeAccessToken } from '@/server/routes/strava/syncAccessToken';
+import { protectedProcedure } from '@/server/trpc';
 import type { Activity } from "@trainme/db";
 import { db } from "@trainme/db";
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 // last activity date synced from strava
 export async function findLastActivityDate(): Promise<Date> {
@@ -26,11 +26,7 @@ export async function findLastActivityDate(): Promise<Date> {
   }
 }
 
-export async function fetchLatestActivitiesFromStrava({
-  persist = true,
-}: {
-  persist: boolean,
-}): Promise<Activity[]> {
+export async function fetchLatestActivitiesFromStrava(userId: string): Promise<Activity[]> {
   try {
     // Fetch activities from Strava.
     const fromDate = new Date(await findLastActivityDate());
@@ -40,22 +36,18 @@ export async function fetchLatestActivitiesFromStrava({
       after: Math.floor(fromDate.getTime() / 1000).toString(),
       per_page: "200",
     }).toString();
-    const { userId } = auth();
-    if (!userId) throw new Error("User not authenticated");
-
-    const { stravaAccessToken } = await db.user.findUniqueOrThrow({
-      where: { id: userId },
-      select: { stravaAccessToken: true },
-    });
+    const accessToken = await exchangeAccessToken(userId);
 
     const headers = {
-      Authorization: `Bearer ${stravaAccessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     };
 
     const { data: partialData } = await axios.get(urlActivities.href, { headers });
 
     // Save activities to postgres if persist is true
-    if (persist && partialData.length > 0) {
+    const newActivities: Activity[] = [];
+
+    if (partialData.length > 0) {
       for (const partialActivity of partialData) {
         const urlActivitesOne = new URL(`https://www.strava.com/api/v3/activities/${partialActivity.id}`);
         const { data } = await axios.get(urlActivitesOne.href, { headers });
@@ -65,9 +57,7 @@ export async function fetchLatestActivitiesFromStrava({
           resourceState: data.resource_state,
           externalId: data.external_id ?? null,
           uploadId: data.upload_id ?? null,
-          athlete: {
-            connect: { id: data.athlete.id },
-          },
+          athleteId: data.athlete.id,
           name: data.name,
           distance: data.distance,
           movingTime: data.moving_time,
@@ -101,9 +91,12 @@ export async function fetchLatestActivitiesFromStrava({
           hasKudoed: data.has_kudoed,
           workoutType: data.workout_type ?? null,
           description: data.description ?? "",
-          calories: data.calories
+          calories: data.calories,
+          averageCadence: data.average_cadence,
+          averageHeartrate: data.average_heartrate,
+          averageTemp: data.average_temp,
+          uuid: uuidv4(),
         };
-
 
         await db.$transaction(async (tx) => {
           await tx.activity.upsert({
@@ -140,13 +133,20 @@ export async function fetchLatestActivitiesFromStrava({
               create: lapData,
             });
           }
+
+          newActivities.push(activity as Activity);
         });
       }
     }
 
-    return partialData as Activity[];
+    return newActivities;
   } catch (err) {
     console.error("Error fetching activities from Strava", { cause: err });
     throw new Error("Error fetching activities from Strava", { cause: err });
   }
 }
+
+export const sync = protectedProcedure.mutation(async ({ ctx }) => {
+  const activities = await fetchLatestActivitiesFromStrava(ctx.userId);
+  return activities;
+});

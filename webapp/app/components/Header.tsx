@@ -4,14 +4,21 @@ import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
-import { UserButton, useUser, SignInButton } from "@clerk/nextjs";
-import { useStravaSync } from '@/app/hooks/useStravaSync';
-import Loading from '@/app/loading';
+import { UserButton, SignInButton, useAuth } from "@clerk/nextjs";
 import { FaDumbbell, FaGear, FaUser } from 'react-icons/fa6';
+import { trpc } from '@/app/api/trpc/client';
+import { Activity } from '@prisma/client';
+import { useState } from 'react';
 
 const Header = () => {
-  const { newActivityCount, loading, syncStrava } = useStravaSync();
-  const { user } = useUser();
+  const { userId } = useAuth();
+  const [newActivities, setNewActivities] = useState<Activity[]>([]);
+  const { mutateAsync, isPending } = trpc.strava.sync.useMutation();
+
+  const syncStrava = async () => {
+    const activities = await mutateAsync();
+    setNewActivities(activities);
+  };
 
   return (
     <header className="bg-slate-800 text-white p-2 fixed top-0 left-0 right-0 z-50">
@@ -30,10 +37,9 @@ const Header = () => {
               className="flex items-center gap-2 btn btn-link"
             >
               <FcSynchronize
-                className={loading ? "icon loading-icon" : "icon"}
+                className={isPending ? "icon loading-icon" : "icon"}
               />
               Sync Strava
-              {loading && <Loading />}
             </a>
           </li>
           <li>
@@ -53,9 +59,9 @@ const Header = () => {
               <RxActivityLog className="icon" />
               Activities
             </a>
-            {newActivityCount > 0 && (
+            {newActivities && newActivities.length > 0 && (
               <span className="circle small bg-green-700">
-                {newActivityCount}
+                {newActivities.length}
               </span>
             )}
           </li>
@@ -72,7 +78,7 @@ const Header = () => {
             </a>
           </li>
           <li className="flex gap-1 items-center">
-            {!!user ? (
+            {!!userId ? (
               <UserButton
                 appearance={{
                   elements: {

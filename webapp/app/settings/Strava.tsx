@@ -1,49 +1,45 @@
 "use client";
 
-import { useStravaSync } from '@/app/hooks/useStravaSync';
 import { trpc } from '@/app/api/trpc/client';
+import Athlete from '@/app/settings/Athlete';
 
 export default function Strava() {
-  const { syncStrava } = useStravaSync();
-  const { data: stravaConnected, refetch: refetchStravaConnected } = trpc.user.stravaConnected.useQuery();
-
+  const { mutate: disconnect } = trpc.strava.disconnect.useMutation({
+    onSuccess: () => {
+      refetch();
+    },
+  });
+  const { data: connected, refetch } = trpc.strava.connected.useQuery();
   const handleConnect = () => {
     window.location.href = getAuthUrl();
   };
 
-  const handleDisconnect = () => {
-    try {
-      trpc.strava.disconnect.useMutation({
-        onSuccess: () => refetchStravaConnected(),
-      });
-    } catch (error) {
-      console.error('Failed to disconnect Strava:', error);
-    }
-  };
+  const { mutateAsync } = trpc.strava.sync.useMutation();
 
   return (
     <div>
       <p>
-        {stravaConnected
+        {connected
           ? 'Connected to Strava.'
           : 'Connect your Strava account to sync your activities.'}
       </p>
       <div className="py-4 flex gap-4">
-        {!stravaConnected && (
+        {!connected && (
           <button className="btn btn-primary" onClick={handleConnect}>
             Connect to Strava
           </button>
         )}
-        {stravaConnected && (
+        {connected && (
           <button
             className="btn btn-secondary"
-            onClick={handleDisconnect}
+            onClick={() => disconnect()}
           >
             Disconnect Strava
           </button>
         )}
-        <button className="btn btn-primary" onClick={syncStrava}>Sync Strava Data</button>
+        <button className="btn btn-primary" onClick={() => mutateAsync()}>Sync Strava Data</button>
       </div>
+      {connected && <Athlete />}
     </div>
   );
 }
@@ -53,15 +49,6 @@ export const getAuthUrl = () => {
   const port = ":" + process.env.NEXT_PUBLIC_PORT || "";
   const redirectUri = `http://localhost${port}/venders/strava/authorize`;
   const scope = 'activity:read_all';
-
-  // const params = new URLSearchParams({
-  //   client_id: clientId,
-  //   response_type: 'code',
-  //   redirect_uri: encodeURIComponent(redirectUri),
-  //   scope: scope,
-  //   _prompt: 'force'
-  // });
-  // const stravaAuthUrl = `https://www.strava.com/oauth/authorize?${params.toString()}`;
 
   const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&_prompt=force`;
 

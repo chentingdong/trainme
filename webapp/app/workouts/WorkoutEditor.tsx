@@ -6,7 +6,7 @@ import { useToast } from "@/app/components/Toaster";
 import SportTypeSelect from "../components/SportTypeSelect";
 
 import { Controller, useForm } from "react-hook-form";
-import { defaultWorkout } from "@/prisma";
+import { defaultWorkout } from "@trainme/db";
 import { trpc } from '@/app/api/trpc/client';
 import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';

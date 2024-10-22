@@ -1,10 +1,15 @@
 import { router } from '@/server/trpc';
 import { disconnect } from './disconnect';
-import { updateRefreshToken } from './updateRefreshToken';
-import { updateAccessToken } from './updateAccessToken';
-
+import { syncRefreshToken } from './syncRefreshToken';
+import { syncAccessToken } from './syncAccessToken';
+import { connected } from './connected';
+import { syncAthlete } from '@/server/routes/strava/syncAthlete';
+import { sync } from './sync';
 export const stravaRouter = router({
-  updateRefreshToken,
-  updateAccessToken,
+  syncRefreshToken,
+  syncAccessToken,
+  connected,
   disconnect,
+  syncAthlete,
+  sync,
 });

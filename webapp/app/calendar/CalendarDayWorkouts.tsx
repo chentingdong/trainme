@@ -7,7 +7,7 @@ import { cn } from "@/utils/helper";
 import SportIcon from "@/app/activities/SportIcon";
 import { IoClose } from "react-icons/io5";
 import { trpc } from '@/app/api/trpc/client';
-import { emptyWorkout } from '@/prisma';
+import { emptyWorkout } from '@trainme/db';
 import { startOfDay, endOfDay } from 'date-fns';
 import { JsonValue } from '@prisma/client/runtime/library';
 import { Key } from 'react';

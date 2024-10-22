@@ -9,7 +9,7 @@ const AuthorizationHandler = () => {
   const router = useRouter();
   const authorizationCode = searchParams.get("code");
 
-  const { data, isPending, error, mutate } = trpc.strava.updateRefreshToken.useMutation();
+  const { data, isPending, error, mutate } = trpc.strava.syncRefreshToken.useMutation();
 
   useEffect(() => {
     if (authorizationCode) {

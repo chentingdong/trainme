@@ -1,4 +1,4 @@
-import { db } from '@/prisma';
+import { db } from '@trainme/db';
 import { protectedProcedure } from '@/server/trpc';
 
 export const athlete = protectedProcedure.query(async ({ ctx }) => {
