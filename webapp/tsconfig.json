@@ -13,9 +13,9 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".", // Base directory is the current webapp folder
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"] // Alias `@/` for absolute imports within `webapp/`
+      "@/*": ["./*"]
     },
     "plugins": [
       {

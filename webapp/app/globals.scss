@@ -57,14 +57,14 @@ html {
 /* Custom styles for dark mode */
 @media (prefers-color-scheme: dark) {
   .btn-info {
-    background-color: #17a2b8; 
+    background-color: #17a2b8;
     border-color: #17a2b8;
     color: #dedede;
   }
 
   .btn-info:hover {
-    background-color: #138496; 
-    border-color: #117a8b; 
+    background-color: #138496;
+    border-color: #117a8b;
   }
 }
 
@@ -189,7 +189,7 @@ body {
       @apply col-span-5;
     }
     > div {
-      @apply col-span-7;
+      @apply col-span-7 px-1;
     }
     input,
     textarea,
@@ -199,10 +199,21 @@ body {
     }
   }
 
-  textarea.workout-board {
-    @apply text-lg font-handwriting tracking-widest;
-    @apply w-4/5 mx-auto scroll rounded-lg border-none;
-    @apply bg-stone-300 dark:bg-stone-800;
+  textarea {
+    &.workout-board {
+      @apply text-lg font-handwriting tracking-widest;
+      @apply w-4/5 mx-auto scroll rounded-lg border-none;
+      @apply bg-stone-300 dark:bg-stone-800;
+    }
+    &.workout-notes {
+      @apply text-sm font-handwriting tracking-widest;
+      @apply w-full scroll rounded-lg border-none;
+      @apply bg-stone-300 dark:bg-stone-800;
+    }
+  }
+
+  .range-slider {
+    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700;
   }
 
   .toast-container {
@@ -228,3 +239,7 @@ body {
   }
 }
 
+.cl-footer,
+.cl-userButtonPopoverFooter {
+  @apply hidden;
+}

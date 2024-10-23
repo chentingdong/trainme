@@ -172,7 +172,7 @@ export default function WorkoutEditor() {
                     : true,
               }}
               render={({ field, fieldState }) => (
-                <>
+                <div>
                   <TextInput
                     id="workout-duration"
                     placeholder="Workout Name"
@@ -187,7 +187,79 @@ export default function WorkoutEditor() {
                       {fieldState.error.message}
                     </span>
                   )}
-                </>
+                </div>
+              )}
+            />
+          </div>
+          <div className="my-2 text-sm">
+            If workout is linked to an activity, it will be shown in the activity feed.
+          </div>
+          <div className="form-group">
+            <Label htmlFor="workout-feeling">Feeling</Label>
+            <Controller
+              name="feeling"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <input
+                    id="default-range"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value={workout.feeling ?? 0}
+                    onChange={(e) => {
+                      const feeling = parseInt(e.target.value);
+                      field.onChange(feeling);
+                      setWorkout({ ...workout, feeling });
+                    }}
+                    className="range-slider"
+                  />
+                </div>
+              )}
+            />
+          </div>
+          <div className="form-group">
+            <Label htmlFor="workout-rpe">RPE</Label>
+            <Controller
+              name="rpe"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <input
+                    id="workout-rpe"
+                    type="range"
+                    min="0"
+                    max="10"
+                    value={workout.rpe ?? 0}
+                    onChange={(e) => {
+                      const rpe = parseInt(e.target.value);
+                      field.onChange(rpe);
+                      setWorkout({ ...workout, rpe });
+                    }}
+                    className="range-slider"
+                  />
+                </div>
+              )}
+            />
+          </div>
+          <div className="form-group">
+            <Label htmlFor="workout-notes">Notes</Label>
+            <Controller
+              name="notes"
+              control={control}
+              render={({ field }) => (
+                <div>
+                  <Textarea
+                    id="workout-notes"
+                    className="workout-notes"
+                    placeholder="Workout Notes"
+                    value={field.value ?? ""}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setWorkout({ ...workout, notes: e.target.value });
+                    }}
+                  />
+                </div>
               )}
             />
           </div>
@@ -196,15 +268,15 @@ export default function WorkoutEditor() {
           <WorkoutChart workout={workout} />
         </div>
         <div className="flex justify-end">
-              <button
-                type="button"
+          <button
+            type="button"
             className={cn(
               `btn ${workout.id ? "btn-primary" : "btn-warning"}`,
               "col-span-2 my-6"
             )}
-                onClick={() => upsertWorkout({ workout: { ...workout, date: scheduleDate } })}
-              >
-                {workout.id ? "Update workout" : "Create workout"}
+            onClick={() => upsertWorkout({ workout: { ...workout, date: scheduleDate } })}
+          >
+            {workout.id ? "Update workout" : "Create workout"}
           </button>
         </div>
       </div>

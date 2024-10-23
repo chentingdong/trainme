@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import WorkoutEditor from "../workouts/WorkoutEditor";
-import WorkoutList from '@/app/workouts/WorkoutList';
 
 const showImage = false;
 

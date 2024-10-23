@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 export * from '@prisma/client';
-const LOG_LEVELS = ['warn', 'error'];
+const LOG_LEVELS = ['query', 'info', 'warn', 'error'];
 const getPrismaClient = () => {
     if (process.env.VERCEL_ENV) {
         return new PrismaClient();
@@ -17,13 +17,13 @@ const db = getPrismaClient();
 export { db };
 export const defaultWorkout = {
     id: '',
-    name: "Default Run",
+    name: '',
     date: new Date(),
     description: "",
     sportType: "Run",
     distance: null,
     duration: null,
-    steps: ['30m Z2'],
+    steps: [''],
     feeling: null,
     rpe: null,
     notes: null,

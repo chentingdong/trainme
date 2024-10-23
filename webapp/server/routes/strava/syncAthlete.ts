@@ -10,7 +10,7 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) {
     throw new Error("User not authenticated");
   }

@@ -25,19 +25,15 @@ const getRefreshToken = async ({ userId, code }: GetRefreshTokenInput) => {
     expires_at
   } = response.data;
 
-  const user = {
-    id: userId,
-    stravaRefreshToken: refresh_token,
-    stravaAccessToken: access_token,
-    accessTokenExpiresAt: new Date(expires_at * 1000)
-  };
 
-  await db.user.upsert({
+  await db.user.update({
     where: { id: userId },
-    create: user,
-    update: user,
+    data: {
+      stravaRefreshToken: refresh_token,
+      stravaAccessToken: access_token,
+      accessTokenExpiresAt: new Date(expires_at * 1000)
+    }
   });
-
   await fetchAthlete(access_token);
 
   return { success: true };
