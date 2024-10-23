@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 export * from '@prisma/client';
-const LOG_LEVELS = ['query', 'info', 'warn', 'error'];
+const LOG_LEVELS = ['info', 'warn', 'error'];
 const getPrismaClient = () => {
     if (process.env.VERCEL_ENV) {
         return new PrismaClient();
