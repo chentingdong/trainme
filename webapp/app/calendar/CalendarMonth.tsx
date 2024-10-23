@@ -16,7 +16,7 @@ const CalendarMonth: React.FC = () => {
   const calendarRef = React.useRef<unknown>(null);
 
   const tileContent = ({ date }: { date: Date }) => {
-    return <CalendarDay date={date} />;
+    return <CalendarDay date={date} activities={[]} workouts={[]} onWorkoutDrop={() => { }} />;
   };
 
   const calendarHeader = ({ date }: { date: Date }) => {
