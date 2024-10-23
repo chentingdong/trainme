@@ -20,12 +20,14 @@ export default function Page() {
         try {
           await createUser({
             id: user.id,
-            email: user.primaryEmailAddress?.emailAddress ?? ''
+            email: user.primaryEmailAddress?.emailAddress ?? '',
+            firstName: user.firstName ?? '',
+            lastName: user.lastName ?? '',
+            imageUrl: user.imageUrl ?? '',
           });
 
           // Redirect to the original URL
-          const redirectUrl = searchParams.get('redirect_url') || '/';
-          console.log('redirectUrl', redirectUrl);
+          const redirectUrl = searchParams.get('redirect_url') || '/settings';
           router.push(redirectUrl);
         } catch (error) {
           console.error('Error saving user:', error);
@@ -37,6 +39,6 @@ export default function Page() {
     saveUserAndRedirect();
   }, [isSignedIn, user, searchParams, router, createUser]);
 
-  return <div>Loading...</div>;
+  return <div className="mt-14 flex justify-center">Setting up your account...</div>;
 };
 

@@ -241,5 +241,7 @@ body {
 
 .cl-footer,
 .cl-userButtonPopoverFooter {
-  @apply hidden;
+  div:nth-child(2) {
+    @apply hidden;
+  }
 }
