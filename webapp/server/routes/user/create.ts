@@ -5,9 +5,12 @@ import { z } from 'zod';
 export const create = protectedProcedure.input(z.object({
   id: z.string(),
   email: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  imageUrl: z.string(),
 })).mutation(async ({ ctx, input }) => {
   try {
-    const { id, email } = input;
+    const { id } = input;
     if (ctx.userId !== id) {
       throw new Error("User ID mismatch");
     }
@@ -18,7 +21,7 @@ export const create = protectedProcedure.input(z.object({
       return user;
     }
 
-    const newUser = await db.user.create({ data: { id, email } });
+    const newUser = await db.user.create({ data: input });
     console.log('new user created', newUser);
     return newUser;
   } catch (error) {

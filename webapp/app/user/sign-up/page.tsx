@@ -1,9 +1,21 @@
-import { SignUp } from "@clerk/nextjs";
+"use client";
+
+import { SignUp, useUser } from '@clerk/nextjs';
 
 export default function Page() {
-  return (
-    <div className="mt-14 flex justify-center">
-      <SignUp />
-    </div>
-  );
+  const { user } = useUser();
+
+  if (!user) {
+    return (
+      <div className="mt-14 flex justify-center">
+        <SignUp
+          routing="hash"
+          forceRedirectUrl={`/user/sso-callback`}
+          fallbackRedirectUrl='/settings'
+        />
+      </div>
+    );
+  }
+
+  return <div>Welcome!</div>;
 }

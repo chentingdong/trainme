@@ -4,19 +4,13 @@ const isPublicRoute = createRouteMatcher([
   "/",
   "/user/sign-in(.*)",
   "/user/sign-in/sso-callback(.*)",
-  "/user-sign-up(.*)",
+  "/user/sign-up(.*)",
 ]);
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
 export default clerkMiddleware(
   async (auth, request) => {
     if (!isPublicRoute(request)) {
-      const originalUrl = request.nextUrl.href;
-      await auth.protect({
-        unauthorizedUrl: `${BASE_URL}/user/sign-in?redirect_url=${encodeURIComponent(originalUrl)}`,
-        unauthenticatedUrl: `${BASE_URL}/user/sign-in?redirect_url=${encodeURIComponent(originalUrl)}`,
-      });
+      await auth.protect();
     }
   },
   { clockSkewInMs: 60000 },
