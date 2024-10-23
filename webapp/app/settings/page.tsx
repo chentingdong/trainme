@@ -2,14 +2,17 @@
 
 import React from "react";
 import Strava from "./Strava";
+import { Card } from 'flowbite-react';
 
 const Page = () => {
 
   return (
     <div className="container">
-      <div>
-        <h2 className="h1">Settings</h2>
-        <Strava />
+      <h2 className="h2">Settings</h2>
+      <div className="">
+        <Card className="p-4">
+          <Strava />
+        </Card>
       </div>
     </div>
   );
