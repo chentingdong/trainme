@@ -191,8 +191,8 @@ export default function WorkoutEditor() {
               )}
             />
           </div>
-          <div className="my-2 text-sm">
-            If workout is linked to an activity, it will be shown in the activity feed.
+          <div className="my-4 text-sm">
+            If workout is linked to an activity:
           </div>
           <div className="form-group">
             <Label htmlFor="workout-feeling">Feeling</Label>
