@@ -1,4 +1,4 @@
-INSERT INTO sport_type (id, type, sport_type, active) VALUES
+INSERT INTO sport (id, type, sport_type, active) VALUES
   (1, 'Run', 'Run', true),
   (2, 'Run', 'TrailRun', true),
   (3, 'Run', 'VirtualRun', false),
@@ -7,8 +7,8 @@ INSERT INTO sport_type (id, type, sport_type, active) VALUES
   (6, 'Ride', 'MountainBikeRide', false),
   (7, 'Ride', 'Velomobile', false),
   (8, 'VirtualRide', 'VirtualRide', true),
-  (9, 'Swim', 'Swim', false),
-  (10, 'Yoga', 'Yoga', false),
+  (9, 'Swim', 'Swim', true),
+  (10, 'Yoga', 'Yoga', true),
   (11, 'Walk', 'Walk', false),
   (12, 'Hike', 'Hike', false),
   (13, 'AlpineSki', 'AlpineSki', false),
@@ -37,7 +37,7 @@ INSERT INTO sport_type (id, type, sport_type, active) VALUES
   (36, 'StairStepper', 'StairStepper', false),
   (37, 'StandUpPaddling', 'StandUpPaddling', false),
   (38, 'Surfing', 'Surfing', false),
-  (39, 'WeightTraining', 'WeightTraining', false),
+  (39, 'WeightTraining', 'WeightTraining', true),
   (40, 'Wheelchair', 'Wheelchair', false),
   (41, 'Windsurf', 'Windsurf', false),
   (42, 'Workout', 'Workout', false),
