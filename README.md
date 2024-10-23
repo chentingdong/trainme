@@ -4,14 +4,13 @@
 
 ## Overview
 
-TrainMe is a comprehensive web application designed to help athletes manage their workout schedules and track their fitness progress. As a self-coaching app, it provides a user-friendly interface to add, edit, and view workouts in a calendar format, with support for dark mode based on system preferences.
+TrainMe is a powerful web application built to help athletes effectively manage their workout schedules and track fitness progress. Designed as a self-coaching tool, TrainMe offers an intuitive interface where users can easily add, edit, and review workouts. With AI-powered features, the app can generate tailored weekly training plans based on past performance, helping athletes optimize their routines. Additionally, TrainMe seamlessly syncs with your smartwatch, providing real-time lap notifications during runs.
 
-## Features
-
-- **Calendar View**: Display a calendar view of previous workouts for easy tracking and visualization.
-- **Data Sync**: Seamlessly sync workout data from Strava and Garmin to keep your records up-to-date.
-- **Real-Time Updates**: Refresh the UI to fetch and display the latest workout data instantly.
-- **Map Integration**: Display workout routes on a map using polylines if the activity includes GPS data.
+## Key Features
+- Workout Management: Easily add, edit, and view workout sessions in an intuitive web interface.
+- Workout and Strava Activity Comparison: Compare your workouts with your Strava activities side by side.
+- AI-Driven Training Plans: Receive personalized weekly training plans based on your previous workout data.
+- Smartwatch Sync: Sync with your smartwatch to get real-time run notifications for each lap.
 
 ## Installation
 
@@ -20,15 +19,13 @@ This setup is intended for developers and is not yet ready for end users.
 1. Copy `example.env` to `.env` and make the necessary changes.
 2. Start a PostgreSQL server:
    ```sh
-   cd postgres
    docker-compose up -d
    ```
 3. Set up the databases using the provided schema.
 4. Bulk download Garmin data by running `garmindb_cli.py`. Refer to: [GarminDB](https://github.com/tcgoetz/GarminDB)
 5. Start the UI:
    ```sh
-   cd webapp
-   yarn start
+   pnpm dev
    ```
 
 ## Usage
@@ -53,13 +50,9 @@ The `Activity` page provides another view for the workouts, aiming to offer a be
 
 The `Settings` page is used to connect to Strava and Garmin, and to refresh data from their databases.
 
-## Contributing
-
-Contributions are welcome! Please fork the repository and create a pull request with your changes. Note that the project is still in progress, and contributions will be accepted soon.
-
 ## License
 
-This project is licensed under the MIT License.
+All Rights reserved for now.
 
 ## Contact
 
