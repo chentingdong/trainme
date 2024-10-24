@@ -5,6 +5,9 @@ name: Preview
 on:
   push:
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> fa3cc6b (different CI/CD trigger)
     branches:
       - '**'
       - '!main'
@@ -12,10 +15,13 @@ on:
     branches:
       - '**'
       - '!main'
+<<<<<<< HEAD
 =======
     tags:
       - 'db-*'
 >>>>>>> 48309cc (fixing build)
+=======
+>>>>>>> fa3cc6b (different CI/CD trigger)
 
 defaults:
   run:
