@@ -21,7 +21,7 @@ export const getMany = protectedProcedure
         })
         .optional(),
       cursor: z.number().optional().default(0),
-      limit: z.number().optional().default(10),
+      limit: z.number().optional().default(20),
     })
   )
   .query(async ({ input }) => {

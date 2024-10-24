@@ -15,7 +15,7 @@ type Props = {
   chartRef: RefObject<HTMLDivElement>;
 };
 
-const ConnectedHistogram = ({ chartData = [], chartRef }: Props) => {
+const ConnectedHistogram = ({ chartData = [], chartRef }: Props = { chartData: [], chartRef: null }) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
   const chartHeight = chartRef?.current?.getBoundingClientRect().height || 100;
   const fontSize = Math.max(10, Math.min(Math.round(chartHeight / 7), 16));
@@ -73,6 +73,7 @@ const CustomizedBar = (props: any) => {
   const barWidth = xScale(nextTime) - xScale(currentTime);
   const fill = getZoneColor(data[index].zone);
   const fontSize = Math.max(8, Math.min(Math.round(height / 4), 16));
+
   return (
     <>
       <rect x={x} y={y} width={barWidth} height={height} fill={fill} />

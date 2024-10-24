@@ -24,8 +24,8 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
   const { data: weeklyData } = trpc.activities.getMany.useQuery({
     filter: {
       startDateLocal: {
-        gte: startOfWeek(aday),
-        lt: endOfWeek(aday)
+        gte: startOfWeek(aday, { weekStartsOn: 1 }),
+        lt: endOfWeek(aday, { weekStartsOn: 1 })
       }
     }
   });
@@ -33,8 +33,8 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
   const { data: workoutsData } = trpc.workouts.getMany.useQuery({
     filter: {
       date: {
-        gte: startOfWeek(aday),
-        lt: endOfWeek(aday)
+        gte: startOfWeek(aday, { weekStartsOn: 1 }),
+        lt: endOfWeek(aday, { weekStartsOn: 1 })
       }
     }
   });
@@ -43,6 +43,7 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
 
   useEffect(() => {
     if (weeklyData) {
+      console.log("weeklyData", weeklyData.activities.map(a => a.startDateLocal));
       setActivities(weeklyData.activities);
     }
   }, [weeklyData, setActivities]);

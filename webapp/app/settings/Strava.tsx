@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { trpc } from '@/app/api/trpc/client';
 import Athlete from '@/app/settings/Athlete';
 import { useRouter } from 'next/navigation';
+import { FcSynchronize } from 'react-icons/fc';
 
 export default function Strava() {
   const router = useRouter();
@@ -13,9 +14,9 @@ export default function Strava() {
     },
   });
   const { data: connected, refetch } = trpc.strava.connected.useQuery();
-  const { mutateAsync } = trpc.strava.sync.useMutation();
+  const { mutateAsync: syncStrava, isPending } = trpc.strava.sync.useMutation();
 
-  const [syncStartDate, setSyncStartDate] = useState('3months');
+  const [fromDaysAgo, setFromDaysAgo] = useState(7);
 
   const handleConnect = () => {
     window.location.href = getAuthUrl();
@@ -25,12 +26,6 @@ export default function Strava() {
     router.push('/pricing');
   };
 
-  useEffect(() => {
-    // This effect runs on the client side
-    if (syncStartDate === 'all') {
-      // Perform any client-side logic here if needed
-    }
-  }, [syncStartDate]);
 
   return (
     <div className="grid grid-cols-2 gap-4 p-4">
@@ -58,7 +53,14 @@ export default function Strava() {
         {connected && <Athlete />}
       </div>
       <div className="grid-cols-1">
-        <button className="btn btn-primary" onClick={() => mutateAsync()}>Sync Strava Data</button>
+        <button
+          className="btn btn-primary flex justify-center gap-4 items-center"
+          onClick={() => syncStrava({ fromDaysAgo })}
+          disabled={isPending}
+        >
+          Sync Strava Data
+          {isPending && <FcSynchronize className="icon loading-icon" />}
+        </button>
         <div className="mt-4">
           <p className="mb-2 font-medium">Sync Data From:</p>
           <div className="flex items-center space-x-4">
@@ -67,26 +69,55 @@ export default function Strava() {
                 type="radio"
                 className="form-radio"
                 name="syncStartDate"
-                value="3months"
-                checked={syncStartDate === '3months'}
-                onChange={() => setSyncStartDate('3months')}
+                value="1week"
+                checked={fromDaysAgo === 7}
+                onChange={() => setFromDaysAgo(7)}
               />
-              <span className="ml-2">Last 3 months</span>
+              <span className="ml-2">Last week</span>
             </label>
             <label className="inline-flex items-center">
               <input
                 type="radio"
                 className="form-radio"
                 name="syncStartDate"
+                value="1month"
+                checked={fromDaysAgo === 30}
+                onChange={() => setFromDaysAgo(30)}
+              />
+              <span className="ml-2">Last month</span>
+            </label>
+            <label className="inline-flex items-center disabled" title="Coming soon">
+              <input
+                type="radio"
+                className="form-radio"
+                name="syncStartDate"
+                value="3months"
+                disabled={true}
+                checked={fromDaysAgo === 90}
+                onChange={() => setFromDaysAgo(90)}
+              />
+              <span className="ml-2">Last 3 months</span>
+            </label>
+            <label className="inline-flex items-center disabled" title="Coming soon">
+              <input
+                type="radio"
+                className="form-radio"
+                name="syncStartDate"
                 value="all"
-                checked={syncStartDate === 'all'}
-                onChange={() => setSyncStartDate('all')}
+                disabled={true}
+                checked={fromDaysAgo === 0}
+                onChange={() => setFromDaysAgo(0)}
               />
               <span className="ml-2">All time</span>
             </label>
           </div>
           <div className="mt-2">
-            {syncStartDate === 'all' && (
+            {fromDaysAgo === 30 && (
+              <p className="text-sm text-gray-500">
+                This will take a while, please be patient.
+              </p>
+            )}
+            {fromDaysAgo === 0 && (
               <button
                 onClick={handleBuyMeCoffee}
                 className="text-blue-600 hover:underline"
