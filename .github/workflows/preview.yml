@@ -49,4 +49,4 @@ jobs:
 
       - name: Seed database
         run: |
-          node dist/seed.js
+          node --loader ts-node/esm db/src/seed.ts
