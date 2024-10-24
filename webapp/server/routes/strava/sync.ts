@@ -28,7 +28,8 @@ export async function findLastActivityDate(): Promise<Date> {
   }
 }
 
-// data sync from strava
+// Data sync from strava.
+// Due to the rate limit, we move > 1 month data to etl pipelines.
 export async function fetchStravaActivities(userId: string, fromDate: Date, toDate: Date): Promise<Activity[]> {
   try {
     // Fetch activities list data from Strava, it only has partial data

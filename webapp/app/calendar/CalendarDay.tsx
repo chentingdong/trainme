@@ -2,9 +2,9 @@
 
 import SportIcon from "@/app/activities/SportIcon";
 
-import { PiPaperPlaneFill } from "react-icons/pi";
+import { FaPlus } from "react-icons/fa";
 import { format } from "date-fns";
-import type { Activity, Workout } from "@trainme/db";
+import { defaultWorkout, type Activity, type Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 import { CalendarDayActivities } from "./CalendarDayActivity";
 import { CalendarDayWorkouts } from "./CalendarDayWorkouts";
@@ -17,7 +17,7 @@ type CalendarDayProps = {
 };
 
 function CalendarDay({ date, activities, workouts, onWorkoutDrop }: CalendarDayProps) {
-  const { scheduleDate, setScheduleDate } = useCalendarState();
+  const { scheduleDate, setScheduleDate, setWorkout } = useCalendarState();
 
   const workoutButtonStyle: string = (() => {
     let cn = "btn btn-icon btn-workout border-none w-full";
@@ -37,6 +37,10 @@ function CalendarDay({ date, activities, workouts, onWorkoutDrop }: CalendarDayP
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
+
+  function createWorkout(): void {
+    setWorkout(defaultWorkout);
+  }
 
   return (
     <div
@@ -60,9 +64,9 @@ function CalendarDay({ date, activities, workouts, onWorkoutDrop }: CalendarDayP
         <CalendarDayWorkouts date={date} workouts={workouts} />
       </div>
       <div className="card-footer px-4 py-0.5">
-        <button className={workoutButtonStyle}>
+        <button className={workoutButtonStyle} onClick={() => createWorkout()}>
           {format(date, "EEEE")}
-          <PiPaperPlaneFill width={200} />
+          <FaPlus />
         </button>
       </div>
     </div>
