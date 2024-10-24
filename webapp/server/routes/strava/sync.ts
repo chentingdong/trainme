@@ -6,6 +6,7 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 import { endOfDay, subDays } from 'date-fns';
+import type { Prisma } from '@prisma/client';
 
 // last activity date synced from strava
 export async function findLastActivityDate(): Promise<Date> {
@@ -109,7 +110,7 @@ export async function fetchStravaActivities(userId: string, fromDate: Date, toDa
           uuid: uuidv4(),
         };
 
-        await db.$transaction(async (tx) => {
+        await db.$transaction(async (tx: Prisma.TransactionClient) => {
           await tx.activity.upsert({
             where: { id: activityData.id },
             update: activityData,

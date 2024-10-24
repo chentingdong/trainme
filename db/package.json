@@ -13,24 +13,25 @@
     "build": "tsc && prisma generate",
     "postinstall": "prisma generate",
     "lint:prettier": "prettier --ignore-path .gitignore --write .",
-    "lint:eslint": "eslint --fix"
+    "lint:eslint": "eslint --fix",
+    "seed": "node --no-warnings --loader ts-node/esm src/seed.ts"
   },
   "dependencies": {
     "@langchain/community": "0.2.27",
     "@langchain/core": "0.2.23",
     "@langchain/openai": "0.2.6",
     "@prisma/client": "5.20.0",
+    "@types/node": "20.14.8",
+    "@types/uuid": "^10.0.0",
     "langchain": "0.2.10",
     "prisma": "5.20.0",
+    "typescript": "5.5.2",
+    "ts-node": "^10.9.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/node": "20.14.8",
-    "@types/uuid": "^10.0.0",
     "eslint": "8.57.0",
-    "prettier": "3.3.2",
-    "ts-node": "^10.9.2",
-    "typescript": "5.5.2"
+    "prettier": "3.3.2"
   },
   "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"
 }

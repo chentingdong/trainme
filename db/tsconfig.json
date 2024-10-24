@@ -1,19 +1,13 @@
 {
   "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
     "rootDir": "src",
-    "outDir": "dist",
-    "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "target": "ES6",
-    "moduleResolution": "Bundler",
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "isolatedModules": true,
-    "declaration": true,
-    "strictNullChecks": true
+    "outDir": "dist"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist"]

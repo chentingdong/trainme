@@ -14,7 +14,10 @@ defaults:
     working-directory: ./db
 
 jobs:
-  call-shared-jobs:
-    uses: ./.github/workflows/jobs/db-migration.yml
+  use-shared-steps:
+    uses: ./.github/workflows/db-migration.yml
     with:
-      environment: production
+      environment: preview
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL_PRODUCTION }}

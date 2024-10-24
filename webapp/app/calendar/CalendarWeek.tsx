@@ -43,7 +43,6 @@ export default function CalendarWeek({ aday, showBgImage = false }: Props) {
 
   useEffect(() => {
     if (weeklyData) {
-      console.log("weeklyData", weeklyData.activities.map(a => a.startDateLocal));
       setActivities(weeklyData.activities);
     }
   }, [weeklyData, setActivities]);
