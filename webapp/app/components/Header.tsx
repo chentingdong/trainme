@@ -4,19 +4,21 @@ import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
-import { UserButton, SignInButton, useAuth } from "@clerk/nextjs";
+import { UserButton, SignInButton } from "@clerk/nextjs";
 import { FaDumbbell, FaGear, FaUser } from 'react-icons/fa6';
 import { trpc } from '@/app/api/trpc/client';
 import { Activity } from '@prisma/client';
 import { useState } from 'react';
+import { useUser } from '@clerk/clerk-react'
 
 const Header = () => {
-  const { userId } = useAuth();
   const [newActivities, setNewActivities] = useState<Activity[]>([]);
   const { mutateAsync, isPending } = trpc.strava.sync.useMutation();
+  const { isSignedIn } = useUser();
 
   const syncStrava = async () => {
-    const activities = await mutateAsync();
+    // No parameters means async from the latest activity.
+    const activities = await mutateAsync({});
     setNewActivities(activities);
   };
 
@@ -39,7 +41,7 @@ const Header = () => {
               <FcSynchronize
                 className={isPending ? "icon loading-icon" : "icon"}
               />
-              Sync Strava
+              Sync Latest
             </a>
           </li>
           <li>
@@ -78,7 +80,7 @@ const Header = () => {
             </a>
           </li>
           <li className="flex gap-1 items-center">
-            {!!userId ? (
+            {!!isSignedIn ? (
               <UserButton
                 appearance={{
                   elements: {

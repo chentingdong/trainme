@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export * from '@prisma/client';
 
-const LOG_LEVELS: Prisma.LogLevel[] = ['warn', 'error'];
+const LOG_LEVELS: Prisma.LogLevel[] = ['info', 'warn', 'error'];
 
 const getPrismaClient = () => {
   if (process.env.VERCEL_ENV) {
@@ -26,23 +26,19 @@ const db = getPrismaClient();
 
 export { db };
 
-// TODO: These should either in the db or somewhere hold all constants
 export const defaultWorkout: Workout = {
-  id: uuidv4(),
-  name: "Base run",
+  id: '',
+  name: 'Default Workout',
+  date: new Date(),
   description: "",
-  steps: ["10m Z1"],
+  sportType: "Run",
   distance: null,
   duration: null,
-  sportType: "Run",
+  steps: ['1. 10m Z2 Warm up', '2. 10m Z4', '3. 10m Z2 Cool down'],
+  feeling: null,
+  rpe: null,
+  notes: null,
+  activityUuid: null,
+  athleteId: 0,
 };
 
-export const emptyWorkout: Workout = {
-  id: uuidv4(),
-  name: "",
-  description: "",
-  steps: [],
-  distance: null,
-  duration: null,
-  sportType: "",
-};

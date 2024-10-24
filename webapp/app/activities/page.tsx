@@ -11,7 +11,7 @@ function Page() {
   const observer = useRef<IntersectionObserver | null>(null);
   const [allActivities, setAllActivities] = useState<ActivityWithLaps[]>([]);
 
-  const { data, isLoading, isError, isFetching } = trpc.activities.getPaginatedActivities.useQuery({
+  const { data, isLoading, isError, isFetching } = trpc.activities.getMany.useQuery({
     cursor: page,
     limit: 5,
   });

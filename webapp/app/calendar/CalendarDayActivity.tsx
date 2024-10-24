@@ -1,31 +1,18 @@
 "use client";
 
-import React from "react";
 import { formatTimeSeconds } from "@/utils/timeUtils";
 import { formatDistance } from "@/utils/distanceUtils";
 import type { Activity } from "@trainme/db";
-import { endOfDay, format, startOfDay } from "date-fns";
+import { format } from "date-fns";
 import SportIcon from "../activities/SportIcon";
-import { trpc } from '@/app/api/trpc/client';
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 
 type Props = {
-  date: Date;
+  activities: Activity[];
 };
 
-export function CalendarDayActivities({ date }: Props) {
+export function CalendarDayActivities({ activities }: Props) {
   const { setActivity } = useCalendarState();
-  const { data: activities } = trpc.activities.getActivities.useQuery({
-    filter: {
-      startDateLocal: {
-        gte: startOfDay(date),
-        lt: endOfDay(date),
-      },
-    },
-    orderBy: {
-      startDateLocal: 'asc'
-    }
-  });
 
   return (<>
     <ul className="mx-0.25 shadow-sm">

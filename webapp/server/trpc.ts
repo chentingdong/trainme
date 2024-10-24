@@ -23,7 +23,7 @@ export const publicProcedure = t.procedure;
 
 export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
   // Perform authentication inside the middleware
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) {
     throw new TRPCError({
@@ -32,7 +32,7 @@ export const protectedProcedure = t.procedure.use(async ({ ctx, next }) => {
     });
   }
 
-  // Extend the context with userId and orgId
+  // Extend the context with userId
   const authContext: AuthContext = {
     ...ctx,
     userId,

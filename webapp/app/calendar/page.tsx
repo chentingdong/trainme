@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import WorkoutEditor from "../workouts/WorkoutEditor";
-import WorkoutList from '@/app/workouts/WorkoutList';
 
 const showImage = false;
 
@@ -24,10 +23,8 @@ export default function Page() {
   };
 
   return (
-    <div className="gap-0 w-full p-4 dark:text-white flex flex-col justify-between">
-      <div
-        className="relative"
-      >
+    <div className="w-full h-full flex flex-col justify-between">
+      <div className="relative">
         <FaChevronLeft
           className="btn btn-icon absolute z-10 w-6 h-6 top-2 left-2"
           onClick={handlePrevWeek}
@@ -39,18 +36,18 @@ export default function Page() {
         <CalendarWeek aday={aday} />
       </div>
       <div
-        className="overflow-auto flex-grow grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85"
+        className="flex-grow overflow-auto grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85"
         style={
           showImage
             ? { backgroundImage: `url('/art/20240811-act-goats.jpg')` }
             : undefined
         }
       >
-        <div className="col-span-3 h-full overflow-auto">
-          <WorkoutList />
-        </div>
-        <div className="col-span-9 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
+        <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
           <WorkoutEditor />
+        </div>
+        <div className="col-span-6 h-full overflow-auto">
+          ai chat area
         </div>
       </div>
     </div>

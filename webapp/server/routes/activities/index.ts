@@ -1,7 +1,6 @@
-import { getActivities, getPaginatedActivities } from '@/server/routes/activities/getActivities';
+import { getMany } from '@/server/routes/activities/getMany';
 import { router } from '@/server/trpc';
 
 export const activityRouter = router({
-  getActivities,
-  getPaginatedActivities,
+  getMany,
 });

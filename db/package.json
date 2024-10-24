@@ -21,6 +21,7 @@
     "@langchain/openai": "0.2.6",
     "@prisma/client": "5.20.0",
     "langchain": "0.2.10",
+    "prisma": "5.20.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
@@ -28,7 +29,7 @@
     "@types/uuid": "^10.0.0",
     "eslint": "8.57.0",
     "prettier": "3.3.2",
-    "prisma": "5.20.0",
+    "ts-node": "^10.9.2",
     "typescript": "5.5.2"
   },
   "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"

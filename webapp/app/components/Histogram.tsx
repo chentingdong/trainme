@@ -17,6 +17,9 @@ type Props = {
 
 const ConnectedHistogram = ({ chartData = [], chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
+  const chartHeight = chartRef?.current?.getBoundingClientRect().height || 100;
+  const fontSize = Math.max(10, Math.min(Math.round(chartHeight / 7), 16));
+
   // xScale function to convert time values to pixel positions
   const xScale = (time: number) => {
     const d = chartData.map((d) => Number(d.time));
@@ -38,6 +41,7 @@ const ConnectedHistogram = ({ chartData = [], chartRef }: Props) => {
           dataKey="time"
           domain={["minData", "maxData"]}
           ticks={[]}
+          fontSize={fontSize} 
         />
         <YAxis
           type="number"
@@ -68,12 +72,15 @@ const CustomizedBar = (props: any) => {
     : Number(currentTime);
   const barWidth = xScale(nextTime) - xScale(currentTime);
   const fill = getZoneColor(data[index].zone);
+  const fontSize = Math.max(8, Math.min(Math.round(height / 4), 16));
+
   return (
     <>
       <rect x={x} y={y} width={barWidth} height={height} fill={fill} />
       <text
-        x={x + barWidth / 2}
+        x={x + barWidth / 2 + fontSize / 4}
         y={y + height / 2}
+        fontSize={fontSize}
         fill="#fff"
         textAnchor="middle"
         dominantBaseline="middle"

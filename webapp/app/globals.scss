@@ -57,14 +57,14 @@ html {
 /* Custom styles for dark mode */
 @media (prefers-color-scheme: dark) {
   .btn-info {
-    background-color: #17a2b8; 
+    background-color: #17a2b8;
     border-color: #17a2b8;
     color: #dedede;
   }
 
   .btn-info:hover {
-    background-color: #138496; 
-    border-color: #117a8b; 
+    background-color: #138496;
+    border-color: #117a8b;
   }
 }
 
@@ -93,31 +93,30 @@ body {
   .li {
     @apply list-none p-0 m-0;
   }
-
+  .disabled {
+    @apply opacity-20 cursor-not-allowed;
+  }
+  
   .btn {
-    @apply py-2 px-4 rounded-lg;
+    @apply py-2 px-4 rounded-lg cursor-pointer font-semibold;
     &.btn-primary {
-      @apply bg-teal-700 text-white font-semibold;
+      @apply bg-teal-700 text-white;
       @apply hover:bg-teal-500 hover:text-white;
     }
     &.btn-secondary {
-      @apply bg-gray-500 text-white font-semibold;
+      @apply bg-gray-500 text-white;
       @apply hover:bg-gray-600 hover:text-gray-100;
     }
     &.btn-warning {
-      @apply bg-orange-500 text-white font-semibold;
+      @apply bg-orange-500 text-white;
       @apply hover:bg-orange-600 hover:text-white;
     }
     &.btn-danger {
-      @apply bg-red-500 text-white font-semibold;
+      @apply bg-red-500 text-white;
       @apply hover:bg-red-600 hover:text-white;
     }
     &.btn-info {
       @apply bg-transparent text-gray-500 border border-gray-500;
-      @apply hover:bg-gray-500 hover:text-white;
-    }
-    &.btn-disabled {
-      @apply bg-gray-300 text-gray-500 cursor-not-allowed;
     }
     &.btn-workout {
       @apply bg-gray-500 text-slate-200 font-semibold;
@@ -126,8 +125,19 @@ body {
         @apply bg-yellow-400 text-white;
       }
     }
+    &.btn-coffee {
+      @apply bg-yellow-900 text-white;
+      @apply hover:bg-yellow-800 hover:text-white;
+    }
+    &.btn-partner {
+      @apply bg-red-500 text-white;
+      @apply hover:bg-red-600 hover:text-white;
+    }
     &.selected {
       @apply bg-slate-500 text-slate-100;
+    }
+    &.btn-disabled {
+      @apply opacity-20 cursor-not-allowed;
     }
   }
   .btn-icon {
@@ -142,6 +152,7 @@ body {
 }
 
 @layer components {
+  // TODO: scope this to only calendar cards. and it's not workign well in dark mode.
   .card {
     @apply bg-transparent;
     @apply text-sm;
@@ -189,7 +200,7 @@ body {
       @apply col-span-5;
     }
     > div {
-      @apply col-span-7;
+      @apply col-span-7 px-1;
     }
     input,
     textarea,
@@ -199,10 +210,21 @@ body {
     }
   }
 
-  textarea.workout-board {
-    @apply text-lg font-handwriting tracking-widest;
-    @apply w-4/5 mx-auto scroll rounded-lg border-none;
-    @apply bg-stone-300 dark:bg-stone-800;
+  textarea {
+    &.workout-board {
+      @apply text-lg font-handwriting tracking-widest;
+      @apply w-4/5 mx-auto scroll rounded-lg border-none;
+      @apply bg-stone-300 dark:bg-stone-800;
+    }
+    &.workout-notes {
+      @apply text-sm font-handwriting tracking-widest;
+      @apply w-full scroll rounded-lg border-none;
+      @apply bg-stone-300 dark:bg-stone-800;
+    }
+  }
+
+  .range-slider {
+    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700;
   }
 
   .toast-container {
@@ -228,3 +250,9 @@ body {
   }
 }
 
+.cl-footer,
+.cl-userButtonPopoverFooter {
+  div:nth-child(2) {
+    @apply hidden;
+  }
+}
