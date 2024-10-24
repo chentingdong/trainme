@@ -15,7 +15,7 @@ type Props = {
   chartRef: RefObject<HTMLDivElement>;
 };
 
-const ConnectedHistogram = ({ chartData = [], chartRef }: Props = { chartData: [], chartRef: null }) => {
+const ConnectedHistogram = ({ chartData = [], chartRef }: Props) => {
   const margin = { top: 0, right: 0, bottom: 0, left: -60 };
   const chartHeight = chartRef?.current?.getBoundingClientRect().height || 100;
   const fontSize = Math.max(10, Math.min(Math.round(chartHeight / 7), 16));

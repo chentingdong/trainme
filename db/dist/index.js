@@ -23,7 +23,7 @@ export const defaultWorkout = {
     sportType: "Run",
     distance: null,
     duration: null,
-    steps: [''],
+    steps: ['1. 10m Z2 Warm up', '2. 10m Z4 Interval', '3. 10m Z2 Cool down'],
     feeling: null,
     rpe: null,
     notes: null,

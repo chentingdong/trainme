@@ -17,6 +17,7 @@ const Header = () => {
   const { isSignedIn } = useUser();
 
   const syncStrava = async () => {
+    // No parameters means async from the latest activity.
     const activities = await mutateAsync({});
     setNewActivities(activities);
   };
