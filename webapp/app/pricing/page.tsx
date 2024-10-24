@@ -12,16 +12,17 @@ const PricingPage = () => {
         "Access to core AI training insights",
         "Basic activity tracking and analysis",
       ],
-      note: "Perfect for casual athletes and those new to training analysis.",
+      note: "Good for most use cases, but limited to 3 months of data.",
       price: "$0",
       buttonText: "Enjoy",
       buttonClass: "btn-primary",
       icon: <SiCoffeescript className="w-4 h-4 mr-2" />,
       disabled: false,
+      buttonLink: "/settings",
     },
     {
       title: "Basic",
-      description: "Buy me a coffee while we setup Basic features.",
+      description: "Buy me a cup of coffee while we setup your Basic features.",
       features: [
         "Sync all historical data for comprehensive analysis",
         "Enhance AI personalization with complete activity history",
@@ -34,15 +35,16 @@ const PricingPage = () => {
       buttonLink: process.env.NEXT_PUBLIC_STRIPE_PAYMENT_LINK,
       buttonClass: "btn-coffee",
       icon: <SiCoffeescript className="w-4 h-4 mr-2" />,
-      disabled: false,
+      disabled: true,
     },
     {
       title: "Premium",
       description: "Subscribe to unlock premium features.",
       features: [
-        "Access to all premium features",
-        "Priority for new feature requests",
+        "Access to all Basic features",
+        "Personalize training plans based on your choices of books or articles",
         "Early access to beta features",
+        "Priority for new feature requests",
       ],
       price: "$10",
       priceNote: "/month",
@@ -91,7 +93,7 @@ const PricingPage = () => {
                 ))}
               </ul>
               {plan.note && (
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
                   {plan.note}
                 </p>
               )}

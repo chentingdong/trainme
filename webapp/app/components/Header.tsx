@@ -17,7 +17,7 @@ const Header = () => {
   const { isSignedIn } = useUser();
 
   const syncStrava = async () => {
-    const activities = await mutateAsync();
+    const activities = await mutateAsync({});
     setNewActivities(activities);
   };
 
@@ -40,7 +40,7 @@ const Header = () => {
               <FcSynchronize
                 className={isPending ? "icon loading-icon" : "icon"}
               />
-              Sync Strava
+              Sync Latest
             </a>
           </li>
           <li>

@@ -8,7 +8,6 @@ export const connected = protectedProcedure
       where: { id: userId },
     });
 
-    console.log('user', user);
     return !!user?.stravaRefreshToken
       && !!user?.stravaAccessToken
       && user?.accessTokenExpiresAt

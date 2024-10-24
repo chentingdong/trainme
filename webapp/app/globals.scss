@@ -93,7 +93,10 @@ body {
   .li {
     @apply list-none p-0 m-0;
   }
-
+  .disabled {
+    @apply opacity-20 cursor-not-allowed;
+  }
+  
   .btn {
     @apply py-2 px-4 rounded-lg cursor-pointer font-semibold;
     &.btn-primary {
@@ -134,7 +137,7 @@ body {
       @apply bg-slate-500 text-slate-100;
     }
     &.btn-disabled {
-      @apply opacity-50 cursor-not-allowed;
+      @apply opacity-20 cursor-not-allowed;
     }
   }
   .btn-icon {
