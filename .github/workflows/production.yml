@@ -6,9 +6,8 @@ on:
   push:
     branches:
       - 'main'
-  pull_request:
-    branches:
-      - 'main'
+    paths:
+      - 'db/prisma/**'
 
 defaults:
   run:

@@ -4,8 +4,13 @@ name: Preview
 
 on:
   push:
-    tags:
-      - 'db-*'
+    branches:
+      - '**'
+      - '!main'
+  pull_request:
+    branches:
+      - '**'
+      - '!main'
 
 defaults:
   run:
