@@ -38,15 +38,38 @@ jobs:
           corepack enable
           corepack prepare pnpm@9.4.0 --activate
 
+      - name: Cache pnpm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install --filter @trainme/db
 
-      - name: DB Migrations
+      - name: Cache build artifacts
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-
+
+      - name: Build
+        working-directory: ./db
+        run: pnpm build
+
+      - name: Convert Prisma Migrations
         run: |
           pnpm -w run convert-migrations
-          pnpm dlx prisma migrate deploy
+      - name: Deploy Prisma Migrations
+        working-directory: ./db
+        run: pnpm prisma migrate deploy
         timeout-minutes: 5
 
       - name: Seed database
+        working-directory: ./db
         run: |
-          node --loader ts-node/esm db/src/seed.ts
+          pnpm seed

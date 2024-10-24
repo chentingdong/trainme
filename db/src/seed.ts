@@ -50,10 +50,13 @@ async function main() {
     { id: 44, 'type': 'Workout', 'sportType': 'Pilates', 'active': false },
   ];
 
-  await prisma.sport.createMany({
-    data: sportsData,
-    skipDuplicates: true,
-  });
+  for (const sport of sportsData) {
+    await prisma.sport.upsert({
+      where: { id: sport.id },
+      update: sport,
+      create: sport,
+    });
+  }
 }
 
 main()

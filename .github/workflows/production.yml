@@ -36,7 +36,7 @@ jobs:
           corepack prepare pnpm@9.4.0 --activate
 
       - name: Install dependencies
-        run: pnpm install --filter @trainme/db
+        run: pnpm install 
 
       - name: DB Migrations
         run: |
@@ -46,4 +46,4 @@ jobs:
 
       - name: Seed database
         run: |
-          node --loader ts-node/esm db/src/seed.ts
+          pnpm --filter @trainme/db run seed
