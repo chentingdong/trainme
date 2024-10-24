@@ -1,8 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-
 const prisma = new PrismaClient();
 
-async function main() {
   const sportsData = [
     { id: 1, 'type': 'Run', 'sportType': 'Run', 'active': true },
     { id: 2, 'type': 'Run', 'sportType': 'TrailRun', 'active': true },
@@ -50,20 +48,17 @@ async function main() {
     { id: 44, 'type': 'Workout', 'sportType': 'Pilates', 'active': false },
   ];
 
-  for (const sport of sportsData) {
-    await prisma.sport.upsert({
-      where: { id: sport.id },
-      update: sport,
-      create: sport,
+async function main() {
+  try {
+    await prisma.sport.createMany({
+      data: sportsData,
+      skipDuplicates: true,
     });
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await prisma.$disconnect();
   }
 }
 
-main()
-  .catch(e => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+main();
