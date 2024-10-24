@@ -13,13 +13,11 @@ defaults:
   run:
     working-directory: ./db
 
-env:
-  NODE_ENV: production
-  DATABASE_URL: "${{ secrets.DATABASE_URL_PRODUCTION }}"
-  DIRECT_URL: "${{ secrets.DIRECT_URL_PRODUCTION }}"
-        
 jobs:
   use-shared-steps:
     uses: ./.github/workflows/db-migration.yml
     with:
-      working-directory: ./db
+      environment: preview
+    secrets:
+      DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+      DIRECT_URL: ${{ secrets.DIRECT_URL_PRODUCTION }}
