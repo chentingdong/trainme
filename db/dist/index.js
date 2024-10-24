@@ -30,4 +30,3 @@ export const defaultWorkout = {
     activityUuid: null,
     athleteId: 0,
 };
-//# sourceMappingURL=index.js.map

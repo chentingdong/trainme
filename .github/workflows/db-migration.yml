@@ -25,10 +25,7 @@ jobs:
       - name: Setup pnpm
         run: |
           corepack enable
-          corepack prepare pnpm@9.0.1 --activate
-
-      - name: Install psql
-        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+          corepack prepare pnpm@9.4.0 --activate
 
       - name: Install dependencies
         run: pnpm install
@@ -38,7 +35,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
-          echo "DATABASE_URL is set to: ($DATABASE_URL)"
+          echo "DATABASE_URL is set to: ${DATABASE_URL}"
           psql $DATABASE_URL --command="SELECT NOW();"
 
       - name: DB Migrations
@@ -46,11 +43,11 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
-          echo "convert migrations"
+          echo "convert migrations ${DATABASE_URL}"
           pnpm -w run convert-migrations
-          echo "deploy migrations"
+          echo "deploy migrations ${DATABASE_URL}"
           pnpm dlx prisma migrate deploy
         timeout-minutes: 5
 
       - name: Seed database
-        run: pnpm -w run seed
+        run: pnpm --filter @trainme/db run seed

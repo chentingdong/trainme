@@ -16,8 +16,7 @@
     "clean": "turbo clean",
     "start": "turbo start",
     "convert-migrations": "./db/bin/convert-migrations.sh",
-    "lint": "turbo lint",
-    "seed": "db/bin/seed.sh"
+    "lint": "turbo lint"
   },
   "devDependencies": {
     "turbo": "^2.1.3"
