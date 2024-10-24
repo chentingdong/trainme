@@ -18,14 +18,14 @@ export default function Page() {
 
       if (isSignedIn && user) {
         try {
-          await createUser({
+          const newUser = await createUser({
             id: user.id,
             email: user.primaryEmailAddress?.emailAddress ?? '',
             firstName: user.firstName ?? '',
             lastName: user.lastName ?? '',
             imageUrl: user.imageUrl ?? '',
           });
-
+          console.log('created new user: ', newUser);
           // Redirect to the original URL
           const redirectUrl = searchParams.get('redirect_url') || '/settings';
           router.push(redirectUrl);

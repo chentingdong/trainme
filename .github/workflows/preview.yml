@@ -19,13 +19,15 @@ jobs:
     strategy:
       matrix:
         node-version: [20.17.0] 
-
-
-    environment: Preview
+        
+    env:
+      NODE_ENV: preview
 
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v4
+        with:
+          version: 8
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3

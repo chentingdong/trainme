@@ -48,7 +48,7 @@ export const syncRefreshToken = protectedProcedure
     try {
       return await getRefreshToken({ userId, code });
     } catch (error) {
-      console.error(error);
+      console.error('error syncing refresh token', error);
       throw error;
     }
   });
