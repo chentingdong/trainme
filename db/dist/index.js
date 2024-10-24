@@ -17,13 +17,13 @@ const db = getPrismaClient();
 export { db };
 export const defaultWorkout = {
     id: '',
-    name: '',
+    name: 'Default Workout',
     date: new Date(),
     description: "",
     sportType: "Run",
     distance: null,
     duration: null,
-    steps: ['1. 10m Z2 Warm up', '2. 10m Z4 Interval', '3. 10m Z2 Cool down'],
+    steps: ['1. 10m Z2 Warm up', '2. 10m Z4', '3. 10m Z2 Cool down'],
     feeling: null,
     rpe: null,
     notes: null,

@@ -15,7 +15,7 @@ jobs:
       NODE_ENV: production
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,18 +27,18 @@ jobs:
           corepack enable
           corepack prepare pnpm@9.0.1 --activate
 
-      - name: Install dependencies
-        run: pnpm install
-
       - name: Install psql
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Debug database connection
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
-          echo "debug database connection: $DATABASE_URL"
+          echo "DATABASE_URL is set to: ($DATABASE_URL)"
           psql $DATABASE_URL --command="SELECT NOW();"
 
       - name: DB Migrations
