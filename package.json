@@ -12,7 +12,7 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "prisma": "cd db && prisma generate && prisma db push&& cd ..",
+    "prisma": "cd db && npx prisma generate && npx prisma db push && cd ..",
     "clean": "turbo clean",
     "start": "turbo start",
     "convert-migrations": "./db/bin/convert-migrations.sh",
