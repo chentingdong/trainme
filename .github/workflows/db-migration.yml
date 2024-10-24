@@ -28,26 +28,26 @@ jobs:
           corepack prepare pnpm@9.4.0 --activate
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --filter @trainme/db
 
-      - name: Debug database connection
-        env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
-        run: |
-          echo "DATABASE_URL is set to: ${DATABASE_URL}"
-          psql $DATABASE_URL --command="SELECT NOW();"
+      # - name: Debug database connection
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      #     DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      #   run: |
+      #     echo "DATABASE_URL is set to: ${{ secrets.DATABASE_URL }}"
+      #     psql ${{ secrets.DATABASE_URL }} --command="SELECT NOW();"
 
       - name: DB Migrations
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ env.DATABASE_URL }}
+          DIRECT_URL: ${{ env.DIRECT_URL }}
         run: |
-          echo "convert migrations ${DATABASE_URL}"
           pnpm -w run convert-migrations
-          echo "deploy migrations ${DATABASE_URL}"
           pnpm dlx prisma migrate deploy
         timeout-minutes: 5
 
       - name: Seed database
-        run: pnpm --filter @trainme/db run seed
+        run: |
+          cd db
+          node dist/seed.js
