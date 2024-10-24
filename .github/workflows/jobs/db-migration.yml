@@ -35,13 +35,15 @@ jobs:
 
       - name: Debug database connection
         env:
-          DATABASE_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
-          psql ${{ secrets.DATABASE_URL }} --command="SELECT NOW();"
+          echo "debug database connection: $DATABASE_URL"
+          psql $DATABASE_URL --command="SELECT NOW();"
 
       - name: DB Migrations
         env:
-          DATABASE_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
         run: |
           echo "convert migrations"

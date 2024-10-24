@@ -15,6 +15,6 @@ defaults:
 
 jobs:
   call-shared-jobs:
-    uses: ./jobs/db-migration.yml
+    uses: ./.github/workflows/jobs/db-migration.yml
     with:
       environment: production
