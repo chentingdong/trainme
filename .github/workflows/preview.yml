@@ -20,4 +20,4 @@ jobs:
   call-shared-jobs:
     uses: ./.github/workflows/db-migration.yml
     with:
-      environment: preview
+      environment: PREVIEW

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
-const db = new PrismaClient();
-function main() {
+const prisma = new PrismaClient();
+async function main() {
     const sportsData = [
         { id: 1, 'type': 'Run', 'sportType': 'Run', 'active': true },
         { id: 2, 'type': 'Run', 'sportType': 'TrailRun', 'active': true },
@@ -47,20 +47,16 @@ function main() {
         { id: 43, 'type': 'Workout', 'sportType': 'HighIntensityIntervalTraining', 'active': false },
         { id: 44, 'type': 'Workout', 'sportType': 'Pilates', 'active': false },
     ];
-    return db.sport.createMany({
+    await prisma.sport.createMany({
         data: sportsData,
         skipDuplicates: true,
     });
 }
-try {
-    const result = await main();
-    console.log(result);
-}
-catch (e) {
+main()
+    .catch(e => {
     console.error(e);
     process.exit(1);
-}
-finally {
-    console.log('Seeding completed successfully');
-    db.$disconnect();
-}
+})
+    .finally(async () => {
+    await prisma.$disconnect();
+});

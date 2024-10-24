@@ -77,7 +77,7 @@ export default function WorkoutEditor() {
               rules={{
                 validate: {
                   notTaken: (value) =>
-                    workouts?.map(workout => workout.name).includes(value?.toString().trim() ?? "")
+                    workouts?.map((workout: Workout) => workout.name).includes(value?.toString().trim() ?? "")
                       ? "Name taken"
                       : true,
                 },
@@ -166,7 +166,7 @@ export default function WorkoutEditor() {
               control={control}
               rules={{
                 validate: (value) =>
-                  workouts?.map(workout => workout.name)
+                  workouts?.map((workout: Workout) => workout.name)
                     .includes(value?.toString() ?? "")
                     ? "Name taken"
                     : true,

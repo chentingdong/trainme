@@ -1,6 +1,6 @@
 import { protectedProcedure } from '@/server/trpc';
 import { auth } from '@clerk/nextjs/server';
-import { db } from '@trainme/db';
+import { db, Prisma } from '@trainme/db';
 import axios from "axios";
 
 export async function fetchAthlete(accessToken: string): Promise<void> {
@@ -44,7 +44,7 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
     updatedAt: new Date(data.updated_at),
   };
 
-  await db.$transaction(async (tx) => {
+  await db.$transaction(async (tx: Prisma.TransactionClient) => {
     await tx.athlete.upsert({
       where: { id: data.id },
       update: athlete,
