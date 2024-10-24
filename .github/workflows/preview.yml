@@ -4,8 +4,11 @@ name: Preview
 
 on:
   push:
-    tags:
-      - 'db-*'
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
 
 defaults:
   run:
@@ -42,3 +45,6 @@ jobs:
           pnpm -w run convert-migrations
           pnpm dlx prisma migrate deploy --preview-feature
         timeout-minutes: 1
+
+      - name: Seed database
+        run: pnpm -w run seed        
