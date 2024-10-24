@@ -21,8 +21,8 @@ jobs:
       matrix:
         node-version: [20.17.0] 
 
-
-    environment: Production
+    env:
+      NODE_ENV: production
 
     steps:
       - uses: actions/checkout@v3
@@ -46,4 +46,7 @@ jobs:
         run: pnpm -w run convert-migrations && 
             pnpm dlx prisma migrate deploy --preview-feature
         timeout-minutes: 1
+
+      - name: Seed database
+        run: pnpm -w run seed
         

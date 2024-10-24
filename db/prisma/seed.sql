@@ -1,4 +1,5 @@
-INSERT INTO sport (id, type, sport_type, active) VALUES
+INSERT INTO sport (id, type, sport_type, active) 
+VALUES
   (1, 'Run', 'Run', true),
   (2, 'Run', 'TrailRun', true),
   (3, 'Run', 'VirtualRun', false),
@@ -42,4 +43,5 @@ INSERT INTO sport (id, type, sport_type, active) VALUES
   (41, 'Windsurf', 'Windsurf', false),
   (42, 'Workout', 'Workout', false),
   (43, 'Workout', 'HighIntensityIntervalTraining', false),
-  (44, 'Workout', 'Pilates', false);
+  (44, 'Workout', 'Pilates', false)
+ON CONFLICT (id) DO NOTHING;
