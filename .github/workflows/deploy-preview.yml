@@ -1,10 +1,11 @@
 name: Preview Vercel Deploy
 
 on:
-  pull_request:
-    branches:
-      - '**'
-      - '!main'
+  push:
+    tags:
+      - 'preview-*'
+    paths:
+      - 'webapp/**'
 
 defaults:
   run:
