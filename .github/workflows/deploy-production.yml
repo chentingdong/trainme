@@ -1,9 +1,6 @@
 name: Deploy to Vercel Production
 
 on:
-  push:
-    tags:
-      - 'release-*'
   pull_request:
     branches:
       - '**'

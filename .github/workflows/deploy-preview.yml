@@ -1,9 +1,6 @@
 name: Deploy to Vercel Preview
 
 on:
-  push:
-    tags:
-      - 'preview-*'
   pull_request:
     branches:
       - '**'
