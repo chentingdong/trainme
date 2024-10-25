@@ -5,9 +5,7 @@ name: Preview DB Migration
 on:
   push:
     tags:
-      - 'preview-*'
-    paths:
-      - 'db/prisma/**'
+      - 'db-*'
 
   pull_request:
     branches:

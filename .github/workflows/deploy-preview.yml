@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'preview-*'
-    paths:
-      - 'webapp/**'
 
 defaults:
   run:
