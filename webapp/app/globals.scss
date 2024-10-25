@@ -149,6 +149,13 @@ body {
       background-color: rgb(var(--background-start-rgb));
     }
   }
+  .avatar {
+    @apply w-5 h-5 rounded-full;
+    background-color: rgb(var(--background-end-rgb));
+    &:hover {
+      background-color: rgb(var(--background-start-rgb));
+    }
+  }
 }
 
 @layer components {
@@ -191,7 +198,7 @@ body {
     @apply p-4 rounded-md shadow-md bg-slate-50 text-slate-900;
   }
   .scroll {
-    @apply scrollbar-none scrollbar-thumb-yellow-400 scrollbar-track-transparent;
+    @apply scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent;
   }
   /* Custom styles for form-group alignment */
   .form-group {

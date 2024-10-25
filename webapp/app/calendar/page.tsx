@@ -5,7 +5,7 @@ import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import WorkoutEditor from "../workouts/WorkoutEditor";
 import { ChatWindow } from '@/app/chat/ChatWindow';
-import Placeholder from '@/app/components/PlaceHolder';
+import Placeholder from '@/app/components/Placeholder';
 
 const showImage = false;
 
@@ -51,8 +51,7 @@ export default function Page() {
         <div className="col-span-6 h-full overflow-auto">
           <ChatWindow
             endpoint="api/chat"
-            emoji="🏴‍☠️"
-            titleText="Patchy the Chatty Pirate"
+            titleText="Private Virtual Coach"
             placeholder="I'm an LLM pretending to be a coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}
           />
