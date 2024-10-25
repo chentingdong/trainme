@@ -27,7 +27,7 @@ const Header = () => {
       <nav className="flex justify-between items-center">
         <a href="/" className="text-xl font-normal flex gap-4">
           <div className="bg-blue-500 rounded-full w-5 h-5">
-            <Image src="/TrainMe.webp" alt="Logo" width={32} height={32} />
+            <Image src="/trainme.webp" alt="Logo" width={32} height={32} />
           </div>
           <div className="text-blue-100">TrainMe</div>
         </a>
