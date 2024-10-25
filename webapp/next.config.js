@@ -39,12 +39,7 @@ const nextConfig = {
   },
 
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'dgalywyr863hv.cloudfront.net',
-      },
-    ],
+    domains: ['dgalywyr863hv.cloudfront.net', 'img.clerk.com'],
   },
 };
 

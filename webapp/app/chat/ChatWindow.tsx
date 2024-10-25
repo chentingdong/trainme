@@ -15,13 +15,12 @@ export function ChatWindow(props: {
   emptyStateComponent: ReactElement,
   placeholder?: string,
   titleText?: string,
-  emoji?: string;
   showIngestForm?: boolean,
   showIntermediateStepsToggle?: boolean;
 }) {
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
   const { toast } = useToast();
-  const { endpoint, emptyStateComponent, placeholder, titleText = "An LLM", showIngestForm, showIntermediateStepsToggle, emoji } = props;
+  const { endpoint, emptyStateComponent, placeholder, titleText = "An LLM", showIngestForm, showIntermediateStepsToggle } = props;
 
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
   const [intermediateStepsLoading, setIntermediateStepsLoading] = useState(false);
@@ -124,11 +123,11 @@ export function ChatWindow(props: {
   }
 
   return (
-    <div className={`h-full flex flex-col items-center p-4 md:p-8 rounded grow overflow-hidden ${(messages.length > 0 ? "border" : "")}`}>
-      <h2 className={`${messages.length > 0 ? "" : "hidden"} text-2xl`}>{emoji} {titleText}</h2>
+    <div className={`h-full flex flex-col items-center p-4 md:p-8 rounded grow overflow-hidden`}>
+      <h2 className={`${messages.length > 0 ? "" : "hidden"} w-full p-2 shadow-md rounded-md bg-slate-200 dark:bg-slate-700`}>{titleText}</h2>
       {messages.length === 0 ? emptyStateComponent : ""}
       <div
-        className="flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out"
+        className="flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out scroll"
         ref={messageContainerRef}
       >
         {messages.length > 0 ? (
@@ -136,12 +135,12 @@ export function ChatWindow(props: {
             .reverse()
             .map((m, i) => {
               const sourceKey = (messages.length - 1 - i).toString();
-              return (m.role === "system"
-                ? <IntermediateStep key={m.id} message={m}></IntermediateStep>
-                : <ChatMessageBubble key={m.id} message={m} aiEmoji={emoji} sources={sourcesForMessages[sourceKey]}></ChatMessageBubble>);
+              return m.role === "system"
+                ? <IntermediateStep key={m.id} message={m} />
+                : <ChatMessageBubble key={m.id} message={m} sources={sourcesForMessages[sourceKey]} />;
             })
         ) : (
-          ""
+            null
         )}
       </div>
 
