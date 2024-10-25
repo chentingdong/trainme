@@ -40,7 +40,7 @@ export default function WorkoutEditor() {
 
   return (
     <form
-      className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85"
+      className="grid grid-cols-9 gap-4 p-2 m-0 h-full w-full bg-slate-100 dark:bg-black opacity-85 text-2xs"
     >
       <div className="col-span-4 bg-center bg-cover h-full">
         <Controller
