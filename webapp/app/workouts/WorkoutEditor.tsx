@@ -11,6 +11,7 @@ import { trpc } from '@/app/api/trpc/client';
 import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 import { cn } from '@/utils/helper';
+import { workoutTotalDistance, workoutTotalDuration } from '@/utils/distanceUtils';
 
 export default function WorkoutEditor() {
   const { scheduleDate, workout, setWorkout, setWorkouts } = useCalendarState();
@@ -35,8 +36,14 @@ export default function WorkoutEditor() {
     },
   });
 
-
   if (!workout) return <></>;
+
+  const saveWorkoutSteps = (steps: string[]) => {
+    const totalDistance = workoutTotalDistance(steps);
+    const totalDuration = workoutTotalDuration(steps);
+
+    setWorkout({ ...workout, steps: steps, distance: totalDistance, duration: totalDuration });
+  };
 
   return (
     <form
@@ -60,7 +67,7 @@ export default function WorkoutEditor() {
                 onChange={(e) => {
                   const steps = e.target.value.split("\n");
                   field.onChange(steps);
-                  setWorkout({ ...workout, steps: steps });
+                  saveWorkoutSteps(steps);
                 }}
               />
             );
@@ -68,7 +75,7 @@ export default function WorkoutEditor() {
         />
       </div>
       <div className="col-span-5 flex flex-col justify-between h-full overflow-auto">
-        <div className="flex-1">
+        <div className="flex-2 flex flex-col gap-0.5">
           <div className="form-group">
             <Label htmlFor="name">Workout Name</Label>
             <Controller
@@ -191,6 +198,8 @@ export default function WorkoutEditor() {
               )}
             />
           </div>
+        </div>
+        <div className="flex-1 flex flex-col gap-1.5">
           <div className="my-4 text-sm">
             If workout is linked to an activity:
           </div>

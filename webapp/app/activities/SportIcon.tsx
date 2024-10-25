@@ -5,54 +5,52 @@ import { GiCycling } from "react-icons/gi";
 import { BiCycling } from "react-icons/bi";
 import { TbSwimming } from "react-icons/tb";
 import { TbStretching } from "react-icons/tb";
+import { cn } from '@/utils/helper';
 
 interface Props {
   type: string | null | undefined;
   withColor?: boolean;
+  className?: string;
 }
 
-export default function SportIcon({ type, withColor }: Props) {
+export default function SportIcon({ type, withColor, className }: Props) {
   if (withColor === undefined) withColor = true;
-
-  const getClassNames = (baseClass: string, colorClass: string) => {
-    return withColor ? `${baseClass} ${colorClass}` : baseClass;
-  };
 
   switch (type) {
     case "Run":
       return (
         <GiRunningShoe
-          className={getClassNames("btn-icon", "bg-red-700 text-green-200")}
+          className={cn("btn-icon", "bg-red-700 text-green-200", className)}
         />
       );
     case "Ride":
       return (
         <GiCycling
-          className={getClassNames("btn-icon", "bg-green-700 text-cyan-200")}
+          className={cn("btn-icon", "bg-green-700 text-cyan-200", className)}
         />
       );
     case "VirtualRide":
       return (
         <BiCycling
-          className={getClassNames("btn-icon", "bg-green-700 text-cyan-200")}
+          className={cn("btn-icon", "bg-green-700 text-cyan-200", className)}
         />
       );
     case "Swim":
       return (
         <TbSwimming
-          className={getClassNames("btn-icon", "bg-blue-700 text-red-200")}
+          className={cn("btn-icon", "bg-blue-700 text-red-200", className)}
         />
       );
     case "WeightTraining":
       return (
         <FaDumbbell
-          className={getClassNames("btn-icon", "bg-yellow-700 text-purple-200")}
+          className={cn("btn-icon", "bg-yellow-700 text-purple-200", className)}
         />
       );
     case "Yoga":
       return (
         <TbStretching
-          className={getClassNames("btn-icon", "bg-purple-700 text-yellow-200")}
+          className={cn("btn-icon", "bg-purple-700 text-yellow-200", className)}
         />
       );
     case "Walk":

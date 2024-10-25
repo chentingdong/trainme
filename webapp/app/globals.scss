@@ -150,7 +150,7 @@ body {
     }
   }
   .avatar {
-    @apply w-5 h-5 rounded-full;
+    @apply w-4 h-4 bg-cover rounded-sm;
     background-color: rgb(var(--background-end-rgb));
     &:hover {
       background-color: rgb(var(--background-start-rgb));
@@ -202,7 +202,7 @@ body {
   }
   /* Custom styles for form-group alignment */
   .form-group {
-    @apply my-1 grid grid-cols-12 gap-2 items-center;
+    @apply grid grid-cols-12 gap-2 items-center;
     label {
       @apply col-span-5;
       @apply text-2xs leading-tight;
