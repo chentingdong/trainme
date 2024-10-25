@@ -16,7 +16,6 @@ const Page = () => {
           <br />
           <br />
           <span>master with plan, race with heart.</span>
-          <br />
         </h1>
       </div>
     </div>
