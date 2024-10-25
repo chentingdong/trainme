@@ -1,4 +1,6 @@
 export default `
+Monday:
+
 Day 1: light swim in the morning (maybe 30 minutes just to get your heartrate up), hard track workout in the afternoon or brick workout if closer to race day.
 
 Day 2: Bike intervals

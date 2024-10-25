@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import DEFAULT_RETRIEVAL_TEXT from "@/data/AnExamplePlan";
+import DEFAULT_RETRIEVAL_TEXT from "@/data/DefaultWeeklyPlan";
 
 export function UploadDocumentsForm() {
   const [isLoading, setIsLoading] = useState(false);

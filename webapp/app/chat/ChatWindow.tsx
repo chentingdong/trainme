@@ -9,6 +9,8 @@ import { ChatMessageBubble } from "@/app/chat/ChatMessageBubble";
 import { UploadDocumentsForm } from "@/app/chat/UploadDocumentsForm";
 import { IntermediateStep } from "@/app/chat/IntermediateStep";
 import { useToast } from '@/app/components/Toaster';
+import Loading from '@/app/loading';
+import { BsPersonVcardFill } from "react-icons/bs";
 
 export function ChatWindow(props: {
   endpoint: string,
@@ -60,7 +62,7 @@ export function ChatWindow(props: {
       await new Promise(resolve => setTimeout(resolve, 300));
     }
     if (chatEndpointIsLoading ?? intermediateStepsLoading) {
-      return;
+      return <Loading />;
     }
     if (!showIntermediateSteps) {
       handleSubmit(e);
@@ -123,8 +125,11 @@ export function ChatWindow(props: {
   }
 
   return (
-    <div className={`h-full flex flex-col items-center p-4 md:p-8 rounded grow overflow-hidden`}>
-      <h2 className={`${messages.length > 0 ? "" : "hidden"} w-full p-2 shadow-md rounded-md bg-slate-200 dark:bg-slate-700`}>{titleText}</h2>
+    <div className={`h-full flex flex-col items-center px-4 py-2 rounded grow overflow-hidden`}>
+      <h2 className={`w-full flex justify-center items-center gap-2 p-1 font-ai bg-slate-200 dark:bg-slate-700`}>
+        <BsPersonVcardFill className="inline-block mr-2 text-yellow-400" />
+        {titleText}
+      </h2>
       {messages.length === 0 ? emptyStateComponent : ""}
       <div
         className="flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out scroll"
@@ -152,12 +157,12 @@ export function ChatWindow(props: {
         </div>
         <div className="flex w-full mt-2">
           <input
-            className="grow mr-4 px-3 py-2 text-sm rounded"
+            className="grow mr-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 border rounded-sm"
             value={input}
             placeholder={placeholder ?? "So what's your plan for today?"}
             onChange={handleInputChange}
           />
-          <button type="submit" className="btn btn-primary px-3 py-2 text-sm">
+          <button type="submit" className="btn btn-primary px-3 py-1 text-xs">
             <div role="status" className={`${(chatEndpointIsLoading || intermediateStepsLoading) ? "" : "hidden"} flex justify-center`}>
               <span className="sr-only">Loading...</span>
             </div>

@@ -31,6 +31,7 @@ const config: Config = {
       },
       fontSize: {
         "2xs": "0.625rem",
+        "3xs": "0.5rem",
         "3xl": "2.75rem",
         "4xl": "3.5rem",
         "5xl": "4rem",
@@ -38,6 +39,7 @@ const config: Config = {
       },
       fontFamily: {
         handwriting: ['"Comic Neue"', "cursive"],
+        ai: ['"Fira Code"', "monospace"],
       },
       letterSpacing: {
         "widest-2": "0.8rem",
@@ -53,7 +55,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("flowbite/plugin"), require("tailwind-scrollbar")],
+  plugins: [
+    require("flowbite/plugin"),
+    require("tailwind-scrollbar")
+  ],
   darkMode: "media",
 };
 export default config;
