@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import WorkoutEditor from "../workouts/WorkoutEditor";
+import { ChatWindow } from '@/app/chat/ChatWindow';
+import Placeholder from '@/app/components/PlaceHolder';
 
 const showImage = false;
 
@@ -47,7 +49,13 @@ export default function Page() {
           <WorkoutEditor />
         </div>
         <div className="col-span-6 h-full overflow-auto">
-          ai chat area
+          <ChatWindow
+            endpoint="api/chat"
+            emoji="🏴‍☠️"
+            titleText="Patchy the Chatty Pirate"
+            placeholder="I'm an LLM pretending to be a coach! I can help you plan your workouts!"
+            emptyStateComponent={<Placeholder />}
+          />
         </div>
       </div>
     </div>
