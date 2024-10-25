@@ -1,0 +1,34 @@
+name: Deploy to Vercel Production
+
+on:
+  push:
+    tags:
+      - 'release-*'
+  pull_request:
+    branches:
+      - '**'
+      - '!main'
+
+defaults:
+  run:
+    working-directory: ./webapp
+
+env:
+  VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+jobs:
+  build:
+    uses: ./.github/workflows/job-vercel-build.yml
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --token ${{ env.VERCEL_TOKEN }} --prod
