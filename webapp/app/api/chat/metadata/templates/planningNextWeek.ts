@@ -21,8 +21,7 @@ Based on this week's workout and activity data, provide personalized coaching ad
    - Respond to any specific queries in the input
    - Provide explanations for your recommendations
 
-Format your response as a conversational coaching message, addressing the user directly and providing clear, actionable advice.
-
+Format your response as if a coach will write on a blackboard, very pricise, bullet points, no intro, no conclusion. less than 50 words.
 Input:
 
 {input}

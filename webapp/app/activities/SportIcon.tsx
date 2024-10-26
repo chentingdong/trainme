@@ -23,6 +23,12 @@ export default function SportIcon({ type, withColor, className }: Props) {
           className={cn("btn-icon", "bg-red-700 text-green-200", className)}
         />
       );
+    case "TrailRun":
+      return (
+        <GiRunningShoe
+          className={cn("btn-icon", "bg-red-700 text-green-200", className)}
+        />
+      );
     case "Ride":
       return (
         <GiCycling

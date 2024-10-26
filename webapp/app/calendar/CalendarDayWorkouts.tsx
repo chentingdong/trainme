@@ -38,7 +38,7 @@ export function CalendarDayWorkouts({ date, workouts }: Props) {
     },
   });
 
-  if (!workouts) return <div></div>;
+  if (!workouts) return <></>;
 
   return (
     <ul className="mx-0.25 shadow-sm">

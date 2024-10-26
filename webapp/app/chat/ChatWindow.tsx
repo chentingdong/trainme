@@ -184,12 +184,16 @@ export function ChatWindow(props: {
             onChange={handleInputChange}
           />
           <button type="submit" className="btn btn-primary px-3 py-1 text-xs">
-            <div role="status" className={`${(chatEndpointIsLoading || intermediateStepsLoading) ? "" : "hidden"} flex justify-center`}>
-              <span className="sr-only">Loading...</span>
-            </div>
-            <span className={(chatEndpointIsLoading || intermediateStepsLoading) ? "hidden" : ""}>
-              <IoSend />
-            </span>
+            {(chatEndpointIsLoading || intermediateStepsLoading) ? (
+              <div role="status" className="flex justify-center">
+                <span className="sr-only">Loading...</span>
+                <Loading />
+              </div>
+            ) : (
+              <span className="flex items-center">
+                <IoSend className="ml-1" />
+              </span>
+            )}
           </button>
         </div>
       </form>
