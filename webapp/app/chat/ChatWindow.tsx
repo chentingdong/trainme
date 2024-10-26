@@ -3,7 +3,6 @@
 import { Message } from 'ai';
 import { useChat } from "ai/react";
 import { useRef, useState, ReactElement } from "react";
-import type { FormEvent } from "react";
 
 import { ChatMessageBubble } from "@/app/chat/ChatMessageBubble";
 import { UploadDocumentsForm } from "@/app/chat/UploadDocumentsForm";
@@ -53,7 +52,16 @@ export function ChatWindow(props: {
       }
     });
 
-  async function sendMessage(e: FormEvent<HTMLFormElement>) {
+  const predefinedMessages = [
+    "Help me to plan my workouts for the next week?",
+    "Analyze my workouts from the last week.",
+  ];
+  const handlePredefinedMessageClick = (e: React.MouseEvent<HTMLButtonElement>, message: string) => {
+    setInput(message);
+    handleSubmit(e);
+  };
+
+  async function sendMessage(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (messageContainerRef.current) {
       messageContainerRef.current.classList.add("grow");
@@ -150,6 +158,18 @@ export function ChatWindow(props: {
       </div>
 
       {messages.length === 0 && ingestForm}
+
+      <div className="flex space-x-2 mb-4 text-xs">
+        {predefinedMessages.map((message, index) => (
+          <button
+            key={index}
+            className="btn btn-secondary"
+            onClick={(e) => handlePredefinedMessageClick(e, message)}
+          >
+            {message}
+          </button>
+        ))}
+      </div>
 
       <form onSubmit={sendMessage} className="flex w-full flex-col">
         <div className="flex">

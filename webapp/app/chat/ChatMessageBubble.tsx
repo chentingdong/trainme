@@ -31,6 +31,7 @@ export function ChatMessageBubble(props: { message: Message, sources: Source[]; 
       : <FaRegUserCircle className="avatar" />
     : <BsPersonVcardFill className="avatar text-yellow-400" />;
 
+  console.log("message: ", props.message, "sources: ", props.sources);
   return (
     <div
       className={`${alignmentClassName} ${colorClassName} shadow-md text-sm rounded p-2 max-w-[80%] mb-8 flex`}

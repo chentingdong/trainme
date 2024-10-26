@@ -50,7 +50,7 @@ export default function Page() {
         </div>
         <div className="col-span-6 h-full overflow-auto">
           <ChatWindow
-            endpoint="api/chat"
+            endpoint="api/chat/structured_output"
             titleText="Virtual Coach"
             placeholder="I'm an LLM pretending to be a coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}

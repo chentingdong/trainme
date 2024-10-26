@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Message } from "ai/react";
+import { IoChevronUp, IoChevronDown, IoConstruct } from "react-icons/io5";
 
 export function IntermediateStep(props: { message: Message; }) {
   const parsedInput = JSON.parse(props.message.content);
@@ -12,10 +13,11 @@ export function IntermediateStep(props: { message: Message; }) {
     >
       <div className={`text-right ${expanded ? "w-full" : ""}`} onClick={(e) => setExpanded(!expanded)}>
         <code className="mr-2 bg-slate-600 px-2 py-1 rounded hover:text-blue-600">
-          🛠️ <b>{action.name}</b>
+          <IoConstruct />
+          <b>{action.name}</b>
         </code>
-        <span className={expanded ? "hidden" : ""}>🔽</span>
-        <span className={expanded ? "" : "hidden"}>🔼</span>
+        <span className={expanded ? "hidden" : ""}><IoChevronDown /></span>
+        <span className={expanded ? "" : "hidden"}><IoChevronUp /></span>
       </div>
       <div className={`overflow-hidden max-h-[0px] transition-[max-height] ease-in-out ${expanded ? "max-h-[360px]" : ""}`}>
         <div className={`bg-slate-600 rounded p-4 mt-1 max-w-0 ${expanded ? "max-w-full" : "transition-[max-width] delay-100"}`}>
