@@ -16,14 +16,14 @@ const defaultWeeklyPlan = [
   {
     "name": "Speed Work",
     "sport": "run",
-    "steps": ["10m warm-up", "6x400m sprints with 2m rest", "10m cool down"],
+    "steps": ["10m Z1 warm-up", "6x400m sprints with 2m rest", "10m Z1 cool down"],
     "duration": 40,
     "date": "2023-11-01"
   },
   {
     "name": "Bike Ride",
     "sport": "bike",
-    "steps": ["5m warm-up", "45m Z2 cycling", "5m cool down"],
+    "steps": ["5m Z1 warm-up", "45m Z2 cycling", "5m Z1 cool down"],
     "duration": 55,
     "date": "2023-11-02"
   },
@@ -37,14 +37,14 @@ const defaultWeeklyPlan = [
   {
     "name": "Long Run",
     "sport": "run",
-    "steps": ["10m warm-up", "60m Z2 run", "5m cool down"],
+    "steps": ["10m Z1 warm-up", "60m Z2 run", "5m Z1 cool down"],
     "duration": 75,
     "date": "2023-11-04"
   },
   {
     "name": "Fun Swim",
     "sport": "swim",
-    "steps": ["10m warm-up", "30m freestyle swim", "10m cool down"],
+    "steps": ["10m Z1 warm-up", "30m freestyle swim", "10m Z1 cool down"],
     "duration": 50,
     "date": "2023-11-05"
   }

@@ -281,7 +281,7 @@ export default function WorkoutEditor() {
             type="button"
             className={cn(
               `btn ${workout.id ? "btn-primary" : "btn-warning"}`,
-              "col-span-2 my-6"
+              "col-span-2"
             )}
             onClick={() => upsertWorkout({ workout: { ...workout, date: scheduleDate } })}
           >
