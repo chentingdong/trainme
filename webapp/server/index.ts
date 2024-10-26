@@ -1,5 +1,5 @@
-import { db } from '@trainme/db';
-import { router } from '@/server/trpc';
+import { db, PrismaClient } from '@trainme/db';
+import { AuthContext, router } from '@/server/trpc';
 import superjson from 'superjson';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { inferRouterOutputs } from '@trpc/server';
@@ -30,3 +30,16 @@ export const trpcSSRHelper = createServerSideHelpers({
 
 export type AppRouter = typeof appRouter;
 export type TRPCOutputs = inferRouterOutputs<AppRouter>;
+
+
+
+export const createTRPCContext = (): AuthContext => {
+  return {
+    db,
+    links: [
+      {
+        url: '/api/trpc'
+      }
+    ]
+  };
+};

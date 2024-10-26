@@ -2,18 +2,15 @@ import { db, PrismaClient } from '@trainme/db';
 import { auth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
-import { TRPCLink } from '@trpc/client';
 
-type BaseContext = {
+export type AuthContext = {
   db: PrismaClient;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  links?: TRPCLink<any>[];
-};
-type AuthContext = BaseContext & {
-  userId: string;
+  links?: Array<{ url: string; }>;
+  userId?: string;
+  orgId?: string;
 };
 
-const t = initTRPC.context<BaseContext>().create({
+const t = initTRPC.context<AuthContext>().create({
   transformer: superjson
 });
 

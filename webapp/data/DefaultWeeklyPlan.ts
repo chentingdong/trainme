@@ -1,17 +1,53 @@
-export default `
-Monday:
+const defaultWeeklyPlan = [
+  {
+    "name": "Monday Motivation",
+    "sport": "run",
+    "steps": ["5m warm-up", "30m Z3 run", "5m cool down"],
+    "duration": 40,
+    "date": "2023-10-30"
+  },
+  {
+    "name": "Strength Session",
+    "sport": "strength",
+    "steps": ["10m warm-up", "3x10 squats", "3x10 push-ups", "3x10 lunges", "5m cool down"],
+    "duration": 50,
+    "date": "2023-10-31"
+  },
+  {
+    "name": "Speed Work",
+    "sport": "run",
+    "steps": ["10m warm-up", "6x400m sprints with 2m rest", "10m cool down"],
+    "duration": 40,
+    "date": "2023-11-01"
+  },
+  {
+    "name": "Bike Ride",
+    "sport": "bike",
+    "steps": ["5m warm-up", "45m Z2 cycling", "5m cool down"],
+    "duration": 55,
+    "date": "2023-11-02"
+  },
+  {
+    "name": "Rest Day",
+    "sport": "other",
+    "steps": ["Rest and recover"],
+    "duration": 0,
+    "date": "2023-11-03"
+  },
+  {
+    "name": "Long Run",
+    "sport": "run",
+    "steps": ["10m warm-up", "60m Z2 run", "5m cool down"],
+    "duration": 75,
+    "date": "2023-11-04"
+  },
+  {
+    "name": "Fun Swim",
+    "sport": "swim",
+    "steps": ["10m warm-up", "30m freestyle swim", "10m cool down"],
+    "duration": 50,
+    "date": "2023-11-05"
+  }
+];
 
-Day 1: light swim in the morning (maybe 30 minutes just to get your heartrate up), hard track workout in the afternoon or brick workout if closer to race day.
-
-Day 2: Bike intervals
-
-Day 3: short but intense run, something like 4-5 miles at :30 over race pace. Could a medium swim this day too.
-
-Day 4: rest
-
-Day 5: light 20-30 min swim, long run 8+ miles and don't get more than a minute off your mile pace on miles 5+
-
-Day 6: 25-45 miles on the bike, not crushing but not light. Should have a good burn at the end. This is where having a group is great.
-
-Day 7: rest
-`;
+export default defaultWeeklyPlan;
