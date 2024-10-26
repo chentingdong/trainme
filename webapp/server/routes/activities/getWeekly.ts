@@ -19,23 +19,27 @@ export const getWeeklyActivities = protectedProcedure
   .query(async ({ input }) => {
     const { aday } = input;
 
-    const weekStart = startOfWeek(aday, { weekStartsOn: 1 }).toISOString();
-    const weekEnd = endOfWeek(aday, { weekStartsOn: 1 }).toISOString();
-
-    const activities = await db.activity.findMany({
-      where: {
-        startDateLocal: {
-          gte: weekStart,
-          lt: weekEnd
-        }
-      },
-      orderBy: {
-        startDateLocal: 'desc'
-      }
-    });
-
-    return activities;
+    return await getWeeklyActivitiesDB(aday);
   });
+
+export const getWeeklyActivitiesDB = async (aday: Date) => {
+  const weekStart = startOfWeek(aday, { weekStartsOn: 1 }).toISOString();
+  const weekEnd = endOfWeek(aday, { weekStartsOn: 1 }).toISOString();
+
+  const activities = await db.activity.findMany({
+    where: {
+      startDateLocal: {
+        gte: weekStart,
+        lt: weekEnd
+      }
+    },
+    orderBy: {
+      startDateLocal: 'desc'
+    }
+  });
+
+  return activities;
+};
 
 export const getWeeklyActivitiesSummary = protectedProcedure
   .input(z.object({

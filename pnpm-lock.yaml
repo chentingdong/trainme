@@ -22,10 +22,10 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: 0.2.27
-        version: 0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)
+        version: 0.2.27(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)
       '@langchain/core':
         specifier: 0.2.23
-        version: 0.2.23(openai@4.65.0(encoding@0.1.13))
+        version: 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/openai':
         specifier: 0.2.6
         version: 0.2.6(encoding@0.1.13)
@@ -40,7 +40,7 @@ importers:
         version: 10.0.0
       langchain:
         specifier: 0.2.10
-        version: 0.2.10(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))
+        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
       prisma:
         specifier: 5.20.0
         version: 5.20.0
@@ -71,10 +71,10 @@ importers:
         version: 6.0.0(next@14.2.15(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.79.4))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@langchain/community':
         specifier: 0.2.27
-        version: 0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)
+        version: 0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)
       '@langchain/core':
         specifier: 0.2.23
-        version: 0.2.23(openai@4.65.0(encoding@0.1.13))
+        version: 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/langgraph':
         specifier: ^0.2.18
         version: 0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))
@@ -87,6 +87,9 @@ importers:
       '@prisma/client':
         specifier: ^5.20.0
         version: 5.20.0(prisma@5.20.0)
+      '@supabase/supabase-js':
+        specifier: ^2.45.6
+        version: 2.45.6
       '@tanstack/react-query':
         specifier: ^5.59.0
         version: 5.59.0(react@18.3.1)
@@ -146,7 +149,7 @@ importers:
         version: 3.0.5
       langchain:
         specifier: 0.2.10
-        version: 0.2.10(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))
+        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -1146,6 +1149,28 @@ packages:
   '@rushstack/eslint-patch@1.10.4':
     resolution: {integrity: sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==}
 
+  '@supabase/auth-js@2.65.1':
+    resolution: {integrity: sha512-IA7i2Xq2SWNCNMKxwmPlHafBQda0qtnFr8QnyyBr+KaSxoXXqEzFCnQ1dGTy6bsZjVBgXu++o3qrDypTspaAPw==}
+
+  '@supabase/functions-js@2.4.3':
+    resolution: {integrity: sha512-sOLXy+mWRyu4LLv1onYydq+10mNRQ4rzqQxNhbrKLTLTcdcmS9hbWif0bGz/NavmiQfPs4ZcmQJp4WqOXlR4AQ==}
+
+  '@supabase/node-fetch@2.6.15':
+    resolution: {integrity: sha512-1ibVeYUacxWYi9i0cf5efil6adJ9WRyZBLivgjs+AUpewx1F3xPi7gLgaASI2SmIQxPoCEjAsLAzKPgMJVgOUQ==}
+    engines: {node: 4.x || >=6.0.0}
+
+  '@supabase/postgrest-js@1.16.3':
+    resolution: {integrity: sha512-HI6dsbW68AKlOPofUjDTaosiDBCtW4XAm0D18pPwxoW3zKOE2Ru13Z69Wuys9fd6iTpfDViNco5sgrtnP0666A==}
+
+  '@supabase/realtime-js@2.10.7':
+    resolution: {integrity: sha512-OLI0hiSAqQSqRpGMTUwoIWo51eUivSYlaNBgxsXZE7PSoWh12wPRdVt0psUMaUzEonSB85K21wGc7W5jHnT6uA==}
+
+  '@supabase/storage-js@2.7.1':
+    resolution: {integrity: sha512-asYHcyDR1fKqrMpytAS1zjyEfvxuOIp1CIXX7ji4lHHcJKqyk+sLl/Vxgm4sN6u8zvuUtae9e4kDxQP2qrwWBA==}
+
+  '@supabase/supabase-js@2.45.6':
+    resolution: {integrity: sha512-qVXSSUhhIqdFnF2VUGgeecPvw1cDW6+avcTbRgur4LaGnzrJCbM3Rx7g81/SSZjjeqYOtmHuKWhiHzV/EN8Ktw==}
+
   '@swc/counter@0.1.3':
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
 
@@ -1288,6 +1313,9 @@ packages:
   '@types/pg@8.11.10':
     resolution: {integrity: sha512-LczQUW4dbOQzsH2RQ5qoeJ6qJPdrcM/DcMLoqWQkMLMsq83J5lAX3LXjdkWdpscFy67JSOWDnh7Ny/sPFykmkg==}
 
+  '@types/phoenix@1.6.5':
+    resolution: {integrity: sha512-xegpDuR+z0UqG9fwHqNoy3rI7JDlvaPh2TY47Fl80oq6g+hXT+c/LEuE43X48clZ6lOfANl5WrPur9fYO1RJ/w==}
+
   '@types/polyline@0.1.32':
     resolution: {integrity: sha512-EC4sIW6rxpX7KD0cmAe/VVhQOR8T1HX8/LEDZ88Gk6ULwd/EiQkVdi8Mz7Yyq81EycU8IMbOyqFEqtna2zEtsA==}
 
@@ -1311,6 +1339,9 @@ packages:
 
   '@types/uuid@10.0.0':
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
+
+  '@types/ws@8.5.12':
+    resolution: {integrity: sha512-3tPRkv1EtkDpzlgyKyI8pGsGZAGPEaXeu0DOj5DI25Ja91bdAYddYHbADRYVrZMRbfW+1l5YwXVDKohDJNQxkQ==}
 
   '@typescript-eslint/eslint-plugin@8.7.0':
     resolution: {integrity: sha512-RIHOoznhA3CCfSTFiB6kBGLQtB/sox+pJ6jeFu6FxJvqL8qRxq/FfGO/UhsGgQM9oGdXkV4xUgli+dt26biB6A==}
@@ -4466,6 +4497,18 @@ packages:
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
 
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
@@ -4872,25 +4915,27 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@langchain/community@0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)':
+  '@langchain/community@0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/openai': 0.2.6(encoding@0.1.13)
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.10(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
+      langchain: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
     optionalDependencies:
       '@langchain/langgraph': 0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))
+      '@supabase/supabase-js': 2.45.6
       crypto-js: 4.2.0
       ignore: 5.3.2
       lodash: 4.17.21
       pg: 8.13.0
+      ws: 8.18.0
     transitivePeerDependencies:
       - '@gomomento/sdk-web'
       - axios
@@ -4901,13 +4946,43 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13))':
+  '@langchain/community@0.2.27(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)':
+    dependencies:
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/openai': 0.2.6(encoding@0.1.13)
+      binary-extensions: 2.3.0
+      expr-eval: 2.0.2
+      flat: 5.0.2
+      js-yaml: 4.1.0
+      langchain: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      uuid: 10.0.0
+      zod: 3.23.8
+      zod-to-json-schema: 3.23.3(zod@3.23.8)
+    optionalDependencies:
+      '@supabase/supabase-js': 2.45.6
+      crypto-js: 4.2.0
+      ignore: 5.3.2
+      lodash: 4.17.21
+      pg: 8.13.0
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - '@gomomento/sdk-web'
+      - axios
+      - encoding
+      - fast-xml-parser
+      - handlebars
+      - openai
+      - peggy
+      - pyodide
+
+  '@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.14
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -4919,12 +4994,12 @@ snapshots:
 
   '@langchain/langgraph-checkpoint@0.0.11(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       uuid: 10.0.0
 
   '@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/langgraph-checkpoint': 0.0.11(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))
       double-ended-queue: 2.1.0-0
       uuid: 10.0.0
@@ -4932,7 +5007,7 @@ snapshots:
 
   '@langchain/openai@0.2.6(encoding@0.1.13)':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.14
       openai: 4.65.0(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -4940,9 +5015,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@langchain/textsplitters@0.0.3(openai@4.65.0(encoding@0.1.13))':
+  '@langchain/textsplitters@0.0.3(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       js-tiktoken: 1.0.14
     transitivePeerDependencies:
       - openai
@@ -5068,6 +5143,48 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@rushstack/eslint-patch@1.10.4': {}
+
+  '@supabase/auth-js@2.65.1':
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+
+  '@supabase/functions-js@2.4.3':
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+
+  '@supabase/node-fetch@2.6.15':
+    dependencies:
+      whatwg-url: 5.0.0
+
+  '@supabase/postgrest-js@1.16.3':
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+
+  '@supabase/realtime-js@2.10.7':
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+      '@types/phoenix': 1.6.5
+      '@types/ws': 8.5.12
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@supabase/storage-js@2.7.1':
+    dependencies:
+      '@supabase/node-fetch': 2.6.15
+
+  '@supabase/supabase-js@2.45.6':
+    dependencies:
+      '@supabase/auth-js': 2.65.1
+      '@supabase/functions-js': 2.4.3
+      '@supabase/node-fetch': 2.6.15
+      '@supabase/postgrest-js': 1.16.3
+      '@supabase/realtime-js': 2.10.7
+      '@supabase/storage-js': 2.7.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
 
   '@swc/counter@0.1.3': {}
 
@@ -5198,6 +5315,8 @@ snapshots:
       pg-protocol: 1.7.0
       pg-types: 4.0.2
 
+  '@types/phoenix@1.6.5': {}
+
   '@types/polyline@0.1.32':
     dependencies:
       '@types/geojson': 7946.0.14
@@ -5222,6 +5341,10 @@ snapshots:
   '@types/retry@0.12.0': {}
 
   '@types/uuid@10.0.0': {}
+
+  '@types/ws@8.5.12':
+    dependencies:
+      '@types/node': 20.14.8
 
   '@typescript-eslint/eslint-plugin@8.7.0(@typescript-eslint/parser@8.7.0(eslint@8.57.0)(typescript@5.6.2))(eslint@8.57.0)(typescript@5.6.2)':
     dependencies:
@@ -6945,17 +7068,17 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.2.10(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)):
+  langchain@0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       '@langchain/openai': 0.2.6(encoding@0.1.13)
-      '@langchain/textsplitters': 0.0.3(openai@4.65.0(encoding@0.1.13))
+      '@langchain/textsplitters': 0.0.3(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.14
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -6964,15 +7087,17 @@ snapshots:
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
     optionalDependencies:
+      '@supabase/supabase-js': 2.45.6
       axios: 1.7.7
       ignore: 5.3.2
+      ws: 8.18.0
     transitivePeerDependencies:
       - encoding
       - openai
 
   langchainhub@0.0.11: {}
 
-  langsmith@0.1.61(openai@4.65.0(encoding@0.1.13)):
+  langsmith@0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)):
     dependencies:
       '@types/uuid': 10.0.0
       commander: 10.0.1
@@ -8657,6 +8782,8 @@ snapshots:
       strip-ansi: 7.1.0
 
   wrappy@1.0.2: {}
+
+  ws@8.18.0: {}
 
   xtend@4.0.2: {}
 

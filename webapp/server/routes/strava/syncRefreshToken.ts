@@ -43,10 +43,11 @@ export const syncRefreshToken = protectedProcedure
   .input(z.object({ code: z.string() }))
   .mutation(async ({ ctx, input }) => {
     const { code } = input;
-    const { userId } = ctx;
-
+    if (!ctx.userId) {
+      throw new Error("User ID is required");
+    }
     try {
-      return await getRefreshToken({ userId, code });
+      return await getRefreshToken({ userId: ctx.userId, code });
     } catch (error) {
       console.error('error syncing refresh token', error);
       throw error;

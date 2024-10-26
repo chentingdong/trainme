@@ -1,4 +1,4 @@
-import { db, PrismaClient } from '@trainme/db';
+import { db } from '@trainme/db';
 import { AuthContext, router } from '@/server/trpc';
 import superjson from 'superjson';
 import { createServerSideHelpers } from '@trpc/react-query/server';
@@ -9,6 +9,7 @@ import { activityRouter } from '@/server/routes/activities';
 import { sportRouter } from '@/server/routes/sports';
 import { stravaRouter } from './routes/strava';
 import { userRouter } from './routes/user';
+import { httpBatchLink } from '@trpc/client';
 
 // Apply the stdout interception
 interceptStdout();
@@ -37,9 +38,9 @@ export const createTRPCContext = (): AuthContext => {
   return {
     db,
     links: [
-      {
+      httpBatchLink({
         url: '/api/trpc'
-      }
+      })
     ]
   };
 };

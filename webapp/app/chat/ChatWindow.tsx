@@ -10,6 +10,7 @@ import { IntermediateStep } from "@/app/chat/IntermediateStep";
 import { useToast } from '@/app/components/Toaster';
 import Loading from '@/app/loading';
 import { BsPersonVcardFill } from "react-icons/bs";
+import { IoSend } from 'react-icons/io5';
 
 export function ChatWindow(props: {
   endpoint: string,
@@ -177,7 +178,7 @@ export function ChatWindow(props: {
         </div>
         <div className="flex w-full mt-2">
           <input
-            className="grow mr-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 border rounded-sm"
+            className="grow mr-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 rounded-sm"
             value={input}
             placeholder={placeholder ?? "So what's your plan for today?"}
             onChange={handleInputChange}
@@ -186,7 +187,9 @@ export function ChatWindow(props: {
             <div role="status" className={`${(chatEndpointIsLoading || intermediateStepsLoading) ? "" : "hidden"} flex justify-center`}>
               <span className="sr-only">Loading...</span>
             </div>
-            <span className={(chatEndpointIsLoading || intermediateStepsLoading) ? "hidden" : ""}>Send</span>
+            <span className={(chatEndpointIsLoading || intermediateStepsLoading) ? "hidden" : ""}>
+              <IoSend />
+            </span>
           </button>
         </div>
       </form>

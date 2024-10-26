@@ -3,8 +3,8 @@
 import React from "react";
 import { Select } from "flowbite-react";
 import { trpc } from '@/app/api/trpc/client';
-import Loading from '@/app/loading';
 import type { Sport } from "@trainme/db";
+import Loading from '@/app/loading';
 type Props = {
   value: string;
   onChange: (
@@ -21,22 +21,25 @@ export default function SportTypeSelect({ value, onChange }: Props) {
     onChange(e, selectedSportId);
   };
 
-  if (isLoading) return <Loading />;
-  if (isError) return <div>Error loading sport types</div>;
-
   return (
-    <Select
-      id="type"
-      className="form-control"
-      value={value}
-      onChange={handleSelect}
-    >
-      {!sportTypes && <option>No sport types</option>}
-      {sportTypes && sportTypes.map((sportType: Sport) => (
-        <option key={sportType.id} value={sportType.sportType}>
-          {sportType.sportType}
-        </option>
-      ))}
-    </Select>
+    <div className="relative flex items-center ">
+      <Select
+        id="type"
+        className="form-control flex-grow"
+        value={value}
+        onChange={handleSelect}
+      >
+        {isLoading && <option>Loading...</option>}
+        {isError || !isLoading && !sportTypes && <option>No sport types</option>}
+        {sportTypes && sportTypes.map((sportType: Sport) => (
+          <option key={sportType.id} value={sportType.sportType}>
+            {sportType.sportType}
+          </option>
+        ))}
+      </Select>
+      {isLoading && (
+        <Loading className="absolute right-3 w-3 h-3" />
+      )}
+    </div>
   );
 }

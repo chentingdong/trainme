@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import DEFAULT_RETRIEVAL_TEXT from "@/data/DefaultWeeklyPlan";
+import DEFAULT_RETRIEVAL_TEXT from "@/app/api/chat/metadata/DefaultWeeklyPlan";
 
 export function UploadDocumentsForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const [document, setDocument] = useState(DEFAULT_RETRIEVAL_TEXT);
+  const [document, setDocument] = useState<string>(JSON.stringify(DEFAULT_RETRIEVAL_TEXT));
   const ingest = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
