@@ -219,6 +219,14 @@ body {
     }
   }
 
+  .form-control.loading {
+    background-image: url('/path/to/loader.gif');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px 20px;
+    appearance: none; 
+}
+
   textarea {
     &.workout-board {
       @apply text-lg font-handwriting tracking-widest;

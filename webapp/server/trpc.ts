@@ -1,11 +1,12 @@
 import { db, PrismaClient } from '@trainme/db';
 import { auth } from '@clerk/nextjs/server';
-import { initTRPC, TRPCError } from '@trpc/server';
+import { AnyRouter, initTRPC, TRPCError } from '@trpc/server';
 import superjson from 'superjson';
+import { TRPCLink } from '@trpc/client';
 
 export type AuthContext = {
   db: PrismaClient;
-  links?: Array<{ url: string; }>;
+  links?: Array<TRPCLink<AnyRouter>>;
   userId?: string;
   orgId?: string;
 };

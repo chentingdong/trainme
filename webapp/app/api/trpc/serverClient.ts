@@ -1,8 +1,8 @@
+import { httpBatchLink } from '@trpc/client';
 import { appRouter } from '@/server';
 import { db } from '@trainme/db';
-import { httpBatchLink } from '@trpc/client';
 
-export const serverClient = appRouter.createCaller({
+export const serverTrpc = appRouter.createCaller({
   db,
   links: [
     httpBatchLink({

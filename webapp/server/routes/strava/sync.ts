@@ -165,6 +165,9 @@ export const sync = protectedProcedure
     fromDaysAgo: z.number().optional(),
   }))
   .mutation(async ({ ctx, input }) => {
+    if (!ctx.userId) {
+      throw new Error("User ID is required");
+    }
     let activities: Activity[] = [];
     let fromDate: Date;
     let toDate: Date;
@@ -182,4 +185,3 @@ export const sync = protectedProcedure
     }
     return activities;
   });
-
