@@ -5,8 +5,12 @@ import { BsPersonVcardFill } from 'react-icons/bs';
 import ChatOutputWorkout from '@/app/chat/ChatOutputWorkout';
 import { cn } from '@/utils/helper';
 import { Message } from 'ai';
+interface ChatMessageBubbleProps {
+  message: Message;
+  sources: any[];
+}
 
-export function ChatMessageBubble(props: { message: Message; }) {
+export function ChatMessageBubble(props: ChatMessageBubbleProps) {
   const colorClassName =
     props.message.role === 'user'
       ? 'text-slate-900 bg-slate-300 dark:bg-slate-800 dark:text-slate-100'
@@ -45,6 +49,24 @@ export function ChatMessageBubble(props: { message: Message; }) {
         {props.message.role === 'assistant' && <ChatOutputWorkout {...props} />}
         {props.message.role === 'user' && <div>{props.message.content}</div>}
       </div>
+      {props.sources && props.sources.length ? <>
+        <code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">
+          <h2>
+            🔍 Sources:
+          </h2>
+        </code>
+        <code className="mt-1 mr-2 bg-slate-600 px-2 py-1 rounded text-xs">
+          {props.sources?.map((source, i) => (
+            <div className="mt-2" key={"source:" + i}>
+              {i + 1}. &quot;{source.pageContent}&quot;{
+                source.metadata?.loc?.lines !== undefined
+                  ? <div><br />Lines {source.metadata?.loc?.lines?.from} to {source.metadata?.loc?.lines?.to}</div>
+                  : ""
+              }
+            </div>
+          ))}
+        </code>
+      </> : ""}
     </div>
   );
 }

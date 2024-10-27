@@ -11,6 +11,7 @@ import { useToast } from '@/app/components/Toaster';
 import Loading from '@/app/loading';
 import { BsPersonVcardFill } from "react-icons/bs";
 import { IoSend } from 'react-icons/io5';
+import React from 'react';
 
 export function ChatWindow(props: {
   endpoint: string,
@@ -21,6 +22,7 @@ export function ChatWindow(props: {
   showIntermediateStepsToggle?: boolean;
 }) {
   const messageContainerRef = useRef<HTMLDivElement | null>(null);
+
   const { toast } = useToast();
   const { endpoint, emptyStateComponent, placeholder, titleText = "An LLM", showIngestForm, showIntermediateStepsToggle } = props;
 
@@ -54,82 +56,86 @@ export function ChatWindow(props: {
     });
 
   const predefinedMessages = [
-    "Help me to plan my workouts for the next week?",
-    "Analyze my workouts from the last week.",
+    "Plan workouts for next week",
+    "A full plan for my next A race",
+    "Adjust workouts for the rest of the week"
   ];
-  const handlePredefinedMessageClick = (e: React.MouseEvent<HTMLButtonElement>, message: string) => {
-    setInput(message);
-    handleSubmit(e);
-  };
+
+  async function showIntermediateMessage() {
+    setIntermediateStepsLoading(true);
+    setInput("");
+    const messagesWithUserReply = messages.concat({ id: messages.length.toString(), content: input, role: "user" });
+    setMessages(messagesWithUserReply);
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify({
+        messages: messagesWithUserReply,
+        show_intermediate_steps: true
+      })
+    });
+    const json = await response.json();
+    setIntermediateStepsLoading(false);
+    if (response.status === 200) {
+      const responseMessages: Message[] = json.messages;
+      // Represent intermediate steps as system messages for display purposes
+      // TODO: Add proper support for tool messages
+      const toolCallMessages = responseMessages.filter((responseMessage: Message) => {
+        return (responseMessage.role === "assistant" && !!responseMessage.tool_calls?.length) || responseMessage.role === "tool";
+      });
+      const intermediateStepMessages = [];
+      for (let i = 0; i < toolCallMessages.length; i += 2) {
+        const aiMessage = toolCallMessages[i];
+        const toolMessage = toolCallMessages[i + 1];
+        intermediateStepMessages.push({
+          id: (messagesWithUserReply.length + (i / 2)).toString(),
+          role: "system" as const,
+          content: JSON.stringify({
+            action: aiMessage.tool_calls?.[0],
+            observation: toolMessage.content,
+          })
+        });
+      }
+      const newMessages = messagesWithUserReply;
+      for (const message of intermediateStepMessages) {
+        newMessages.push(message);
+        setMessages([...newMessages]);
+        await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+      }
+      setMessages([
+        ...newMessages,
+        {
+          id: (newMessages.length).toString(),
+          content: responseMessages[responseMessages.length - 1].content,
+          role: "assistant"
+        },
+      ]);
+    } else {
+      if (json.error) {
+        toast({ type: "error", content: "Failed to send message: " + json.error });
+        throw new Error(json.error);
+      }
+    }
+  }
 
   async function sendMessage(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
     if (messageContainerRef.current) {
       messageContainerRef.current.classList.add("grow");
     }
+
     if (!messages.length) {
       await new Promise(resolve => setTimeout(resolve, 300));
     }
+
     if (chatEndpointIsLoading ?? intermediateStepsLoading) {
       return <Loading />;
     }
-    if (!showIntermediateSteps) {
-      handleSubmit(e);
-      // Some extra work to show intermediate steps properly
+
+    if (showIntermediateSteps) {
+      showIntermediateMessage();
     } else {
-      setIntermediateStepsLoading(true);
-      setInput("");
-      const messagesWithUserReply = messages.concat({ id: messages.length.toString(), content: input, role: "user" });
-      setMessages(messagesWithUserReply);
-      const response = await fetch(endpoint, {
-        method: "POST",
-        body: JSON.stringify({
-          messages: messagesWithUserReply,
-          show_intermediate_steps: true
-        })
-      });
-      const json = await response.json();
-      setIntermediateStepsLoading(false);
-      if (response.status === 200) {
-        const responseMessages: Message[] = json.messages;
-        // Represent intermediate steps as system messages for display purposes
-        // TODO: Add proper support for tool messages
-        const toolCallMessages = responseMessages.filter((responseMessage: Message) => {
-          return (responseMessage.role === "assistant" && !!responseMessage.tool_calls?.length) || responseMessage.role === "tool";
-        });
-        const intermediateStepMessages = [];
-        for (let i = 0; i < toolCallMessages.length; i += 2) {
-          const aiMessage = toolCallMessages[i];
-          const toolMessage = toolCallMessages[i + 1];
-          intermediateStepMessages.push({
-            id: (messagesWithUserReply.length + (i / 2)).toString(),
-            role: "system" as const,
-            content: JSON.stringify({
-              action: aiMessage.tool_calls?.[0],
-              observation: toolMessage.content,
-            })
-          });
-        }
-        const newMessages = messagesWithUserReply;
-        for (const message of intermediateStepMessages) {
-          newMessages.push(message);
-          setMessages([...newMessages]);
-          await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
-        }
-        setMessages([
-          ...newMessages,
-          {
-            id: (newMessages.length).toString(),
-            content: responseMessages[responseMessages.length - 1].content,
-            role: "assistant"
-          },
-        ]);
-      } else {
-        if (json.error) {
-          toast({ type: "error", content: "Failed to send message: " + json.error });
-          throw new Error(json.error);
-        }
-      }
+      handleSubmit(e);
     }
   }
 
@@ -141,7 +147,7 @@ export function ChatWindow(props: {
       </h2>
       {messages.length === 0 ? emptyStateComponent : ""}
       <div
-        className="flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out scroll"
+        className="flex-1 flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out scroll"
         ref={messageContainerRef}
       >
         {messages.length > 0 ? (
@@ -160,19 +166,19 @@ export function ChatWindow(props: {
 
       {messages.length === 0 && ingestForm}
 
-      <div className="flex space-x-2 mb-4 text-xs">
-        {predefinedMessages.map((message, index) => (
-          <button
-            key={index}
-            className="btn btn-secondary"
-            onClick={(e) => handlePredefinedMessageClick(e, message)}
-          >
-            {message}
-          </button>
-        ))}
-      </div>
-
       <form onSubmit={sendMessage} className="flex w-full flex-col">
+        <div className="flex flex-wrap space-x-2 mb-4 text-xs">
+          {predefinedMessages.map((message, index) => (
+            <button
+              key={index}
+              type="submit"
+              className="btn btn-secondary"
+              onClick={() => setInput(message)}
+            >
+              {message}
+            </button>
+          ))}
+        </div>
         <div className="flex">
           {intemediateStepsToggle}
         </div>
