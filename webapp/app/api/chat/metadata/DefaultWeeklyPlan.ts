@@ -1,51 +1,79 @@
 const defaultWeeklyPlan = [
   {
-    "name": "Monday Motivation",
+    "name": "Recovery Run",
     "sport": "run",
-    "steps": ["5m warm-up", "30m Z3 run", "5m cool down"],
+    "steps": ["5m Z1 warm-up", "30m Z3 run", "5m Z1 cool down"],
     "duration": 40,
     "date": "2023-10-30"
   },
   {
-    "name": "Strength Session",
+    "name": "Strength Upperbody",
     "sport": "strength",
-    "steps": ["10m warm-up", "3x10 squats", "3x10 push-ups", "3x10 lunges", "5m cool down"],
+    "steps": ["10m Z1 warm-up", "3x10 squats Z2", "3x10 push-ups Z2", "3x10 lunges Z2", "5m Z1 cool down"],
     "duration": 50,
+    "date": "2023-10-30"
+  },
+  {
+    "name": "Interval Run",
+    "sport": "run",
+    "steps": ["10m Z1 warm-up", "1mi Z4", "2m Z1 rest", "1mi Z4", "2m Z1 rest", "1mi Z4", "2m Z1 rest", "1mi Z4", "10m Z1 cool down"],
+    "duration": 40,
     "date": "2023-10-31"
   },
   {
-    "name": "Speed Work",
+    "name": "Yoga",
+    "sport": "yoga",
+    "steps": ["10m Z1 warm-up", "30m Z1 yoga", "10m Z1 cool down"],
+    "duration": 40,
+    "date": "2023-10-31"
+  },
+  {
+    "name": "Easy Run",
     "sport": "run",
-    "steps": ["10m Z1 warm-up", "6x400m sprints with 2m rest", "10m Z1 cool down"],
+    "steps": ["10m Z1 warm-up", "50m Z3 run", "10m Z1 cool down"],
     "duration": 40,
     "date": "2023-11-01"
+  },
+  {
+    "name": "Strength Lowerbody",
+    "sport": "strength",
+    "steps": ["10m Z1 warm-up", "3x10 deadlifts Z2", "3x10 pull-ups Z2", "3x10 squats Z2", "5m Z1 cool down"],
+    "duration": 50,
+    "date": "2023-11-01"
+  },
+  {
+    "name": "Easy Run",
+    "sport": "run",
+    "steps": ["10m Z1 warm-up", "50m Z3 run", "10m Z1 cool down"],
+    "duration": 40,
+    "date": "2023-11-02"
+  },
+  {
+    "name": "Strength Lowerbody",
+    "sport": "strength",
+    "steps": ["10m Z1 warm-up", "3x10 deadlifts Z2", "3x10 pull-ups Z2", "3x10 squats Z2", "5m Z1 cool down"],
+    "duration": 50,
+    "date": "2023-11-02"
   },
   {
     "name": "Bike Ride",
     "sport": "bike",
     "steps": ["5m Z1 warm-up", "45m Z2 cycling", "5m Z1 cool down"],
     "duration": 55,
-    "date": "2023-11-02"
-  },
-  {
-    "name": "Rest Day",
-    "sport": "other",
-    "steps": ["Rest and recover"],
-    "duration": 0,
     "date": "2023-11-03"
   },
   {
     "name": "Long Run",
     "sport": "run",
-    "steps": ["10m Z1 warm-up", "60m Z2 run", "5m Z1 cool down"],
+    "steps": ["10m Z1 warm-up", "120m Z2 run", "10m Z1 cool down"],
     "duration": 75,
     "date": "2023-11-04"
   },
   {
-    "name": "Fun Swim",
-    "sport": "swim",
-    "steps": ["10m Z1 warm-up", "30m freestyle swim", "10m Z1 cool down"],
-    "duration": 50,
+    "name": "Easy Run or Ride",
+    "sport": "run",
+    "steps": ["10m Z1 warm-up", "20m Z3 run", "10m Z1 cool down"],
+    "duration": 40,
     "date": "2023-11-05"
   }
 ];

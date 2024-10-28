@@ -8,8 +8,7 @@
       "name": "Webapp",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm dev",
-      "cwd": "${workspaceFolder}/webapp",
+      "command": "pnpm run dev",
       "envFile": "${workspaceFolder}/webapp/.env.local",
       "remoteRoot": "/app"
     },

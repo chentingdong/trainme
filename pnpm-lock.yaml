@@ -22,10 +22,10 @@ importers:
     dependencies:
       '@langchain/community':
         specifier: 0.2.27
-        version: 0.2.27(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)
+        version: 0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)
       '@langchain/core':
         specifier: 0.2.23
-        version: 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+        version: 0.2.23(openai@4.65.0(encoding@0.1.13))
       '@langchain/openai':
         specifier: 0.2.6
         version: 0.2.6(encoding@0.1.13)
@@ -40,7 +40,7 @@ importers:
         version: 10.0.0
       langchain:
         specifier: 0.2.10
-        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))(ws@8.18.0)
       prisma:
         specifier: 5.20.0
         version: 5.20.0
@@ -74,7 +74,7 @@ importers:
         version: 0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)
       '@langchain/core':
         specifier: 0.2.23
-        version: 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+        version: 0.2.23(openai@4.65.0(encoding@0.1.13))
       '@langchain/langgraph':
         specifier: ^0.2.18
         version: 0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))
@@ -149,7 +149,10 @@ importers:
         version: 3.0.5
       langchain:
         specifier: 0.2.10
-        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
+        version: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))(ws@8.18.0)
+      langsmith:
+        specifier: ^0.2.2
+        version: 0.2.2(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -259,6 +262,9 @@ importers:
       '@types/dotenv':
         specifier: ^8.2.0
         version: 8.2.0
+      '@types/graphviz':
+        specifier: ^0.0.39
+        version: 0.0.39
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
@@ -295,6 +301,12 @@ importers:
       eslint-plugin-react:
         specifier: ^7.37.0
         version: 7.37.0(eslint@8.57.0)
+      graphviz:
+        specifier: ^0.0.9
+        version: 0.0.9
+      nodemon:
+        specifier: ^3.1.7
+        version: 3.1.7
       postcss:
         specifier: ^8.4.47
         version: 8.4.47
@@ -1288,6 +1300,9 @@ packages:
 
   '@types/geojson@7946.0.14':
     resolution: {integrity: sha512-WCfD5Ht3ZesJUsONdhvm84dmzWOiOzOAqOncN0++w0lBw1o8OuDNJF2McvvCef/yBqb/HYRahp1BYtODFQ8bRg==}
+
+  '@types/graphviz@0.0.39':
+    resolution: {integrity: sha512-3sBvki6GxLB4yvxArDQ0jjfuMKWEGVLUttNo3KULoidIstLIaCa2gG8+YkPQdoSUO74Y/ww3cZ7oAnw61dYIbw==}
 
   '@types/js-cookie@3.0.6':
     resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
@@ -2471,6 +2486,10 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
+  graphviz@0.0.9:
+    resolution: {integrity: sha512-SmoY2pOtcikmMCqCSy2NO1YsRfu9OO0wpTlOYW++giGjfX1a6gax/m1Fo8IdUd0/3H15cTOfR1SMKwohj4LKsg==}
+    engines: {node: '>=0.6.8'}
+
   has-bigints@1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
 
@@ -2533,6 +2552,9 @@ packages:
 
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
+
+  ignore-by-default@1.0.1:
+    resolution: {integrity: sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==}
 
   ignore@5.3.2:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
@@ -2966,6 +2988,14 @@ packages:
       openai:
         optional: true
 
+  langsmith@0.2.2:
+    resolution: {integrity: sha512-ARTPdrtYdpV3X+W4OvLDi2vcPxxGi9B5BVKMlxwjbywKa4qTtcDbiqwTmMFKhIKPjH5P85k5TPUXwsOfrr21PQ==}
+    peerDependencies:
+      openai: '*'
+    peerDependenciesMeta:
+      openai:
+        optional: true
+
   language-subtag-registry@0.3.23:
     resolution: {integrity: sha512-0K65Lea881pHotoGEa5gDlMxt3pctLi2RplBb7Ezh4rRdLEOtgi7n4EwK9lamnUCkKBqaeKRVebTq6BAxSkpXQ==}
 
@@ -3312,6 +3342,11 @@ packages:
 
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
+
+  nodemon@3.1.7:
+    resolution: {integrity: sha512-hLj7fuMow6f0lbB0cD14Lz2xNjwsyruH251Pk4t/yIitCFJbmY1myuLlHm/q06aST4jg6EgAh74PIBBrRqpVAQ==}
+    engines: {node: '>=10'}
+    hasBin: true
 
   nopt@5.0.0:
     resolution: {integrity: sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==}
@@ -3732,6 +3767,9 @@ packages:
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
 
+  pstree.remy@1.1.8:
+    resolution: {integrity: sha512-77DZwxQmxKnu3aR542U+X8FypNzbfJ+C5XQDk3uWjWxn6151aIMGthWYRXTqT1E5oJvg+ljaa2OJi+VfvCOQ8w==}
+
   pump@3.0.2:
     resolution: {integrity: sha512-tUPXtzlGM8FE3P0ZL6DVs/3P58k9nk8/jZeQCurTJylQA8qFYzHFfhBJkuqyE0FifOsQ0uKWekiZ5g8wtr28cw==}
 
@@ -4004,6 +4042,10 @@ packages:
   simple-get@4.0.1:
     resolution: {integrity: sha512-brv7p5WgH0jmQJr1ZDDfKDOSeWWg+OVypG99A/5vYGPqJ6pxiaHLy8nxtFjBA7oMa01ebA9gfh1uMCFqOuXxvA==}
 
+  simple-update-notifier@2.0.0:
+    resolution: {integrity: sha512-a2B9Y0KlNXl9u/vsW6sTIu9vGEpfKu2wRV6l1H3XEas/0gUIzGzBoP/IouTcUQbm9JWZLH3COxyn03TYlFax6w==}
+    engines: {node: '>=10'}
+
   smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
@@ -4221,6 +4263,10 @@ packages:
     resolution: {integrity: sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==}
     engines: {node: '>=10'}
 
+  temp@0.4.0:
+    resolution: {integrity: sha512-IsFisGgDKk7qzK9erMIkQe/XwiSUdac7z3wYOsjcLkhPBy3k1SlvLoIh2dAHIlEpgA971CgguMrx9z8fFg7tSA==}
+    engines: {'0': node >=0.4.0}
+
   terser-webpack-plugin@5.3.10:
     resolution: {integrity: sha512-BKFPWlPDndPs+NGGCr1U59t0XScL5317Y0UReNrHaw9/FwhPENlq6bfgs+4yPfyP51vqC1bQ4rp1EfXW5ZSH9w==}
     engines: {node: '>= 10.13.0'}
@@ -4262,6 +4308,10 @@ packages:
   to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==}
     engines: {node: '>=8.0'}
+
+  touch@3.1.1:
+    resolution: {integrity: sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA==}
+    hasBin: true
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
@@ -4380,6 +4430,9 @@ packages:
 
   unbox-primitive@1.0.2:
     resolution: {integrity: sha512-61pPlCD9h51VoreyJ0BReideM3MDKMKnh6+V9L08331ipq6Q8OFXZYiqP6n/tbHx4s5I9uRhcye6BrbkizkBDw==}
+
+  undefsafe@2.0.5:
+    resolution: {integrity: sha512-WxONCrssBM8TSPRqN5EmsjVrsv4A8X12J4ArBiiayv3DyyG3ZlIg6yysuuSYdZsVz3TKcTg2fd//Ujd4CHV1iA==}
 
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
@@ -4651,7 +4704,7 @@ snapshots:
       '@babel/traverse': 7.25.6
       '@babel/types': 7.25.6
       convert-source-map: 2.0.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -4740,7 +4793,7 @@ snapshots:
       '@babel/parser': 7.25.6
       '@babel/template': 7.25.0
       '@babel/types': 7.25.6
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -4812,7 +4865,7 @@ snapshots:
   '@eslint/eslintrc@2.1.4':
     dependencies:
       ajv: 6.12.6
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       espree: 9.6.1
       globals: 13.24.0
       ignore: 5.3.2
@@ -4856,7 +4909,7 @@ snapshots:
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
@@ -4917,14 +4970,14 @@ snapshots:
 
   '@langchain/community@0.2.27(@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))))(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       '@langchain/openai': 0.2.6(encoding@0.1.13)
       binary-extensions: 2.3.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      langchain: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))(ws@8.18.0)
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
       uuid: 10.0.0
       zod: 3.23.8
       zod-to-json-schema: 3.23.3(zod@3.23.8)
@@ -4946,43 +4999,13 @@ snapshots:
       - peggy
       - pyodide
 
-  '@langchain/community@0.2.27(@supabase/supabase-js@2.45.6)(axios@1.7.7)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.3.2)(lodash@4.17.21)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(pg@8.13.0)(ws@8.18.0)':
-    dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
-      '@langchain/openai': 0.2.6(encoding@0.1.13)
-      binary-extensions: 2.3.0
-      expr-eval: 2.0.2
-      flat: 5.0.2
-      js-yaml: 4.1.0
-      langchain: 0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0)
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
-      uuid: 10.0.0
-      zod: 3.23.8
-      zod-to-json-schema: 3.23.3(zod@3.23.8)
-    optionalDependencies:
-      '@supabase/supabase-js': 2.45.6
-      crypto-js: 4.2.0
-      ignore: 5.3.2
-      lodash: 4.17.21
-      pg: 8.13.0
-      ws: 8.18.0
-    transitivePeerDependencies:
-      - '@gomomento/sdk-web'
-      - axios
-      - encoding
-      - fast-xml-parser
-      - handlebars
-      - openai
-      - peggy
-      - pyodide
-
-  '@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.14
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -4994,12 +5017,12 @@ snapshots:
 
   '@langchain/langgraph-checkpoint@0.0.11(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       uuid: 10.0.0
 
   '@langchain/langgraph@0.2.18(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       '@langchain/langgraph-checkpoint': 0.0.11(@langchain/core@0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)))
       double-ended-queue: 2.1.0-0
       uuid: 10.0.0
@@ -5007,7 +5030,7 @@ snapshots:
 
   '@langchain/openai@0.2.6(encoding@0.1.13)':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       js-tiktoken: 1.0.14
       openai: 4.65.0(encoding@0.1.13)(zod@3.23.8)
       zod: 3.23.8
@@ -5015,9 +5038,9 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@langchain/textsplitters@0.0.3(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))':
+  '@langchain/textsplitters@0.0.3(openai@4.65.0(encoding@0.1.13))':
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       js-tiktoken: 1.0.14
     transitivePeerDependencies:
       - openai
@@ -5286,6 +5309,10 @@ snapshots:
 
   '@types/geojson@7946.0.14': {}
 
+  '@types/graphviz@0.0.39':
+    dependencies:
+      '@types/node': 20.14.8
+
   '@types/js-cookie@3.0.6': {}
 
   '@types/json-schema@7.0.15': {}
@@ -5370,7 +5397,7 @@ snapshots:
       '@typescript-eslint/types': 8.7.0
       '@typescript-eslint/typescript-estree': 8.7.0(typescript@5.6.2)
       '@typescript-eslint/visitor-keys': 8.7.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       eslint: 8.57.0
     optionalDependencies:
       typescript: 5.6.2
@@ -5386,7 +5413,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 8.7.0(typescript@5.6.2)
       '@typescript-eslint/utils': 8.7.0(eslint@8.57.0)(typescript@5.6.2)
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       ts-api-utils: 1.3.0(typescript@5.6.2)
     optionalDependencies:
       typescript: 5.6.2
@@ -5400,7 +5427,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.7.0
       '@typescript-eslint/visitor-keys': 8.7.0
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       fast-glob: 3.3.2
       is-glob: 4.0.3
       minimatch: 9.0.5
@@ -5590,7 +5617,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -6081,9 +6108,11 @@ snapshots:
     dependencies:
       ms: 2.1.3
 
-  debug@4.3.7:
+  debug@4.3.7(supports-color@5.5.0):
     dependencies:
       ms: 2.1.3
+    optionalDependencies:
+      supports-color: 5.5.0
 
   decamelize@1.2.0: {}
 
@@ -6348,7 +6377,7 @@ snapshots:
   eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.7.0(eslint@8.57.0)(typescript@5.6.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.30.0)(eslint@8.57.0):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       enhanced-resolve: 5.17.1
       eslint: 8.57.0
       eslint-module-utils: 2.12.0(@typescript-eslint/parser@8.7.0(eslint@8.57.0)(typescript@5.6.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3(@typescript-eslint/parser@8.7.0(eslint@8.57.0)(typescript@5.6.2))(eslint-import-resolver-node@0.3.9)(eslint-plugin-import@2.30.0)(eslint@8.57.0))(eslint@8.57.0)
@@ -6474,7 +6503,7 @@ snapshots:
       ajv: 6.12.6
       chalk: 4.1.2
       cross-spawn: 7.0.3
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       doctrine: 3.0.0
       escape-string-regexp: 4.0.0
       eslint-scope: 7.2.2
@@ -6759,6 +6788,10 @@ snapshots:
 
   graphemer@1.4.0: {}
 
+  graphviz@0.0.9:
+    dependencies:
+      temp: 0.4.0
+
   has-bigints@1.0.2: {}
 
   has-flag@3.0.0: {}
@@ -6791,7 +6824,7 @@ snapshots:
     dependencies:
       '@tootallnate/once': 1.1.2
       agent-base: 6.0.2
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -6799,7 +6832,7 @@ snapshots:
   https-proxy-agent@5.0.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -6821,6 +6854,8 @@ snapshots:
       postcss: 8.4.47
 
   ieee754@1.2.1: {}
+
+  ignore-by-default@1.0.1: {}
 
   ignore@5.3.2: {}
 
@@ -7068,17 +7103,17 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))(ws@8.18.0):
+  langchain@0.2.10(@supabase/supabase-js@2.45.6)(axios@1.7.7)(encoding@0.1.13)(ignore@5.3.2)(openai@4.65.0(encoding@0.1.13))(ws@8.18.0):
     dependencies:
-      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/core': 0.2.23(openai@4.65.0(encoding@0.1.13))
       '@langchain/openai': 0.2.6(encoding@0.1.13)
-      '@langchain/textsplitters': 0.0.3(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      '@langchain/textsplitters': 0.0.3(openai@4.65.0(encoding@0.1.13))
       binary-extensions: 2.3.0
       js-tiktoken: 1.0.14
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.11
-      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8))
+      langsmith: 0.1.61(openai@4.65.0(encoding@0.1.13))
       ml-distance: 4.0.1
       openapi-types: 12.1.3
       p-retry: 4.6.2
@@ -7097,7 +7132,18 @@ snapshots:
 
   langchainhub@0.0.11: {}
 
-  langsmith@0.1.61(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)):
+  langsmith@0.1.61(openai@4.65.0(encoding@0.1.13)):
+    dependencies:
+      '@types/uuid': 10.0.0
+      commander: 10.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      semver: 7.6.3
+      uuid: 10.0.0
+    optionalDependencies:
+      openai: 4.65.0(encoding@0.1.13)(zod@3.23.8)
+
+  langsmith@0.2.2(openai@4.65.0(encoding@0.1.13)(zod@3.23.8)):
     dependencies:
       '@types/uuid': 10.0.0
       commander: 10.0.1
@@ -7489,6 +7535,19 @@ snapshots:
 
   node-releases@2.0.18: {}
 
+  nodemon@3.1.7:
+    dependencies:
+      chokidar: 3.6.0
+      debug: 4.3.7(supports-color@5.5.0)
+      ignore-by-default: 1.0.1
+      minimatch: 3.1.2
+      pstree.remy: 1.1.8
+      semver: 7.6.3
+      simple-update-notifier: 2.0.0
+      supports-color: 5.5.0
+      touch: 3.1.1
+      undefsafe: 2.0.5
+
   nopt@5.0.0:
     dependencies:
       abbrev: 1.1.1
@@ -7840,6 +7899,8 @@ snapshots:
 
   proxy-from-env@1.1.0: {}
 
+  pstree.remy@1.1.8: {}
+
   pump@3.0.2:
     dependencies:
       end-of-stream: 1.4.4
@@ -8121,6 +8182,10 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
 
+  simple-update-notifier@2.0.0:
+    dependencies:
+      semver: 7.6.3
+
   smart-buffer@4.2.0:
     optional: true
 
@@ -8138,7 +8203,7 @@ snapshots:
   socks-proxy-agent@6.2.1:
     dependencies:
       agent-base: 6.0.2
-      debug: 4.3.7
+      debug: 4.3.7(supports-color@5.5.0)
       socks: 2.8.3
     transitivePeerDependencies:
       - supports-color
@@ -8409,6 +8474,8 @@ snapshots:
       mkdirp: 1.0.4
       yallist: 4.0.0
 
+  temp@0.4.0: {}
+
   terser-webpack-plugin@5.3.10(webpack@5.95.0):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -8442,6 +8509,8 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  touch@3.1.1: {}
 
   tr46@0.0.3: {}
 
@@ -8599,6 +8668,8 @@ snapshots:
       has-bigints: 1.0.2
       has-symbols: 1.0.3
       which-boxed-primitive: 1.0.2
+
+  undefsafe@2.0.5: {}
 
   undici-types@5.26.5: {}
 
