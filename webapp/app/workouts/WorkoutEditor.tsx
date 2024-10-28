@@ -12,6 +12,9 @@ import type { Workout } from "@trainme/db";
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 import { cn } from '@/utils/helper';
 import { workoutTotalDistance, workoutTotalDuration } from '@/utils/distanceUtils';
+import Image from 'next/image';
+
+const imageUrl = '/api/chat/langgraph-agent/graph';
 
 export default function WorkoutEditor() {
   const { scheduleDate, workout, setWorkout, setWorkouts } = useCalendarState();
@@ -272,6 +275,9 @@ export default function WorkoutEditor() {
               )}
             />
           </div>
+        </div>
+        <div className="flex-1 flex flex-col gap-1.5">
+          <Image src={imageUrl} alt="LAG" width={200} height={200} />
         </div>
         <div className="h-20 w-full px-2 my-2">
           <WorkoutChart workout={workout} />

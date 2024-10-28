@@ -4,8 +4,7 @@ import { PromptTemplate } from "@langchain/core/prompts";
 import defaultWeeklyPlan from '@/app/api/chat/metadata/DefaultWeeklyPlan';
 import { getWeeklyActivitiesDB } from '@/server/routes/activities/getWeekly';
 import { getWeeklyWorkoutsDB } from '@/server/routes/workouts/getWeekly';
-import { planningNextWeekTemplate, schema } from '@/app/api/chat/metadata/templates/planningNextWeek';
-import { getActiveSportTypes } from '@/app/actions/sportType';
+import { planningNextWeekTemplate, planningNextWeekSchema } from '@/app/api/chat/metadata/templates/planningNextWeek';
 
 /**
  * This handler initializes and calls an OpenAI Functions powered
@@ -30,19 +29,17 @@ export async function POST(req: NextRequest) {
     let currentWeekWorkouts = await getWeeklyWorkoutsDB(new Date());
     currentWeekWorkouts = [...currentWeekWorkouts, ...lastWeekWorkouts];
 
-    const activeSports = await getActiveSportTypes();
-    const sportTypes = [...new Set(activeSports.map(sport => sport.sportType))];
     const prompt = PromptTemplate.fromTemplate(planningNextWeekTemplate);
 
     const model = new ChatOpenAI({
       temperature: 0.8,
-      model: "gpt-4o-mini",
+      model: "gpt-4",
     });
 
     console.log(defaultWeeklyPlan.map(workout => workout.steps).join(', '));
     // Define the output schema
 
-    const functionCallingModel = model.withStructuredOutput(schema(sportTypes), {
+    const functionCallingModel = model.withStructuredOutput(planningNextWeekSchema, {
       name: "output_formatter",
     });
 

@@ -6,7 +6,7 @@ import { cn } from '@/utils/helper';
 import { Message } from 'ai';
 interface ChatMessageBubbleProps {
   message: Message;
-  sources: any[];
+  sources: any[];  
 }
 
 export function ChatMessageBubble(props: ChatMessageBubbleProps) {
