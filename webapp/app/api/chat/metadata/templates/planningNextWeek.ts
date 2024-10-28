@@ -39,8 +39,10 @@ If the user provide race day target, count back in weeks to adjust the weekly tr
 
 Output should be valid JSON.`;
 
+// TODO: user configurable sport types
+const sportTypes = ["Run", "Bike", "Strength", "Yoga", "Rest"];
 
-const workoutSchema = (sportTypes: string[]) => z.object({
+const workoutSchema = () => z.object({
    name: z.string().describe("Name of the workout, in format 'W6D3 - Easy run' as in 6 week to race day, 3rd day of the week, Easy run"),
    sportType: z.enum(sportTypes as [string, ...string[]]).describe("Type of sport"),
    steps: z.array(z.string()).describe(`Steps of the workout, examples are ${defaultWeeklyPlan.map(workout => workout.steps).join(', ')}.`),
@@ -49,10 +51,9 @@ const workoutSchema = (sportTypes: string[]) => z.object({
    date: z.string().describe("Date of the workout in ISO format")
 });
 
-// Use workoutSchema correctly in the schema definition
-export const schema = (sportsTypes: string[]) => z
+export const planningNextWeekSchema = z
    .object({
-      chatResponse: z.string().describe("A response to the human's input."),
-      workouts: z.array(workoutSchema(sportsTypes)).optional().describe("A list of 7 to 12 workouts, you can have one or two workouts each day. If the user didn't ask for creating workouts for next week, leave it empty."),
+      chatResponse: z.string().describe("A response to the human's input. in less than 100 words."),
+      workouts: z.array(workoutSchema()).optional().describe("A list of 7 to 12 workouts."),
    })
    .describe("Should always be used to properly format output");

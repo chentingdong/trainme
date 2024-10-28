@@ -51,10 +51,11 @@ export default function Page() {
         <div className="col-span-6 h-full overflow-auto bg-slate-700">
           <ChatWindow
             endpoint="api/chat/langgraph-agent"
+            // endpoint="api/chat/structured_output"
             titleText="Virtual Coach"
-            placeholder="I'm an LLM pretending to be a coach! I can help you plan your workouts!"
+            placeholder="I'm your virtual coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}
-            showIntermediateStepsToggle={true}
+            showIntermediateStepsToggle={false}
             showIngestForm={false}
           />
         </div>

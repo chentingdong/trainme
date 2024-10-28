@@ -12,7 +12,6 @@ import Loading from '@/app/loading';
 import { BsPersonVcardFill } from 'react-icons/bs';
 import { IoSend } from 'react-icons/io5';
 import React from 'react';
-import Debug from '@/app/components/Debug';
 
 export function ChatWindow(props: {
   endpoint: string;
