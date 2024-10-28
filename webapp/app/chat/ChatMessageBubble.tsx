@@ -2,7 +2,6 @@ import { useUser } from '@clerk/clerk-react';
 import Image from 'next/image';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { BsPersonVcardFill } from 'react-icons/bs';
-import ChatOutputWorkout from '@/app/chat/ChatOutputWorkout';
 import { cn } from '@/utils/helper';
 import { Message } from 'ai';
 interface ChatMessageBubbleProps {
@@ -46,8 +45,7 @@ export function ChatMessageBubble(props: ChatMessageBubbleProps) {
     >
       <div className='ml-1 mr-3 mt-1'> {avatar} </div>
       <div className='whitespace-pre-wrap flex flex-col'>
-        {props.message.role === 'assistant' && <ChatOutputWorkout {...props} />}
-        {props.message.role === 'user' && <div>{props.message.content}</div>}
+        <span>{props.message.content}</span>
       </div>
       {props.sources && props.sources.length ? <>
         <code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">

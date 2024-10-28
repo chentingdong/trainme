@@ -1,45 +1,16 @@
-import { NextRequest, NextResponse } from "next/server";
-import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
+import { NextRequest, NextResponse } from 'next/server';
+import { Message, StreamingTextResponse } from 'ai';
+import { createClient } from '@supabase/supabase-js';
 
-import { createClient } from "@supabase/supabase-js";
+import { SupabaseVectorStore } from '@langchain/community/vectorstores/supabase';
+import { SystemMessage } from '@langchain/core/messages';
+import { ChatOpenAI, OpenAIEmbeddings } from '@langchain/openai';
+import { createRetrieverTool } from 'langchain/tools/retriever';
+import { createReactAgent } from '@langchain/langgraph/prebuilt';
+import { convertVercelMessageToLangChainMessage } from '@/app/api/chat/utils';
+import { convertLangChainMessageToVercelMessage } from '@/app/api/chat/utils'; // Add this import statement
 
-import { SupabaseVectorStore } from "@langchain/community/vectorstores/supabase";
-import {
-  AIMessage,
-  BaseMessage,
-  ChatMessage,
-  HumanMessage,
-  SystemMessage,
-} from "@langchain/core/messages";
-import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { createRetrieverTool } from "langchain/tools/retriever";
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-
-export const runtime = "edge";
-
-const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
-  if (message.role === "user") {
-    return new HumanMessage(message.content);
-  } else if (message.role === "assistant") {
-    return new AIMessage(message.content);
-  } else {
-    return new ChatMessage(message.content, message.role);
-  }
-};
-
-const convertLangChainMessageToVercelMessage = (message: BaseMessage) => {
-  if (message._getType() === "human") {
-    return { content: message.content, role: "user" };
-  } else if (message._getType() === "ai") {
-    return {
-      content: message.content,
-      role: "assistant",
-      tool_calls: (message as AIMessage).tool_calls,
-    };
-  } else {
-    return { content: message.content, role: message._getType() };
-  }
-};
+export const runtime = 'edge';
 
 const AGENT_SYSTEM_TEMPLATE = `You are a stereotypical robot named Robbie and must answer all questions like a stereotypical robot. Use lots of interjections like "BEEP" and "BOOP".
 
@@ -61,25 +32,25 @@ export async function POST(req: NextRequest) {
      */
     const messages = (body.messages ?? [])
       .filter(
-        (message: VercelChatMessage) =>
-          message.role === "user" || message.role === "assistant",
+        (message: Message) =>
+          message.role === 'user' || message.role === 'assistant'
       )
       .map(convertVercelMessageToLangChainMessage);
     const returnIntermediateSteps = body.show_intermediate_steps;
 
     const chatModel = new ChatOpenAI({
-      model: "gpt-4o-mini",
+      model: 'gpt-4o-mini',
       temperature: 0.2,
     });
 
     const client = createClient(
       process.env.SUPABASE_URL!,
-      process.env.SUPABASE_PRIVATE_KEY!,
+      process.env.SUPABASE_PRIVATE_KEY!
     );
     const vectorstore = new SupabaseVectorStore(new OpenAIEmbeddings(), {
       client,
-      tableName: "documents",
-      queryName: "match_documents",
+      tableName: 'documents',
+      queryName: 'match_documents',
     });
 
     const retriever = vectorstore.asRetriever();
@@ -89,8 +60,8 @@ export async function POST(req: NextRequest) {
      * usable form.
      */
     const tool = createRetrieverTool(retriever, {
-      name: "search_latest_knowledge",
-      description: "Searches and returns up-to-date general information.",
+      name: 'search_latest_knowledge',
+      description: 'Searches and returns up-to-date general information.',
     });
 
     /**
@@ -125,14 +96,14 @@ export async function POST(req: NextRequest) {
         {
           messages,
         },
-        { version: "v2" },
+        { version: 'v2' }
       );
 
       const textEncoder = new TextEncoder();
       const transformStream = new ReadableStream({
         async start(controller) {
           for await (const { event, data } of eventStream) {
-            if (event === "on_chat_model_stream") {
+            if (event === 'on_chat_model_stream') {
               // Intermediate chat model generations will contain tool calls and no content
               if (!!data.chunk.content) {
                 controller.enqueue(textEncoder.encode(data.chunk.content));
@@ -155,7 +126,7 @@ export async function POST(req: NextRequest) {
         {
           messages: result.messages.map(convertLangChainMessageToVercelMessage),
         },
-        { status: 200 },
+        { status: 200 }
       );
     }
   } catch (e: any) {

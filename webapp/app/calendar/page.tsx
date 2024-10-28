@@ -48,12 +48,14 @@ export default function Page() {
         <div className="col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full">
           <WorkoutEditor />
         </div>
-        <div className="col-span-6 h-full overflow-auto">
+        <div className="col-span-6 h-full overflow-auto bg-slate-700">
           <ChatWindow
-            endpoint="api/chat/structured_output"
+            endpoint="api/chat/langgraph-agent"
             titleText="Virtual Coach"
             placeholder="I'm an LLM pretending to be a coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}
+            showIntermediateStepsToggle={true}
+            showIngestForm={false}
           />
         </div>
       </div>

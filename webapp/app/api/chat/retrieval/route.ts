@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
+import { Message, StreamingTextResponse } from "ai";
 
 import { createClient } from "@supabase/supabase-js";
 
@@ -20,7 +20,7 @@ const combineDocumentsFn = (docs: Document[]) => {
   return serializedDocs.join("\n\n");
 };
 
-const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
+const formatVercelMessages = (chatHistory: Message[]) => {
   const formattedDialogueTurns = chatHistory.map((message) => {
     if (message.role === "user") {
       return `Human: ${message.content}`;

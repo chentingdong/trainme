@@ -1,43 +1,14 @@
-import { NextRequest, NextResponse } from "next/server";
-import { Message as VercelChatMessage, StreamingTextResponse } from "ai";
+import { NextRequest, NextResponse } from 'next/server';
+import { Message, StreamingTextResponse } from 'ai';
 
-import { createReactAgent } from "@langchain/langgraph/prebuilt";
-import { ChatOpenAI } from "@langchain/openai";
-import { SerpAPI } from "@langchain/community/tools/serpapi";
-import { Calculator } from "@langchain/community/tools/calculator";
-import {
-  AIMessage,
-  BaseMessage,
-  ChatMessage,
-  HumanMessage,
-  SystemMessage,
-} from "@langchain/core/messages";
+import { createReactAgent } from '@langchain/langgraph/prebuilt';
+import { ChatOpenAI } from '@langchain/openai';
+import { SerpAPI } from '@langchain/community/tools/serpapi';
+import { Calculator } from '@langchain/community/tools/calculator';
+import { SystemMessage } from '@langchain/core/messages';
+import { convertLangChainMessageToVercelMessage, convertVercelMessageToLangChainMessage } from '@/app/api/chat/utils';
 
-export const runtime = "edge";
-
-const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
-  if (message.role === "user") {
-    return new HumanMessage(message.content);
-  } else if (message.role === "assistant") {
-    return new AIMessage(message.content);
-  } else {
-    return new ChatMessage(message.content, message.role);
-  }
-};
-
-const convertLangChainMessageToVercelMessage = (message: BaseMessage) => {
-  if (message._getType() === "human") {
-    return { content: message.content, role: "user" };
-  } else if (message._getType() === "ai") {
-    return {
-      content: message.content,
-      role: "assistant",
-      tool_calls: (message as AIMessage).tool_calls,
-    };
-  } else {
-    return { content: message.content, role: message._getType() };
-  }
-};
+export const runtime = 'edge';
 
 const AGENT_SYSTEM_TEMPLATE = `You are a professional triathlon coach.`;
 
@@ -57,8 +28,8 @@ export async function POST(req: NextRequest) {
      */
     const messages = (body.messages ?? [])
       .filter(
-        (message: VercelChatMessage) =>
-          message.role === "user" || message.role === "assistant",
+        (message: Message) =>
+          message.role === 'user' || message.role === 'assistant'
       )
       .map(convertVercelMessageToLangChainMessage);
 
@@ -66,7 +37,7 @@ export async function POST(req: NextRequest) {
     // You can remove this or use a different tool instead.
     const tools = [new Calculator(), new SerpAPI()];
     const chat = new ChatOpenAI({
-      model: "gpt-4o-mini",
+      model: 'gpt-4o-mini',
       temperature: 0,
     });
 
@@ -100,14 +71,14 @@ export async function POST(req: NextRequest) {
        */
       const eventStream = await agent.streamEvents(
         { messages },
-        { version: "v2" },
+        { version: 'v2' }
       );
 
       const textEncoder = new TextEncoder();
       const transformStream = new ReadableStream({
         async start(controller) {
           for await (const { event, data } of eventStream) {
-            if (event === "on_chat_model_stream") {
+            if (event === 'on_chat_model_stream') {
               // Intermediate chat model generations will contain tool calls and no content
               if (!!data.chunk.content) {
                 controller.enqueue(textEncoder.encode(data.chunk.content));
@@ -131,7 +102,7 @@ export async function POST(req: NextRequest) {
         {
           messages: result.messages.map(convertLangChainMessageToVercelMessage),
         },
-        { status: 200 },
+        { status: 200 }
       );
     }
   } catch (e: any) {
