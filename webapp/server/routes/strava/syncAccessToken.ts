@@ -48,8 +48,9 @@ export const exchangeAccessToken = async (userId: string): Promise<string> => {
 // The trpc query to get the access token.
 export const syncAccessToken = protectedProcedure
   .query(async ({ ctx }) => {
-    const userId = ctx.userId;
-
-    const accessToken = await exchangeAccessToken(userId);
+    if (!ctx.userId) {
+      throw new Error("User ID is required");
+    }
+    const accessToken = await exchangeAccessToken(ctx.userId);
     return accessToken;
   });

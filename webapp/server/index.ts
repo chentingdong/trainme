@@ -1,5 +1,5 @@
 import { db } from '@trainme/db';
-import { router } from '@/server/trpc';
+import { AuthContext, router } from '@/server/trpc';
 import superjson from 'superjson';
 import { createServerSideHelpers } from '@trpc/react-query/server';
 import { inferRouterOutputs } from '@trpc/server';
@@ -9,6 +9,7 @@ import { activityRouter } from '@/server/routes/activities';
 import { sportRouter } from '@/server/routes/sports';
 import { stravaRouter } from './routes/strava';
 import { userRouter } from './routes/user';
+import { httpBatchLink } from '@trpc/client';
 
 // Apply the stdout interception
 interceptStdout();
@@ -30,3 +31,16 @@ export const trpcSSRHelper = createServerSideHelpers({
 
 export type AppRouter = typeof appRouter;
 export type TRPCOutputs = inferRouterOutputs<AppRouter>;
+
+
+
+export const createTRPCContext = (): AuthContext => {
+  return {
+    db,
+    links: [
+      httpBatchLink({
+        url: '/api/trpc'
+      })
+    ]
+  };
+};

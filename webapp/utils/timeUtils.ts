@@ -28,3 +28,10 @@ export const getCurrentWeek = (aday?: Date): Date[] => {
 
   return Array.from({ length: 7 }, (_, i) => addDays(start, i));
 };
+
+export const formatTimeShort = (seconds: number) => {
+  const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
+  const hours = duration.hours || 0;
+  const minutes = duration.minutes || 0;
+  return `${hours}h${minutes}m`;
+};
