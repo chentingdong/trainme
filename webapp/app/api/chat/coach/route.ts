@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { StreamingTextResponse, Message } from 'ai';
+import { Message } from 'ai';
 
 import { agent } from './agent';
 import {
@@ -8,11 +8,11 @@ import {
 } from '@/app/api/chat/utils';
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const returnIntermediateSteps = body.show_intermediate_steps;
-  const messages = (body.messages ?? [])
-    .filter(
-      (message: Message) =>
+  try {
+    const body = await req.json();
+    const returnIntermediateSteps = body.show_intermediate_steps;
+    const messages = (body.messages ?? [])
+    .filter((message: Message) =>
         message.role === 'user' || message.role === 'assistant'
     )
     .map(convertVercelMessageToLangChainMessage);
@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return new StreamingTextResponse(transformStream);
+    return new Response(transformStream);
   } else {
     const result = await agent.invoke({
       messages,
@@ -46,6 +46,10 @@ export async function POST(req: NextRequest) {
         messages: result.messages.map(convertLangChainMessageToVercelMessage),
       },
       { status: 200 }
-    );
+      );
+    }
+  } catch (error) {
+    console.error('Error in POST:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
