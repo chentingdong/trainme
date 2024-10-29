@@ -1,10 +1,11 @@
-import { StructuredOutputType } from '@langchain/core/language_models/base';
+import { auth } from '@clerk/nextjs/server';
 import {
   AIMessage,
   BaseMessage,
   ChatMessage,
   HumanMessage,
 } from "@langchain/core/messages";
+import { db } from '@trainme/db';
 import { Message as VercelChatMessage } from "ai";
 
 export const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
@@ -17,7 +18,7 @@ export const convertVercelMessageToLangChainMessage = (message: VercelChatMessag
   }
 };
 
-export const convertLangChainMessageToVercelMessage = (message: BaseMessage | StructuredOutputType) => {
+export const convertLangChainMessageToVercelMessage = (message: BaseMessage | AIMessage) => {
   if (message._getType() === "human") {
     return { 
       role: "user",
@@ -36,3 +37,12 @@ export const convertLangChainMessageToVercelMessage = (message: BaseMessage | St
     };
   }
 };
+
+export const getAthleteId = async () => {
+  const { userId } = await auth();
+  const user = await db.user.findUnique({ where: { id: userId } });
+  if (!user) { 
+    throw new Error("User not found");
+  }
+  return user.athleteId; 
+}

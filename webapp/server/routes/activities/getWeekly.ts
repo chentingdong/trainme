@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { startOfWeek, endOfWeek } from 'date-fns';
 import convert from 'convert-units';
 
-export type WeeklyActivitiesSummaryType = {
+export type ActivitiesSummaryType = {
   sportType: string;
   _sum: {
     distance: number;
@@ -65,7 +65,7 @@ export const getWeeklyActivitiesSummary = protectedProcedure
       },
     });
 
-    return summary.map((s: WeeklyActivitiesSummaryType) => ({
+    return summary.map((s: ActivitiesSummaryType) => ({
       sportType: s.sportType,
       _sum: {
         distance: parseFloat(convert(s._sum.distance).from('m').to('km').toFixed(2)),

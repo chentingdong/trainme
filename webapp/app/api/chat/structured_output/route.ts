@@ -22,12 +22,12 @@ export async function POST(req: NextRequest) {
     const lastMonday = new Date();
     lastMonday.setDate(lastMonday.getDate() - ((lastMonday.getDay() + 6) % 7));
     const lastWeekActivities = await getWeeklyActivitiesDB(lastMonday);
-    let currentWeekActivities = await getWeeklyActivitiesDB(new Date());
-    currentWeekActivities = [...currentWeekActivities, ...lastWeekActivities];
+    let pastActivities = await getWeeklyActivitiesDB(new Date());
+    pastActivities = [...pastActivities, ...lastWeekActivities];
 
     const lastWeekWorkouts = await getWeeklyWorkoutsDB(lastMonday);
-    let currentWeekWorkouts = await getWeeklyWorkoutsDB(new Date());
-    currentWeekWorkouts = [...currentWeekWorkouts, ...lastWeekWorkouts];
+    let pastWorkouts = await getWeeklyWorkoutsDB(new Date());
+    pastWorkouts = [...pastWorkouts, ...lastWeekWorkouts];
 
     const prompt = PromptTemplate.fromTemplate(planningNextWeekTemplate);
 
@@ -50,8 +50,8 @@ export async function POST(req: NextRequest) {
 
     const result = await chain.invoke({
       input: currentMessageContent,
-      currentWeekActivities,
-      currentWeekWorkouts,
+      pastActivities,
+      pastWorkouts,
     });
 
     return NextResponse.json(result, { status: 200 });
