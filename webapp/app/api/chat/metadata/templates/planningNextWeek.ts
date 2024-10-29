@@ -4,15 +4,15 @@ import defaultWeeklyPlan from '@/app/api/chat/metadata/DefaultWeeklyPlan';
 export const planningNextWeekTemplate = `
 Some information about my training history in last two weeks:
 my current week activities:
-{currentWeekActivities}
+{pastActivities}
 my current week workouts:
-{currentWeekWorkouts}
+{pastWorkouts}
 Input:
 {input}
 Output should be valid JSON.`;
 
 // TODO: user configurable sport types
-const sportTypes = ["Run", "Bike", "Swim", "Strength", "Yoga", "Rest"];
+const sportTypes = ["Run", "TrailRun", "Bike", "VirtualRide", "Swim", "WeightTraining", "Yoga", "Rest"];
 
 const workoutSchema = () => z.object({
    name: z.string().describe("Name of the workout, in format 'W6D3 - Easy run' as in 6 week to race day, 3rd day of the week, Easy run"),

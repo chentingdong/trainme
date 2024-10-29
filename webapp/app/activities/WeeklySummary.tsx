@@ -1,6 +1,6 @@
 import { trpc } from '@/app/api/trpc/client';
 import SportIcon from '@/app/activities/SportIcon';
-import { WeeklyActivitiesSummaryType } from '@/server/routes/activities/getWeekly';
+import { ActivitiesSummaryType } from '@/server/routes/activities/getWeekly';
 import { formatTimeShort } from '@/utils/timeUtils';
 
 type Props = {
@@ -14,7 +14,7 @@ export default function WeeklySummary({ aday }: Props) {
 
   return (
     <div className="flex flex-row gap-2">
-      {weeklySummary?.map((s: WeeklyActivitiesSummaryType) => (
+      {weeklySummary?.map((s: ActivitiesSummaryType) => (
         <div key={s.sportType} className="flex items-center gap-1">
           <SportIcon type={s.sportType} className="w-5 h-5" />
           {s._sum.distance > 0 && (

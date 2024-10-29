@@ -4,8 +4,8 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import { BsPersonVcardFill } from 'react-icons/bs';
 import { cn } from '@/utils/helper';
 import { Message } from 'ai';
-import ChatOutputWorkout from '@/app/chat/ChatOutputWorkout';
-import Debug from '@/app/components/Debug';
+import { StructuredOutput } from '@/app/chat/StructuredOutput';
+
 interface ChatMessageBubbleProps {
   message: Message;
   outputSchema?: unknown;
@@ -48,15 +48,12 @@ export function ChatMessageBubble(props: ChatMessageBubbleProps) {
     >
       <div className='ml-1 mr-3 mt-1'> {avatar} </div>
       <div className='whitespace-pre-wrap flex flex-col'>
-        {props.message.content.includes('workout') ? ( 
-          <ChatOutputWorkout message={props.message} />
-        ) : (
-          <span>{props.message.content}</span>
-        )}
+        <StructuredOutput {...props} />
       </div>
-      {props.sources && props.sources.length ? <>
-        <code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">
-          <h2>
+      {props.sources && props.sources.length > 0 &&(
+        <>
+          <code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">
+            <h2>
             🔍 Sources:
           </h2>
         </code>
@@ -71,7 +68,8 @@ export function ChatMessageBubble(props: ChatMessageBubbleProps) {
             </div>
           ))}
         </code>
-      </> : ""}
+      </>
+      )}
     </div>
   );
 }

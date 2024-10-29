@@ -3,22 +3,24 @@ import React from 'react';
 import type { Workout } from '@trainme/db';
 import { WorkoutChart } from '@/app/workouts/WorkoutChart';
 import { cn } from '@/utils/helper';
-import { useCalendarState } from '@/app/calendar/useCalendarState';
 import SportIcon from '@/app/activities/SportIcon';
+import { useCalendarState } from '@/app/calendar/useCalendarState';
 
-const ChatOutputWorkout: React.FC<{ message: Message }> = (props) => {
+export const WorkoutPlanner: React.FC<{ message: Message }> = (props) => {
+  const { setWorkout: setEditorWorkout } = useCalendarState();
   let chatResponse, workouts;
 
   try {
     const parsedContent = JSON.parse(props.message.content);
+    if(!parsedContent.chatResponse || !parsedContent.workouts) {
+      return null;
+    }
     chatResponse = parsedContent.chatResponse;
     workouts = parsedContent.workouts;
   } catch (error) {
     console.error('Failed to parse message content:', error);
     // Handle the error appropriately, e.g., set default values or show an error message
   }
-
-  const { setWorkout: setEditorWorkout } = useCalendarState();
 
   return (
     <div className='chat-output'>
@@ -56,4 +58,3 @@ const ChatOutputWorkout: React.FC<{ message: Message }> = (props) => {
   );
 };
 
-export default ChatOutputWorkout;

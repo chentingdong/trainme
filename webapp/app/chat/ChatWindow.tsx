@@ -21,8 +21,8 @@ export function ChatWindow(props: {
   showIngestForm?: boolean;
   showIntermediateStepsToggle?: boolean;
 }) {
-  const messageContainerRef = useRef<HTMLDivElement | null>(null);
-
+  const endOfMessageRef = useRef<HTMLDivElement | null>(null);
+  
   const { toast } = useToast();
   const {
     endpoint,
@@ -33,7 +33,7 @@ export function ChatWindow(props: {
     showIntermediateStepsToggle,
   } = props;
 
-  const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
+  const [showIntermediateSteps, setShowIntermediateSteps] = useState(true);
   const [intermediateStepsLoading, setIntermediateStepsLoading] =
     useState(false);
   const ingestForm = showIngestForm && (
@@ -114,43 +114,39 @@ export function ChatWindow(props: {
     const json = await response.json();
     setIntermediateStepsLoading(false);
     if (response.status === 200) {
-      const responseMessages: Message[] = json.messages;
-
-      // Create intermediate step messages based on AI's response
-      const intermediateStepMessages =
-        responseMessages
-          ?.filter(
-            (msg: Message) => msg.role === 'assistant' || msg.role === 'system'
-          )
-          .map((msg: Message, index: number) => ({
-            id: (messagesWithUserReply.length + index).toString(),
-            role: msg.role as 'system' | 'assistant', // Ensure role is of the correct type
-            content: msg.content,
-          })) || [];
-
-      // Ensure messages are updated correctly
-      const newMessages = [
-        ...messagesWithUserReply,
-        ...intermediateStepMessages,
-      ];
-      setMessages(newMessages);
-
-      for (let i = 0; i < intermediateStepMessages.length; i++) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, 1000 + Math.random() * 1000)
-        );
-      }
-
-      // Ensure the final assistant message is added
-      setMessages([
-        ...newMessages,
-        {
-          id: newMessages.length.toString(),
-          content:
-            responseMessages?.[responseMessages.length - 1]?.content || '',
-          role: 'assistant',
-        },
-      ]);
+        const responseMessages: Message[] = json.messages;
+        // Represent intermediate steps as system messages for display purposes
+        // TODO: Add proper support for tool messages
+        const toolCallMessages = responseMessages.filter((responseMessage: Message) => {
+          return (responseMessage.role === "assistant" && !!responseMessage.tool_calls?.length) || responseMessage.role === "tool";
+        });
+        const intermediateStepMessages = [];
+        for (let i = 0; i < toolCallMessages.length; i += 2) {
+          const aiMessage = toolCallMessages[i];
+          const toolMessage = toolCallMessages[i + 1];
+          intermediateStepMessages.push({
+            id: (messagesWithUserReply.length + (i / 2)).toString(),
+            role: "system" as const,
+            content: JSON.stringify({
+              action: aiMessage.tool_calls?.[0],
+              observation: toolMessage.content,
+            })
+          });
+        }
+        const newMessages = messagesWithUserReply;
+        for (const message of intermediateStepMessages) {
+          newMessages.push(message);
+          setMessages([...newMessages]);
+          await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
+        }
+        setMessages([
+          ...newMessages,
+          {
+            id: (newMessages.length).toString(),
+            content: responseMessages[responseMessages.length - 1].content,
+            role: "assistant"
+          },
+        ]);
     } else {
       if (json.error) {
         toast({
@@ -164,9 +160,10 @@ export function ChatWindow(props: {
 
   async function sendMessage(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (messageContainerRef.current) {
-      messageContainerRef.current.classList.add('grow');
+    
+    if (endOfMessageRef.current) {
+      console.log('scroll into view');
+      endOfMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
 
     if (!messages.length) {
@@ -197,7 +194,6 @@ export function ChatWindow(props: {
       {messages.length === 0 ? emptyStateComponent : ''}
       <div
         className='flex-1 flex flex-col-reverse w-full mb-4 overflow-auto transition-[flex-grow] ease-in-out scroll'
-        ref={messageContainerRef}
       >
         {messages.length > 0 &&
           [...messages].reverse().map((message, i) => {
@@ -216,6 +212,7 @@ export function ChatWindow(props: {
       </div>
       {messages.length === 0 && ingestForm}
       <form onSubmit={sendMessage} className='flex w-full flex-col'>
+        <div ref={endOfMessageRef} />
         <div className='flex flex-wrap mb-2 text-xs'>
           {predefinedMessages.map((message, index) => (
             <button

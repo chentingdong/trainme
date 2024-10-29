@@ -43,8 +43,8 @@ async function callModel(state: typeof MessagesAnnotation.State) {
 }
 
 async function workoutPlanner(state: typeof MessagesAnnotation.State) {
-  const currentWeekActivities = await getWeeklyActivitiesDB(new Date());
-  const currentWeekWorkouts = await getWeeklyWorkoutsDB(new Date());
+  const pastActivities = await getWeeklyActivitiesDB(new Date());
+  const pastWorkouts = await getWeeklyWorkoutsDB(new Date());
   const prompt = PromptTemplate.fromTemplate(planningNextWeekTemplate);
 
   const chain = prompt.pipe(
@@ -57,8 +57,8 @@ async function workoutPlanner(state: typeof MessagesAnnotation.State) {
 
   const response = await chain.invoke({
     input: currentMessageContent,
-    currentWeekActivities,
-    currentWeekWorkouts,
+    pastActivities,
+    pastWorkouts,
   });
 
   return { messages: [response] };
