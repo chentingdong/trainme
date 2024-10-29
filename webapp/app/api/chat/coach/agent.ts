@@ -1,12 +1,9 @@
-import { tool } from '@langchain/core/tools';
 import { planningNextWeekTemplate } from '@/app/api/chat/metadata/templates/planningNextWeek';
 import { Annotation } from '@langchain/langgraph';
 import { MessagesAnnotation } from '@langchain/langgraph';
 import { ChatOpenAI } from '@langchain/openai';
 import { StateGraph } from '@langchain/langgraph';
 import { planningNextWeekSchema } from '@/app/api/chat/metadata/templates/planningNextWeek';
-import { getWeeklyActivitiesDB } from '@/server/routes/activities/getWeekly';
-import { getWeeklyWorkoutsDB } from '@/server/routes/workouts/getWeekly';
 import { intentionDetectionTemplate } from '@/app/api/chat/metadata/templates/intentionDetection';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { analyzeActivityTemplate } from '@/app/api/chat/metadata/templates/analyzeActivity';
@@ -56,21 +53,19 @@ const workoutPlanner = async (state: typeof StateAnnotation.State) => {
     input: lastMessage.content,
   });
 
-  console.log('Workout planner content: ', content);
-
   const workoutPlannerResponse = await model
     .withStructuredOutput(planningNextWeekSchema, {
       name: 'workout_planner',
     })
     .invoke([
       { type: 'system', content },
-      { type: lastMessage._getType(), content: lastMessage.content },
       {
         type: 'user',
         content: 'Please help me plan my next week of workouts.',
       },
     ]);
 
+  console.log('Workout planner response: ', workoutPlannerResponse);
   return {
     messages: [
       ...state.messages,
@@ -83,9 +78,10 @@ const workoutPlanner = async (state: typeof StateAnnotation.State) => {
 };  
 
 const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
-  const pastActivities = await getWeeklyActivitiesDB(new Date());
-  const pastWorkouts = await getWeeklyWorkoutsDB(new Date());
+  const pastActivities = await getMonthlyActivitiesDB(new Date());
+  const pastWorkouts = await getMonthlyWorkoutsDB(new Date());
   const lastMessage = state.messages[state.messages.length - 1];
+  
   const content = await PromptTemplate.fromTemplate(
     analyzeActivityTemplate
   ).format({
@@ -94,39 +90,16 @@ const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
     input: lastMessage.content,
   });
 
-  console.log('Activity analyzer content: ', content);
   const activityAnalyzerResponse = await model.invoke([
     {
       type: 'system',
-      content: await PromptTemplate.fromTemplate(
-        analyzeActivityTemplate
-      ).format({
-        pastActivities,
-        pastWorkouts,
-        input: lastMessage.content,
-      }),
+      content,
     },
-    { type: lastMessage._getType(), content: lastMessage.content },
     {
       type: 'user',
       content: 'Please help me analyze my training activities.',
     },
   ]);
-
-  // Check if the response is null
-  if (!activityAnalyzerResponse || activityAnalyzerResponse.content === null) {
-    console.error('Received null response from the model');
-    return {
-      messages: [
-        ...state.messages,
-        {
-          type: 'assistant',
-          content:
-            'I could not analyze your activities due to an error. Please try again.',
-        },
-      ],
-    };
-  }
 
   console.log('Activity analyzer response: ', activityAnalyzerResponse);
 
@@ -134,7 +107,7 @@ const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
     messages: [
       ...state.messages,
       {
-        content: JSON.stringify(activityAnalyzerResponse),
+        content: activityAnalyzerResponse.content,
         type: 'assistant',
       },
     ],

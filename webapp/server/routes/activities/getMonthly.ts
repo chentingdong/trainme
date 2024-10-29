@@ -1,12 +1,14 @@
 import { db } from "@trainme/db";
-import { endOfMonth } from 'date-fns';
-import { startOfMonth } from 'date-fns';
+// import { endOfMonth } from 'date-fns';
+// import { startOfMonth } from 'date-fns';
 import { getAthleteId } from '@/app/api/chat/utils';
 
 export const getMonthlyDb = async (aday: Date) => {
-  const monthStart = startOfMonth(aday).toISOString();  
-  const monthEnd = endOfMonth(aday).toISOString();
-
+  // const monthStart = startOfMonth(aday);  
+  // const monthEnd = endOfMonth(aday);
+  const monthStart = new Date(aday);
+  monthStart.setDate(monthStart.getDate() - 10);
+  const monthEnd = new Date(aday);
   const athleteId = await getAthleteId();
 
   const activities = await db.activity.findMany({
@@ -21,8 +23,8 @@ export const getMonthlyDb = async (aday: Date) => {
       },
       where: {
         startDateLocal: {
-          gte: monthStart,
-          lt: monthEnd,
+          gte: monthStart.toISOString(),
+          lt: monthEnd.toISOString(),
         },
         athleteId: athleteId,
       },

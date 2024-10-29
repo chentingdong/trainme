@@ -170,14 +170,14 @@ export function ChatWindow(props: {
       await new Promise((resolve) => setTimeout(resolve, 300));
     }
 
-    if (chatEndpointIsLoading ?? intermediateStepsLoading) {
-      return <Loading />;
+    if (chatEndpointIsLoading || intermediateStepsLoading) {
+      return;
     }
 
     if (showIntermediateSteps) {
-      showIntermediateMessage();
+      await showIntermediateMessage();
     } else {
-      handleSubmit(e);
+      handleSubmit();
     }
   }
 
@@ -217,9 +217,8 @@ export function ChatWindow(props: {
           {predefinedMessages.map((message, index) => (
             <button
               key={index}
-              type='submit'
               className='btn btn-secondary mr-2 mb-2 text-xs tracking-tight font-sans'
-              onClick={() => setInput(message)}
+              onClick={() => {setInput(message); handleSubmit()}}
             >
               {message}
             </button>
@@ -231,7 +230,9 @@ export function ChatWindow(props: {
             className='grow mr-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 rounded-sm'
             value={input}
             placeholder={placeholder ?? "So what's your plan for today?"}
-            onChange={handleInputChange}
+            onChange={(e) => {
+              handleInputChange(e);
+            }}
           />
           <button type='submit' className='btn btn-primary px-3 py-1 text-xs'>
             {chatEndpointIsLoading || intermediateStepsLoading ? (

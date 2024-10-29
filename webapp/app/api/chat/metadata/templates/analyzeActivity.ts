@@ -1,7 +1,7 @@
 export const analyzeActivityTemplate = `You are geneous triathlete coach. Your job is to analyze the user's actural activities and plannedworkouts and provide a summary of the user's training. 
-my last week training activities:
+my past training activities:
 {pastActivities}
-my last week training workouts:
+my past training workouts:
 {pastWorkouts}
 Input:
 {input}
