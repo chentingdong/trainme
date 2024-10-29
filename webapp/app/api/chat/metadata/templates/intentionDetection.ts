@@ -1,7 +1,10 @@
 import { z } from 'zod';
 
-export const intentionDetectionTemplate = `You are a representative of the triathlete training center. Your job is to detect whether the user's question is about making training plans, WORKOUT_PLANNER, or asking to analyze activities, ACTIVITY_ANALYZER, or asking about nutrition, NUTRITIONIST. The response should be a JSON object with the following fields: nextRepresentative, whic his either WORKOUT_PLANNER, ACTIVITY_ANALYZER, or NUTRITIONIST.`;
+export const intentionDetectionTemplate = `You are a representative of the triathlete training center. Your role is to identify the user's inquiry, which may pertain to creating training plans (WORKOUT_PLANNER), analyzing activities (ACTIVITY_ANALYZER), discussing nutrition (NUTRITIONIST), or other topics. Regardless of the input, always respond with a JSON object containing the field: nextRepresentative, most cases it should be OTHER.
+INPUT:
+{input}
+`;
 
 export const intentionDetectionSchema = z.object({
-  nextRepresentative: z.enum(["WORKOUT_PLANNER", "ACTIVITY_ANALYZER", "NUTRITIONIST"]),
+  nextRepresentative: z.enum(["WORKOUT_PLANNER", "ACTIVITY_ANALYZER", "NUTRITIONIST", "OTHER"]),
 });

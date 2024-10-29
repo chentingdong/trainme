@@ -2,10 +2,10 @@ import { z } from 'zod';
 import defaultWeeklyPlan from '@/app/api/chat/metadata/DefaultWeeklyPlan';
 
 export const planningNextWeekTemplate = `
-Some information about my training history in last two weeks:
-my current week activities:
+Some information about my training history in the past:
+my past activities:
 {pastActivities}
-my current week workouts:
+my past workouts:
 {pastWorkouts}
 Input:
 {input}
