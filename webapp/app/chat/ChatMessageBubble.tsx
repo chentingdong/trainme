@@ -50,7 +50,7 @@ export function ChatMessageBubble(props: ChatMessageBubbleProps) {
       <div className='whitespace-pre-wrap flex flex-col'>
         <StructuredOutput {...props} />
       </div>
-      {props.sources && props.sources.length > 0 &&(
+      {/* {props.sources && props.sources.length > 0 &&(
         <>
           <code className="mt-4 mr-auto bg-slate-600 px-2 py-1 rounded">
             <h2>
@@ -69,7 +69,7 @@ export function ChatMessageBubble(props: ChatMessageBubbleProps) {
           ))}
         </code>
       </>
-      )}
+      )} */}
     </div>
   );
 }
