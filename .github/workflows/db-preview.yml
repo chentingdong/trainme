@@ -4,11 +4,8 @@ name: Preview DB Migration
 
 on:
   push:
-    branches:
-      - '**'
-      - '!main'
-    paths:
-      - 'db/prisma/**'
+    tags:
+      - 'db-*'
 
   pull_request:
     branches:

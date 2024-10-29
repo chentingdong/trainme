@@ -113,9 +113,18 @@ export default function Strava() {
           </div>
           <div className="mt-2">
             {fromDaysAgo === 30 && (
-              <p className="text-sm text-gray-500">
-                This will take a while, please be patient.
-              </p>
+              <>
+                {isPending && (
+                  <p className="text-sm text-gray-500">
+                    This will take a while, please be patient.
+                  </p>
+                )}
+                {!isPending && (
+                  <p className="text-sm text-gray-500">
+                    Sync successful.
+                  </p>
+                )}
+              </>
             )}
             {fromDaysAgo === 0 && (
               <button

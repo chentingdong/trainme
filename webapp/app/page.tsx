@@ -11,10 +11,11 @@ const Page = () => {
       }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-        <h1 className="text-white text-4xl md:text-6xl font-bold text-center px-4">
-          Master your training, conquer your race.
+        <h1 className="text-white font-extrabold text-center px-4 text-xl md:text-2xl lg:text-3xl leading-wide tracking-wide drop-shadow-lg">
+          <span className="text-indigo-300">AI-powered Virtual Coach</span>
           <br />
-          AI-powered multi-sport training made for you.
+          <br />
+          <span>master with plan, race with heart.</span>
         </h1>
       </div>
     </div>
