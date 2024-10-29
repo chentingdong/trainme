@@ -50,8 +50,7 @@ export default function Page() {
         </div>
         <div className="col-span-6 h-full overflow-auto bg-slate-700">
           <ChatWindow
-            endpoint="api/chat/langgraph-agent"
-            // endpoint="api/chat/structured_output"
+            endpoint="api/chat/coach"
             titleText="Virtual Coach"
             placeholder="I'm your virtual coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}

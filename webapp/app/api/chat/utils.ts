@@ -1,12 +1,13 @@
+import { StructuredOutputType } from '@langchain/core/language_models/base';
 import {
   AIMessage,
   BaseMessage,
   ChatMessage,
   HumanMessage,
 } from "@langchain/core/messages";
-import { Message } from 'ai';
+import { Message as VercelChatMessage } from "ai";
 
-export const convertVercelMessageToLangChainMessage = (message: Message) => {
+export const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
   if (message.role === "user") {
     return new HumanMessage(message.content);
   } else if (message.role === "assistant") {
@@ -16,16 +17,22 @@ export const convertVercelMessageToLangChainMessage = (message: Message) => {
   }
 };
 
-export const convertLangChainMessageToVercelMessage = (message: BaseMessage) => {
+export const convertLangChainMessageToVercelMessage = (message: BaseMessage | StructuredOutputType) => {
   if (message._getType() === "human") {
-    return { content: message.content, role: "user" };
+    return { 
+      role: "user",
+      content: message.content, 
+    };
   } else if (message._getType() === "ai") {
     return {
-      content: message.content,
       role: "assistant",
+      content: message.content,
       tool_calls: (message as AIMessage).tool_calls,
     };
   } else {
-    return { content: message.content, role: message._getType() };
+    return { 
+      role: message._getType(),
+      content: message.content, 
+    };
   }
 };
