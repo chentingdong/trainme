@@ -4,6 +4,8 @@ import React, { useState } from "react";
 import CalendarWeek from "./CalendarWeek";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import WorkoutEditor from "../workouts/WorkoutEditor";
+import { ChatWindow } from '@/app/chat/ChatWindow';
+import Placeholder from '@/app/components/Placeholder';
 
 const showImage = false;
 
@@ -47,7 +49,14 @@ export default function Page() {
           <WorkoutEditor />
         </div>
         <div className="col-span-6 h-full overflow-auto">
-          ai chat area
+          <ChatWindow
+            endpoint="api/chat/coach"
+            titleText="Virtual Coach"
+            placeholder="I'm your virtual coach! I can help you plan your workouts!"
+            emptyStateComponent={<Placeholder />}
+            showIntermediateStepsToggle={false}
+            showIngestForm={false}
+          />
         </div>
       </div>
     </div>

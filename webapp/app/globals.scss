@@ -149,6 +149,13 @@ body {
       background-color: rgb(var(--background-start-rgb));
     }
   }
+  .avatar {
+    @apply w-4 h-4 bg-cover rounded-sm;
+    background-color: rgb(var(--background-end-rgb));
+    &:hover {
+      background-color: rgb(var(--background-start-rgb));
+    }
+  }
 }
 
 @layer components {
@@ -191,13 +198,14 @@ body {
     @apply p-4 rounded-md shadow-md bg-slate-50 text-slate-900;
   }
   .scroll {
-    @apply scrollbar-none scrollbar-thumb-yellow-400 scrollbar-track-transparent;
+    @apply scrollbar-thin scrollbar-thumb-yellow-400 scrollbar-track-transparent;
   }
   /* Custom styles for form-group alignment */
   .form-group {
-    @apply my-1 grid grid-cols-12 gap-2 items-center;
+    @apply grid grid-cols-12 gap-2 items-center;
     label {
       @apply col-span-5;
+      @apply text-2xs leading-tight;
     }
     > div {
       @apply col-span-7 px-1;
@@ -205,10 +213,19 @@ body {
     input,
     textarea,
     select {
+      @apply text-2xs leading-tight py-1;
       @apply w-full rounded-lg border-none;
       @apply bg-stone-300 dark:bg-stone-800;
     }
   }
+
+  .form-control.loading {
+    background-image: url('/path/to/loader.gif');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px 20px;
+    appearance: none; 
+}
 
   textarea {
     &.workout-board {
@@ -224,7 +241,7 @@ body {
   }
 
   .range-slider {
-    @apply w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700;
+    @apply w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700;
   }
 
   .toast-container {

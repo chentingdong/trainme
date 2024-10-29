@@ -64,6 +64,8 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
 export const syncAthlete = protectedProcedure.query(async ({ ctx }) => {
   const userId = ctx.userId;
   const user = await db.user.findUnique({ where: { id: userId } });
+  ctx.athleteId = user?.athleteId;
+  
   const accessToken = user?.stravaAccessToken;
   if (!accessToken) {
     throw new Error('No access token found for user, need to connect to Strava.');
