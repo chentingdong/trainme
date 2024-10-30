@@ -8,7 +8,7 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "pnpm run dev"
     },
     {
       "name": "Next.js: debug client-side",
@@ -18,22 +18,11 @@
     },
     {
       "name": "Next.js: debug full stack",
-      "type": "node",
+      "type": "node-terminal",
       "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "args": ["run", "dev"],
-      "skipFiles": ["<node_internals>/**"],
-      "env": {
-        "NODE_OPTIONS": "--inspect"
-      },
-      "envFile": "${workspaceFolder}/.env.local",
-      "console": "integratedTerminal",
-      "serverReadyAction": {
-        "killOnServerStop": true,
-        "pattern": "- Local:.+(https?://.+)",
-        "uriFormat": "%s",
-        "webRoot": "${workspaceFolder}/webapp"
-      }
+      "command": "pnpm dev",
+      "skipFiles": ["<node_modules>/**"],
+      "envFile": "${workspaceFolder}/.env.local"
     },
     {
       "name": "garmindb cli",

@@ -10,7 +10,7 @@ export default function Page() {
       <div className="mt-14 flex justify-center">
         <SignUp
           routing="hash"
-          forceRedirectUrl={`/user/sso-callback`}
+          forceRedirectUrl={`/user/callback`}
           fallbackRedirectUrl='/settings'
         />
       </div>

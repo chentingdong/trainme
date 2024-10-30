@@ -23,7 +23,7 @@ export function Providers({ children }: { children: React.ReactNode; }) {
   const queryClient = new QueryClient();
   const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
   return (
-    <ClerkProvider publishableKey={publishableKey}>
+    <ClerkProvider publishableKey={publishableKey} signUpUrl="/user/sign-up" signInUrl="/user/sign-in">
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
           <ToastProvider>
