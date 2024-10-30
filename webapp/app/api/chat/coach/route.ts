@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Message } from 'ai';
-
-import { agent } from './agent';
 import {
-  convertLangChainMessageToVercelMessage,
-  convertVercelMessageToLangChainMessage,
-} from '@/app/api/chat/utils';
+  AIMessage,
+  BaseMessage,
+  ChatMessage,
+  HumanMessage,
+} from "@langchain/core/messages";
+import { Message as VercelChatMessage } from "ai";
+import { agent } from './agent';
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,3 +55,34 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+
+export const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
+  if (message.role === "user") {
+    return new HumanMessage(message.content);
+  } else if (message.role === "assistant") {
+    return new AIMessage(message.content);
+  } else {
+    return new ChatMessage(message.content, message.role);
+  }
+};
+
+export const convertLangChainMessageToVercelMessage = (message: BaseMessage | AIMessage | ChatMessage | HumanMessage) => {
+  if (message.getType() === "human") {
+    return { 
+      role: "user",
+      content: message.content, 
+    };
+  } else if (message.getType() === "ai") {
+    return {
+      role: "assistant",
+      content: message.content,
+      tool_calls: (message as AIMessage).tool_calls,
+    };
+  } else {
+    return { 
+      role: message.getType(),
+      content: message.content, 
+    };
+  }
+};
