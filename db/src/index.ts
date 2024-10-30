@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export * from '@prisma/client';
 
-const LOG_LEVELS: Prisma.LogLevel[] = ['info', 'warn', 'error'];
+const LOG_LEVELS: Prisma.LogLevel[] = ['warn', 'error'];
 
 const getPrismaClient = () => {
   if (process.env.VERCEL_ENV) {
