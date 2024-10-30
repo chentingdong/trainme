@@ -1,26 +1,15 @@
-"use client";
-
 import Image from "next/image";
 import { FcSynchronize } from "react-icons/fc";
 import { RxActivityLog } from "react-icons/rx";
 import { BsCalendar3 } from "react-icons/bs";
-import { UserButton, SignInButton } from "@clerk/nextjs";
 import { FaDumbbell, FaGear, FaUser } from 'react-icons/fa6';
 import { trpc } from '@/app/api/trpc/client';
-import { Activity } from '@prisma/client';
-import { useState } from 'react';
-import { useUser } from '@clerk/clerk-react'
+import { signOut } from '@workos-inc/authkit-nextjs';
+import { withAuth } from '@workos-inc/authkit-nextjs';
 
-const Header = () => {
-  const [newActivities, setNewActivities] = useState<Activity[]>([]);
-  const { mutateAsync, isPending } = trpc.strava.sync.useMutation();
-  const { isSignedIn } = useUser();
-
-  const syncStrava = async () => {
-    // No parameters means async from the latest activity.
-    const activities = await mutateAsync({});
-    setNewActivities(activities);
-  };
+async function Header() {
+  const { mutateAsync: syncStrava, isPending } = trpc.strava.sync.useMutation();
+  const { user } = await withAuth({ ensureSignedIn: true });
 
   return (
     <header className="bg-slate-800 text-white p-2 fixed top-0 left-0 right-0 z-50">
@@ -35,7 +24,7 @@ const Header = () => {
           <li>
             <a
               href="#"
-              onClick={syncStrava}
+              onClick={() => syncStrava({})}
               className="flex items-center gap-2 btn btn-link"
             >
               <FcSynchronize
@@ -61,11 +50,6 @@ const Header = () => {
               <RxActivityLog className="icon" />
               Activities
             </a>
-            {newActivities && newActivities.length > 0 && (
-              <span className="btn-icon small bg-green-700">
-                {newActivities.length}
-              </span>
-            )}
           </li>
           <li>
             <a href="/workouts" className="hover:underline flex gap-2 items-center btn btn-link">
@@ -80,20 +64,14 @@ const Header = () => {
             </a>
           </li>
           <li className="flex gap-1 items-center">
-            {!!isSignedIn ? (
-              <UserButton
-                appearance={{
-                  elements: {
-                    avatarBox: "h-6 w-6",
-                  }
-                }}
-              />
+            {!!user ? (
+              <button onClick={signOut} className="btn btn-link">
+                <FaUser className="icon" />
+              </button>
             ) : (
-              <SignInButton mode="modal">
-                <button className="btn btn-link">
-                  <FaUser className="icon" />
-                </button>
-              </SignInButton>
+              <button className="btn btn-link">
+                <FaUser className="icon" />
+              </button>
             )}
           </li>
         </ul>

@@ -1,31 +1,30 @@
-import { useUser } from '@clerk/clerk-react';
 import Image from 'next/image';
 import { FaRegUserCircle } from 'react-icons/fa';
 import { BsPersonVcardFill } from 'react-icons/bs';
 import { cn } from '@/utils/helper';
 import { Message } from 'ai';
 import { StructuredOutput } from '@/app/chat/StructuredOutput';
-
+import { withAuth } from '@workos-inc/authkit-nextjs';
 interface ChatMessageBubbleProps {
   message: Message;
   outputSchema?: unknown;
   sources?: string[];  
 }
 
-export function ChatMessageBubble(props: ChatMessageBubbleProps) {
+export async function ChatMessageBubble(props: ChatMessageBubbleProps) {
   const colorClassName =
     props.message.role === 'user'
       ? 'text-slate-900 bg-slate-300 dark:bg-slate-800 dark:text-slate-100'
       : 'text-slate-900 bg-gray-100 dark:bg-gray-800 dark:text-slate-100';
   const alignmentClassName =
     props.message.role === 'user' ? 'ml-auto' : 'mr-auto';
-  const { user } = useUser();
+  const { user } = await withAuth({ ensureSignedIn: true });
 
   const avatar =
     props.message.role === 'user' ? (
-      user?.imageUrl ? (
+      user?.profilePictureUrl ? (
         <Image
-          src={user.imageUrl}
+          src={user.profilePictureUrl}
           className='avatar'
           alt='User'
           width={24}

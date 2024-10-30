@@ -1,6 +1,6 @@
 import { protectedProcedure } from '@/server/trpc';
-import { auth } from '@clerk/nextjs/server';
 import { db, Prisma } from '@trainme/db';
+import { withAuth } from '@workos-inc/authkit-nextjs';
 import axios from "axios";
 
 export async function fetchAthlete(accessToken: string): Promise<void> {
@@ -10,8 +10,8 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-  const { userId } = await auth();
-  if (!userId) {
+  const { user } = await withAuth({ ensureSignedIn: true });
+  if (!user) {
     throw new Error("User not authenticated");
   }
 
@@ -52,7 +52,7 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
     });
 
     await db.user.update({
-      where: { id: userId },
+      where: { id: user.id },
       data: {
         athleteId: data.id as number
       },
@@ -64,7 +64,6 @@ export async function fetchAthlete(accessToken: string): Promise<void> {
 export const syncAthlete = protectedProcedure.query(async ({ ctx }) => {
   const userId = ctx.userId;
   const user = await db.user.findUnique({ where: { id: userId } });
-  ctx.athleteId = user?.athleteId;
   
   const accessToken = user?.stravaAccessToken;
   if (!accessToken) {

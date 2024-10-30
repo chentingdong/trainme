@@ -1,4 +1,3 @@
-import { auth } from '@clerk/nextjs/server';
 import {
   AIMessage,
   BaseMessage,
@@ -6,6 +5,7 @@ import {
   HumanMessage,
 } from "@langchain/core/messages";
 import { db } from '@trainme/db';
+import { withAuth } from '@workos-inc/authkit-nextjs';
 import { Message as VercelChatMessage } from "ai";
 
 export const convertVercelMessageToLangChainMessage = (message: VercelChatMessage) => {
@@ -39,10 +39,10 @@ export const convertLangChainMessageToVercelMessage = (message: BaseMessage | AI
 };
 
 export const getAthleteId = async () => {
-  const { userId } = await auth();
-  const user = await db.user.findUnique({ where: { id: userId } });
-  if (!user) { 
+  const { user: authUser } = await withAuth({ ensureSignedIn: true });
+  const dbUser = await db.user.findUnique({ where: { id: authUser.id } });
+  if (!dbUser) { 
     throw new Error("User not found");
   }
-  return user.athleteId; 
+  return dbUser.athleteId; 
 }

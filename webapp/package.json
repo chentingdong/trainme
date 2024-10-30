@@ -20,8 +20,6 @@
     "lint": "pnpm run lint:eslint && pnpm run lint:prettier"
   },
   "dependencies": {
-    "@clerk/clerk-react": "^5.13.0",
-    "@clerk/nextjs": "^6.0.0",
     "@langchain/anthropic": "^0.3.6",
     "@langchain/community": "0.2.27",
     "@langchain/core": "0.2.23",
@@ -37,6 +35,7 @@
     "@trpc/react": "^9.27.4",
     "@trpc/react-query": "11.0.0-rc.466",
     "@trpc/server": "11.0.0-rc.466",
+    "@workos-inc/authkit-nextjs": "^0.13.1",
     "ai": "^3.4.18",
     "axios": "^1.7.7",
     "clsx": "^2.1.1",
@@ -82,7 +81,6 @@
     "zustand": "5.0.0-rc.2"
   },
   "devDependencies": {
-    "@clerk/types": "^4.27.0",
     "@ianvs/prettier-plugin-sort-imports": "4.1.1",
     "@next/eslint-plugin-next": "^14.2.13",
     "@prisma/nextjs-monorepo-workaround-plugin": "^5.20.0",
