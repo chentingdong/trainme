@@ -7,7 +7,7 @@ export default function Page() {
     <div className="mt-24 flex justify-center">
       <SignIn
         routing="hash"
-        forceRedirectUrl={`/user/sso-callback`}
+        forceRedirectUrl={`/user/callback`}
         fallbackRedirectUrl='/'
       />
     </div>

@@ -26,6 +26,7 @@
       "env": {
         "NODE_OPTIONS": "--inspect"
       },
+      "envFile": "${workspaceFolder}/.env.local",
       "console": "integratedTerminal",
       "serverReadyAction": {
         "killOnServerStop": true,
