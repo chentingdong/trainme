@@ -69,7 +69,7 @@ async function combineImages(image1: Buffer, image2: Buffer): Promise<Buffer> {
   // Add names below each image
   ctx.font = '16px Arial'; 
   ctx.fillStyle = 'black';
-  ctx.fillText('Agent Image', padding + (img1.width / 2), img1.height + padding + borderWidth + 30); // Name for the first image
+  ctx.fillText('Coach Agent', padding + (img1.width / 2), img1.height + padding + borderWidth + 30); // Name for the first image
   ctx.fillText('Workout Planner', img1.width + gap + padding + (img2.width / 2) - 30, img2.height + padding + borderWidth + 30); // Name for the second image
 
   return canvas.toBuffer('image/png');

@@ -4,7 +4,7 @@ import { getMonthlyDb as getMonthlyWorkoutsDB } from '@/server/routes/workouts/g
 import { PromptTemplate } from '@langchain/core/prompts';
 import { tool } from '@langchain/core/tools';
 import defaultWeeklyPlan from '@/app/api/chat/coach/metadata/DefaultWeeklyPlan';
-import { getContextVariable } from "@langchain/core/context";
+import { getContextVariable, setContextVariable } from "@langchain/core/context";
 import { z } from 'zod';
 import { MessagesAnnotation } from '@langchain/langgraph';
 import { END, START, StateGraph } from '@langchain/langgraph';
@@ -12,6 +12,7 @@ import { ToolNode } from '@langchain/langgraph/prebuilt';
 
 export const workoutPlannerTool = tool(
   async () => {
+    // Get the current state from the context variable.
     const state = getContextVariable('currentState') as typeof StateAnnotation.State;
     const pastActivities = await getMonthlyActivitiesDB(new Date());
     const pastWorkouts = await getMonthlyWorkoutsDB(new Date());
@@ -36,22 +37,37 @@ export const workoutPlannerTool = tool(
 
 const callModel = async (state: typeof MessagesAnnotation.State) => {
   const { messages } = state;
-  const response = await model.bindTools([workoutPlannerTool]).invoke(messages);
+  const modelWithTools = model.bindTools([workoutPlannerTool]);
+  const response = await modelWithTools.invoke([
+    {
+      type: 'system',
+      content: "You are a workout planner. You are given a list of past activities and workouts. You need to generate a workout plan for the next week.",
+    },
+    ...messages,
+  ]);
   return { messages: response };
 }
 
 const shouldContinue = (state: typeof MessagesAnnotation.State) => {
   const { messages } = state;
   const lastMessage = messages[messages.length - 1];
+  
   if ("tool_calls" in lastMessage && Array.isArray(lastMessage.tool_calls) && lastMessage.tool_calls?.length) {
       return "tools";
   }
   return END;
 }
 
+const toolNodeWithGraphState = async (state: typeof StateAnnotation.State) => {
+  // Set a context variable before invoking the tool node and running the tools.
+  setContextVariable("currentState", state);
+  const toolNodeWithConfig = new ToolNode([workoutPlannerTool]);
+  return toolNodeWithConfig.invoke(state);
+};
+
 const graph = new StateGraph(MessagesAnnotation)
   .addNode('agent', callModel)
-  .addNode('tools', new ToolNode([workoutPlannerTool]))
+  .addNode('tools', toolNodeWithGraphState)
   .addEdge(START, 'agent')
   .addConditionalEdges('agent', shouldContinue, [ 'tools', END])
   .addEdge('tools', 'agent')

@@ -90,7 +90,7 @@ export function ChatWindow(props: {
     'Plan workouts for next week.',
     'A full plan for my next A race.',
     'Adjust workouts for the rest of the week.',
-    "Analyze my last week's training activity, summarize as coach.",
+    "Analyze my last week's training activity.",
   ];
 
   async function showIntermediateMessage() {
@@ -198,7 +198,7 @@ export function ChatWindow(props: {
       >
         {messages.length > 0 &&
           [...messages].reverse().map((message, i) => {
-            return message.role === 'system' ? (
+            return message.role === 'system' || message.role === 'assistant' ? (
               <IntermediateStep key={message.id} message={message} />
             ) : (
               <ChatMessageBubble
@@ -218,10 +218,11 @@ export function ChatWindow(props: {
           {predefinedMessages.map((message, index) => (
             <button
               key={index}
-              className='btn btn-secondary mr-2 mb-2 text-xs tracking-tight font-sans'
+              className='btn btn-info mr-2 mb-2 text-xs tracking-tight font-sans flex gap-1 items-center'
               onClick={() => {setInput(message); handleSubmit()}}
             >
               {message}
+              <IoSend className='ml-1 text-2xs' />
             </button>
           ))}
         </div>

@@ -5,7 +5,6 @@ import CalendarWeek from './CalendarWeek';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import WorkoutEditor from '../workouts/WorkoutEditor';
 import { ChatWindow } from '@/app/chat/ChatWindow';
-import Placeholder from '@/app/components/Placeholder';
 import Image from 'next/image';
 const imageUrl = '/api/chat/coach/graph';
 
@@ -40,34 +39,29 @@ export default function Page() {
         <CalendarWeek aday={aday} />
       </div>
       <div
-        className='flex-grow overflow-auto grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85'
+        className='flex-grow h-full overflow-hidden grid grid-cols-12 gap-4 p-4 bg-slate-100 dark:bg-black opacity-85'
         style={
           showImage
             ? { backgroundImage: `url('/art/20240811-act-goats.jpg')` }
             : undefined
         }
       >
-        <div className='col-span-6 flex flex-col justify-end gap-4 bg-center bg-cover h-full'>
+        <div className='col-span-6 flex flex-col justify-end gap-4 h-full overflow-y-auto bg-center bg-cover'>
           <WorkoutEditor />
         </div>
-        <div className='col-span-6 h-full'>
-          <div className='h-full overflow-y-auto bg-contain'
-            style={{ 
-              backgroundImage: `url(${imageUrl})`,
-              backgroundSize: '40%',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
-            }}
-          >
-            <ChatWindow
-              endpoint='api/chat/coach'
-              titleText='Virtual Coach'
-              placeholder="I'm your virtual coach! I can help you plan your workouts!"
-              emptyStateComponent={<Placeholder />}
-              showIntermediateStepsToggle={true}
-              showIngestForm={false}
-            />
-          </div>
+        <div className='col-span-6 h-full overflow-y-auto'>
+          <ChatWindow
+            endpoint='api/chat/coach'
+            titleText='Virtual Coach'
+            placeholder="I'm your virtual coach! I can help you plan your workouts!"
+            emptyStateComponent={
+              <div className='flex justify-center items-center h-full opacity-50'>
+                <Image src={imageUrl} alt='' width={600} height={300} />
+              </div>
+            }
+            showIntermediateStepsToggle={true}
+            showIngestForm={false}
+          />
         </div>
       </div>
     </div>
