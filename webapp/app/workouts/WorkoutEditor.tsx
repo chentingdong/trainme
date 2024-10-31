@@ -16,14 +16,12 @@ import {
   workoutTotalDuration,
 } from '@/utils/distanceUtils';
 import Image from 'next/image';
-import { useState } from 'react';
 
 const imageUrl = '/api/chat/coach/graph';
 
 export default function WorkoutEditor() {
   const { scheduleDate, workout, setWorkout, setWorkouts } = useCalendarState();
   const { toast } = useToast();
-  const [isEnlarged, setIsEnlarged] = useState(false);
 
   const { control } = useForm<Workout>({
     values: workout ?? defaultWorkout,
@@ -289,27 +287,13 @@ export default function WorkoutEditor() {
           </div>
         </div>
         <div className='flex-1 flex justify-center'>
-          {isEnlarged && (
-            <Image
-              src={imageUrl}
-              alt='LAG'
-              width={400}
-              height={400}
-              className='cursor-pointer'
-              onClick={() => setIsEnlarged(false)}
-            />
-          )}
-          {!isEnlarged && (
-            <button onClick={() => setIsEnlarged(true)}>
-              <Image
-                src={imageUrl}
-                alt='LAG'
-                width={100}
-                height={100}
-                className='cursor-pointer'
-              />
-            </button>
-          )}
+          <Image
+            src={imageUrl}
+            alt='LAG'
+            width={800}
+            height={300}
+            className='cursor-pointer'
+          />
         </div>
         <div className='h-20 w-full px-2 my-2'>
           <WorkoutChart workout={workout} />

@@ -6,6 +6,8 @@ import { tool } from '@langchain/core/tools';
 import defaultWeeklyPlan from '@/app/api/chat/coach/metadata/DefaultWeeklyPlan';
 import { getContextVariable } from "@langchain/core/context";
 import { z } from 'zod';
+import { MessagesAnnotation } from '@langchain/langgraph';
+import { END, START, StateGraph } from '@langchain/langgraph';
 import { ToolNode } from '@langchain/langgraph/prebuilt';
 
 export const workoutPlannerTool = tool(
@@ -32,8 +34,29 @@ export const workoutPlannerTool = tool(
   }
 );
 
-export const workoutPlannerNode = new ToolNode([workoutPlannerTool]);
+const callModel = async (state: typeof MessagesAnnotation.State) => {
+  const { messages } = state;
+  const response = await model.bindTools([workoutPlannerTool]).invoke(messages);
+  return { messages: response };
+}
 
+const shouldContinue = (state: typeof MessagesAnnotation.State) => {
+  const { messages } = state;
+  const lastMessage = messages[messages.length - 1];
+  if ("tool_calls" in lastMessage && Array.isArray(lastMessage.tool_calls) && lastMessage.tool_calls?.length) {
+      return "tools";
+  }
+  return END;
+}
+
+const graph = new StateGraph(MessagesAnnotation)
+  .addNode('agent', callModel)
+  .addNode('tools', new ToolNode([workoutPlannerTool]))
+  .addEdge(START, 'agent')
+  .addConditionalEdges('agent', shouldContinue, [ 'tools', END])
+  .addEdge('tools', 'agent')
+
+export const workoutPlannerGraph = graph.compile();
 
 const planningNextWeekTemplate = `
 Some information about my training history in the past:
@@ -58,6 +81,6 @@ const sportTypes = ["Run", "TrailRun", "Bike", "VirtualRide", "Swim", "WeightTra
 const planningNextWeekSchema = z
    .object({
       chatResponse: z.string().describe("A response to the human's input. in less than 100 words."),
-      workouts: z.array(workoutSchema()).optional().describe("A list of 7 to 12 workouts."),
+      workouts: z.array(workoutSchema()).optional().describe("A list of 10 to 15 workouts per week."),
    })
    .describe("Should always be used to properly format output");

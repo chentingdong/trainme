@@ -4,7 +4,7 @@ import { StateGraph } from '@langchain/langgraph';
 import { activityAnalyzer } from '@/app/api/chat/coach/activityAnalyzer';
 import { intentionDetection } from '@/app/api/chat/coach/intention';
 import { BaseMessage } from '@langchain/core/messages';
-import { workoutPlannerNode } from '@/app/api/chat/coach/workoutPlanner';
+import { workoutPlannerGraph } from '@/app/api/chat/coach/workoutPlanner';
 
 export const StateAnnotation = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
@@ -22,7 +22,7 @@ export const model = new ChatOpenAI({
 // Build the graph
 const graph = new StateGraph(StateAnnotation)
   .addNode('intention_detection', intentionDetection)
-  .addNode('workout_planner', workoutPlannerNode)
+  .addNode('workout_planner', workoutPlannerGraph)  
   .addNode('activity_analyzer', activityAnalyzer)
   .addEdge(START, 'intention_detection')
   .addConditionalEdges(
@@ -44,4 +44,5 @@ const graph = new StateGraph(StateAnnotation)
   )
   .addEdge('workout_planner', END)
   .addEdge('activity_analyzer', END)
+
 export const agent = graph.compile();
