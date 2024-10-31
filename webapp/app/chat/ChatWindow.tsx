@@ -33,7 +33,7 @@ export function ChatWindow(props: {
     showIntermediateStepsToggle,
   } = props;
 
-  const [showIntermediateSteps, setShowIntermediateSteps] = useState(true);
+  const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
   const [intermediateStepsLoading, setIntermediateStepsLoading] =
     useState(false);
   const ingestForm = showIngestForm && (

@@ -121,10 +121,13 @@ export async function POST(req: NextRequest) {
        * they are generated as JSON objects, so streaming and displaying them with
        * the AI SDK is more complicated.
        */
-      const result = await agent.invoke({ messages });
+      const response = await agent.invoke({ 
+        messages,
+        configurable: { thread_id: '42' },
+      });
       return NextResponse.json(
         {
-          messages: result.messages.map(convertLangChainMessageToVercelMessage),
+          messages: response.messages.map(convertLangChainMessageToVercelMessage),
         },
         { status: 200 }
       );

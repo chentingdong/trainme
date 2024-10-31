@@ -54,7 +54,7 @@ export default function Page() {
             titleText="Virtual Coach"
             placeholder="I'm your virtual coach! I can help you plan your workouts!"
             emptyStateComponent={<Placeholder />}
-            showIntermediateStepsToggle={false}
+            showIntermediateStepsToggle={true}
             showIngestForm={false}
           />
         </div>

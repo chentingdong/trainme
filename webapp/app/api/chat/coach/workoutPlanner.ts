@@ -1,122 +1,63 @@
-import {
-  planningNextWeekSchema,
-  planningNextWeekTemplate,
-} from '@/app/api/chat/metadata/templates/planningNextWeek';
-import { model } from '@/app/api/chat/coach/agent';
+import { model, StateAnnotation } from '@/app/api/chat/coach/agent';
 import { getMonthlyDb as getMonthlyActivitiesDB } from '@/server/routes/activities/getMonthly';
 import { getMonthlyDb as getMonthlyWorkoutsDB } from '@/server/routes/workouts/getMonthly';
 import { PromptTemplate } from '@langchain/core/prompts';
 import { tool } from '@langchain/core/tools';
-import { ToolNode } from '@langchain/langgraph/prebuilt';
+import defaultWeeklyPlan from '@/app/api/chat/coach/metadata/DefaultWeeklyPlan';
+import { getContextVariable } from "@langchain/core/context";
 import { z } from 'zod';
-// Only return ields needed for the workout planner
-const ActivitySchema = z.object({
-  name: z.string(),
-  sportType: z.string(),
-  averageSpeed: z.number(),
-  averageHeartrate: z.number(),
-  averageCadence: z.number(),
-  averageWatts: z.number(),
-  laps: z.number(),
-});
+import { ToolNode } from '@langchain/langgraph/prebuilt';
 
-const WorkoutSchema = z.object({
-  name: z.string(),
-  date: z.string(),
-  description: z.string(),
-  sportType: z.string(),
-  distance: z.number(),
-  duration: z.number(),
-  feeling: z.string(),
-  rpe: z.number(),
-  notes: z.string(),
-  steps: z.number(),
-  activityUuid: z.string(),
-});
-
-export const historyRetriever = tool(
+export const workoutPlannerTool = tool(
   async () => {
+    const state = getContextVariable('currentState') as typeof StateAnnotation.State;
     const pastActivities = await getMonthlyActivitiesDB(new Date());
     const pastWorkouts = await getMonthlyWorkoutsDB(new Date());
-    console.log('[History Retriever]');
-    return { pastActivities, pastWorkouts };
-  },
-  {
-    name: 'history_retriever',
-    description: 'Retrieves the past activities and workouts',
-  }
-);
-
-export const workoutPlanner = tool(
-  async ({
-    pastActivities,
-    pastWorkouts,
-    input,
-  }: {
-    pastActivities: z.infer<typeof ActivitySchema>[];
-    pastWorkouts: z.infer<typeof WorkoutSchema>[];
-    input: string;
-  }) => {
     const response = await model.invoke([
       {
         type: 'ai',
-        content: await PromptTemplate.fromTemplate(
-          planningNextWeekTemplate
-        ).format({
-          pastActivities: JSON.stringify(pastActivities),
-          pastWorkouts: JSON.stringify(pastWorkouts),
-          input,
-        }),
+        content: await PromptTemplate
+        .fromTemplate( planningNextWeekTemplate )
+        .format({ pastActivities, pastWorkouts }),
       },
+      ...state.messages,
     ]);
     return {
-      content: planningNextWeekSchema.parse(response.content),
-      type: 'assistant',
+      messages: response,
     };
   },
   {
     name: 'workout_planner',
     description: 'Generates a workouts plan.',
-    schema: z.object({
-      pastActivities: z.array(ActivitySchema),
-      pastWorkouts: z.array(WorkoutSchema),
-      input: z.string(),
-    }),
   }
 );
 
-export const workoutPlannerTools = [historyRetriever, workoutPlanner];
-export const workoutPlannerNode = new ToolNode(workoutPlannerTools);
+export const workoutPlannerNode = new ToolNode([workoutPlannerTool]);
 
-// export const workoutPlanner = async (state: typeof StateAnnotation.State) => {
-//   const pastActivities = await getMonthlyActivitiesDB(new Date());
-//   const pastWorkouts = await getMonthlyWorkoutsDB(new Date());
-//   const lastMessage = state.messages[state.messages.length - 1];
-//   const content = await PromptTemplate.fromTemplate(
-//     planningNextWeekTemplate
-//   ).format({
-//     pastActivities: JSON.stringify(pastActivities),
-//     pastWorkouts: JSON.stringify(pastWorkouts),
-//     input: lastMessage.content,
-//   });
 
-//   const workoutPlannerResponse = await model
-//     .withStructuredOutput(planningNextWeekSchema, {
-//       name: 'workout_planner',
-//     })
-//     .invoke([
-//       { type: 'system', content },
-//       { type: lastMessage._getType(), content: lastMessage.content },
-//     ]);
+const planningNextWeekTemplate = `
+Some information about my training history in the past:
+my past activities:
+{pastActivities}
+my past workouts:
+{pastWorkouts}
+Output should be valid JSON.`;
 
-//   console.log('Workout planner response: ', workoutPlannerResponse);
-//   return {
-//     messages: [
-//       ...state.messages,
-//       {
-//         type: 'assistant',
-//         content: JSON.stringify(workoutPlannerResponse),
-//       },
-//     ],
-//   };
-// };
+const workoutSchema = () => z.object({
+   name: z.string().describe("Name of the workout, in format 'W6D3 - Easy run' as in 6 week to race day, 3rd day of the week, Easy run"),
+   sportType: z.enum(sportTypes as [string, ...string[]]).describe("Type of sport in this list."),
+   steps: z.array(z.string()).describe(`Steps of the workout, examples are ${defaultWeeklyPlan.map(workout => workout.steps).join(', ')}.`),
+   distance: z.number().optional().describe("Total distance of the workout in kilometers"),
+   duration: z.number().optional().describe("Total duration of the workout in minutes"),
+   date: z.string().describe("Date of the workout in ISO format. It has to be in the time range user asked for, otherwise it will be next week.")
+});
+
+// TODO: user configurable sport types
+const sportTypes = ["Run", "TrailRun", "Bike", "VirtualRide", "Swim", "WeightTraining", "Yoga", "Rest"];
+
+const planningNextWeekSchema = z
+   .object({
+      chatResponse: z.string().describe("A response to the human's input. in less than 100 words."),
+      workouts: z.array(workoutSchema()).optional().describe("A list of 7 to 12 workouts."),
+   })
+   .describe("Should always be used to properly format output");

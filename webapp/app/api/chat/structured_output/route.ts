@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ChatOpenAI } from "@langchain/openai";
 import { PromptTemplate } from "@langchain/core/prompts";
-import defaultWeeklyPlan from '@/app/api/chat/metadata/DefaultWeeklyPlan';
+import defaultWeeklyPlan from '@/app/api/chat/coach/metadata/DefaultWeeklyPlan';
 import { getWeeklyActivitiesDB } from '@/server/routes/activities/getWeekly';
 import { getWeeklyWorkoutsDB } from '@/server/routes/workouts/getWeekly';
 import { planningNextWeekTemplate, planningNextWeekSchema } from '@/app/api/chat/metadata/templates/planningNextWeek';

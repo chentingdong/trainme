@@ -96,7 +96,10 @@ export async function POST(req: NextRequest) {
        * they are generated as JSON objects, so streaming and displaying them with
        * the AI SDK is more complicated.
        */
-      const result = await agent.invoke({ messages });
+      const result = await agent.invoke({ 
+        messages,
+        configurable: { thread_id: '42' },
+      });
 
       return NextResponse.json(
         {
