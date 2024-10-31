@@ -1,11 +1,11 @@
 // This end point shows the combined langgraph graph of the agent and workout planner as a png image
-import { workoutPlannerGraph } from "../workoutPlanner";
 import { agent } from "../agent";
+import { workoutPlannerGraph } from "../workoutPlanner";
 import { createCanvas, loadImage } from 'canvas';
 
 export async function GET() {
-  const workoutPlannerGraphRepresentation = workoutPlannerGraph.getGraph();
   const agentGraphRepresentation = agent.getGraph();
+  const workoutPlannerGraphRepresentation = workoutPlannerGraph.getGraph();
 
   if (!workoutPlannerGraphRepresentation || !agentGraphRepresentation) {
     console.error('Failed to get graph representation.');

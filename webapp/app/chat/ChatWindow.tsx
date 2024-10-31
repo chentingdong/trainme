@@ -33,7 +33,7 @@ export function ChatWindow(props: {
     showIntermediateStepsToggle,
   } = props;
 
-  const [showIntermediateSteps, setShowIntermediateSteps] = useState(false);
+  const [showIntermediateSteps, setShowIntermediateSteps] = useState(true);
   const [intermediateStepsLoading, setIntermediateStepsLoading] =
     useState(false);
   const ingestForm = showIngestForm && (
@@ -47,11 +47,9 @@ export function ChatWindow(props: {
         name='show_intermediate_steps'
         checked={showIntermediateSteps}
         onChange={(e) => setShowIntermediateSteps(e.target.checked)}
-      ></input>
-      <label className='text-sm' htmlFor='show_intermediate_steps'>
-        {' '}
-        Show intermediate steps
-      </label>
+        title='Show intermediate steps'
+      />
+      <label htmlFor='show_intermediate_steps ml-2 text-2xs'>Show intermediate steps</label>
     </div>
   );
 
@@ -186,10 +184,13 @@ export function ChatWindow(props: {
       className={`h-full flex flex-col items-center px-4 py-2 rounded grow overflow-y-auto scroll`}
     >
       <h2
-        className={`w-full flex justify-center items-center gap-2 p-1 font-ai bg-slate-200 dark:bg-slate-700`}
+        className={`w-full flex items-center gap-2 p-1 font-ai bg-slate-200 dark:bg-slate-700`}
       >
-        <BsPersonVcardFill className='inline-block mr-2 text-yellow-400' />
-        {titleText}
+        <div className='flex items-center justify-center flex-grow gap-2'>
+          <BsPersonVcardFill className='inline-block text-yellow-400' />
+          <div>{titleText}</div>
+        </div>
+        <div className='flex-none mr-2'>{intemediateStepsToggle}</div>
       </h2>
       {messages.length === 0 ? emptyStateComponent : ''}
       <div
@@ -224,7 +225,6 @@ export function ChatWindow(props: {
             </button>
           ))}
         </div>
-        <div className='flex'>{intemediateStepsToggle}</div>
         <div className='flex w-full mt-2'>
           <input
             className='grow mr-4 px-3 py-1 text-sm bg-gray-200 dark:bg-gray-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 rounded-sm'
