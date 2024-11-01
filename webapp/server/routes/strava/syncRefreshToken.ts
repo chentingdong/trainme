@@ -13,7 +13,7 @@ const getRefreshToken = async ({ userId, code }: GetRefreshTokenInput) => {
   const tokenUrl = "https://www.strava.com/api/v3/oauth/token";
 
   const response = await axios.post(tokenUrl, {
-    client_id: process.env.STRAVA_CLIENT_ID,
+    client_id: process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID,
     client_secret: process.env.STRAVA_CLIENT_SECRET,
     code: code,
     grant_type: "authorization_code",

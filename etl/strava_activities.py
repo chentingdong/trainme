@@ -8,7 +8,7 @@ from etl.db import save_activities_to_postgres
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # get the client_id and client_secret from the environment variables
-client_id = os.getenv('STRAVA_CLIENT_ID')
+client_id = os.getenv('NEXT_PUBLIC_STRAVA_CLIENT_ID')
 client_secret = os.getenv('STRAVA_CLIENT_SECRET')
 
 # Temporary access token taken from browser session storage. 
