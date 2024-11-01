@@ -11,35 +11,6 @@ export type WeeklyWorkoutsSummaryType = {
   };
 };
 
-export const getWeeklyWorkouts = protectedProcedure
-  .input(z.object({
-    aday: z.date()
-  }))
-  .query(async ({ input }) => {
-    const { aday } = input;
-    return await getWeeklyWorkoutsDB(aday);
-  });
-
-export const getWeeklyWorkoutsDB = async (aday: Date) => {
-  // Find the start and end of the week
-  const weekStart = startOfWeek(aday, { weekStartsOn: 1 });
-  const weekEnd = endOfWeek(aday, { weekStartsOn: 1 });
-
-  const workouts = await db.workout.findMany({
-    where: {
-      date: {
-        gte: weekStart,
-        lt: weekEnd
-      }
-    },
-    orderBy: {
-      date: 'asc'
-    }
-  });
-
-  return workouts;
-};
-
 export const getWeeklyWorkoutsSummary = protectedProcedure
   .input(z.object({
     aday: z.date()

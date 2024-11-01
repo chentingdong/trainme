@@ -1,14 +1,12 @@
 import { db } from "@trainme/db";
-// import { endOfMonth } from 'date-fns';
-// import { startOfMonth } from 'date-fns';
+import { endOfMonth } from 'date-fns';
+import { startOfMonth } from 'date-fns';
 import { getAthleteId } from '@/app/api/chat/utils';
 
+// Get monthly partial activities data for planning purposes.
 export const getMonthlyDb = async (aday: Date) => {
-  // const monthStart = startOfMonth(aday);  
-  // const monthEnd = endOfMonth(aday);
-  const monthStart = new Date(aday);
-  monthStart.setDate(monthStart.getDate() - 10);
-  const monthEnd = new Date(aday);
+  const monthStart = startOfMonth(aday); 
+  const monthEnd = endOfMonth(aday);
   const athleteId = await getAthleteId();
 
   const activities = await db.activity.findMany({

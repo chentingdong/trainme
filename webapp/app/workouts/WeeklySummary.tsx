@@ -1,7 +1,7 @@
 import { trpc } from '@/app/api/trpc/client';
 import SportIcon from '@/app/activities/SportIcon';
 import { formatTimeShort } from '@/utils/timeUtils';
-import { WeeklyWorkoutsSummaryType } from '@/server/routes/workouts/getWeekly';
+import { WeeklyWorkoutsSummaryType } from '@/server/routes/workouts/getWeeklySummary';
 
 type Props = {
   //any day of the week.

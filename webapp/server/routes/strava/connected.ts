@@ -9,7 +9,4 @@ export const connected = protectedProcedure
     });
 
     return !!user?.stravaRefreshToken
-      && !!user?.stravaAccessToken
-      && user?.accessTokenExpiresAt
-      && user.accessTokenExpiresAt > new Date();
   });

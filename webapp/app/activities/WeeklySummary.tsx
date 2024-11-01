@@ -1,6 +1,6 @@
 import { trpc } from '@/app/api/trpc/client';
 import SportIcon from '@/app/activities/SportIcon';
-import { ActivitiesSummaryType } from '@/server/routes/activities/getWeekly';
+import { ActivitiesSummaryType } from '@/server/routes/activities/getWeeklySummary';
 import { formatTimeShort } from '@/utils/timeUtils';
 
 type Props = {
