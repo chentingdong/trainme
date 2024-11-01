@@ -28,8 +28,8 @@ export default function Strava() {
 
 
   return (
-    <div className="grid grid-cols-2 gap-4 p-4">
-      <div className="grid-cols-1">
+    <div className={`grid ${connected ? 'grid-cols-2' : 'grid-cols-1'} gap-8 p-4`}>
+      <div className="col-span-1">
         <div className="flex gap-4">
           {!connected && (
             <button className="btn btn-primary" onClick={handleConnect}>
@@ -48,12 +48,13 @@ export default function Strava() {
         <p className="text-sm my-4">
           {connected
             ? 'Connected to Strava.'
-            : 'Connect your Strava account to sync your activities.'}
+            : 'Connect your Strava account to sync your trainingactivities. What is not on Strava did not happen.'}
         </p>
         {connected && <Athlete />}
       </div>
-      <div className="grid-cols-1">
-        <button
+      {connected && (
+        <div className="col-span-1">
+          <button
           className="btn btn-primary flex justify-center gap-4 items-center"
           onClick={() => syncStrava({ fromDaysAgo })}
           disabled={isPending}
@@ -136,15 +137,16 @@ export default function Strava() {
             )}
           </div>
         </div>
-      </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export const getAuthUrl = () => {
   const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID || '';
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
-  const redirectUri = `${baseUrl}/venders/strava/authorize`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || ''; 
+  const redirectUri = `${baseUrl}/venders/strava/authorize`; 
   const scope = 'activity:read_all';
 
   const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&_prompt=force`;
