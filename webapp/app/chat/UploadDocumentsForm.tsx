@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import DEFAULT_RETRIEVAL_TEXT from "@/app/api/chat/coach/metadata/DefaultWeeklyPlan";
+import DEFAULT_RETRIEVAL_TEXT from "@/app/api/chat/metadata/DefaultWeeklyPlan";
 
 export function UploadDocumentsForm() {
   const [isLoading, setIsLoading] = useState(false);

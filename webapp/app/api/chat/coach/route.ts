@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export const convertVercelMessageToLangChainMessage = (
+const convertVercelMessageToLangChainMessage = (
   message: VercelChatMessage
 ) => {
   if (message.role === 'user') {
@@ -77,7 +77,7 @@ export const convertVercelMessageToLangChainMessage = (
   }
 };
 
-export const convertLangChainMessageToVercelMessage = (
+const convertLangChainMessageToVercelMessage = (
   message: BaseMessage | AIMessage | ChatMessage | HumanMessage
 ) => {
   if (message instanceof HumanMessage) {

@@ -2,7 +2,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import { getMonthlyDb as getMonthlyActivitiesDB } from '@/server/routes/activities/getMonthly';
 import { getMonthlyDb as getMonthlyWorkoutsDB } from '@/server/routes/workouts/getMonthly';
 import { PromptTemplate } from '@langchain/core/prompts';
-import defaultWeeklyPlan from '@/app/api/chat/coach/metadata/DefaultWeeklyPlan';
+import defaultWeeklyPlan from '@/app/api/chat/metadata/DefaultWeeklyPlan';
 import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 
@@ -11,6 +11,7 @@ import { MessagesAnnotation } from '@langchain/langgraph';
 export const workoutPlanner = async (
   state: typeof MessagesAnnotation.State
 ) => {
+  // TODO: collect date range from user
   const pastActivities = await getMonthlyActivitiesDB(new Date());
   const pastWorkouts = await getMonthlyWorkoutsDB(new Date());
   const content = await PromptTemplate.fromTemplate(
@@ -84,7 +85,7 @@ const sportTypes = [
   'Rest',
 ];
 
-const planningNextWeekSchema = z
+export const planningNextWeekSchema = z
   .object({
     chatResponse: z
       .string()
@@ -96,7 +97,7 @@ const planningNextWeekSchema = z
   })
   .describe('Should always be used to properly format output');
 
-const planningNextWeekTemplate = `
+export const planningNextWeekTemplate = `
 Some information about my training history in the past:
 my past activities:
 {pastActivities}

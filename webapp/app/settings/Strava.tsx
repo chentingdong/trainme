@@ -8,12 +8,12 @@ import { FcSynchronize } from 'react-icons/fc';
 
 export default function Strava() {
   const router = useRouter();
+  const { data: connected, refetch } = trpc.strava.connected.useQuery();
   const { mutate: disconnect } = trpc.strava.disconnect.useMutation({
     onSuccess: () => {
       refetch();
     },
   });
-  const { data: connected, refetch } = trpc.strava.connected.useQuery();
   const { mutateAsync: syncStrava, isPending } = trpc.strava.sync.useMutation();
 
   const [fromDaysAgo, setFromDaysAgo] = useState(7);
@@ -45,7 +45,7 @@ export default function Strava() {
             </button>
           )}
         </div>
-        <p className="text-sm">
+        <p className="text-sm my-4">
           {connected
             ? 'Connected to Strava.'
             : 'Connect your Strava account to sync your activities.'}
@@ -143,8 +143,8 @@ export default function Strava() {
 
 export const getAuthUrl = () => {
   const clientId = process.env.NEXT_PUBLIC_STRAVA_CLIENT_ID || '';
-  const port = process.env.NEXT_PUBLIC_PORT ? `:${process.env.NEXT_PUBLIC_PORT}` : '';
-  const redirectUri = `http://localhost${port}/venders/strava/authorize`;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || '';
+  const redirectUri = `${baseUrl}/venders/strava/authorize`;
   const scope = 'activity:read_all';
 
   const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&_prompt=force`;
