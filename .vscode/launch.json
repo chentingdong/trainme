@@ -5,13 +5,32 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Webapp",
+      "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm dev",
+      "command": "npm run dev"
+    },
+    {
+      "name": "Next.js: debug client-side",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:7451"
+    },
+    {
+      "name": "Next.js: debug full stack",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "pnpm run dev",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      },
       "cwd": "${workspaceFolder}/webapp",
-      "envFile": "${workspaceFolder}/webapp/.env.local",
-      "remoteRoot": "/app"
+      "serverReadyAction": {
+        "pattern": "started server on .+, url: (https?://.+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      },
+      "skipFiles": ["<node_internals>/**"]
     },
     {
       "name": "garmindb cli",

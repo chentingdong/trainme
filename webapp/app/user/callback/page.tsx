@@ -15,8 +15,7 @@ export default function Page() {
 
   useEffect(() => {
     const saveUserAndRedirect = async () => {
-
-      if (isSignedIn && user) {
+      if (user && isSignedIn) {
         try {
           const newUser = await createUser({
             id: user.id,

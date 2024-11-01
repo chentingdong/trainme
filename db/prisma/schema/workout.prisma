@@ -1,6 +1,6 @@
 model Workout {
   id           String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name         String?    @unique
+  name         String?
   date         DateTime   @default(now()) @map("date")
   description  String?
   sportType    String     @default("Run") @map("sport_type")

@@ -1,5 +1,3 @@
-'use client';
-
 import { SignIn } from "@clerk/nextjs";
 
 export default function Page() {
@@ -7,7 +5,7 @@ export default function Page() {
     <div className="mt-24 flex justify-center">
       <SignIn
         routing="hash"
-        forceRedirectUrl={`/user/sso-callback`}
+        forceRedirectUrl={`/user/callback`}
         fallbackRedirectUrl='/'
       />
     </div>

@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "installCommand": "pnpm install -r --shamefully-hoist",
-  "buildCommand": "pnpm --filter @trainme/db run build && pnpm --filter @trainme/webapp run build",
+  "installCommand": "pnpm install",
+  "buildCommand": "turbo build",
   "framework": "nextjs",
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://trainme.naozz.com",
+    "NEXT_PUBLIC_API_URL": "${NEXT_PUBLIC_API_URL}",
     "NODE_ENV": "production"
   },
   "ignoreCommand": "git diff --quiet -- webapp/ db/",
   "git": {
-    "depth": 20 
+    "depth": 20
   }
 }

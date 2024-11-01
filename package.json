@@ -10,7 +10,7 @@
     "url": "https://github.com/chentingdong/trainme.git"
   },
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=@trainme/webapp --filter=@trainme/db",
     "build": "turbo build",
     "prisma:dev": "cd db && npx prisma generate && npx prisma db push && cd ..",
     "prisma:prod": "cd db && npx prisma migrate deploy && cd ..",
@@ -22,7 +22,7 @@
   "devDependencies": {
     "ts-node": "^10.9.2",
     "typescript": "^5.6.3",
-    "turbo": "^2.1.3"
+    "turbo": "^2.2.3"
   },
   "prisma": {
     "schema": "./db/prisma/schema/schema.prisma"

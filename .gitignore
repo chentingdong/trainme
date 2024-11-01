@@ -47,3 +47,4 @@ dist/
 
 # turbo
 .turbo
+.env*.local

@@ -59,7 +59,7 @@ function CalendarDay({ date, activities, workouts, onWorkoutDrop }: CalendarDayP
           ))}
         </div>
       </div>
-      <div className="h-72 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70">
+      <div className="min-h-48 flex flex-col justify-between p-0 overflow-hidden bg-slate-200 bg-opacity-50 dark:bg-slate-900 dark:bg-opacity-70">
         <CalendarDayActivities activities={activities} />
         <CalendarDayWorkouts date={date} workouts={workouts} />
       </div>

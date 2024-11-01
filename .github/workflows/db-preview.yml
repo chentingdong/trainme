@@ -6,6 +6,9 @@ on:
   push:
     tags:
       - 'db-*'
+      - 'preview-*'
+    paths:
+      - 'db/prisma/**'
 
   pull_request:
     branches:
