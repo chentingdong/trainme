@@ -151,5 +151,6 @@ export const getAuthUrl = () => {
 
   const stravaAuthUrl = `https://www.strava.com/oauth/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${scope}&_prompt=force`;
 
+  console.log(stravaAuthUrl);
   return stravaAuthUrl;
 };
