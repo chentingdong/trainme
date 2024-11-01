@@ -80,20 +80,20 @@ export const convertVercelMessageToLangChainMessage = (
 export const convertLangChainMessageToVercelMessage = (
   message: BaseMessage | AIMessage | ChatMessage | HumanMessage
 ) => {
-  if (message._getType() === 'human') {
+  if (message instanceof HumanMessage) {
     return {
       role: 'user',
       content: message.content,
     };
-  } else if (message._getType() === 'ai') {
+  } else if (message instanceof AIMessage) {
     return {
       role: 'assistant',
       content: message.content,
-      tool_calls: (message as AIMessage).tool_calls,
+      tool_calls: message.tool_calls,
     };
   } else {
     return {
-      role: message._getType(),
+      role: 'assistant',
       content: message.content,
     };
   }

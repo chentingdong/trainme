@@ -5,10 +5,8 @@ import { BsPersonVcardFill } from 'react-icons/bs';
 import { cn } from '@/utils/helper';
 import { Message } from 'ai';
 import { StructuredOutput } from '@/app/chat/StructuredOutput';
-
 interface ChatMessageBubbleProps {
   message: Message;
-  outputSchema?: unknown;
   sources?: string[];  
 }
 

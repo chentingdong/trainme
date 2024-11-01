@@ -1,8 +1,10 @@
-import { model, StateAnnotation } from '@/app/api/chat/coach/agent';
+import { modelConfig, StateAnnotation } from '@/app/api/chat/coach/agent';
+import { ChatOpenAI } from '@langchain/openai';
 
 export const intentionDetection = async (
   state: typeof StateAnnotation.State
 ) => {
+  const model = new ChatOpenAI(modelConfig);
   const conversationResponse = await model.invoke([
     { type: 'system', content: systemTemplate },
     ...state.messages,

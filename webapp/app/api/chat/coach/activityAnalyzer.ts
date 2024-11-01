@@ -1,7 +1,8 @@
 import { getMonthlyDb as getMonthlyActivitiesDB } from '@/server/routes/activities/getMonthly';
 import { getMonthlyDb as getMonthlyWorkoutsDB } from '@/server/routes/workouts/getMonthly';
 import { PromptTemplate } from '@langchain/core/prompts';
-import { model, StateAnnotation } from '@/app/api/chat/coach/agent';
+import { modelConfig, StateAnnotation } from '@/app/api/chat/coach/agent';
+import { ChatOpenAI } from '@langchain/openai';
 
 export const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
   const pastActivities = await getMonthlyActivitiesDB(new Date());
@@ -16,6 +17,7 @@ export const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
     input: lastMessage.content,
   });
 
+  const model = new ChatOpenAI(modelConfig);
   const activityAnalyzerResponse = await model.invoke([
     {
       type: 'system',
@@ -32,10 +34,9 @@ export const activityAnalyzer = async (state: typeof StateAnnotation.State) => {
   return {
     messages: [
       {
-        content: activityAnalyzerResponse.content,
         type: 'assistant',
-      },
-      { type: lastMessage._getType(), content: lastMessage.content },
+        content: activityAnalyzerResponse.content,
+      }
     ],
   };
 };

@@ -1,26 +1,22 @@
 // This end point shows the combined langgraph graph of the agent and workout planner as a png image
 import { agent } from "../agent";
-import { workoutPlannerGraph } from "../workoutPlanner";
 import { createCanvas, loadImage } from 'canvas';
 
 export async function GET() {
   const agentGraphRepresentation = agent.getGraph();
-  const workoutPlannerGraphRepresentation = workoutPlannerGraph.getGraph();
 
-  if (!workoutPlannerGraphRepresentation || !agentGraphRepresentation) {
+  if (!agentGraphRepresentation) {
     console.error('Failed to get graph representation.');
     return new Response('Graph representation not found', { status: 404 });
   }
 
   const agentImage = await agentGraphRepresentation.drawMermaidPng(); 
-  const workoutPlannerImage = await workoutPlannerGraphRepresentation.drawMermaidPng(); 
 
   // Convert the workout planner and agent images to Buffer
   const agentImageBuffer = Buffer.from(await agentImage.arrayBuffer());
-  const workoutPlannerImageBuffer = Buffer.from(await workoutPlannerImage.arrayBuffer());
 
   // Combine the two images into one
-  const combinedImage = await combineImages(agentImageBuffer, workoutPlannerImageBuffer);
+  const combinedImage = await combineImages(agentImageBuffer);
 
   if (!combinedImage) {
     console.error('Failed to combine images.');
@@ -42,7 +38,10 @@ export async function GET() {
   return new Response(Buffer.from(arrayBuffer), { headers });
 }
 
-async function combineImages(image1: Buffer, image2: Buffer): Promise<Buffer> {
+async function combineImages(image1: Buffer, image2?: Buffer): Promise<Buffer> {
+  if (!image2) {
+    return image1;
+  }
   const img1 = await loadImage(image1);
   const img2 = await loadImage(image2);
 

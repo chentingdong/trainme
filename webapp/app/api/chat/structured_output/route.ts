@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
     const chain = prompt.pipe(functionCallingModel);
 
     const result = await chain.invoke({
-      input: currentMessageContent,
+      input: currentMessageContent as StringPromptValueInterface,
       pastActivities,
       pastWorkouts,
     });
