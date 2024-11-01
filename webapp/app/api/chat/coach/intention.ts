@@ -4,15 +4,16 @@ import { ChatOpenAI } from '@langchain/openai';
 export const intentionDetection = async (
   state: typeof StateAnnotation.State
 ) => {
+  const lastUserMessage = state.messages[state.messages.length - 1];
   const model = new ChatOpenAI(modelConfig);
   const conversationResponse = await model.invoke([
     { type: 'system', content: systemTemplate },
-    ...state.messages,
+    lastUserMessage,
   ]);
 
   const intentionResponse = await model.invoke([
     { type: 'system', content: intentionDetectionSystemTemplate },
-    ...state.messages,
+    lastUserMessage,
     { type: 'user', content: intentionDetectionUserTemplate },
   ]);
 

@@ -38,7 +38,6 @@ export const workoutPlanner = async (
     messages: [{
       type: 'assistant',
       content: response.content,
-      tool_calls: [{name: 'output_formatter', type: 'function', function: {name: 'output_formatter', description: 'output_formatter', parameters: zodToJsonSchema(planningNextWeekSchema)}}],
     }],
   };
 };

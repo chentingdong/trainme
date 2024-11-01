@@ -21,6 +21,9 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm run dev",
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      },
       "cwd": "${workspaceFolder}/webapp",
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",

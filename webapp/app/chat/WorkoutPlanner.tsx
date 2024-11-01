@@ -1,4 +1,3 @@
-import { Message } from 'ai';
 import React from 'react';
 import type { Workout } from '@trainme/db';
 import { WorkoutChart } from '@/app/workouts/WorkoutChart';
@@ -6,25 +5,12 @@ import { cn } from '@/utils/helper';
 import SportIcon from '@/app/activities/SportIcon';
 import { useCalendarState } from '@/app/calendar/useCalendarState';
 
-export const WorkoutPlanner: React.FC<{ message: Message }> = (props) => {
+export const WorkoutPlanner: React.FC< {workouts: Workout[]} > = ({workouts}) => {
   const { setWorkout: setEditorWorkout } = useCalendarState();
-  let chatResponse, workouts;
 
-  try {
-    const parsedContent = JSON.parse(props.message.content);
-    if(!parsedContent.chatResponse || !parsedContent.workouts) {
-      return null;
-    }
-    chatResponse = parsedContent.chatResponse;
-    workouts = parsedContent.workouts;
-  } catch (error) {
-    console.error('Failed to parse message content:', error);
-    // Handle the error appropriately, e.g., set default values or show an error message
-  }
 
   return (
     <div className='chat-output'>
-      <div className='chat-response font-ai'>{chatResponse}</div>
       {workouts && workouts.length > 0 && (
         <ul className='workouts my-4'>
           {workouts.map((workout: Workout, index: number) => (

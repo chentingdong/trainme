@@ -93,7 +93,7 @@ export function ChatWindow(props: {
     'Plan workouts for next week.',
     'A full plan for my next A race.',
     'Adjust workouts for the rest of the week.',
-    "Analyze my last week's training activity.",
+    'Analyze my last week\'s training activity.',
   ];
 
   async function showIntermediateMessage() {
