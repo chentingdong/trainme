@@ -10,6 +10,7 @@ import { trpc } from '@/app/api/trpc/client';
 import { Activity } from '@prisma/client';
 import { useState } from 'react';
 import { useUser } from '@clerk/clerk-react'
+import logo from '@/public/TrainMe.webp';
 
 const Header = () => {
   const [newActivities, setNewActivities] = useState<Activity[]>([]);
@@ -27,7 +28,7 @@ const Header = () => {
       <nav className="flex justify-between items-center">
         <a href="/" className="text-xl font-normal flex gap-4">
           <div className="bg-blue-500 rounded-full w-6 h-6">
-            <Image src="/TrainMe.webp" alt="Logo" width={48} height={48} />
+            <Image src={logo} alt="Logo" width={48} height={48} />
           </div>
           <div className="text-blue-100">TrainMe</div>
         </a>
