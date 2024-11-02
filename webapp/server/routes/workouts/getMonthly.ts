@@ -26,7 +26,7 @@ export const getMonthlyDb = async (aday: Date) => {
       activityUuid: true,
     },
     where: {
-      athleteId: athleteId,
+      athleteId,
       date: {
         gte: monthStart.toISOString(),
         lt: monthEnd.toISOString(),

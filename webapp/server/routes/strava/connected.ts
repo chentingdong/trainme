@@ -8,5 +8,5 @@ export const connected = protectedProcedure
       where: { id: userId },
     });
 
-    return !!user?.stravaRefreshToken
+    return !!user?.stravaRefreshToken && !!user?.athleteId;
   });

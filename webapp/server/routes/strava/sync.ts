@@ -33,7 +33,8 @@ export async function findLastActivityDate(): Promise<Date> {
 // Due to the rate limit, we move > 1 month data to etl pipelines.
 export async function fetchStravaActivities(userId: string, fromDate: Date, toDate: Date): Promise<Activity[]> {
   try {
-    // Fetch activities list data from Strava, it only has partial data
+    // Fetch athlete activities list data from Strava using the connected user's access token. 
+    // This only has partial data.
     const urlActivities = new URL("https://www.strava.com/api/v3/athlete/activities");
     urlActivities.search = new URLSearchParams({
       before: Math.floor(toDate.getTime() / 1000).toString(),
@@ -56,6 +57,7 @@ export async function fetchStravaActivities(userId: string, fromDate: Date, toDa
 
     if (partialData.length > 0) {
       for (const partialActivity of partialData) {
+        // Fetch activity details from Strava using the connected user's access token.
         const urlActivitesDetails = new URL(`https://www.strava.com/api/v3/activities/${partialActivity.id}`);
         // eslint-disable-next-line prefer-const
         let { data, status } = await axios.get(urlActivitesDetails.href, { headers });

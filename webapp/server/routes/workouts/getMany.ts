@@ -16,9 +16,11 @@ export const getMany = protectedProcedure
       }).optional()
     })
   )
-  .query(async ({ input }) => {
+  .query(async ({ ctx, input }) => {
+    const { athleteId } = ctx;
     const workouts = await db.workout.findMany({
       where: {
+        athleteId,
         date: input?.filter?.date
           ? {
             gte: input.filter.date.gte?.toISOString(),
