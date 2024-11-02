@@ -8,7 +8,7 @@ export type AuthContext = {
   db: PrismaClient;
   links?: Array<TRPCLink<AnyRouter>>;
   userId?: string;
-  athleteId?: string;
+  athleteId?: number;
 };
 
 const t = initTRPC.context<AuthContext>().create({
