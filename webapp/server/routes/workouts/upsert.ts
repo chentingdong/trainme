@@ -15,21 +15,16 @@ export const upsert = protectedProcedure
       throw new Error("Workout data is missing");
     }
 
-    const user = await db.user.findUnique({ where: { id: ctx.userId } });
-    const athleteId = user?.athleteId;
     const workoutId = workout.id === '' ? uuidv4() : workout.id;
-
-    if (!athleteId) {
-      throw new Error("Please link to strava in /settings");
-    }
+    const { athleteId } = ctx;
 
     const existingWorkout = await db.workout.findUnique({
-      where: { id: workoutId },
+      where: { id: workoutId, athleteId },
     });
 
     if (existingWorkout) {
       return await db.workout.update({
-        where: { id: workoutId },
+        where: { id: workoutId, athleteId },
         data: { ...workout },
       });
     }

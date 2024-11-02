@@ -8,10 +8,13 @@ export const getActivityLaps = protectedProcedure
       id: z.number(),
     })
   )
-  .query(async ({ input }) => {
+  .query(async ({ ctx, input }) => {
+    const { athleteId } = ctx;
+
     const activity = await db.activity.findUnique({
       where: {
         id: input.id,
+        athleteId,
       },
     });
 

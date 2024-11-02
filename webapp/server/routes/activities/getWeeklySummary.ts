@@ -16,11 +16,12 @@ export const getWeeklyActivitiesSummary = protectedProcedure
   .input(z.object({
     aday: z.date()
   }))
-  .query(async ({ input }) => {
+  .query(async ({ ctx, input }) => {
     const { aday } = input;
 
     const weekStart = startOfWeek(aday, { weekStartsOn: 1 }).toISOString();
     const weekEnd = endOfWeek(aday, { weekStartsOn: 1 }).toISOString();
+    const { athleteId } = ctx;
 
     const summary = await db.activity.groupBy({
       by: ['sportType'],
@@ -29,6 +30,7 @@ export const getWeeklyActivitiesSummary = protectedProcedure
           gte: weekStart,
           lt: weekEnd,
         },
+        athleteId,
       },
       _sum: {
         distance: true,

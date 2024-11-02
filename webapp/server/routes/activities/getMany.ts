@@ -24,8 +24,10 @@ export const getMany = protectedProcedure
       limit: z.number().optional().default(20),
     })
   )
-  .query(async ({ input }) => {
+  .query(async ({ ctx, input }) => {
     const { filter, orderBy, cursor, limit } = input || {};
+    const { athleteId } = ctx;
+
     const activities = await db.activity.findMany({
       where: {
         startDateLocal: filter?.startDateLocal
@@ -34,6 +36,7 @@ export const getMany = protectedProcedure
             lt: filter.startDateLocal.lt?.toISOString(),
           }
           : undefined,
+        athleteId,
       },
       orderBy: orderBy
         ? { startDateLocal: orderBy.startDateLocal as 'asc' | 'desc' }
